@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESports Portal</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #E0E0E0;
+            color: #292B35;
+            transition: background-color 0.3s ease;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            position: relative;
+        }
+
+        .left-slider {
+            width: 280px;
+            background-color: #292B35;
+            color: #E0E0E0;
+            padding: 25px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translateX(-100%);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            z-index: 10;
+            box-shadow: 3px 0px 15px rgba(0, 0, 0, 0.2);
+            overflow-y: auto;
+        }
+
+        .right-slider {
+            width: 280px;
+            background-color: #292B35;
+            color: #E0E0E0;
+            padding: 25px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translateX(100%);
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100%;
+            z-index: 10;
+            box-shadow: -3px 0px 15px rgba(0, 0, 0, 0.2);
+            overflow-y: auto;
+        }
+
+        .left-slider.open {
+            transform: translateX(0);
+        }
+
+        .right-slider.open {
+            transform: translateX(0);
+        }
+
+        .content {
+            flex-grow: 1;
+            padding: 30px;
+            margin: 0 auto;
+            max-width: 1200px;
+            transition: all 0.3s ease;
+        }
+
+        /* Improve button styling */
+        .slider-button {
+            background-color: #EE8631;
+            border: none;
+            color: #E0E0E0;
+            padding: 12px 24px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .slider-button:hover {
+            background-color: #AD662F;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .slider-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .left-button-container {
+            position: fixed;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            z-index: 9;
+            transition: all 0.3s ease;
+        }
+
+        .left-button-container button {
+            border-radius: 0 5px 5px 0;
+            padding-left: 15px;
+            transform: translateX(-5px);
+            transition: transform 0.3s ease;
+        }
+
+        .left-button-container button:hover {
+            transform: translateX(0);
+        }
+
+        .right-button-container {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            z-index: 9;
+            transition: all 0.3s ease;
+        }
+
+        .right-button-container button {
+            border-radius: 5px 0 0 5px;
+            padding-right: 15px;
+            transform: translateX(5px);
+            transition: transform 0.3s ease;
+        }
+
+        .right-button-container button:hover {
+            transform: translateX(0);
+        }
+
+        h1 {
+            color: #292B35;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #95C5C5;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        h2 {
+            color: #95C5C5;
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #EE8631;
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .card {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            color: #EE8631;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .menu-item {
+            display: block;
+            padding: 12px 15px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            color: #E0E0E0;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-item:hover {
+            background-color: #95C5C5;
+            color: #292B35;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 8;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .content {
+                padding: 15px;
+            }
+            
+            .left-slider, .right-slider {
+                width: 240px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="container">
+        <div class="left-slider" id="leftSlider">
+            <h2>Menu</h2>
+            <nav>
+                <a href="#" class="menu-item">Home</a>
+                <a href="#" class="menu-item">Tournaments</a>
+                <a href="#" class="menu-item">Teams</a>
+                <a href="#" class="menu-item">Players</a>
+                <a href="#" class="menu-item">News</a>
+                <a href="#" class="menu-item">Settings</a>
+            </nav>
+            <button class="slider-button" onclick="toggleLeftSlider()" style="margin-top: 20px;">Close Menu</button>
+        </div>
+        
+        <div class="right-slider" id="rightSlider">
+            <h2>Notifications</h2>
+            <div class="card">
+                <div class="card-title">Tournament Starting Soon</div>
+                <p>The Winter Cup starts in 2 hours. Get ready!</p>
+            </div>
+            <div class="card">
+                <div class="card-title">New Team Registered</div>
+                <p>Team Phoenix has joined the Summer League.</p>
+            </div>
+            <button class="slider-button" onclick="toggleRightSlider()" style="margin-top: 20px;">Close Notifications</button>
+        </div>
+        
+        <div class="left-button-container">
+            <button class="slider-button" onclick="toggleLeftSlider()">Menu</button>
+        </div>
+        
+        <div class="right-button-container">
+            <button class="slider-button" onclick="toggleRightSlider()">Notifications</button>
+        </div>
+        
+        <div class="content">
+            <h1>ESports Central</h1>
+            <p>Welcome to your one-stop portal for all things ESports.</p>
+            
+            <div class="card">
+                <div class="card-title">Upcoming Tournaments</div>
+                <p>Check out the latest tournaments happening this week. Register your team and compete for amazing prizes!</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Featured Teams</div>
+                <p>Discover top performing teams and follow their journey through the season. Learn strategies from the pros.</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">Latest News</div>
+                <p>Stay updated with the latest ESports news, updates, and announcements from around the world.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleLeftSlider() {
+            const slider = document.getElementById('leftSlider');
+            const overlay = document.getElementById('overlay');
+            slider.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+
+        function toggleRightSlider() {
+            const slider = document.getElementById('rightSlider');
+            const overlay = document.getElementById('overlay');
+            slider.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
+
+        // Close sliders when clicking overlay
+        document.getElementById('overlay').addEventListener('click', function() {
+            const leftSlider = document.getElementById('leftSlider');
+            const rightSlider = document.getElementById('rightSlider');
+            const overlay = document.getElementById('overlay');
+            
+            if (leftSlider.classList.contains('open')) {
+                leftSlider.classList.remove('open');
+            }
+            
+            if (rightSlider.classList.contains('open')) {
+                rightSlider.classList.remove('open');
+            }
+            
+            overlay.classList.remove('active');
+        });
+    </script>
+
+</body>
+</html>
