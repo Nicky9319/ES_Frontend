@@ -125,7 +125,7 @@ function Connect() {
 
                 {/* Main Content Area */}
                 <div className="flex-1 flex flex-col overflow-hidden">
-                    <main className="flex-1 overflow-x-hidden overflow-y-auto bg-[#E0E0E0]">
+                    <main className="flex-1 overflow-x-hidden bg-[#E0E0E0]">
                         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
                             {/* Updated header with gradient */}
                             <div className="px-4 py-5 sm:px-6 bg-gradient-to-r from-[#292B35] to-[#3D3F4D] rounded-lg shadow-md mb-6">
@@ -231,7 +231,7 @@ function Connect() {
                             </div>
                             
                             {/* Pagination */}
-                            <div className="mt-8 flex justify-center">
+                            {/* <div className="mt-8 flex justify-center">
                                 <nav className="inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
                                     <a href="#" className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-[#E0E0E0]">
                                         <span className="sr-only">Previous</span>
@@ -249,7 +249,7 @@ function Connect() {
                                         </svg>
                                     </a>
                                 </nav>
-                            </div>
+                            </div> */}
                         </div>
                     </main>
                 </div>
