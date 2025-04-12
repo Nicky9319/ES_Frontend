@@ -60,7 +60,7 @@ const LeftSlider = () => {
                 Mentor
               </span>
               {hoverMentor && (
-                <p className="text-[10px] text-[#E0E0E0]/70 mt-0.5 max-w-[120px] mx-auto">Guide players & share expertise</p>
+                <p className="text-[10px] text-[#E0E0E0]/70 mt-0.5 max-w-[120px] mx-auto whitespace-nowrap">Guide players & share expertise</p>
               )}
             </div>
           </div>
@@ -81,7 +81,7 @@ const LeftSlider = () => {
                 Player
               </span>
               {hoverPlayer && (
-                <p className="text-[10px] text-[#E0E0E0]/70 mt-0.5 max-w-[120px] mx-auto">Level up your gaming skills</p>
+                <p className="text-[10px] text-[#E0E0E0]/70 mt-0.5 max-w-[120px] mx-auto whitespace-nowrap">Level up your gaming skills</p>
               )}
             </div>
           </div>
