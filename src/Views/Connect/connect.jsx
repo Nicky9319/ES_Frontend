@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import LeftSlider from '../components/leftSlider';
 import RightSlider from '../components/rightSlider';
 
-function EsEvents() {
+function Connect() {
     const navigate = useNavigate(); // Initialize navigate
 
     // Define callback functions for Feed and News
@@ -31,6 +31,19 @@ function EsEvents() {
 
         <div className="flex h-screen bg-gray-100">
             {/* Pass callbacks and custom props for Feed and News */}
+            <LeftSlider 
+                mentorIcon="📰" // Icon for Feed (Top section)
+                mentorTitle="Feed"
+                mentorDescription="Latest community updates"
+                // mentorColor="#OptionalCustomColor" // Optional: Override default color
+                upperVerticalClick={handleFeedClick} // Use the renamed handler
+
+                playerIcon="📢" // Icon for News (Bottom section)
+                playerTitle="News"
+                playerDescription="Esports headlines & articles"
+                // playerColor="#OptionalCustomColor" // Optional: Override default color
+                lowerVerticalClick={handleNewsClick} // Use the renamed handler
+            />
             <div className="flex-1 flex flex-col overflow-hidden">
                 <header className="bg-white shadow">
                     
@@ -53,4 +66,4 @@ function EsEvents() {
     );
 }
 
-export default EsEvents;
+export default Connect;
