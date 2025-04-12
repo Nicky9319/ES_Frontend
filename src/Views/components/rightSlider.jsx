@@ -34,14 +34,14 @@ const RightSlider = () => {
         </button>
       </div>
 
-      {/* Main slider panel */}
-      <div
-        className={`fixed top-0 right-0 h-full w-60 bg-[${panelBgColor}] text-[${textColor}] transform transition-transform duration-300 ease-in-out ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
-        } z-20 rounded-l-lg overflow-hidden relative shadow-lg border-l border-t border-b border-[${primaryAccentColor}]/30 flex flex-col`}
-      >
-        {/* Close button */}
-        <div className="absolute top-2 right-2 z-30">
+        <div
+          className={`fixed top-1/2 right-0 h-[600px] w-60 bg-[${panelBgColor}] text-[${textColor}] transform transition-transform duration-300 ease-in-out -translate-y-[47%] ${
+            isOpen ? 'translate-x-0' : 'translate-x-full'
+          } z-20 rounded-l-lg overflow-hidden shadow-lg border-l border-t border-b border-[${primaryAccentColor}]/30 flex flex-col`}
+        >
+
+          {/* Close button */}
+        <div className="absolute top-2 left-2 z-30">
           <button 
             className={`bg-[${darkAccentColor}]/80 text-white px-1 py-1 rounded-full hover:bg-[${darkAccentColor}] shadow-sm transition-all duration-200 text-xs flex items-center justify-center w-5 h-5`}
             onClick={toggleSlider}
