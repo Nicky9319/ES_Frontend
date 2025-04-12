@@ -16,15 +16,15 @@ const FooterSection = ({ title, isOpen, toggle, content, navigationAction }) => 
   };
   
   return (
-    <div className="border-b border-green-600">
+    <div className="border-b border-[#292B35]">
       <div 
         className="py-4 pr-4 pl-1 flex justify-between items-center cursor-pointer"
         onClick={handleClick}
       >
-        <h3 className="text-white text-sm font-medium">{title}</h3>
+        <h3 className="text-[#E0E0E0] text-sm font-medium">{title}</h3>
         {hasTrustAndSafetyContent && (
           <ChevronDown 
-            className={`text-white transition-transform duration-300 ${isOpen ? 'transform rotate-180' : ''}`} 
+            className={`text-[#E0E0E0] transition-transform duration-300 ${isOpen ? 'transform rotate-180' : ''}`} 
             size={20} 
           />
         )}
@@ -70,10 +70,10 @@ const Footer = () => {
   ];
   
   const getTrustAndSafetyContent = () => (
-    <div className="text-white">
+    <div className="text-[#E0E0E0]">
       <p className="text-xl font-bold mb-4">You're Always Secure</p>
       <p className="text-base leading-relaxed mb-4">
-        At <span className="font-bold">GRYORK</span>, we are committed to
+        At <span className="font-bold">ELOSphere</span>, we are committed to
         building a safe and secure tech infrastructure that prioritizes your
         privacy and data protection at every level.
       </p>
@@ -137,7 +137,7 @@ const Footer = () => {
       return (
         <a 
           href={item.path}
-          className="text-white text-2xl hover:text-gray-200 transition-colors"
+          className="text-[#E0E0E0] text-2xl hover:text-[#EE8631] transition-colors"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -148,7 +148,7 @@ const Footer = () => {
       return (
         <Link 
           to={item.path}
-          className="text-white text-2xl hover:text-gray-200 transition-colors"
+          className="text-[#E0E0E0] text-2xl hover:text-[#EE8631] transition-colors"
           onClick={item.scrollTo ? handleClick : undefined}
         >
           {item.name}
@@ -158,7 +158,7 @@ const Footer = () => {
   };
 
   return (
-    <section className="bg-[#268044] text-white">
+    <section className="bg-[#292B35] text-[#E0E0E0]">
       {/* Mobile Version */}
       <div className="md:hidden w-full max-w-md mx-auto pt-3 pl-3">
         {navigationItems.map((item, index) => (
@@ -173,23 +173,23 @@ const Footer = () => {
         ))}
         
         <div className="py-6 px-4">
-          <p className="text-[#CFF063] font-medium">Follow us</p>
+          <p className="text-[#95C5C5] font-medium">Follow us</p>
           <div className="flex gap-4 mt-4">
             <a
               href="#"
-              className="bg-[#CFF063] text-[#268044] w-10 h-10 rounded-full flex justify-center items-center"
+              className="bg-[#95C5C5] text-[#292B35] w-10 h-10 rounded-full flex justify-center items-center hover:bg-[#EE8631] transition-colors"
             >
               <FaFacebookF className="text-xl" />
             </a>
             <a
               href="#"
-              className="bg-[#CFF063] text-[#268044] w-10 h-10 rounded-full flex justify-center items-center"
+              className="bg-[#95C5C5] text-[#292B35] w-10 h-10 rounded-full flex justify-center items-center hover:bg-[#EE8631] transition-colors"
             >
               <FaInstagram className="text-xl" />
             </a>
             <a
               href="#"
-              className="bg-[#CFF063] text-[#268044] w-10 h-10 rounded-full flex justify-center items-center"
+              className="bg-[#95C5C5] text-[#292B35] w-10 h-10 rounded-full flex justify-center items-center hover:bg-[#EE8631] transition-colors"
             >
               <FaLinkedinIn className="text-xl" />
             </a>
@@ -197,7 +197,7 @@ const Footer = () => {
         </div>
         
         <div className="flex justify-center pb-8 pt-16">
-          <h1 className="text-[#CFF063] text-6xl font-bold">GRYORK</h1>
+          <h1 className="text-[#EE8631] text-6xl font-bold">ELOSphere</h1>
         </div>
       </div>
 
@@ -207,7 +207,7 @@ const Footer = () => {
         <div className="flex flex-wrap mb-5">
           
           <div className="w-[30%]">
-            <h2 className="text-4xl font-bold text-[#CFF063] mb-8">Company</h2>
+            <h2 className="text-4xl font-bold text-[#EE8631] mb-8">Company</h2>
             <ul className="list-none space-y-6">
               {desktopNavItems.map((item, index) => (
                 <li key={index} className="mb-2">
@@ -219,18 +219,18 @@ const Footer = () => {
 
           {/* Trust & Safety Content */}
           <div className="w-[70%]">
-            <h2 className="text-4xl font-bold text-[#CFF063] mb-8">Trust & safety</h2>
-            <p className="text-3xl font-bold mb-8 text-white">You're Always Secure</p>
-            <p className="text-2xl leading-relaxed mb-8 text-white">
-              At <span className="font-bold">GRYORK</span>, we are committed to
+            <h2 className="text-4xl font-bold text-[#EE8631] mb-8">Trust & safety</h2>
+            <p className="text-3xl font-bold mb-8 text-[#E0E0E0]">You're Always Secure</p>
+            <p className="text-2xl leading-relaxed mb-8 text-[#E0E0E0]">
+              At <span className="font-bold">ELOSphere</span>, we are committed to
               building a safe and secure tech infrastructure that prioritizes your
               privacy and data protection at every level.
             </p>
-            <p className="text-2xl leading-relaxed mb-8 text-white">
+            <p className="text-2xl leading-relaxed mb-8 text-[#E0E0E0]">
               Our cutting-edge security measures ensure that your information
               remains confidential and protected at all times.
             </p>
-            <p className="text-2xl leading-relaxed text-white">
+            <p className="text-2xl leading-relaxed text-[#E0E0E0]">
               Soon, we will be officially recognized by top government agencies
               for our industry-leading safety and security standards—giving you
               even more confidence in the platform you trust.
@@ -242,23 +242,23 @@ const Footer = () => {
         <div className="flex flex-row mt-32">
           {/* Social Column */}
           <div className="w-[50%]">
-            <h2 className="text-4xl font-bold text-[#CFF063] mb-8">Social</h2>
+            <h2 className="text-4xl font-bold text-[#EE8631] mb-8">Social</h2>
             <div className="flex gap-6 mt-4">
               <a
                 href="#"
-                className="bg-[#CFF063] text-[#268044] w-14 h-14 rounded-full flex justify-center items-center"
+                className="bg-[#95C5C5] text-[#292B35] w-14 h-14 rounded-full flex justify-center items-center hover:bg-[#EE8631] transition-colors"
               >
                 <FaFacebookF className="text-[28px]" />
               </a>
               <a
                 href="#"
-                className="bg-[#CFF063] text-[#268044] w-14 h-14 rounded-full flex justify-center items-center"
+                className="bg-[#95C5C5] text-[#292B35] w-14 h-14 rounded-full flex justify-center items-center hover:bg-[#EE8631] transition-colors"
               >
                 <FaInstagram className="text-[28px]" />
               </a>
               <a
                 href="#"
-                className="bg-[#CFF063] text-[#268044] w-14 h-14 rounded-full flex justify-center items-center"
+                className="bg-[#95C5C5] text-[#292B35] w-14 h-14 rounded-full flex justify-center items-center hover:bg-[#EE8631] transition-colors"
               >
                 <FaLinkedinIn className="text-[28px]" />
               </a>
@@ -267,7 +267,7 @@ const Footer = () => {
 
           {/* Logo Column */}
           <div className="w-[50%] flex justify-end items-center">
-            <div className="text-[120px] font-bold text-[#CFF063]">GRYORK</div>
+            <div className="text-[120px] font-bold text-[#EE8631]">ELOSphere</div>
           </div>
         </div>
       </div>
