@@ -53,16 +53,17 @@ const Navbar = () => {
 
       <div
         ref={menuRef}
-        className={`menu-container absolute left-1/2 transform -translate-x-1/2 top-0 w-auto bg-[#95C5C5] z-20 transition-all duration-500 rounded-lg ${isMenuOpen ? 'opacity-100 translate-y-12' : 'opacity-0 -translate-y-full pointer-events-none'
+        className={`menu-container absolute left-1/2 transform -translate-x-1/2 top-0 w-auto bg-[#292B35] z-20 transition-all duration-500 rounded-lg ${isMenuOpen ? 'opacity-100 translate-y-12' : 'opacity-0 -translate-y-full pointer-events-none'
           } shadow-lg border border-[#292B35] md:w-auto w-[90%]`}
       >
+        
         <div className="menu py-2 px-6 rounded-lg">
           <ul className="flex md:flex-row flex-col justify-center items-center">
             <li className="md:mb-0 mb-4">
               <a
                 href="/"
                 onClick={(e) => handleNavigation('/', e)}
-                className="text-[#292B35] no-underline hover:font-bold hover:text-[#EE8631] transition-all text-base px-4 whitespace-nowrap"
+                className="text-[#E0E0E0] no-underline hover:font-bold hover:text-[#EE8631] transition-all text-base px-4 whitespace-nowrap"
               >
                 ES Events
               </a>
@@ -70,9 +71,9 @@ const Navbar = () => {
             <li className="md:block hidden h-5 w-px bg-[#AD662F]"></li>
             <li className="md:mb-0 mb-4">
               <a
-                href="/gryork-explained"
-                onClick={(e) => handleNavigation('/gryork-explained', e)}
-                className="text-[#292B35] no-underline hover:font-bold hover:text-[#EE8631] transition-all text-base px-4 whitespace-nowrap"
+                href="/connect"
+                onClick={(e) => handleNavigation('/connect', e)}
+                className="text-[#E0E0E0] no-underline hover:font-bold hover:text-[#EE8631] transition-all text-base px-4 whitespace-nowrap"
               >
                 Connect
               </a>
@@ -80,9 +81,9 @@ const Navbar = () => {
             <li className="md:block hidden h-5 w-px bg-[#AD662F]"></li>
             <li className="md:mb-0 mb-4">
               <a
-                href="/about-us"
-                onClick={(e) => handleNavigation('/about-us', e)}
-                className="text-[#292B35] no-underline hover:font-bold hover:text-[#EE8631] transition-all text-base px-4 whitespace-nowrap"
+                href="/social"
+                onClick={(e) => handleNavigation('/social', e)}
+                className="text-[#E0E0E0] no-underline hover:font-bold hover:text-[#EE8631] transition-all text-base px-4 whitespace-nowrap"
               >
                 Social 
               </a>
@@ -92,13 +93,14 @@ const Navbar = () => {
               <a
                 href="/dispute-resolution"
                 onClick={(e) => handleNavigation('/dispute-resolution', e)}
-                className="text-[#292B35] no-underline hover:font-bold hover:text-[#EE8631] transition-all text-base px-4 whitespace-nowrap"
+                className="text-[#E0E0E0] no-underline hover:font-bold hover:text-[#EE8631] transition-all text-base px-4 whitespace-nowrap"
               >
                 ES League
               </a>
             </li>
           </ul>
         </div>
+
       </div>
 
     </div>
