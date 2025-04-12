@@ -7,6 +7,8 @@ import ScrollToTop from './components/ScrollToTop';
 import EsEvents from './Views/ES Events/esEvents';
 import Social from './Views/Social/social';
 import Connect from './Views/Connect/connect';
+import Profile from './Views/Profile Page/profilePage';
+
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -25,6 +27,7 @@ function App() {
           <Route path="/" element={<EsEvents />} />
           <Route path="/social" element={<Social />} />
           <Route path="/connect" element={<Connect />} />
+          <Route path='/profile' element={<Profile />} />
 
         </Routes>
 
