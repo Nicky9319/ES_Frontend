@@ -1,32 +1,61 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import conversationData from "./conversations.json"; // adjust the path as needed
+
+// Simulated API call to fetch conversation data for a specific sender from the imported JSON data
+const fetchConversation = (sender) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      // Look up the conversation in the imported JSON file.
+      resolve(conversationData[sender] || []);
+    }, 1000); // simulate 1 second network delay
+  });
+};
+
+// Simulated API call to send a message
+const sendMessageAPI = (sender, newMessage) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      // Simulate a successful API call returning the new message
+      resolve({ sender: "You", text: newMessage });
+    }, 500); // simulate 500ms delay
+  });
+};
 
 const ChatModal = ({ isOpen, closeModal, message }) => {
-  const initialMessages = [
-    {
-      sender: "AceStriker",
-      text: "Don't forget practice tonight at 8 PM EST!",
-    },
-    { sender: "Coach Mike", text: "Let's review the VODs tomorrow morning." },
-    { sender: "ShadowGamer", text: "Any plans for the weekend?" },
-    {
-      sender: "TeamLeader",
-      text: "Great job on the project, let's meet up tomorrow.",
-    },
-  ];
-
-  const [messages, setMessages] = useState(initialMessages);
+  // conversations state holds conversation history for each sender
+  const [conversations, setConversations] = useState({});
   const [inputValue, setInputValue] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  // Determine the selected sender (chat partner)
   const selectedSender =
-    message && message.sender ? message.sender : initialMessages[0].sender;
+    message && message.sender ? message.sender : "AceStriker";
 
-  const filteredMessages = messages.filter(
-    (msg) => msg.sender === selectedSender || msg.sender === "You"
-  );
+  // Get conversation messages for the selected sender (or empty array if not loaded)
+  const conversationMessages = conversations[selectedSender] || [];
 
-  const handleSend = () => {
+  // Fetch conversation when the selected sender changes
+  useEffect(() => {
+    setLoading(true);
+    fetchConversation(selectedSender).then((data) => {
+      setConversations((prev) => ({
+        ...prev,
+        [selectedSender]: data,
+      }));
+      setLoading(false);
+    });
+  }, [selectedSender]);
+
+  const handleSend = async () => {
     if (inputValue.trim() === "") return;
-    setMessages([...messages, { sender: "You", text: inputValue }]);
+
+    // Simulate sending a message via API and update the conversation
+    const newMsg = await sendMessageAPI(selectedSender, inputValue);
+
+    setConversations((prev) => ({
+      ...prev,
+      [selectedSender]: [...(prev[selectedSender] || []), newMsg],
+    }));
     setInputValue("");
   };
 
@@ -37,7 +66,7 @@ const ChatModal = ({ isOpen, closeModal, message }) => {
       {/* Optional backdrop (visual only, not interactive) */}
       <div className="absolute inset-0"></div>
 
-      {/* Modal content — interactive */}
+      {/* Modal content – interactive */}
       <div className="flex items-center justify-center h-full w-full pointer-events-none">
         <div className="relative h-[600px] top-5 rounded-xl shadow-2xl overflow-hidden transform transition-all duration-300 w-full max-w-[52rem] bg-[#1e1e24] text-[#dcdcdc] flex flex-col pointer-events-auto">
           {/* Header */}
@@ -69,16 +98,25 @@ const ChatModal = ({ isOpen, closeModal, message }) => {
           {/* Chat Body */}
           <div className="flex flex-col flex-1">
             <div className="p-6 flex-1 overflow-y-auto flex flex-col space-y-4">
-              {filteredMessages.length > 0 ? (
-                filteredMessages.map((msg, index) => {
+              {loading ? (
+                <p className="text-gray-400">Loading conversation...</p>
+              ) : conversationMessages.length > 0 ? (
+                conversationMessages.map((msg, index) => {
                   const isUser = msg.sender === "You";
                   return (
                     <div
                       key={index}
                       className={`flex ${
                         isUser ? "justify-end" : "justify-start"
-                      }`}
+                      } items-start gap-2`}
                     >
+                      {/* Avatar for non-user messages */}
+                      {!isUser && (
+                        <div className="w-8 h-8 flex-shrink-0 rounded-full bg-orange-500 text-white flex items-center justify-center font-semibold">
+                          {selectedSender.charAt(0)}
+                        </div>
+                      )}
+                      {/* Message content */}
                       <div
                         className={`p-3 rounded-lg max-w-xs shadow-md ${
                           isUser
@@ -95,6 +133,12 @@ const ChatModal = ({ isOpen, closeModal, message }) => {
                         </p>
                         <p className="text-sm">{msg.text}</p>
                       </div>
+                      {/* Avatar for user messages (positioned on the right) */}
+                      {isUser && (
+                        <div className="w-8 h-8 flex-shrink-0 rounded-full bg-blue-500 text-white flex items-center justify-center font-semibold">
+                          {"Y"}
+                        </div>
+                      )}
                     </div>
                   );
                 })
@@ -105,7 +149,7 @@ const ChatModal = ({ isOpen, closeModal, message }) => {
               )}
             </div>
 
-            {/* Input */}
+            {/* Message Input */}
             <div className="border-t border-gray-700 px-6 py-4 flex items-center space-x-2">
               <input
                 type="text"
