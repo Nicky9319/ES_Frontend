@@ -1,0 +1,40 @@
+{
+    "EVENTS": [
+      {
+        "CONTACT_INFO": {
+          "EMAIL": "event.organizer@example.com",
+          "MOBILE_NUMBER": 9876543210
+        },
+        "DESCRIPTION": "A national-level hackathon focusing on solving real-world problems with innovative solutions.",
+        "EVENT_DATE": "2025-06-20T10:00:00",
+        "EVENT_NAME": "Hack the Future 2025",
+        "REGISTRATION_DEADLINE": "2025-06-10T23:59:59",
+        "VENUE": "Innovation Hall, TechCity Campus",
+        "ELIGIBILITY": [
+          "College Students",
+          "Startup Founders",
+          "Freelancers"
+        ],
+        "EVENT_ID": "d29172b7-b7e5-4820-8e84-f2d02821f84a",
+        "CREATED_AT": "2025-04-13T07:54:45.363000"
+      },
+      {
+        "CONTACT_INFO": {
+          "EMAIL": "event.organizer@example.com",
+          "MOBILE_NUMBER": 9876543210
+        },
+        "DESCRIPTION": "A national-level hackathon focusing on solving real-world problems with innovative solutions.",
+        "EVENT_DATE": "2025-06-20T10:00:00",
+        "EVENT_NAME": "Hack the Future 2025",
+        "REGISTRATION_DEADLINE": "2025-06-10T23:59:59",
+        "VENUE": "Innovation Hall, TechCity Campus",
+        "ELIGIBILITY": [
+          "College Students",
+          "Startup Founders",
+          "Freelancers"
+        ],
+        "EVENT_ID": "e161600a-0f80-4d4b-a106-2534287c72af",
+        "CREATED_AT": "2025-04-13T07:54:47.790000"
+      }
+    ]
+  }
