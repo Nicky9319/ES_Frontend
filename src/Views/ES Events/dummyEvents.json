@@ -1,0 +1,40 @@
+{
+    "EVENTS": [
+      {
+        "EVENT_ID": "d29172b7-b7e5-4820-8e84-f2d02821f84a",
+        "EVENT_NAME": "Valorant Championship 2024",
+        "DESCRIPTION": "Premier Valorant tournament featuring top teams from across India.",
+        "EVENT_DATE": "2024-02-20T10:00:00",
+        "VENUE": "Phoenix Arena, Hyderabad",
+        "GAME_TYPE": "FPS",
+        "GAME": "Valorant",
+        "CONSOLE": "PC",
+        "PRIZE_POOL": "₹5,00,000",
+        "LOCATION": "Hyderabad",
+        "FORMAT": "5v5 Team Tournament",
+        "ELIGIBILITY": ["Professional Teams", "Amateur Teams"],
+        "CONTACT_INFO": {
+          "EMAIL": "valorant.tournament@example.com",
+          "MOBILE_NUMBER": 9876543210
+        }
+      },
+      {
+        "EVENT_ID": "e161600a-0f80-4d4b-a106-2534287c72af",
+        "EVENT_NAME": "BGMI Pro League",
+        "DESCRIPTION": "Battle it out in India's biggest BGMI tournament.",
+        "EVENT_DATE": "2024-03-15T11:00:00",
+        "VENUE": "DLF Cyber Hub, Delhi",
+        "GAME_TYPE": "Battle Royale",
+        "GAME": "PUBG",
+        "CONSOLE": "Mobile",
+        "PRIZE_POOL": "₹10,00,000",
+        "LOCATION": "Delhi",
+        "FORMAT": "Squad Tournament",
+        "ELIGIBILITY": ["Professional Gamers", "Verified Teams"],
+        "CONTACT_INFO": {
+          "EMAIL": "bgmi.league@example.com",
+          "MOBILE_NUMBER": 9876543211
+        }
+      }
+    ]
+}

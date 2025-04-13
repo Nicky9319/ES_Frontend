@@ -46,10 +46,10 @@ const LeftSlider = ({
 
   return (
     <>
-      {/* Menu button */}
+      {/* Menu button - Uses fixed positioning, centered vertically */}
       <div
-        className={`fixed top-1/2 left-0 transform -translate-y-1/2 z-10 transition-transform duration-300 ${
-          isOpen ? '-translate-x-full' : 'translate-x-0'
+        className={`fixed top-1/2 left-0 transform -translate-y-1/2 z-20 transition-transform duration-300 ${
+          isOpen ? '-translate-x-full' : 'translate-x-0' // Handles sliding in/out
         }`}
       >
         <button 
@@ -63,12 +63,13 @@ const LeftSlider = ({
         </button>
       </div>
 
-      {/* Main slider div */}
+      {/* Main slider div - Uses fixed positioning, centered vertically */}
       <div
         className={`fixed top-1/2 left-0 h-60 w-48 bg-[#292B35] text-[#E0E0E0] transform transition-transform duration-300 ease-in-out -translate-y-1/2 ${
-          isOpen ? 'translate-x-0' : '-translate-x-full'
-        } z-20 rounded-r-lg overflow-hidden relative shadow-lg border-r border-t border-b border-[${mentorColor}]/30`}
+          isOpen ? 'translate-x-0' : '-translate-x-full' // Handles sliding in/out
+        } z-20 rounded-r-lg overflow-hidden shadow-lg border-r border-t border-b border-[${mentorColor}]/30`}
       >
+
         {/* Close button */}
         <div className="absolute top-2 right-2 z-30">
           <button 
