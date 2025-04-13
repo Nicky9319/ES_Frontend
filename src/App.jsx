@@ -9,6 +9,7 @@ import Social from './Views/Social/social';
 import Connect from './Views/Connect/connect';
 import Profile from './Views/Profile Page/profilePage';
 import MentorProfile from './Views/Mentor Profile Page/mentorProfilePage';
+import DMPage from './Views/DM Page/dmPage';
 
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
@@ -27,20 +28,21 @@ function App() {
 
 function AppInner() {
   const location = useLocation();
-  const isSpecialRoute = location.pathname === "/profile" || location.pathname === "/dm-page";
-  
+  const isProfileRoute = location.pathname === "/profile";
+
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#95C5C5] text-gray-800">
-      {!isSpecialRoute && <Navbar />}
+    <div className="min-h-screen overflow-x-hidden bg-gray-50 text-gray-800">
+      {!isProfileRoute && <Navbar />}
       <Routes>
         <Route path="/" element={<EsEvents />} />
         <Route path="/social" element={<Social />} />
         <Route path="/connect" element={<Connect />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/mentorProfile' element={<MentorProfile />} />
+        <Route path='/dm-page' element={<DMPage />} />
         {/* Add more routes as needed */}
       </Routes>
-      {!isSpecialRoute && <Footer />}
+      {!isProfileRoute && <Footer />}
     </div>
   );
 }
