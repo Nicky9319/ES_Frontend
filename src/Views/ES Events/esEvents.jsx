@@ -7,9 +7,34 @@ import dummyData from './dummyEvents.json';
 function EsEvents() {
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
+    const [selectedConsole, setSelectedConsole] = useState('');
+    const [selectedLocation, setSelectedLocation] = useState('');
+    const [selectedGameType, setSelectedGameType] = useState('');
     const [selectedGame, setSelectedGame] = useState('');
     const [sortBy, setSortBy] = useState('date');
     const [isLoading, setIsLoading] = useState(false);
+
+    // Define filter options
+    const gameTypeOptions = ['All Types', 'FPS', 'Battle Royale', 'Sports MMO'];
+    const gamesByType = {
+        'FPS': ['Valorant', 'Overwatch'],
+        'Battle Royale': ['Fortnite', 'PUBG', 'Apex: Legends', 'Garena Free Fire'],
+        'Sports MMO': ['EA Sports FC 25']
+    };
+    const consoleOptions = ['All Consoles', 'PC', 'PlayStation', 'Xbox', 'Mobile'];
+    const locationOptions = ['All Locations', 'Delhi ', 'Bangalore', 'Hyderabad', 'Mumbai', 'Chennai', 'Pune'];
+
+    // Handle game type change
+    const handleGameTypeChange = (type) => {
+        setSelectedGameType(type);
+        setSelectedGame(''); // Reset game selection when type changes
+    };
+
+    // Get available games based on selected game type
+    const availableGames = useMemo(() => {
+        if (!selectedGameType || selectedGameType === 'All Types') return ['All Games'];
+        return ['All Games', ...gamesByType[selectedGameType]];
+    }, [selectedGameType]);
 
     // Transform the raw events data to match our component's expected structure
     const esportsEvents = useMemo(() => {
@@ -18,13 +43,16 @@ function EsEvents() {
         return dummyData.EVENTS.map(event => ({
             id: event.EVENT_ID,
             title: event.EVENT_NAME,
-            game: "General", // Since your JSON doesn't have game category
+            game: event.GAME,
+            gameType: event.GAME_TYPE,
             date: new Date(event.EVENT_DATE).toLocaleDateString(),
             venue: event.VENUE,
             description: event.DESCRIPTION,
-            prizePool: "TBA", // Add if available in your data
-            format: event.ELIGIBILITY?.join(", ") || "Open for all",
-            image: "https://via.placeholder.com/400x200" // Add default image
+            prizePool: event.PRIZE_POOL,
+            format: event.FORMAT,
+            console: event.CONSOLE,
+            location: event.LOCATION,
+            image: "https://via.placeholder.com/400x200"
         }));
     }, [dummyData]);
 
@@ -80,9 +108,24 @@ function EsEvents() {
             });
         }
 
+        // Apply console filter
+        if (selectedConsole && selectedConsole !== 'All Consoles') {
+            filtered = filtered.filter(event => event.console === selectedConsole);
+        }
+
+        // Apply location filter
+        if (selectedLocation && selectedLocation !== 'All Locations') {
+            filtered = filtered.filter(event => event.location === selectedLocation);
+        }
+
+        // Apply game type filter
+        if (selectedGameType && selectedGameType !== 'All Types') {
+            filtered = filtered.filter(event => event.gameType === selectedGameType);
+        }
+
         // Apply game filter
         if (selectedGame && selectedGame !== 'All Games') {
-            filtered = filtered.filter(event => event?.game === selectedGame);
+            filtered = filtered.filter(event => event.game === selectedGame);
         }
 
         // Apply sorting with error handling
@@ -101,7 +144,7 @@ function EsEvents() {
                 return 0;
             }
         });
-    }, [searchQuery, selectedGame, sortBy, esportsEvents]);
+    }, [searchQuery, selectedConsole, selectedLocation, selectedGameType, selectedGame, sortBy, esportsEvents]);
 
     // Add error boundary for the component
     if (!esportsEvents) {
@@ -119,40 +162,89 @@ function EsEvents() {
                 
                 {/* Enhanced Filter Controls */}
                 <div className="bg-[#292B35] p-6 rounded-xl shadow-lg mb-8 border border-[#95C5C5]/20">
-                    <div className="flex flex-col md:flex-row gap-4">
-                        <div className="flex-1">
-                            <div className="relative">
-                                <input
-                                    type="text"
-                                    placeholder="Search tournaments..."
-                                    className="w-full px-4 py-3 rounded-lg bg-[#E0E0E0] border-2 border-[#95C5C5]/50 focus:border-[#EE8631] focus:outline-none transition-colors duration-300 placeholder-[#292B35]/60"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                />
-                                <span className="absolute right-3 top-3 text-[#292B35]/60">🔍</span>
-                            </div>
+                    {/* Search Bar with Icon */}
+                    <div className="relative mb-6">
+                        <input
+                            type="text"
+                            placeholder="Search tournaments..."
+                            className="w-full px-6 py-4 rounded-lg bg-[#E0E0E0] border-2 border-[#95C5C5]/50 focus:border-[#EE8631] focus:outline-none text-lg shadow-inner"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                        <div className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-[#EE8631] p-2 rounded-full">
+                            <span className="text-white">🔍</span>
                         </div>
-                        <div className="flex gap-4 flex-wrap md:flex-nowrap">
+                    </div>
+
+                    {/* Filter Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {/* Filter Groups */}
+                        <div className="filter-group">
+                            <label className="block text-[#95C5C5] font-medium mb-2">Platform</label>
                             <select
-                                className="px-4 py-3 rounded-lg bg-[#E0E0E0] border-2 border-[#95C5C5]/50 focus:border-[#EE8631] focus:outline-none transition-colors duration-300 cursor-pointer hover:bg-[#95C5C5]/10"
+                                className="w-full px-4 py-3 rounded-lg bg-[#E0E0E0] border-2 border-[#95C5C5]/50 focus:border-[#EE8631] focus:outline-none hover:bg-[#95C5C5]/10 transition-colors duration-300"
+                                value={selectedConsole}
+                                onChange={(e) => setSelectedConsole(e.target.value)}
+                            >
+                                {consoleOptions.map(console => (
+                                    <option key={console} value={console}>{console}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="filter-group">
+                            <label className="block text-[#95C5C5] font-medium mb-2">Location</label>
+                            <select
+                                className="w-full px-4 py-3 rounded-lg bg-[#E0E0E0] border-2 border-[#95C5C5]/50 focus:border-[#EE8631] focus:outline-none hover:bg-[#95C5C5]/10 transition-colors duration-300"
+                                value={selectedLocation}
+                                onChange={(e) => setSelectedLocation(e.target.value)}
+                            >
+                                {locationOptions.map(location => (
+                                    <option key={location} value={location}>{location}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="filter-group">
+                            <label className="block text-[#95C5C5] font-medium mb-2">Game Category</label>
+                            <select
+                                className="w-full px-4 py-3 rounded-lg bg-[#E0E0E0] border-2 border-[#95C5C5]/50 focus:border-[#EE8631] focus:outline-none hover:bg-[#95C5C5]/10 transition-colors duration-300"
+                                value={selectedGameType}
+                                onChange={(e) => handleGameTypeChange(e.target.value)}
+                            >
+                                {gameTypeOptions.map(type => (
+                                    <option key={type} value={type}>{type}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div className="filter-group">
+                            <label className="block text-[#95C5C5] font-medium mb-2">Game</label>
+                            <select
+                                className="w-full px-4 py-3 rounded-lg bg-[#E0E0E0] border-2 border-[#95C5C5]/50 focus:border-[#EE8631] focus:outline-none hover:bg-[#95C5C5]/10 transition-colors duration-300 disabled:opacity-50"
                                 value={selectedGame}
                                 onChange={(e) => setSelectedGame(e.target.value)}
+                                disabled={!selectedGameType || selectedGameType === 'All Types'}
                             >
-                                {gameOptions.map(game => (
+                                {availableGames.map(game => (
                                     <option key={game} value={game}>{game}</option>
                                 ))}
                             </select>
-                            <div className="flex items-center gap-2">
-                                <span className="text-[#95C5C5] font-medium">Sort:</span>
-                                <select
-                                    className="px-4 py-3 rounded-lg bg-[#E0E0E0] border-2 border-[#95C5C5]/50 focus:border-[#EE8631] focus:outline-none transition-colors duration-300 cursor-pointer hover:bg-[#95C5C5]/10"
-                                    value={sortBy}
-                                    onChange={(e) => setSortBy(e.target.value)}
-                                >
-                                    <option value="date">Date</option>
-                                    <option value="prizePool">Prize Pool</option>
-                                </select>
-                            </div>
+                        </div>
+                    </div>
+
+                    {/* Sort Control */}
+                    <div className="mt-4 flex justify-end">
+                        <div className="flex items-center gap-2 bg-[#292B35] px-4 py-2 rounded-lg border border-[#95C5C5]/20">
+                            <span className="text-[#95C5C5] font-medium">Sort by:</span>
+                            <select
+                                className="px-4 py-2 rounded-lg bg-[#E0E0E0] border-2 border-[#95C5C5]/50 focus:border-[#EE8631] focus:outline-none hover:bg-[#95C5C5]/10 transition-colors duration-300"
+                                value={sortBy}
+                                onChange={(e) => setSortBy(e.target.value)}
+                            >
+                                <option value="date">Date</option>
+                                <option value="prizePool">Prize Pool</option>
+                            </select>
                         </div>
                     </div>
                 </div>
