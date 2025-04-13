@@ -98,19 +98,25 @@ const MentorProfilePage = () => {
 
   return (
     <div className="bg-[#292B35] min-h-screen text-[#E0E0E0] font-sans">
+      {/* Enhanced Banner Section */}
       <div className="relative h-96">
         <div 
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0 bg-cover bg-center bg-[#1a1b21]"
           style={{ 
-            backgroundImage: `url(${PROFILE_BANNER})`,
+            backgroundImage: `url(${bannerError ? 
+              "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80" : 
+              "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80"
+            })`,
             backgroundPosition: 'center 30%'
           }}
           onError={() => setBannerError(true)}
         >
-          <div className="absolute inset-0 bg-gradient-to-b from-[#292B35]/20 via-transparent to-[#292B35]"></div>
+          {/* Enhanced gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#292B35]/30 via-[#292B35]/50 to-[#292B35] opacity-90"></div>
         </div>
         
-        <div className="absolute bottom-0 left-0 right-0 px-6 py-4">
+        {/* Profile Stats Overlay with adjusted padding */}
+        <div className="absolute bottom-0 left-0 right-0 px-6 pb-12">
           <div className="max-w-5xl mx-auto flex items-end gap-6">
             <div className="relative">
               <img
@@ -141,8 +147,9 @@ const MentorProfilePage = () => {
         </div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-6 -mt-8 relative z-10 pb-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      {/* Main content with increased top margin */}
+      <div className="max-w-5xl mx-auto px-6 mt-24 relative z-10 pb-12">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 mt-8">
           {statsData.map(stat => (
             <div key={stat.label} className="bg-[#292B35] p-4 rounded-xl border border-[#95C5C5]/20 hover:border-[#EE8631]/50 transition-colors">
               <div className="text-2xl mb-2">{stat.icon}</div>
