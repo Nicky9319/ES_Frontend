@@ -30,6 +30,11 @@ const RightSlider = () => {
 
   return (
     <>
+      {/* Subtle Background Blur when modal is open */}
+      {isModalOpen && (
+        <div className="fixed inset-0 backdrop-blur-md bg-opacity- z-10"></div>
+      )}
+
       {/* Open button */}
       <div
         className={`fixed top-1/2 right-0 transform -translate-y-1/2 z-10 transition-transform duration-300 ${
