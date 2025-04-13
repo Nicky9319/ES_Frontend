@@ -8,7 +8,7 @@ import EsEvents from './Views/ES Events/esEvents';
 import Social from './Views/Social/social';
 import Connect from './Views/Connect/connect';
 import Profile from './Views/Profile Page/profilePage';
-import DmPage from './Views/DM Page/dmPage';
+import MentorProfile from './Views/Mentor Profile Page/mentorProfilePage';
 
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
@@ -37,7 +37,8 @@ function AppInner() {
         <Route path="/social" element={<Social />} />
         <Route path="/connect" element={<Connect />} />
         <Route path='/profile' element={<Profile />} />
-        <Route path="/dm-page" element={<DmPage />} />
+        <Route path='/mentorProfile' element={<MentorProfile />} />
+        {/* Add more routes as needed */}
       </Routes>
       {!isSpecialRoute && <Footer />}
     </div>
