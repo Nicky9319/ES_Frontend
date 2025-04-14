@@ -226,7 +226,7 @@ const MentorProfilePage = () => {
         </div>
 
         {isEditing && (
-          <div className="absolute top-16 right-4 z-10">
+          <div className="absolute top-4 left-4 z-10">
             <button
               onClick={() => bannerImageInputRef.current.click()}
               className="bg-[#292B35]/80 text-[#E0E0E0] p-2 rounded-lg hover:bg-[#292B35] transition-colors"
@@ -267,7 +267,7 @@ const MentorProfilePage = () => {
                 onError={() => setProfileError(true)}
               />
               {isEditing && (
-                <div className="absolute bottom-2 right-2">
+                <div className="absolute top-2 left-2">
                   <button
                     onClick={() => profilePicInputRef.current.click()}
                     className="bg-[#292B35]/80 text-[#E0E0E0] p-2 rounded-full hover:bg-[#292B35] transition-colors"
@@ -538,36 +538,6 @@ const MentorProfilePage = () => {
           </div>
 
           <div className="space-y-6">
-            <div className="bg-[#292B35] rounded-xl p-6 border border-[#95C5C5]/20 sticky top-4">
-              <div className="text-center mb-6">
-                {isEditing ? (
-                  <div className="flex items-center justify-center gap-1">
-                    <span className="text-2xl font-bold text-[#EE8631]">$</span>
-                    <input
-                      type="number"
-                      value={PRICE_PER_SESSION}
-                      onChange={(e) => handleInputChange("PRICE_PER_SESSION", parseInt(e.target.value) || 0)}
-                      className="w-20 bg-[#292B35] text-2xl font-bold text-[#EE8631] border border-[#95C5C5]/20 rounded p-1 focus:outline-none focus:border-[#EE8631] text-center"
-                      min="0"
-                      step="10"
-                    />
-                    <span className="text-2xl font-bold text-[#EE8631]">/hr</span>
-                  </div>
-                ) : (
-                  <div className="text-2xl font-bold text-[#EE8631]">{currentPriceFormatted}</div>
-                )}
-                <div className="text-[#95C5C5] text-sm">per session</div>
-              </div>
-
-              <button className="w-full bg-gradient-to-r from-[#EE8631] to-[#AD662F] text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-all duration-300 transform hover:scale-105 mb-4">
-                Book a Session
-              </button>
-
-              <button className="w-full bg-[#292B35] text-[#95C5C5] py-3 rounded-lg font-semibold border border-[#95C5C5] hover:bg-[#95C5C5]/10 transition-colors">
-                Message
-              </button>
-            </div>
-
             <div className="bg-[#292B35] rounded-xl p-6 border border-[#95C5C5]/20">
               <h2 className="text-xl font-semibold text-[#EE8631] mb-4 flex items-center gap-2">
                 <span>🌐</span> Connect
