@@ -36,6 +36,11 @@ function EsEvents() {
         return ['All Games', ...gamesByType[selectedGameType]];
     }, [selectedGameType]);
 
+    // Function to handle view details navigation
+    const handleViewDetails = (eventId) => {
+        navigate(`/events/${eventId}`);
+    };
+
     // Transform the raw events data to match our component's expected structure
     const esportsEvents = useMemo(() => {
         if (!dummyData?.EVENTS) return [];
@@ -45,14 +50,16 @@ function EsEvents() {
             title: event.EVENT_NAME,
             game: event.GAME,
             gameType: event.GAME_TYPE,
-            date: new Date(event.EVENT_DATE).toLocaleDateString(),
+            // Handle both date formats (string and object with $date)
+            date: new Date(event.EVENT_DATE.$date || event.EVENT_DATE).toLocaleDateString(),
             venue: event.VENUE,
             description: event.DESCRIPTION,
             prizePool: event.PRIZE_POOL,
             format: event.FORMAT,
             console: event.CONSOLE,
             location: event.LOCATION,
-            image: "https://via.placeholder.com/400x200"
+            // Use provided image or fallback
+            image: event.IMAGE || "https://via.placeholder.com/400x200"
         }));
     }, [dummyData]);
 
@@ -63,7 +70,7 @@ function EsEvents() {
     const parseDate = (dateStr) => {
         if (!dateStr) return new Date(0); // return earliest possible date if undefined
         try {
-            return new Date(dateStr.split('-')[0]);
+            return new Date(dateStr);
         } catch (e) {
             console.warn('Invalid date format:', dateStr);
             return new Date(0);
@@ -80,11 +87,6 @@ function EsEvents() {
             return 0;
         }
     };
-
-    // Extract unique games for filter dropdown
-    const gameOptions = useMemo(() => 
-        ['All Games', ...new Set(esportsEvents.map(event => event.game))],
-        [esportsEvents]);
 
     // Filter and sort events with error handling
     const filteredAndSortedEvents = useMemo(() => {
@@ -260,7 +262,7 @@ function EsEvents() {
                             <div key={event.id} className="bg-[#E0E0E0] rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 border-2 border-transparent hover:border-[#95C5C5]/50">
                                 <div className="h-56 overflow-hidden relative">
                                     <img 
-                                        src={event.image || 'https://via.placeholder.com/400x200'}
+                                        src={event.image}
                                         alt={event.title}
                                         className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
                                         onError={(e) => {
@@ -286,10 +288,16 @@ function EsEvents() {
                                     </div>
                                     <p className="text-[#292B35]/80 mb-4">{event.description}</p>
                                     <div className="flex gap-4">
-                                        <button className="flex-1 py-3 bg-[#95C5C5] text-white rounded-lg font-bold hover:bg-[#292B35] transition-colors duration-300 transform hover:scale-105">
+                                        <button 
+                                            className="flex-1 py-3 bg-[#95C5C5] text-white rounded-lg font-bold hover:bg-[#292B35] transition-colors duration-300 transform hover:scale-105"
+                                            onClick={() => handleViewDetails(event.id)}
+                                        >
                                             Register Now
                                         </button>
-                                        <button className="flex-1 py-3 bg-[#EE8631] text-white rounded-lg font-bold hover:bg-[#AD662F] transition-colors duration-300 transform hover:scale-105">
+                                        <button 
+                                            className="flex-1 py-3 bg-[#EE8631] text-white rounded-lg font-bold hover:bg-[#AD662F] transition-colors duration-300 transform hover:scale-105"
+                                            onClick={() => handleViewDetails(event.id)}
+                                        >
                                             View Details
                                         </button>
                                     </div>

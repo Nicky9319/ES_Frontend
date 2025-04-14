@@ -48,7 +48,7 @@ const LeftSlider = ({
     <>
       {/* Menu button - Uses fixed positioning, centered vertically */}
       <div
-        className={`fixed top-1/2 left-0 transform -translate-y-1/2 z-10 transition-transform duration-300 ${
+        className={`fixed top-1/2 left-0 transform -translate-y-1/2 z-20 transition-transform duration-300 ${
           isOpen ? '-translate-x-full' : 'translate-x-0' // Handles sliding in/out
         }`}
       >

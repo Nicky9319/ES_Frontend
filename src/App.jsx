@@ -9,8 +9,19 @@ import Social from './Views/Social/social';
 import Connect from './Views/Connect/connect';
 import Profile from './Views/Profile Page/profilePage';
 import MentorProfile from './Views/Mentor Profile Page/mentorProfilePage';
+import DMPage from './Views/DM Page/dmPage';
+import Dashboard from './Views/Dashboard/dashboard';
+import ChoosePersona from './Views/Choose Persona Page/choosePersonaPage';
+import ViewUserProfilePage from './Views/Profile Page/viewUserProfilePage';
+import ViewMentorProfilePage from './Views/Mentor Profile Page/viewMentorProfilePage';
+
+import EventInfo from './Views/ES Events/eventInfo';
+import CreateEvent from './Views/ES Events/createEvent';
+
+import LandingPage from './Views/Landing Page/landingPage';
 
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+
 
 // Get the base URL from the import.meta.env (injected by Vite)
 const baseUrl = import.meta.env.BASE_URL || '/';
@@ -27,20 +38,31 @@ function App() {
 
 function AppInner() {
   const location = useLocation();
-  const isSpecialRoute = location.pathname === "/profile" || location.pathname === "/dm-page";
-  
+  const isProfilePageRoute = location.pathname.startsWith('/profile');
+  const isChoosePersonaRoute = location.pathname === '/choose-persona';
+  const isMentorProfileRoute = location.pathname.startsWith('/mentorProfile');
+  const isLandingPageRoute = location.pathname === '/landing-page';
+
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#95C5C5] text-gray-800">
-      {!isSpecialRoute && <Navbar />}
+    <div className="min-h-screen overflow-x-hidden bg-gray-50 text-gray-800">
+      {(!isProfilePageRoute && !isChoosePersonaRoute && !isMentorProfileRoute && !isLandingPageRoute ) && <Navbar />}
       <Routes>
         <Route path="/" element={<EsEvents />} />
         <Route path="/social" element={<Social />} />
         <Route path="/connect" element={<Connect />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/mentorProfile' element={<MentorProfile />} />
+        <Route path='/dm-page' element={<DMPage />} />
+        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/choose-persona' element={<ChoosePersona />} />
+        <Route path='/profile/:userId' element={<ViewUserProfilePage />} />
+        <Route path='/mentorProfile/:mentorId' element={<ViewMentorProfilePage />} />
+        <Route path='/create-event' element={<CreateEvent />} />
+        <Route path='/event-info' element={<EventInfo />} />
+        <Route path='/landing-page' element={<LandingPage />} />
         {/* Add more routes as needed */}
       </Routes>
-      {!isSpecialRoute && <Footer />}
+      {(!isProfilePageRoute && !isChoosePersonaRoute && !isMentorProfileRoute && !isLandingPageRoute) && <Footer />}
     </div>
   );
 }
