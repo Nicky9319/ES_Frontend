@@ -79,7 +79,8 @@ const MentorProfilePage = () => {
     TAGLINE,
     VERIFIED,
     FORMATTED_DATE,
-    LANGUAGES
+    LANGUAGES,
+    USER_NAME
   } = mentor;
 
   const statsData = [
@@ -125,7 +126,8 @@ const MentorProfilePage = () => {
             <div className="flex-1 mb-4">
               <div className="flex items-center gap-4 mb-2">
                 <h1 className="text-4xl font-bold text-[#E0E0E0] drop-shadow-lg">
-                  ProMentor_{MENTOR_ID.slice(0, 6)}
+                  {/* ProMentor_{MENTOR_ID.slice(0, 6)} */}
+                  {USER_NAME}
                 </h1>
                 <span className={`px-4 py-1 rounded-full text-sm font-semibold shadow-lg ${
                   VERIFIED ? 'bg-[#EE8631] text-white' : 'bg-red-500 text-white'
