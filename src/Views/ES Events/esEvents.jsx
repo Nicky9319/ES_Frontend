@@ -52,7 +52,7 @@ function EsEvents() {
             format: event.FORMAT,
             console: event.CONSOLE,
             location: event.LOCATION,
-            image: "https://via.placeholder.com/400x200"
+            image: event.IMAGE
         }));
     }, [dummyData]);
 

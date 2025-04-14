@@ -15,6 +15,8 @@ import ChoosePersona from './Views/Choose Persona Page/choosePersonaPage';
 import ViewUserProfilePage from './Views/Profile Page/viewUserProfilePage';
 import ViewMentorProfilePage from './Views/Mentor Profile Page/viewMentorProfilePage';
 
+import EventInfo from './Views/ES Events/eventInfo';
+
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
 // Get the base URL from the import.meta.env (injected by Vite)
@@ -50,6 +52,7 @@ function AppInner() {
         <Route path='/choose-persona' element={<ChoosePersona />} />
         <Route path='/profile/:userId' element={<ViewUserProfilePage />} />
         <Route path='/mentorProfile/:mentorId' element={<ViewMentorProfilePage />} />
+        <Route path='/event-info' element={<EventInfo />} />
         {/* Add more routes as needed */}
       </Routes>
       {(!isProfilePageRoute && !isChoosePersonaRoute && !isMentorProfileRoute) && <Footer />}
