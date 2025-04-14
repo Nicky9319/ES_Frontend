@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// Import useParams
+import { useNavigate, useParams } from 'react-router-dom';
 import profileData from './playerProfileData.json';
 
 const ViewUserProfilePage = () => {
+    // Get userId from URL params
+    const { userId } = useParams();
     const [loading, setLoading] = useState(true);
     const [userData, setUserData] = useState(null);
     const [activeTab, setActiveTab] = useState('stats');
@@ -11,10 +14,12 @@ const ViewUserProfilePage = () => {
 
     // Simulate API call to fetch user profile data
     const fetchUserProfile = async () => {
+        // Log the userId obtained from the route
+        console.log("Fetching profile for user ID:", userId);
         try {
             setLoading(true);
-            // In a real app, this would be an actual API call
-            // For now, simulate network delay and return the JSON data
+            // In a real app, this would be an actual API call using the userId
+            // For now, simulate network delay and return the static JSON data
             await new Promise(resolve => setTimeout(resolve, 800));
 
             // Transform JSON data into the structure needed by our UI
@@ -31,7 +36,8 @@ const ViewUserProfilePage = () => {
                 socialLinks: profileData.SOCIAL_LINKS || {},
                 history: profileData.HISTORY || [],
                 platformStatus: profileData.PLATFORM_STATUS || "INACTIVE",
-                userId: profileData.USER_ID || "unknown-id",
+                // Use the actual userId from params if needed, otherwise use the one from JSON
+                userId: userId || profileData.USER_ID || "unknown-id",
                 createdAt: profileData.CREATED_AT
                     ? new Intl.DateTimeFormat('en-US', {
                         year: 'numeric',
@@ -52,7 +58,8 @@ const ViewUserProfilePage = () => {
 
     useEffect(() => {
         fetchUserProfile();
-    }, []);
+        // Add userId as a dependency to refetch if the ID changes
+    }, [userId]);
 
     if (loading) {
         return (
