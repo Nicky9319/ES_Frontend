@@ -16,7 +16,8 @@ const ProfilePage = () => {
             // In a real app, this would be an actual API call
             // For now, simulate network delay and return the JSON data
             await new Promise(resolve => setTimeout(resolve, 800));
-            
+
+
             // Transform JSON data into the structure needed by our UI
             const transformedData = {
                 name: profileData.USER_NAME,
@@ -32,9 +33,16 @@ const ProfilePage = () => {
                 history: profileData.HISTORY || [],
                 platformStatus: profileData.PLATFORM_STATUS || "INACTIVE",
                 userId: profileData.USER_ID || "unknown-id",
-                createdAt: profileData.CREATED_AT ? new Date(profileData.CREATED_AT.$date).toLocaleDateString() : "Unknown"
+                createdAt: profileData.CREATED_AT
+                    ? new Intl.DateTimeFormat('en-US', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                        timeZone: 'UTC'
+                    }).format(new Date(profileData.CREATED_AT.$date))
+                    : "Unknown"
             };
-            
+
             setUserData(transformedData);
             setLoading(false);
         } catch (error) {
@@ -75,20 +83,20 @@ const ProfilePage = () => {
         <div className="bg-[#292B35] min-h-screen text-[#E0E0E0] font-sans">
             {/* Enhanced Banner Section */}
             <div className="relative h-96">
-                <div 
+                <div
                     className="absolute inset-0 bg-cover bg-center bg-[#1a1b21]"
-                    style={{ 
-                        backgroundImage: `url(${bannerError ? 
-                            "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80" : 
+                    style={{
+                        backgroundImage: `url(${bannerError ?
+                            "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80" :
                             userData.bannerImage
-                        })`,
+                            })`,
                         backgroundPosition: 'center 30%'
                     }}
                     onError={() => setBannerError(true)}
                 >
                     <div className="absolute inset-0 bg-gradient-to-b from-[#292B35]/30 via-[#292B35]/50 to-[#292B35] opacity-90"></div>
                 </div>
-                
+
                 {/* Profile Stats Overlay */}
                 <div className="absolute bottom-0 left-0 right-0 px-6 pb-12">
                     <div className="max-w-5xl mx-auto flex items-end gap-6">
@@ -100,15 +108,14 @@ const ProfilePage = () => {
                                 onError={() => setProfileError(true)}
                             />
                         </div>
-                        
+
                         <div className="flex-1 mb-4">
                             <div className="flex items-center gap-4 mb-2">
                                 <h1 className="text-4xl font-bold text-[#E0E0E0] drop-shadow-lg">
                                     {userData.name}
                                 </h1>
-                                <span className={`px-4 py-1 rounded-full text-sm font-semibold shadow-lg ${
-                                    userData.platformStatus === "ACTIVE" ? 'bg-[#95C5C5] text-[#292B35]' : 'bg-red-500 text-white'
-                                }`}>
+                                <span className={`px-4 py-1 rounded-full text-sm font-semibold shadow-lg ${userData.platformStatus === "ACTIVE" ? 'bg-[#95C5C5] text-[#292B35]' : 'bg-red-500 text-white'
+                                    }`}>
                                     {userData.platformStatus === "ACTIVE" ? '✓ ACTIVE' : '✗ INACTIVE'}
                                 </span>
                             </div>
@@ -177,7 +184,7 @@ const ProfilePage = () => {
                                                     <p className="text-[#E0E0E0]/70 text-sm">Game: {historyItem.GAME_NAME}</p>
                                                     <p className="text-[#E0E0E0]/70 text-sm">Team ID: {historyItem.TEAM_ID}</p>
                                                     <p className="text-[#E0E0E0]/70 text-sm">Duration: {historyItem.DURATION}</p>
-                                                    
+
                                                     <div className="flex flex-wrap gap-2 mt-3">
                                                         {historyItem.ROLES_PLAYED.map((role, roleIndex) => (
                                                             <span key={roleIndex} className="bg-[#EE8631]/10 text-[#EE8631] px-2 py-1 rounded text-xs">
@@ -197,7 +204,7 @@ const ProfilePage = () => {
                     </div>
 
                     <div className="space-y-6">
-                        <div className="bg-[#292B35] rounded-xl p-6 border border-[#95C5C5]/20 sticky top-4">                            
+                        <div className="bg-[#292B35] rounded-xl p-6 border border-[#95C5C5]/20 sticky top-4">
                             <button className="w-full bg-[#292B35] text-[#95C5C5] py-3 rounded-lg font-semibold border border-[#95C5C5] hover:bg-[#95C5C5]/10 transition-colors">
                                 Message
                             </button>
@@ -211,8 +218,8 @@ const ProfilePage = () => {
                                 {Object.entries(userData.socialLinks).map(([platform, link]) => (
                                     <a
                                         key={platform}
-                                        href={platform.toLowerCase() === 'website' ? 
-                                            `https://${link}` : 
+                                        href={platform.toLowerCase() === 'website' ?
+                                            `https://${link}` :
                                             `https://${platform.toLowerCase()}.com/${link.replace(/^@/, '')}`}
                                         target="_blank"
                                         rel="noreferrer"
@@ -220,11 +227,11 @@ const ProfilePage = () => {
                                     >
                                         <span className="text-[#95C5C5]">
                                             {platform === 'DISCORD' ? '💬' :
-                                            platform === 'TWITTER' ? '🐦' :
-                                            platform === 'YOUTUBE' ? '📺' :
-                                            platform === 'INSTAGRAM' ? '📸' :
-                                            platform === 'LINKEDIN' ? '💼' :
-                                            platform === 'WEBSITE' ? '🔗' : '💼'}
+                                                platform === 'TWITTER' ? '🐦' :
+                                                    platform === 'YOUTUBE' ? '📺' :
+                                                        platform === 'INSTAGRAM' ? '📸' :
+                                                            platform === 'LINKEDIN' ? '💼' :
+                                                                platform === 'WEBSITE' ? '🔗' : '💼'}
                                         </span>
                                         <span>{platform.toLowerCase()}</span>
                                     </a>
@@ -236,6 +243,6 @@ const ProfilePage = () => {
             </div>
         </div>
     );
-}; 
+};
 
 export default ProfilePage;
