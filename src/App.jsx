@@ -41,10 +41,11 @@ function AppInner() {
   const isProfilePageRoute = location.pathname.startsWith('/profile');
   const isChoosePersonaRoute = location.pathname === '/choose-persona';
   const isMentorProfileRoute = location.pathname.startsWith('/mentorProfile');
+  const isLandingPageRoute = location.pathname === '/landing-page';
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-gray-50 text-gray-800">
-      {(!isProfilePageRoute && !isChoosePersonaRoute && !isMentorProfileRoute) && <Navbar />}
+      {(!isProfilePageRoute && !isChoosePersonaRoute && !isMentorProfileRoute && !isLandingPageRoute ) && <Navbar />}
       <Routes>
         <Route path="/" element={<EsEvents />} />
         <Route path="/social" element={<Social />} />
@@ -61,7 +62,7 @@ function AppInner() {
         <Route path='/landing-page' element={<LandingPage />} />
         {/* Add more routes as needed */}
       </Routes>
-      {(!isProfilePageRoute && !isChoosePersonaRoute && !isMentorProfileRoute) && <Footer />}
+      {(!isProfilePageRoute && !isChoosePersonaRoute && !isMentorProfileRoute && !isLandingPageRoute) && <Footer />}
     </div>
   );
 }
