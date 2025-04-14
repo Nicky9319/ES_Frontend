@@ -238,7 +238,7 @@ const ProfilePage = () => {
                 </div>
 
                 {isEditing && (
-                    <div className="absolute top-4 right-4 z-10">
+                    <div className="absolute top-4 left-4 z-10">
                         <button 
                             onClick={() => bannerImageInputRef.current.click()}
                             className="bg-[#292B35]/80 text-[#E0E0E0] p-2 rounded-lg hover:bg-[#292B35] transition-colors"
@@ -269,7 +269,7 @@ const ProfilePage = () => {
                             />
                             
                             {isEditing && (
-                                <div className="absolute bottom-2 right-2">
+                                <div className="absolute top-2 left-2">
                                     <button 
                                         onClick={() => profilePicInputRef.current.click()}
                                         className="bg-[#292B35]/80 text-[#E0E0E0] p-2 rounded-full hover:bg-[#292B35] transition-colors"

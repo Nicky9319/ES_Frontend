@@ -12,38 +12,33 @@ const ViewMentorProfilePage = () => {
     // Simulate fetching data based on mentorId
     useEffect(() => {
         const fetchMentorData = async () => {
-            console.log("Fetching profile for mentor ID:", mentorId);
+            console.log("Fetching profile for mentor ID:", mentorId); // Log the ID
             try {
                 setIsLoading(true);
                 // Simulate API call delay
                 await new Promise(resolve => setTimeout(resolve, 500));
 
-                // In a real app, you would fetch data using mentorId.
-                // For now, we'll use the static JSON if the ID matches (or just use it directly for demo).
-                // This check is basic; a real API would handle ID matching.
-                if (mentorProfileData.MENTOR_ID === mentorId || !mentorId) { // Allow viewing the default profile if no ID or matches
-                    const baseData = {
-                        ...mentorProfileData,
-                        PROFILE_BANNER: bannerError ?
-                            "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80" :
-                            mentorProfileData.PROFILE_BANNER,
-                        PROFILE_PIC: profileError ?
-                            "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" :
-                            mentorProfileData.PROFILE_PIC
-                    };
+                // *** Always load the static data for simulation, regardless of the specific mentorId ***
+                // (Removed the check: if (mentorProfileData.MENTOR_ID === mentorId || !mentorId))
 
-                    const createdAt = new Date(baseData.CREATED_AT.$date);
-                    const transformedData = {
-                        ...baseData,
-                        FORMATTED_DATE: createdAt.toLocaleDateString(),
-                        PRICE_FORMATTED: `$${baseData.PRICE_PER_SESSION}/hr`
-                    };
-                    setMentor(transformedData);
-                } else {
-                    // Handle case where mentor ID doesn't match the static data
-                    console.error(`Mentor with ID ${mentorId} not found.`);
-                    setMentor(null); // Or set an error state
-                }
+                // Transform and set data using the static import
+                const baseData = {
+                    ...mentorProfileData,
+                    PROFILE_BANNER: bannerError ?
+                        "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80" :
+                        mentorProfileData.PROFILE_BANNER,
+                    PROFILE_PIC: profileError ?
+                        "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" :
+                        mentorProfileData.PROFILE_PIC
+                };
+
+                const createdAt = new Date(baseData.CREATED_AT.$date);
+                const transformedData = {
+                    ...baseData,
+                    FORMATTED_DATE: createdAt.toLocaleDateString(),
+                    PRICE_FORMATTED: `$${baseData.PRICE_PER_SESSION}/hr`
+                };
+                setMentor(transformedData);
 
             } catch (error) {
                 console.error('Error loading mentor profile:', error);
@@ -53,8 +48,17 @@ const ViewMentorProfilePage = () => {
             }
         };
 
-        fetchMentorData();
-    }, [mentorId, bannerError, profileError]); // Re-fetch if ID changes or image errors occur
+        // Only fetch if a mentorId is present in the URL
+        if (mentorId) {
+            fetchMentorData();
+        } else {
+            // Handle the case where mentorId might be missing (though route should prevent this)
+            console.log("No mentor ID provided in URL.");
+            setMentor(null);
+            setIsLoading(false);
+        }
+        // Add mentorId to dependencies to refetch if the ID changes
+    }, [mentorId, bannerError, profileError]);
 
     if (isLoading) {
         return (
@@ -70,7 +74,8 @@ const ViewMentorProfilePage = () => {
     if (!mentor) {
         return (
             <div className="bg-[#292B35] min-h-screen flex items-center justify-center text-[#E0E0E0]">
-                <p className="text-[#95C5C5]">Mentor profile not found or error loading.</p>
+                {/* Updated message */}
+                <p className="text-[#95C5C5]">Mentor profile not found.</p>
             </div>
         );
     }
