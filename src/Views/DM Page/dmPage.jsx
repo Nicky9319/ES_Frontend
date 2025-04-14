@@ -151,33 +151,44 @@ const DMPage = () => {
   };
 
   return (
-    <div className="flex h-screen bg-[#95C5C5] p-4">
-      <div className="w-1/3 pr-2">
-        <LeftPanel
-          contacts={contacts}
-          onSelectContact={handleContactSelect}
-          activeContactId={activeContact?.id}
-          isLoading={isLoading}
-        />
+    <div className="flex h-screen bg-[#292B35] p-4">
+      <div className="w-1/3 pr-3">
+        <div className="bg-[#191A21] h-full rounded-lg shadow-lg overflow-hidden border border-[#95C5C5]/20">
+          <div className="bg-gradient-to-r from-[#292B35] to-[#353744] p-4 border-b border-[#95C5C5]/30">
+            <h2 className="text-[#E0E0E0] font-bold text-xl">Messages</h2>
+            <p className="text-[#95C5C5] text-sm">Connect with your esports network</p>
+          </div>
+          <div className="p-2">
+            <LeftPanel
+              contacts={contacts}
+              onSelectContact={handleContactSelect}
+              activeContactId={activeContact?.id}
+              isLoading={isLoading}
+            />
+          </div>
+        </div>
       </div>
-      <div className="w-2/3 pl-2">
+      <div className="w-2/3 pl-3">
         {activeContact ? (
-          <ChatWindow
-            contact={activeContact}
-            messages={messages}
-            onSendMessage={handleSendMessage}
-            isLoading={isConversationLoading}
-          />
+          <div className="bg-[#191A21] h-full rounded-lg shadow-lg overflow-hidden border border-[#95C5C5]/20">
+            <ChatWindow
+              contact={activeContact}
+              messages={messages}
+              onSendMessage={handleSendMessage}
+              isLoading={isConversationLoading}
+            />
+          </div>
         ) : (
-          <div className="bg-white h-full rounded-lg shadow-lg flex items-center justify-center">
-            <div className="text-center p-8">
-              <div className="bg-[#292B35] text-white p-6 rounded-full inline-flex mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-10 w-10" viewBox="0 0 20 20" fill="currentColor">
+          <div className="bg-[#191A21] h-full rounded-lg shadow-lg flex items-center justify-center border border-[#95C5C5]/20">
+            <div className="text-center p-8 max-w-md">
+              <div className="bg-gradient-to-br from-[#EE8631] to-[#AD662F] p-6 rounded-full inline-flex mb-6 shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12" viewBox="0 0 20 20" fill="white">
                   <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
                 </svg>
               </div>
-              <h2 className="text-2xl font-bold text-[#292B35] mb-2">Select a conversation</h2>
-              <p className="text-gray-600">Choose a contact from the left to start messaging</p>
+              <h2 className="text-2xl font-bold text-[#E0E0E0] mb-3">Select a conversation</h2>
+              <p className="text-[#95C5C5] mb-6">Connect with teammates, coaches and competitors in your esports network</p>
+              <div className="w-32 h-1 bg-gradient-to-r from-[#95C5C5] to-[#EE8631] mx-auto rounded-full"></div>
             </div>
           </div>
         )}
