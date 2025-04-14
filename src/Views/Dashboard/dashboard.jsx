@@ -468,8 +468,10 @@ export default function CompactEsportsDashboard() {
 
       {/* Grid Layout - Rearranged */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
         {/* Player and Stats Column - Left Column */}
         <div className="space-y-4">
+
           {/* Player Card */}
           <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 overflow-hidden shadow-lg">
             <div className="h-12 bg-gradient-to-r from-[#95C5C5]/60 to-[#EE8631]/60"></div>
@@ -477,38 +479,23 @@ export default function CompactEsportsDashboard() {
               <div className="flex">
                 <div className="w-18 h-18 rounded-xl bg-[#292B35] border-2 border-[#292B35] overflow-hidden">
                   <img
-                    src="/api/placeholder/72/72"
+                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
                     alt="Player Avatar"
                     className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="ml-4 mt-2">
                   <div className="flex items-center">
-                    <h2 className="text-lg font-bold">InfinityX</h2>
-                    <div className="ml-2 bg-[#95C5C5] text-[#292B35] text-xs px-1.5 py-0.5 rounded text-xs font-bold">
+                    <h2 className="text-lg font-bold">UserName</h2>
+                    {/* <div className="ml-2 bg-[#95C5C5] text-[#292B35] text-xs px-1.5 py-0.5 rounded text-xs font-bold">
                       PRO
-                    </div>
+                    </div> */}
                   </div>
-                  <p className="text-gray-400 text-xs">Victor Reynolds</p>
-                  <div className="mt-1 flex items-center text-[#EE8631] text-xs">
-                    <Award size={12} className="mr-1" />
-                    <span className="font-medium">Elite Player</span>
-                  </div>
+                  <p className="text-gray-400 text-xs">TaglineOfPlayer</p>
                 </div>
               </div>
               
-              {/* Player quick stats */}
-              <div className="grid grid-cols-3 gap-3 mt-4">
-                {playerStats.map((stat) => (
-                  <StatCard
-                    key={stat.id}
-                    title={stat.title}
-                    value={stat.value}
-                    change={stat.change}
-                    icon={stat.icon}
-                  />
-                ))}
-              </div>
+              
             </div>
           </div>
           
@@ -517,7 +504,7 @@ export default function CompactEsportsDashboard() {
             <SectionHeader 
               icon={<Users size={16} />} 
               title="MY TEAMS" 
-              actionText="View All"
+              // actionText="View All"
               onAction={() => {}}
             />
 
@@ -551,11 +538,12 @@ export default function CompactEsportsDashboard() {
                 </div>
               ))}
               
-              <button className="w-full p-2 mt-2 border border-dashed border-[#95C5C5]/30 rounded-lg text-sm text-gray-400 hover:bg-[#292B35] transition-colors">
+              {/* <button className="w-full p-2 mt-2 border border-dashed border-[#95C5C5]/30 rounded-lg text-sm text-gray-400 hover:bg-[#292B35] transition-colors">
                 + Join New Team
-              </button>
+              </button> */}
             </div>
           </div>
+          
         </div>
         
         {/* Middle Column - Tasks and Calendar */}
