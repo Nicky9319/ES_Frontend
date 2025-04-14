@@ -18,7 +18,10 @@ import ViewMentorProfilePage from './Views/Mentor Profile Page/viewMentorProfile
 import EventInfo from './Views/ES Events/eventInfo';
 import CreateEvent from './Views/ES Events/createEvent';
 
+import LandingPage from './Views/Landing Page/landingPage';
+
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+
 
 // Get the base URL from the import.meta.env (injected by Vite)
 const baseUrl = import.meta.env.BASE_URL || '/';
@@ -55,6 +58,7 @@ function AppInner() {
         <Route path='/mentorProfile/:mentorId' element={<ViewMentorProfilePage />} />
         <Route path='/create-event' element={<CreateEvent />} />
         <Route path='/event-info' element={<EventInfo />} />
+        <Route path='/landing-page' element={<LandingPage />} />
         {/* Add more routes as needed */}
       </Routes>
       {(!isProfilePageRoute && !isChoosePersonaRoute && !isMentorProfileRoute) && <Footer />}
