@@ -15,14 +15,7 @@ const MentorProfilePage = () => {
         mentorProfile.PROFILE_BANNER,
       PROFILE_PIC: profileError ? 
         "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" : 
-        mentorProfile.PROFILE_PIC,
-      RATING: 4.9,
-      SESSION_COUNT: "200+",
-      SUCCESS_RATE: "92%",
-      SKILL_TAGS: ["Aim Training", "Strategic Positioning", "Game Sense", "Team Communication"],
-      SPECIALTIES: ["IGL", "Strategy Coach", "Mental Coach"],
-      MOTTO: "Helping Golds hit Diamond",
-      STATUS: "VERIFIED"
+        mentorProfile.PROFILE_PIC
     };
 
     const createdAt = new Date(baseData.CREATED_AT.$date);
@@ -80,19 +73,19 @@ const MentorProfilePage = () => {
     BIO,
     MENTOR_ID,
     RATING,
-    SESSION_COUNT,
+    SESSIONS_COMPLETED,
     SUCCESS_RATE,
-    SKILL_TAGS,
-    SPECIALTIES,
-    MOTTO,
-    STATUS,
-    FORMATTED_DATE
+    SPECIALITIES,
+    TAGLINE,
+    VERIFIED,
+    FORMATTED_DATE,
+    LANGUAGES
   } = mentor;
 
   const statsData = [
-    { label: 'Sessions', value: SESSION_COUNT, icon: '🎮' },
+    { label: 'Sessions', value: SESSIONS_COMPLETED, icon: '🎮' },
     { label: 'Experience', value: `${EXPERIENCE_YEARS}+ Years`, icon: '⚡' },
-    { label: 'Success Rate', value: SUCCESS_RATE, icon: '📈' },
+    { label: 'Success Rate', value: `${SUCCESS_RATE}%`, icon: '📈' },
     { label: 'Rate', value: PRICE_FORMATTED, icon: '💎' }
   ];
 
@@ -105,13 +98,12 @@ const MentorProfilePage = () => {
           style={{ 
             backgroundImage: `url(${bannerError ? 
               "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80" : 
-              "https://images.unsplash.com/photo-1552820728-8b83bb6b773f?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80"
+              PROFILE_BANNER
             })`,
             backgroundPosition: 'center 30%'
           }}
           onError={() => setBannerError(true)}
         >
-          {/* Enhanced gradient overlay */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#292B35]/30 via-[#292B35]/50 to-[#292B35] opacity-90"></div>
         </div>
         
@@ -136,11 +128,11 @@ const MentorProfilePage = () => {
                   ProMentor_{MENTOR_ID.slice(0, 6)}
                 </h1>
                 <span className="bg-[#EE8631] text-white px-4 py-1 rounded-full text-sm font-semibold shadow-lg">
-                  {STATUS}
+                  {VERIFIED ? 'VERIFIED' : 'UNVERIFIED'}
                 </span>
               </div>
               <p className="text-[#95C5C5] text-xl font-medium mb-2">
-                {MOTTO}
+                {TAGLINE}
               </p>
             </div>
           </div>
@@ -187,9 +179,20 @@ const MentorProfilePage = () => {
                 <div>
                   <h3 className="text-[#95C5C5] mb-2">Specialties</h3>
                   <div className="flex flex-wrap gap-2">
-                    {SKILL_TAGS.map(skill => (
-                      <span key={skill} className="bg-[#95C5C5]/10 text-[#95C5C5] px-4 py-2 rounded-lg text-sm font-medium">
-                        {skill}
+                    {SPECIALITIES.map(specialty => (
+                      <span key={specialty} className="bg-[#95C5C5]/10 text-[#95C5C5] px-4 py-2 rounded-lg text-sm font-medium">
+                        {specialty}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-[#95C5C5] mb-2">Languages</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {LANGUAGES.map(language => (
+                      <span key={language} className="bg-[#95C5C5]/10 text-[#95C5C5] px-4 py-2 rounded-lg text-sm font-medium">
+                        {language}
                       </span>
                     ))}
                   </div>

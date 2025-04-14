@@ -10,6 +10,7 @@ import Connect from './Views/Connect/connect';
 import Profile from './Views/Profile Page/profilePage';
 import MentorProfile from './Views/Mentor Profile Page/mentorProfilePage';
 import DMPage from './Views/DM Page/dmPage';
+import Dashboard from './Views/Dashboard/dashboard';
 
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
@@ -40,6 +41,7 @@ function AppInner() {
         <Route path='/profile' element={<Profile />} />
         <Route path='/mentorProfile' element={<MentorProfile />} />
         <Route path='/dm-page' element={<DMPage />} />
+        <Route path='/dashboard' element={<Dashboard />} />
         {/* Add more routes as needed */}
       </Routes>
       {!isProfileRoute && <Footer />}
