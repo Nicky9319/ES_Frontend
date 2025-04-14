@@ -542,40 +542,33 @@ const MentorProfilePage = () => {
               <h2 className="text-xl font-semibold text-[#EE8631] mb-4 flex items-center gap-2">
                 <span>🌐</span> Connect
               </h2>
-              <div className="grid grid-cols-1 gap-3">
+              <div className="grid grid-cols-2 gap-3">
                 {Object.entries(SOCIAL_LINKS).map(([platform, link]) => (
                   <div key={platform} className="flex items-center gap-2">
-                    <span className="text-[#95C5C5] w-6 text-center">
-                      {platform === "DISCORD"
-                        ? "💬"
-                        : platform === "TWITTER"
-                        ? "🐦"
-                        : platform === "YOUTUBE"
-                        ? "📺"
-                        : platform === "INSTAGRAM"
-                        ? "📸"
-                        : platform === "LINKEDIN"
-                        ? "💼"
-                        : platform === "WEBSITE"
-                        ? "🔗"
-                        : "🔗"}
+                    <span className="text-[#95C5C5]">
+                      {platform === 'DISCORD' ? '💬' :
+                       platform === 'TWITTER' ? '🐦' :
+                       platform === 'YOUTUBE' ? '📺' :
+                       platform === 'INSTAGRAM' ? '📸' :
+                       platform === 'LINKEDIN' ? '💼' :
+                       platform === 'WEBSITE' ? '🔗' : '💼'}
                     </span>
                     {isEditing ? (
                       <input
                         type="text"
                         value={link}
                         onChange={(e) => handleSocialLinkChange(platform, e.target.value)}
-                        className="flex-1 bg-[#292B35] text-[#E0E0E0] border-b border-[#95C5C5]/20 focus:outline-none focus:border-[#EE8631] text-sm px-1"
-                        placeholder={`${platform.toLowerCase()} link or handle`}
+                        className="w-full bg-[#292B35] text-[#E0E0E0] border-b border-[#95C5C5]/20 focus:outline-none focus:border-[#EE8631] text-sm"
+                        placeholder={`${platform.toLowerCase()}`}
                       />
                     ) : (
                       <a
-                        href={link.startsWith("http") ? link : `https://${link}`}
+                        href={platform.toLowerCase() === 'website' ? `https://${link}` : `https://${platform.toLowerCase()}.com/${link.replace(/^@/, '')}`}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex-1 text-[#E0E0E0] hover:text-[#EE8631] transition-colors truncate text-sm"
+                        className="text-[#E0E0E0] hover:text-[#EE8631] transition-colors"
                       >
-                        {link || `${platform.toLowerCase()}`}
+                        <span>{platform.toLowerCase()}</span>
                       </a>
                     )}
                   </div>
