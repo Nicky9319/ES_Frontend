@@ -29,6 +29,7 @@ import {
   Edit,
   LineChart,
   Save,
+  Calendar as CalendarIcon,
 } from "lucide-react";
 
 // Color constants for consistent styling
@@ -96,30 +97,45 @@ export default function CompactEsportsDashboard() {
     },
   ];
 
-  // Upcoming tournaments
-  const tournaments = [
+  // Upcoming events (replacing tournaments)
+  const upcomingEvents = [
     {
       id: 1,
       title: "ESL Pro League",
-      date: "Apr 20",
+      date: "2023-04-20",
+      formattedDate: "Apr 20",
       prize: "$250K",
       important: true,
     },
     {
       id: 2,
       title: "DreamHack",
-      date: "May 5",
+      date: "2023-05-05",
+      formattedDate: "May 5",
       prize: "$100K",
       important: false,
     },
     {
       id: 3,
       title: "BLAST Premier",
-      date: "May 15",
+      date: "2023-05-15",
+      formattedDate: "May 15",
       prize: "$425K",
       important: true,
     },
+    {
+      id: 4,
+      title: "Valorant Champions",
+      date: "2023-04-10", // Past event
+      formattedDate: "Apr 10",
+      prize: "$300K",
+      important: true,
+    },
   ];
+
+  // Filter to only get future events and today's events
+  const today = formatDate(new Date());
+  const futureEvents = upcomingEvents.filter(event => event.date >= today);
 
   // Performance metrics
   const performanceData = {
@@ -129,28 +145,31 @@ export default function CompactEsportsDashboard() {
     matches: [3, 2, 4, 3, 5, 3, 4],
   };
 
-  // Team members
-  const teamMembers = [
+  // Player's teams (replacing team members)
+  const playerTeams = [
     {
       id: 1,
-      name: "Alex 'Viper'",
+      name: "Nexus Elite",
       role: "Captain",
-      avatar: "/api/placeholder/32/32",
-      status: "online",
+      game: "Valorant",
+      logo: "/api/placeholder/32/32",
+      status: "active",
     },
     {
       id: 2,
-      name: "Sam 'Blaze'",
-      role: "Rifler",
-      avatar: "/api/placeholder/32/32",
-      status: "online",
+      name: "Frontier Squad",
+      role: "Member",
+      game: "Apex Legends",
+      logo: "/api/placeholder/32/32",
+      status: "active",
     },
     {
       id: 3,
-      name: "Taylor 'Ghost'",
-      role: "AWPer",
-      avatar: "/api/placeholder/32/32",
-      status: "away",
+      name: "Midnight Gamers",
+      role: "Sub",
+      game: "CS:GO",
+      logo: "/api/placeholder/32/32",
+      status: "inactive",
     },
   ];
 
@@ -472,10 +491,10 @@ export default function CompactEsportsDashboard() {
               Statistics
             </button>
             <button 
-              className={`text-sm ${selectedView === 'team' ? 'text-[#EE8631] font-medium' : 'text-gray-400'}`}
-              onClick={() => setSelectedView('team')}
+              className={`text-sm ${selectedView === 'matches' ? 'text-[#EE8631] font-medium' : 'text-gray-400'}`}
+              onClick={() => setSelectedView('matches')}
             >
-              Team
+              Matches
             </button>
           </div>
           
@@ -492,110 +511,145 @@ export default function CompactEsportsDashboard() {
         </div>
       </div>
 
-      {/* Grid Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-
-        {/* Milestones Section - NEW */}
-        <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
-          <SectionHeader 
-            icon={<Flag size={16} />} 
-            title="MILESTONES" 
-            actionText="Add New"
-            onAction={() => setShowMilestoneForm(!showMilestoneForm)}
-          />
-          
-          {showMilestoneForm && (
-            <div className="mb-3 p-3 bg-[#292B35] rounded-lg">
-              <input
-                type="text"
-                placeholder="Milestone title"
-                className="w-full mb-2 p-2 bg-[#35383f] border border-[#95C5C5]/20 rounded text-sm"
-                value={newMilestone.title}
-                onChange={(e) => setNewMilestone({...newMilestone, title: e.target.value})}
-              />
-              <div className="flex gap-2">
-                <input
-                  type="date"
-                  className="flex-grow p-2 bg-[#35383f] border border-[#95C5C5]/20 rounded text-sm"
-                  value={newMilestone.date}
-                  onChange={(e) => setNewMilestone({...newMilestone, date: e.target.value})}
-                />
-                <button 
-                  onClick={addMilestone}
-                  className="px-3 py-2 bg-[#EE8631] text-[#292B35] rounded font-medium text-sm"
-                >
-                  Add
-                </button>
-                <button 
-                  onClick={() => setShowMilestoneForm(false)}
-                  className="p-2 bg-[#35383f] text-gray-400 rounded"
-                >
-                  <X size={16} />
-                </button>
+      {/* Grid Layout - Rearranged */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Player and Stats Column - Left Column */}
+        <div className="space-y-4">
+          {/* Player Card */}
+          <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 overflow-hidden shadow-lg">
+            <div className="h-12 bg-gradient-to-r from-[#95C5C5]/60 to-[#EE8631]/60"></div>
+            <div className="p-4 -mt-6">
+              <div className="flex">
+                <div className="w-18 h-18 rounded-xl bg-[#292B35] border-2 border-[#292B35] overflow-hidden">
+                  <img
+                    src="/api/placeholder/72/72"
+                    alt="Player Avatar"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="ml-4 mt-2">
+                  <div className="flex items-center">
+                    <h2 className="text-lg font-bold">InfinityX</h2>
+                    <div className="ml-2 bg-[#95C5C5] text-[#292B35] text-xs px-1.5 py-0.5 rounded text-xs font-bold">
+                      PRO
+                    </div>
+                  </div>
+                  <p className="text-gray-400 text-xs">Victor Reynolds</p>
+                  <div className="mt-1 flex items-center text-[#EE8631] text-xs">
+                    <Award size={12} className="mr-1" />
+                    <span className="font-medium">Elite Player</span>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Player quick stats */}
+              <div className="grid grid-cols-3 gap-3 mt-4">
+                {playerStats.map((stat) => (
+                  <StatCard
+                    key={stat.id}
+                    title={stat.title}
+                    value={stat.value}
+                    change={stat.change}
+                    icon={stat.icon}
+                  />
+                ))}
               </div>
             </div>
-          )}
+          </div>
           
-          <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1">
-            {milestones.map(milestone => (
-              <MilestoneItem 
-                key={milestone.id} 
-                milestone={milestone} 
-                onToggle={toggleMilestone}
-                onDelete={deleteMilestone}
-              />
-            ))}
-          </div>
-        </div>
+          {/* My Teams (renamed from Team Roster) */}
+          <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
+            <SectionHeader 
+              icon={<Users size={16} />} 
+              title="MY TEAMS" 
+              actionText="View All"
+              onAction={() => {}}
+            />
 
-        {/* Today's Tasks - ENHANCED */}
-        <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
-          <SectionHeader 
-            icon={<Clock size={16} />} 
-            title="TODAY'S TASKS"  
-          />
-
-          <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1">
-            {todayTasks.length > 0 ? (
-              todayTasks.map(task => (
-                <TaskItem 
-                  key={task.id} 
-                  task={task} 
-                  date={formatDate(new Date())}
-                  onToggle={toggleTask}
-                  onDelete={deleteTask}
-                />
-              ))
-            ) : (
-              <div className="text-center py-6 text-gray-500">
-                <Clock size={24} className="mx-auto mb-2 opacity-50" />
-                <p className="text-sm">No tasks scheduled for today</p>
-                <button 
-                  className="mt-2 text-xs text-[#EE8631]"
-                  onClick={() => {
-                    setSelectedDay(formatDate(new Date()));
-                    setShowTaskForm(true);
-                  }}
+            <div className="space-y-3">
+              {playerTeams.map((team) => (
+                <div
+                  key={team.id}
+                  className={`flex items-center p-2.5 bg-[#292B35] hover:bg-[#292B35]/80 rounded-lg transition-colors ${
+                    team.status === "inactive" ? "opacity-60" : ""
+                  }`}
                 >
-                  Add a task
-                </button>
-              </div>
-            )}
+                  <div className="relative mr-3">
+                    <img
+                      src={team.logo}
+                      alt={team.name}
+                      className="w-10 h-10 rounded-lg"
+                    />
+                    <div
+                      className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border border-[#35383f] ${
+                        team.status === "active" ? "bg-green-500" : "bg-gray-500"
+                      }`}
+                    ></div>
+                  </div>
+                  <div className="flex-grow">
+                    <div className="text-sm font-medium">{team.name}</div>
+                    <div className="flex justify-between">
+                      <span className="text-xs text-gray-400">{team.role}</span>
+                      <span className="text-xs text-[#95C5C5]">{team.game}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              
+              <button className="w-full p-2 mt-2 border border-dashed border-[#95C5C5]/30 rounded-lg text-sm text-gray-400 hover:bg-[#292B35] transition-colors">
+                + Join New Team
+              </button>
+            </div>
           </div>
         </div>
+        
+        {/* Middle Column - Tasks and Calendar */}
+        <div className="space-y-4">
+          {/* Today's Tasks */}
+          <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
+            <SectionHeader 
+              icon={<Clock size={16} />} 
+              title="TODAY'S TASKS"  
+            />
 
-        {/* Calendar Section - ENHANCED */}
-        <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg md:col-span-2">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1">
-              <SectionHeader 
-                icon={<Calendar size={16} />} 
-                title="TEAM CALENDAR" 
-              />
-              {renderCalendar()}
+            <div className="space-y-2 max-h-[250px] overflow-y-auto pr-1">
+              {todayTasks.length > 0 ? (
+                todayTasks.map(task => (
+                  <TaskItem 
+                    key={task.id} 
+                    task={task} 
+                    date={formatDate(new Date())}
+                    onToggle={toggleTask}
+                    onDelete={deleteTask}
+                  />
+                ))
+              ) : (
+                <div className="text-center py-6 text-gray-500">
+                  <Clock size={24} className="mx-auto mb-2 opacity-50" />
+                  <p className="text-sm">No tasks scheduled for today</p>
+                  <button 
+                    className="mt-2 text-xs text-[#EE8631]"
+                    onClick={() => {
+                      setSelectedDay(formatDate(new Date()));
+                      setShowTaskForm(true);
+                    }}
+                  >
+                    Add a task
+                  </button>
+                </div>
+              )}
             </div>
+          </div>
+          
+          {/* Calendar - Simplified Single Column */}
+          <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
+            <SectionHeader 
+              icon={<CalendarIcon size={16} />} 
+              title="MY CALENDAR" 
+            />
+            {renderCalendar()}
             
-            <div className="flex-1 border-t sm:border-t-0 sm:border-l border-[#95C5C5]/10 sm:pl-4 pt-4 sm:pt-0">
+            <div className="mt-4">
               <div className="flex justify-between items-center mb-3">
                 <h3 className="font-medium text-sm">
                   {new Date(selectedDay).toLocaleDateString('en-US', { 
@@ -638,7 +692,7 @@ export default function CompactEsportsDashboard() {
                 </div>
               )}
               
-              <div className="space-y-2 max-h-[240px] overflow-y-auto">
+              <div className="space-y-2 max-h-[150px] overflow-y-auto">
                 {calendarTasks[selectedDay]?.length > 0 ? (
                   calendarTasks[selectedDay].map(task => (
                     <TaskItem 
@@ -650,7 +704,7 @@ export default function CompactEsportsDashboard() {
                     />
                   ))
                 ) : (
-                  <div className="text-center py-8 text-gray-500">
+                  <div className="text-center py-4 text-gray-500">
                     <p className="text-sm">No tasks for this day</p>
                   </div>
                 )}
@@ -658,93 +712,112 @@ export default function CompactEsportsDashboard() {
             </div>
           </div>
         </div>
-
-        {/* Upcoming Tournaments */}
-        <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
-          <SectionHeader 
-            icon={<Trophy size={16} />} 
-            title="TOURNAMENTS" 
-            actionText="View All"
-            onAction={() => {}}
-          />
-
-          <div className="space-y-3">
-            {tournaments.map((tournament) => (
-              <div
-                key={tournament.id}
-                className={`flex items-center p-2.5 rounded-lg ${
-                  tournament.important ? "bg-[#EE8631]/10" : "bg-[#292B35]"
-                }`}
-              >
-                <div
-                  className={`p-2 rounded-full mr-3 ${
-                    tournament.important
-                      ? "bg-[#EE8631]/20 text-[#EE8631]"
-                      : "bg-[#95C5C5]/10 text-[#95C5C5]"
-                  }`}
-                >
-                  <Trophy size={16} />
-                </div>
-                <div className="flex-grow">
-                  <div className="text-sm font-medium">{tournament.title}</div>
-                  <div className="text-xs text-gray-400 flex justify-between">
-                    <span>{tournament.date}</span>
-                    <span className="font-medium text-[#95C5C5]">
-                      {tournament.prize}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Team Roster */}
-        <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
-          <SectionHeader 
-            icon={<Users size={16} />} 
-            title="TEAM ROSTER" 
-            actionText="All"
-            onAction={() => {}}
-          />
-
-          <div className="space-y-3">
-            {teamMembers.map((member) => (
-              <div
-                key={member.id}
-                className="flex items-center p-2.5 bg-[#292B35] hover:bg-[#292B35]/80 rounded-lg transition-colors"
-              >
-                <div className="relative mr-3">
-                  <img
-                    src={member.avatar}
-                    alt={member.name}
-                    className="w-10 h-10 rounded-lg"
-                  />
-                  <div
-                    className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border border-[#35383f] ${
-                      member.status === "online"
-                        ? "bg-green-500"
-                        : member.status === "away"
-                        ? "bg-yellow-500"
-                        : "bg-gray-500"
-                    }`}
-                  ></div>
-                </div>
-                <div>
-                  <div className="text-sm font-medium">{member.name}</div>
-                  <div className="text-xs text-gray-400">{member.role}</div>
-                </div>
-              </div>
-            ))}
+        
+        {/* Right Column - Milestones and Events */}
+        <div className="space-y-4">
+          {/* Milestones Section */}
+          <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
+            <SectionHeader 
+              icon={<Flag size={16} />} 
+              title="MILESTONES" 
+              actionText="Add New"
+              onAction={() => setShowMilestoneForm(!showMilestoneForm)}
+            />
             
-            <button className="w-full p-2 mt-2 border border-dashed border-[#95C5C5]/30 rounded-lg text-sm text-gray-400 hover:bg-[#292B35] transition-colors">
-              + Invite Player
-            </button>
+            {showMilestoneForm && (
+              <div className="mb-3 p-3 bg-[#292B35] rounded-lg">
+                <input
+                  type="text"
+                  placeholder="Milestone title"
+                  className="w-full mb-2 p-2 bg-[#35383f] border border-[#95C5C5]/20 rounded text-sm"
+                  value={newMilestone.title}
+                  onChange={(e) => setNewMilestone({...newMilestone, title: e.target.value})}
+                />
+                <div className="flex gap-2">
+                  <input
+                    type="date"
+                    className="flex-grow p-2 bg-[#35383f] border border-[#95C5C5]/20 rounded text-sm"
+                    value={newMilestone.date}
+                    onChange={(e) => setNewMilestone({...newMilestone, date: e.target.value})}
+                  />
+                  <button 
+                    onClick={addMilestone}
+                    className="px-3 py-2 bg-[#EE8631] text-[#292B35] rounded font-medium text-sm"
+                  >
+                    Add
+                  </button>
+                  <button 
+                    onClick={() => setShowMilestoneForm(false)}
+                    className="p-2 bg-[#35383f] text-gray-400 rounded"
+                  >
+                    <X size={16} />
+                  </button>
+                </div>
+              </div>
+            )}
+            
+            <div className="space-y-2 max-h-[250px] overflow-y-auto pr-1">
+              {milestones.map(milestone => (
+                <MilestoneItem 
+                  key={milestone.id} 
+                  milestone={milestone} 
+                  onToggle={toggleMilestone}
+                  onDelete={deleteMilestone}
+                />
+              ))}
+            </div>
+          </div>
+          
+          {/* Upcoming Events (renamed from Tournaments) */}
+          <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
+            <SectionHeader 
+              icon={<Trophy size={16} />} 
+              title="UPCOMING EVENTS" 
+              actionText="View All"
+              onAction={() => {}}
+            />
+
+            <div className="space-y-3">
+              {futureEvents.length > 0 ? (
+                futureEvents.map((event) => (
+                  <div
+                    key={event.id}
+                    className={`flex items-center p-2.5 rounded-lg ${
+                      event.important ? "bg-[#EE8631]/10" : "bg-[#292B35]"
+                    }`}
+                  >
+                    <div
+                      className={`p-2 rounded-full mr-3 ${
+                        event.important
+                          ? "bg-[#EE8631]/20 text-[#EE8631]"
+                          : "bg-[#95C5C5]/10 text-[#95C5C5]"
+                      }`}
+                    >
+                      <Trophy size={16} />
+                    </div>
+                    <div className="flex-grow">
+                      <div className="text-sm font-medium">{event.title}</div>
+                      <div className="text-xs text-gray-400 flex justify-between">
+                        <span>{event.formattedDate}</span>
+                        <span className="font-medium text-[#95C5C5]">
+                          {event.prize}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-8 text-gray-500">
+                  <Trophy size={24} className="mx-auto mb-2 opacity-50" />
+                  <p className="text-sm">No upcoming events</p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
-        {/* Performance Monitoring System - ENHANCED */}
-        <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg lg:col-span-3">
+        {/* Performance Monitoring System - Full Width at Bottom */}
+        <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg md:col-span-3">
           <SectionHeader 
             icon={<LineChart size={16} />} 
             title="PERFORMANCE MONITORING" 
@@ -829,7 +902,6 @@ export default function CompactEsportsDashboard() {
             />
           </div>
         </div>
-        
       </div>
     </div>
   );
