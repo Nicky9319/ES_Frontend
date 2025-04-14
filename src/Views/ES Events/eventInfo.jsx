@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import dummyData from './dummyEvents.json';
 import SectionHeader from './components/SectionHeader';
 import FAQItem from './components/FAQItem';
+import { FaWhatsapp } from 'react-icons/fa';
+
 import DiscussionItem from './components/DiscussionItem';
 
 const EventInfo = () => {
@@ -50,9 +52,9 @@ const EventInfo = () => {
     const handleQuestionSubmit = (e) => {
         e.preventDefault();
         if (!newQuestion.trim()) return;
-        
+
         setIsSubmitting(true);
-        
+
         // Simulate API call to post a new question
         setTimeout(() => {
             // Create a new discussion object
@@ -61,7 +63,7 @@ const EventInfo = () => {
                 ANSWER: "Waiting for a response from the organizers...",
                 timestamp: new Date().toISOString()
             };
-            
+
             // Add the new discussion to the list
             setDiscussions([newDiscussion, ...discussions]);
             setNewQuestion('');
@@ -263,10 +265,10 @@ const EventInfo = () => {
                                 <p className="text-[#E0E0E0] mb-6 italic">
                                     Find answers to common questions about this event.
                                 </p>
-                                
+
                                 <div className="space-y-4">
                                     {event.FAQ.map((faq, index) => (
-                                        <FAQItem 
+                                        <FAQItem
                                             key={index}
                                             faq={faq}
                                             index={index}
@@ -295,7 +297,7 @@ const EventInfo = () => {
                                             </svg>
                                         </div>
                                         <div className="flex-1">
-                                            <textarea 
+                                            <textarea
                                                 className="w-full rounded-lg bg-[#2D3039] border border-[#95C5C5]/30 p-4 text-[#E0E0E0] placeholder-[#95C5C5]/50 focus:outline-none focus:ring-2 focus:ring-[#EE8631]/50 transition-all duration-300"
                                                 placeholder="Ask a question about this event..."
                                                 rows="3"
@@ -306,11 +308,10 @@ const EventInfo = () => {
                                         </div>
                                     </div>
                                     <div className="flex justify-end">
-                                        <button 
+                                        <button
                                             type="submit"
-                                            className={`px-5 py-2.5 rounded-lg font-semibold flex items-center ${
-                                                isSubmitting ? 'bg-[#EE8631]/50 cursor-not-allowed' : 'bg-[#EE8631] hover:bg-[#EE8631]/80'
-                                            } transition-all duration-300 transform hover:scale-105 shadow-md`}
+                                            className={`px-5 py-2.5 rounded-lg font-semibold flex items-center ${isSubmitting ? 'bg-[#EE8631]/50 cursor-not-allowed' : 'bg-[#EE8631] hover:bg-[#EE8631]/80'
+                                                } transition-all duration-300 transform hover:scale-105 shadow-md`}
                                             disabled={isSubmitting || !newQuestion.trim()}
                                         >
                                             {isSubmitting ? (
@@ -338,8 +339,8 @@ const EventInfo = () => {
                             {discussions.length > 0 ? (
                                 <div className="space-y-6">
                                     {discussions.map((discussion, index) => (
-                                        <div 
-                                            key={index} 
+                                        <div
+                                            key={index}
                                             className="bg-[#2D3039] rounded-xl p-5 border border-[#95C5C5]/20 transition-all duration-300 hover:border-[#95C5C5]/40 hover:shadow-lg"
                                         >
                                             <div className="flex items-start space-x-4">
@@ -358,7 +359,7 @@ const EventInfo = () => {
                                                         )}
                                                     </div>
                                                     <p className="text-[#E0E0E0] mb-4">{discussion.QUESTION}</p>
-                                                    
+
                                                     {/* Answer Section */}
                                                     <div className="mt-4 pl-4 border-l-2 border-[#EE8631]/30">
                                                         <h4 className="font-semibold text-md text-[#EE8631] mb-2">Response</h4>
@@ -403,8 +404,8 @@ const EventInfo = () => {
                                 onClick={handleRegister}
                                 disabled={registering}
                                 className={`w-full py-4 rounded-lg font-bold text-lg transition-all duration-300 ${registering
-                                        ? 'bg-[#95C5C5]/50 cursor-not-allowed'
-                                        : 'bg-[#EE8631] hover:bg-[#AD662F] transform hover:scale-105'
+                                    ? 'bg-[#95C5C5]/50 cursor-not-allowed'
+                                    : 'bg-[#EE8631] hover:bg-[#AD662F] transform hover:scale-105'
                                     }`}
                             >
                                 {registering ? 'Processing...' : 'Register Now'}
@@ -432,15 +433,15 @@ const EventInfo = () => {
                             <h2 className="text-3xl font-bold text-[#95C5C5] mb-6 border-b border-[#95C5C5]/20 pb-4">
                                 Contact Information
                             </h2>
-                            
+
                             <div className="space-y-4">
-                                <a 
-                                    href={`mailto:${event.CONTACT_INFO.EMAIL}`} 
+                                <a
+                                    href={`mailto:${event.CONTACT_INFO.EMAIL}`}
                                     className="flex items-center space-x-4 p-3 rounded-lg transition-all duration-300 hover:bg-[#2D3039] group"
                                 >
                                     <div className="bg-[#EE8631] p-3 rounded-full transform transition-all duration-300 group-hover:scale-110">
                                         <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                         </svg>
                                     </div>
                                     <div>
@@ -449,13 +450,13 @@ const EventInfo = () => {
                                     </div>
                                 </a>
 
-                                <a 
+                                <a
                                     href={`tel:+91${event.CONTACT_INFO.MOBILE_NUMBER}`}
                                     className="flex items-center space-x-4 p-3 rounded-lg transition-all duration-300 hover:bg-[#2D3039] group"
                                 >
                                     <div className="bg-[#EE8631] p-3 rounded-full transform transition-all duration-300 group-hover:scale-110">
                                         <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                         </svg>
                                     </div>
                                     <div>
@@ -471,47 +472,52 @@ const EventInfo = () => {
                             <h2 className="text-xl font-bold text-[#95C5C5] mb-4">
                                 Share This Event
                             </h2>
-                            
+
                             <div className="flex space-x-4 justify-center">
                                 {/* Social Media Buttons with Sharing Functionality */}
-                                <button 
+                                <button
                                     onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`, '_blank')}
                                     className="bg-[#1877F2] p-3 rounded-full text-white hover:opacity-80 transition-all duration-300 transform hover:scale-110 shadow-md focus:ring-2 focus:ring-[#1877F2]/50 focus:outline-none active:scale-95"
                                     aria-label="Share on Facebook"
                                 >
                                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M22 12.061c0-5.523-4.477-10-10-10s-10 4.477-10 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54v-2.891h2.54V9.861c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562v1.873h2.773l-.443 2.891h-2.33v6.987C18.343 21.189 22 17.052 22 12.061z"/>
+                                        <path d="M22 12.061c0-5.523-4.477-10-10-10s-10 4.477-10 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54v-2.891h2.54V9.861c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562v1.873h2.773l-.443 2.891h-2.33v6.987C18.343 21.189 22 17.052 22 12.061z" />
                                     </svg>
                                 </button>
-                                
-                                <button 
+
+                                <button
                                     onClick={() => window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(`Check out this amazing event: ${event.EVENT_NAME}`)}&url=${encodeURIComponent(window.location.href)}`, '_blank')}
                                     className="bg-[#1DA1F2] p-3 rounded-full text-white hover:opacity-80 transition-all duration-300 transform hover:scale-110 shadow-md focus:ring-2 focus:ring-[#1DA1F2]/50 focus:outline-none active:scale-95"
                                     aria-label="Share on Twitter"
                                 >
                                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+                                        <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z" />
                                     </svg>
                                 </button>
-                                
+
                                 <button
                                     onClick={() => window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`, '_blank')}
                                     className="bg-[#0077B5] p-3 rounded-full text-white hover:opacity-80 transition-all duration-300 transform hover:scale-110 shadow-md focus:ring-2 focus:ring-[#0077B5]/50 focus:outline-none active:scale-95"
                                     aria-label="Share on LinkedIn"
                                 >
                                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z"/>
+                                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z" />
                                     </svg>
                                 </button>
-                                
-                                <button 
-                                    onClick={() => window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(`Check out this amazing event: ${event.EVENT_NAME} ${window.location.href}`)}`, '_blank')}
+
+                                <button
+                                    onClick={() =>
+                                        window.open(
+                                            `https://api.whatsapp.com/send?text=${encodeURIComponent(
+                                                `Check out this amazing event: ${event.EVENT_NAME} ${window.location.href}`
+                                            )}`,
+                                            '_blank'
+                                        )
+                                    }
                                     className="bg-[#25D366] p-3 rounded-full text-white hover:opacity-80 transition-all duration-300 transform hover:scale-110 shadow-md focus:ring-2 focus:ring-[#25D366]/50 focus:outline-none active:scale-95"
                                     aria-label="Share on WhatsApp"
                                 >
-                                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-                                    </svg>
+                                    <FaWhatsapp className="w-5 h-5" />
                                 </button>
                             </div>
                         </div>
@@ -520,18 +526,18 @@ const EventInfo = () => {
             </div>
 
             <div className="fixed bottom-8 right-8 z-50">
-                <button 
+                <button
                     onClick={() => navigate(-1)}
                     className="bg-[#EE8631] hover:bg-[#AD662F] text-white p-4 rounded-full shadow-lg transition-all duration-300 transform hover:scale-110"
                 >
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
                 </button>
             </div>
         </div>
 
-        </>
+    </>
     );
 };
 
