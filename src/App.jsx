@@ -19,6 +19,7 @@ import EventInfo from './Views/ES Events/eventInfo';
 import CreateEvent from './Views/ES Events/createEvent';
 
 import LandingPage from './Views/Landing Page/landingPage';
+import MentorProfileCreationPage from './Views/Mentor Profile Creation Page/mentorProfileCreationPage';
 
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
@@ -60,6 +61,7 @@ function AppInner() {
         <Route path='/create-event' element={<CreateEvent />} />
         <Route path='/event-info' element={<EventInfo />} />
         <Route path='/landing-page' element={<LandingPage />} />
+        <Route path='/mentor-profile-creation' element={<MentorProfileCreationPage />} />
         {/* Add more routes as needed */}
       </Routes>
       {(!isProfilePageRoute && !isChoosePersonaRoute && !isMentorProfileRoute && !isLandingPageRoute) && <Footer />}
