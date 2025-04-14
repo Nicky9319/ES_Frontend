@@ -1,83 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import ChatWindow from './chatWindow';
 import LeftPanel from './leftPanel';
+import peopleData from './people.json';
+import messagesData from './messages.json';
 
-// Simulated API function to fetch contacts
+// Update fetchContacts to use JSON file
 const fetchContacts = () => {
-  // Simulated API response
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve([
-        {
-          id: '1',
-          name: 'Alex Rodriguez',
-          profilePic: 'https://randomuser.me/api/portraits/men/32.jpg',
-          bio: 'Pro Valorant Player | Team Liquid',
-          lastMessage: 'Are you joining the tournament this weekend?',
-          timestamp: '10:45 AM'
-        },
-        {
-          id: '2',
-          name: 'Sarah Chen',
-          profilePic: 'https://randomuser.me/api/portraits/women/44.jpg',
-          bio: 'CS:GO Analyst | Streamer',
-          lastMessage: 'I saw your last match. Great plays!',
-          timestamp: '9:30 AM'
-        },
-        {
-          id: '3',
-          name: 'Marcus Wright',
-          profilePic: 'https://randomuser.me/api/portraits/men/85.jpg',
-          bio: 'Esports Coach | Former Pro',
-          lastMessage: 'Let\'s review your VODs tomorrow',
-          timestamp: 'Yesterday'
-        },
-        {
-          id: '4',
-          name: 'Emily Johnson',
-          profilePic: 'https://randomuser.me/api/portraits/women/17.jpg',
-          bio: 'League of Legends | Support Main',
-          lastMessage: 'Do you want to duo queue tonight?',
-          timestamp: 'Yesterday'
-        },
-        {
-          id: '5',
-          name: 'Jamal Wilson',
-          profilePic: 'https://randomuser.me/api/portraits/men/22.jpg',
-          bio: 'Fortnite Player | Content Creator',
-          lastMessage: 'Thanks for the tips on building techniques',
-          timestamp: 'Monday'
-        }
-      ]);
-    }, 1000); // Simulate 1 second delay
+      resolve(peopleData.CONTACTS);
+    }, 1000);
   });
 };
 
-// Simulated API function to fetch conversation history
+// Update fetchConversation to use capitalized JSON keys
 const fetchConversation = (contactId) => {
-  // Simulated API response based on contactId
   return new Promise((resolve) => {
     setTimeout(() => {
-      const messages = [
-        { text: "Hey, how's your training going?", isUser: false, timestamp: '10:30 AM' },
-        { text: "Pretty good! I've been working on my aim.", isUser: true, timestamp: '10:32 AM' },
-        { text: "That's great! Did you try the new practice map?", isUser: false, timestamp: '10:34 AM' },
-        { text: "Not yet, is it worth checking out?", isUser: true, timestamp: '10:35 AM' },
-        { text: "Absolutely! It's designed specifically for reflex training.", isUser: false, timestamp: '10:38 AM' },
-        { text: "I'll definitely give it a try today. Thanks for the recommendation!", isUser: true, timestamp: '10:40 AM' },
-        { text: "No problem! Let me know how it goes.", isUser: false, timestamp: '10:41 AM' },
-        { 
-          text: contactId === '1' ? "Are you joining the tournament this weekend?" : 
-                contactId === '2' ? "I saw your last match. Great plays!" :
-                contactId === '3' ? "Let's review your VODs tomorrow" :
-                contactId === '4' ? "Do you want to duo queue tonight?" :
-                "Thanks for the tips on building techniques", 
-          isUser: false, 
-          timestamp: '10:45 AM' 
-        }
-      ];
-      resolve(messages);
-    }, 800); // Simulate 800ms delay
+      const conversation = messagesData.CONVERSATIONS[contactId] || [];
+      resolve(conversation.sort((a, b) => {
+        return new Date('1970/01/01 ' + a.TIMESTAMP) - new Date('1970/01/01 ' + b.TIMESTAMP);
+      }));
+    }, 800);
   });
 };
 
@@ -112,7 +56,7 @@ const DMPage = () => {
       
       try {
         setIsConversationLoading(true);
-        const conversationData = await fetchConversation(activeContact.id);
+        const conversationData = await fetchConversation(activeContact.ID);
         setMessages(conversationData);
         setIsConversationLoading(false);
       } catch (error) {
@@ -132,9 +76,10 @@ const DMPage = () => {
     if (!activeContact) return;
     
     const updatedMessages = [...messages, {
-      text: newMessage,
-      isUser: true,
-      timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+      ID: `msg_${Date.now()}`,
+      TEXT: newMessage,
+      IS_USER: true,
+      TIMESTAMP: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
     }];
     
     setMessages(updatedMessages);
@@ -142,9 +87,10 @@ const DMPage = () => {
     // Simulate a response after a delay
     setTimeout(() => {
       const responseMessage = {
-        text: `This is a simulated response from ${activeContact.name}`,
-        isUser: false,
-        timestamp: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+        ID: `msg_${Date.now() + 1}`,
+        TEXT: `This is a simulated response from ${activeContact.NAME}`,
+        IS_USER: false,
+        TIMESTAMP: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
       };
       setMessages([...updatedMessages, responseMessage]);
     }, 1500);

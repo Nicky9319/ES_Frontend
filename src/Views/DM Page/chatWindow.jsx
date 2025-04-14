@@ -23,15 +23,14 @@ const ChatWindow = ({ contact, messages, onSendMessage, isLoading }) => {
       <div className="bg-gradient-to-r from-[#292B35] to-[#353744] p-4 border-b border-[#95C5C5]/30 flex items-center">
         <div className="relative">
           <img 
-            src={contact.profilePic} 
-            alt={contact.name} 
+            src={contact.PROFILE_PIC} 
+            alt={contact.NAME} 
             className="w-12 h-12 rounded-full object-cover border-2 border-[#95C5C5]" 
           />
-          <div className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-[#292B35]"></div>
         </div>
         <div className="ml-4">
-          <h2 className="text-[#E0E0E0] font-bold text-lg">{contact.name}</h2>
-          <p className="text-[#95C5C5] text-xs">{contact.bio}</p>
+          <h2 className="text-[#E0E0E0] font-bold text-lg">{contact.NAME}</h2>
+          <p className="text-[#95C5C5] text-xs">{contact.BIO}</p>
         </div>
       </div>
 
@@ -48,19 +47,19 @@ const ChatWindow = ({ contact, messages, onSendMessage, isLoading }) => {
           <>
             {messages.map((message, index) => (
               <div 
-                key={index} 
-                className={`mb-4 flex ${message.isUser ? 'justify-end' : 'justify-start'}`}
+                key={message.ID || index} 
+                className={`mb-4 flex ${message.IS_USER ? 'justify-end' : 'justify-start'}`}
               >
                 <div 
                   className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                    message.isUser 
+                    message.IS_USER 
                       ? 'bg-gradient-to-r from-[#EE8631] to-[#AD662F] text-white rounded-tr-none' 
                       : 'bg-[#353744] text-[#E0E0E0] rounded-tl-none'
                   }`}
                 >
-                  <div className="text-sm">{message.text}</div>
-                  <div className={`text-xs mt-1 ${message.isUser ? 'text-white/70' : 'text-[#95C5C5]'}`}>
-                    {message.timestamp}
+                  <div className="text-sm">{message.TEXT}</div>
+                  <div className={`text-xs mt-1 ${message.IS_USER ? 'text-white/70' : 'text-[#95C5C5]'}`}>
+                    {message.TIMESTAMP}
                   </div>
                 </div>
               </div>

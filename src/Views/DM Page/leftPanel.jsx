@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const LeftPanel = ({ contacts, onSelectContact, activeContactId, isLoading }) => {
+const LeftPanel = ({ contacts = [], onSelectContact, activeContactId, isLoading }) => {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredContacts = contacts?.filter(contact =>
+    contact.NAME.toLowerCase().includes(searchQuery.toLowerCase())
+  ) || [];
+
   return (
-    <div className="h-full">
+    <div className="h-full flex flex-col">
       {/* Search bar */}
-      <div className="px-2 mb-4">
+      <div className="px-2 mb-4 flex-shrink-0">
         <div className="relative">
           <input
             type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search contacts..."
             className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-full py-2 pl-10 pr-4 text-[#E0E0E0] placeholder:text-[#95C5C5]/70 focus:outline-none focus:ring-1 focus:ring-[#95C5C5]"
           />
@@ -19,8 +27,16 @@ const LeftPanel = ({ contacts, onSelectContact, activeContactId, isLoading }) =>
         </div>
       </div>
 
-      {/* Contacts list */}
-      <div className="overflow-y-auto h-[calc(100%-60px)] px-2">
+      {/* Contacts list with improved scrolling */}
+      <div 
+        className="flex-1 overflow-y-auto px-2"
+        style={{
+          maxHeight: 'calc(100vh - 200px)',
+          overflowY: 'auto',
+          scrollbarWidth: 'thin',
+          scrollbarColor: '#95C5C5 transparent'
+        }}
+      >
         {isLoading ? (
           Array(5).fill(0).map((_, index) => (
             <div key={index} className="animate-pulse flex p-2 mb-2 rounded-lg">
@@ -32,35 +48,41 @@ const LeftPanel = ({ contacts, onSelectContact, activeContactId, isLoading }) =>
             </div>
           ))
         ) : (
-          contacts.map(contact => (
-            <div
-              key={contact.id}
-              onClick={() => onSelectContact(contact)}
-              className={`p-3 mb-2 rounded-lg flex items-center cursor-pointer transition-all hover:bg-[#2D2F3A] ${
-                activeContactId === contact.id ? 'bg-[#353744] border-l-4 border-[#EE8631]' : ''
-              }`}
-            >
-              <div className="relative">
-                <img 
-                  src={contact.profilePic} 
-                  alt={contact.name} 
-                  className="w-12 h-12 rounded-full object-cover border-2 border-[#95C5C5]/30" 
-                />
-                <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-[1.5px] border-[#292B35]"></div>
-              </div>
-              <div className="ml-3 flex-1">
-                <div className="flex justify-between">
-                  <h3 className={`font-medium ${activeContactId === contact.id ? 'text-[#E0E0E0]' : 'text-[#E0E0E0]/90'}`}>
-                    {contact.name}
-                  </h3>
-                  <span className="text-xs text-[#95C5C5]">{contact.timestamp}</span>
+          filteredContacts.length > 0 ? (
+            filteredContacts.map(contact => (
+              <div
+                key={contact.ID}
+                onClick={() => onSelectContact(contact)}
+                className={`p-3 mb-2 rounded-lg flex items-center cursor-pointer transition-all hover:bg-[#2D2F3A] ${
+                  activeContactId === contact.ID ? 'bg-[#353744] border-l-4 border-[#EE8631]' : ''
+                }`}
+              >
+                <div className="relative">
+                  <img 
+                    src={contact.PROFILE_PIC} 
+                    alt={contact.NAME} 
+                    className="w-12 h-12 rounded-full object-cover border-2 border-[#95C5C5]/30" 
+                  />
+                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-[1.5px] border-[#292B35]"></div>
                 </div>
-                <p className="text-sm text-[#95C5C5] truncate mt-1">
-                  {contact.lastMessage}
-                </p>
+                <div className="ml-3 flex-1">
+                  <div className="flex justify-between">
+                    <h3 className={`font-medium ${activeContactId === contact.ID ? 'text-[#E0E0E0]' : 'text-[#E0E0E0]/90'}`}>
+                      {contact.NAME}
+                    </h3>
+                    <span className="text-xs text-[#95C5C5]">{contact.TIMESTAMP}</span>
+                  </div>
+                  <p className="text-sm text-[#95C5C5] truncate mt-1">
+                    {contact.LAST_MESSAGE}
+                  </p>
+                </div>
               </div>
+            ))
+          ) : (
+            <div className="text-center py-8 text-[#95C5C5]">
+              No contacts found matching "{searchQuery}"
             </div>
-          ))
+          )
         )}
       </div>
     </div>
