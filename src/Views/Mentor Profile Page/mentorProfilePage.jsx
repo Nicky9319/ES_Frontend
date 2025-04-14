@@ -127,7 +127,9 @@ const MentorProfilePage = () => {
                 <h1 className="text-4xl font-bold text-[#E0E0E0] drop-shadow-lg">
                   ProMentor_{MENTOR_ID.slice(0, 6)}
                 </h1>
-                <span className="bg-[#EE8631] text-white px-4 py-1 rounded-full text-sm font-semibold shadow-lg">
+                <span className={`px-4 py-1 rounded-full text-sm font-semibold shadow-lg ${
+                  VERIFIED ? 'bg-[#EE8631] text-white' : 'bg-red-500 text-white'
+                }`}>
                   {VERIFIED ? 'VERIFIED' : 'UNVERIFIED'}
                 </span>
               </div>
