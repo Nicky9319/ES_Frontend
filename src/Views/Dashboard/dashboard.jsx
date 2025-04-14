@@ -465,51 +465,6 @@ export default function CompactEsportsDashboard() {
 
   return (
     <div className="min-h-screen bg-[#292B35] text-[#E0E0E0] p-4">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <div className="flex items-center">
-          <div className="mr-3 bg-[#EE8631] p-1.5 rounded-lg">
-            <Gamepad size={20} className="text-[#292B35]" />
-          </div>
-          <h1 className="text-xl font-bold bg-gradient-to-r from-[#95C5C5] to-[#EE8631] text-transparent bg-clip-text">
-            NEXUS GAMING
-          </h1>
-        </div>
-        <div className="flex items-center gap-4">
-          {/* Navigation Tabs */}
-          <div className="hidden md:flex gap-6 mr-4">
-            <button 
-              className={`text-sm ${selectedView === 'dashboard' ? 'text-[#EE8631] font-medium' : 'text-gray-400'}`}
-              onClick={() => setSelectedView('dashboard')}
-            >
-              Dashboard
-            </button>
-            <button 
-              className={`text-sm ${selectedView === 'stats' ? 'text-[#EE8631] font-medium' : 'text-gray-400'}`}
-              onClick={() => setSelectedView('stats')}
-            >
-              Statistics
-            </button>
-            <button 
-              className={`text-sm ${selectedView === 'matches' ? 'text-[#EE8631] font-medium' : 'text-gray-400'}`}
-              onClick={() => setSelectedView('matches')}
-            >
-              Matches
-            </button>
-          </div>
-          
-          <div className="hidden sm:flex items-center gap-2 p-1.5 rounded-lg bg-[#292B35] border border-[#95C5C5]/20">
-            <Trophy size={14} className="text-[#95C5C5]" />
-            <span className="text-xs">Rank #3</span>
-          </div>
-          <div className="relative">
-            <div className="w-9 h-9 rounded-full bg-[#EE8631] flex items-center justify-center text-[#292B35] font-bold text-sm">
-              VP
-            </div>
-            <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-[#292B35]"></div>
-          </div>
-        </div>
-      </div>
 
       {/* Grid Layout - Rearranged */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
