@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import defaultPlayerData from './playerProfileData.json'; // Assuming the JSON file is in the same directory
+import { useNavigate } from 'react-router-dom';
+import defaultPlayerData from './playerProfileData.json';
 
 // Helper component for form inputs
-const FormInput = ({ id, name, label, type = "text", value, onChange, placeholder, required = false, rows = 4, icon }) => (
+const FormInput = ({ id, name, label, type = "text", value, onChange, placeholder, required = false, rows = 4, icon, accept }) => (
     <div>
         <label htmlFor={id} className="block text-[#E0E0E0] font-medium mb-2 flex items-center">
             {icon && <span className="mr-2 w-5 h-5 text-[#95C5C5]">{icon}</span>}
@@ -25,11 +26,11 @@ const FormInput = ({ id, name, label, type = "text", value, onChange, placeholde
                 type={type}
                 id={id}
                 name={name}
-                value={value}
                 onChange={onChange}
                 required={required}
-                className="w-full bg-[#292B35] border border-[#3A3D4A] rounded-lg px-4 py-3 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#95C5C5] transition-colors placeholder-[#6b7280]"
+                className={`w-full bg-[#292B35] border border-[#3A3D4A] rounded-lg px-4 py-3 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#95C5C5] transition-colors placeholder-[#6b7280] ${type === 'file' ? 'file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#95C5C5] file:text-[#292B35] hover:file:bg-opacity-80 cursor-pointer' : ''}`}
                 placeholder={placeholder}
+                accept={accept}
             />
         )}
     </div>
@@ -68,43 +69,101 @@ const socialIcons = {
     YOUTUBE: <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FF0000" viewBox="0 0 16 16"><path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/></svg>,
 };
 
+// Available Games List
+const availableGames = [
+    { name: 'Valorant', icon: '🎮' },
+    { name: 'Fortnite', icon: '🧱' },
+    { name: 'Overwatch', icon: '🛡️' },
+    { name: 'PUBG', icon: '🍳' },
+    { name: 'Apex Legends', icon: '🚀' },
+    { name: 'EA Sports FC 25', icon: '⚽' },
+    { name: 'Garena Free Fire', icon: '🔥' }
+];
+
 function UserProfileCreationPage() {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        USER_NAME: '', TAGLINE: '', BIO: '', PROFILE_PIC: '', PROFILE_BANNER: '',
-        LOCATION: '', TEAM_STATUS: 'Looking for Team', GAMES_PLAYED: [],
+        USER_NAME: '', TAGLINE: '', BIO: '',
+        LOCATION: '', TEAM_STATUS: 'Looking For Team', GAMES_PLAYED: [],
         SOCIAL_LINKS: { INSTAGRAM: '', DISCORD: '', TWITTER: '', LINKEDIN: '', WEBSITE: '', YOUTUBE: '' }
     });
-    const [gameInput, setGameInput] = useState('');
+    const [profilePicFile, setProfilePicFile] = useState(null);
+    const [bannerFile, setBannerFile] = useState(null);
     const [previewMode, setPreviewMode] = useState(false);
     const [activeSection, setActiveSection] = useState('basic');
     const [showContent, setShowContent] = useState(false);
-    
+
     useEffect(() => {
         const timer = setTimeout(() => setShowContent(true), 300);
         return () => clearTimeout(timer);
     }, []);
 
-    const loadExampleData = () => setFormData(defaultPlayerData);
+    const loadExampleData = () => {
+        setFormData({
+            ...defaultPlayerData,
+            PROFILE_PIC: undefined,
+            PROFILE_BANNER: undefined,
+        });
+        setProfilePicFile(null);
+        setBannerFile(null);
+    };
+
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        if (name.includes('.')) {
+        const { name, value, type, files } = e.target;
+
+        if (type === 'file') {
+            const file = files[0];
+            if (name === 'PROFILE_PIC') {
+                setProfilePicFile(file);
+            } else if (name === 'PROFILE_BANNER') {
+                setBannerFile(file);
+            }
+        } else if (name.includes('.')) {
             const [parent, child] = name.split('.');
             setFormData(prev => ({ ...prev, [parent]: { ...prev[parent], [child]: value } }));
         } else {
             setFormData(prev => ({ ...prev, [name]: value }));
         }
     };
-    const addGame = () => {
-        if (gameInput.trim() && !formData.GAMES_PLAYED.includes(gameInput.trim())) {
-            setFormData(prev => ({ ...prev, GAMES_PLAYED: [...prev.GAMES_PLAYED, gameInput.trim()] }));
-            setGameInput('');
-        }
+
+    const handleGameToggle = (gameName) => {
+        setFormData(prev => {
+            const currentlySelected = prev.GAMES_PLAYED.includes(gameName);
+            const newGamesPlayed = currentlySelected
+                ? prev.GAMES_PLAYED.filter(g => g !== gameName)
+                : [...prev.GAMES_PLAYED, gameName];
+            return { ...prev, GAMES_PLAYED: newGamesPlayed };
+        });
     };
-    const removeGame = (game) => setFormData(prev => ({ ...prev, GAMES_PLAYED: prev.GAMES_PLAYED.filter(g => g !== game) }));
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Profile data submitted:', formData);
+        const submissionData = new FormData();
+
+        Object.entries(formData).forEach(([key, value]) => {
+            if (key === 'SOCIAL_LINKS') {
+                submissionData.append(key, JSON.stringify(value));
+            } else if (key === 'GAMES_PLAYED') {
+                value.forEach(game => submissionData.append('GAMES_PLAYED[]', game));
+            } else {
+                submissionData.append(key, value);
+            }
+        });
+
+        if (profilePicFile) {
+            submissionData.append('PROFILE_PIC_FILE', profilePicFile);
+        }
+        if (bannerFile) {
+            submissionData.append('PROFILE_BANNER_FILE', bannerFile);
+        }
+
+        console.log('Profile data to be submitted:');
+        for (let [key, value] of submissionData.entries()) {
+            console.log(`${key}:`, value);
+        }
+
         alert('Profile created successfully!');
+        navigate('/dashboard');
     };
 
     const sections = [
@@ -115,10 +174,8 @@ function UserProfileCreationPage() {
     ];
 
     const teamStatusOptions = [
-        { value: 'Looking for Team', label: 'Looking for Team' },
-        { value: 'In a Team', label: 'In a Team' },
-        { value: 'Open to Offers', label: 'Open to Offers' },
-        { value: 'Not Available', label: 'Not Available' }
+        { value: 'Looking For Team', label: 'Looking For Team' },
+        { value: 'Away', label: 'Away' }
     ];
 
     const getSectionIndex = (id) => sections.findIndex(s => s.id === id);
@@ -299,7 +356,7 @@ function UserProfileCreationPage() {
                                                 <motion.div key="basic" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }} className="space-y-6">
                                                     <div className="grid md:grid-cols-2 gap-6">
                                                         <FormInput id="userName" name="USER_NAME" label="Username" value={formData.USER_NAME} onChange={handleChange} placeholder="Your gaming alias" required />
-                                                        <FormInput id="tagline" name="TAGLINE" label="Tagline" value={formData.TAGLINE} onChange={handleChange} placeholder="Your gaming motto" />
+                                                        <FormInput id="tagline" name="TAGLINE" label="Tagline" value={formData.TAGLINE} onChange={handleChange} placeholder="Your gaming motto" required />
                                                     </div>
                                                     <FormInput id="bio" name="BIO" label="Bio" type="textarea" value={formData.BIO} onChange={handleChange} placeholder="Tell us about your gaming journey..." />
                                                     <div className="grid md:grid-cols-2 gap-6">
@@ -314,20 +371,26 @@ function UserProfileCreationPage() {
                                                 <motion.div key="appearance" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }} className="space-y-6">
                                                     <div className="grid md:grid-cols-2 gap-6 items-start">
                                                         <div>
-                                                            <FormInput id="profilePic" name="PROFILE_PIC" label="Profile Picture URL" type="url" value={formData.PROFILE_PIC} onChange={handleChange} placeholder="https://..." />
-                                                            {formData.PROFILE_PIC && (
-                                                                <motion.div className="mt-4 flex justify-center" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
-                                                                    <img src={formData.PROFILE_PIC} alt="Profile preview" className="w-32 h-32 rounded-full object-cover border-4 border-[#3A3D4A]" />
-                                                                </motion.div>
-                                                            )}
+                                                            <FormInput 
+                                                                id="profilePic" 
+                                                                name="PROFILE_PIC" 
+                                                                label="Profile Picture" 
+                                                                type="file" 
+                                                                onChange={handleChange} 
+                                                                accept="image/*" 
+                                                            />
+                                                            {profilePicFile && <p className="text-sm text-[#95C5C5] mt-2">Selected: {profilePicFile.name}</p>}
                                                         </div>
                                                         <div>
-                                                            <FormInput id="profileBanner" name="PROFILE_BANNER" label="Profile Banner URL" type="url" value={formData.PROFILE_BANNER} onChange={handleChange} placeholder="https://..." />
-                                                            {formData.PROFILE_BANNER && (
-                                                                <motion.div className="mt-4 rounded-lg overflow-hidden" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }}>
-                                                                    <img src={formData.PROFILE_BANNER} alt="Banner preview" className="w-full h-32 object-cover border-2 border-[#3A3D4A]" />
-                                                                </motion.div>
-                                                            )}
+                                                            <FormInput 
+                                                                id="profileBanner" 
+                                                                name="PROFILE_BANNER" 
+                                                                label="Profile Banner" 
+                                                                type="file" 
+                                                                onChange={handleChange} 
+                                                                accept="image/*" 
+                                                            />
+                                                            {bannerFile && <p className="text-sm text-[#95C5C5] mt-2">Selected: {bannerFile.name}</p>}
                                                         </div>
                                                     </div>
                                                 </motion.div>
@@ -337,23 +400,28 @@ function UserProfileCreationPage() {
                                             {activeSection === 'games' && (
                                                 <motion.div key="games" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }} className="space-y-6">
                                                     <div>
-                                                        <label htmlFor="games" className="block text-[#E0E0E0] font-medium mb-2">Games You Play</label>
-                                                        <div className="flex gap-2 mb-4">
-                                                            <input type="text" id="games" value={gameInput} onChange={(e) => setGameInput(e.target.value)} className="flex-1 bg-[#292B35] border border-[#3A3D4A] rounded-lg px-4 py-3 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#95C5C5] transition-colors placeholder-[#6b7280]" placeholder="e.g., Valorant, CS:GO" onKeyPress={(e) => { if (e.key === 'Enter') { e.preventDefault(); addGame(); } }} />
-                                                            <motion.button type="button" onClick={addGame} className="px-5 py-3 bg-[#95C5C5] text-[#292B35] font-medium rounded-lg transition-colors hover:bg-opacity-80 flex-shrink-0" whileTap={{ scale: 0.95 }}>Add</motion.button>
-                                                        </div>
-                                                        <div className="flex flex-wrap gap-2 mt-4 min-h-[40px]">
-                                                            <AnimatePresence>
-                                                                {formData.GAMES_PLAYED.map((game, index) => (
-                                                                    <motion.span key={game} initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.5 }} transition={{ duration: 0.2 }} className="inline-flex items-center bg-[#3A3D4A] text-[#E0E0E0] px-3 py-1 rounded-full text-sm">
-                                                                        {game}
-                                                                        <button type="button" onClick={() => removeGame(game)} className="ml-1.5 text-[#95C5C5] hover:text-[#EE8631] focus:outline-none">
-                                                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" /></svg>
-                                                                        </button>
-                                                                    </motion.span>
-                                                                ))}
-                                                            </AnimatePresence>
-                                                            {formData.GAMES_PLAYED.length === 0 && <p className="text-[#6b7280] italic">Add the games you play...</p>}
+                                                        <label className="block text-[#E0E0E0] font-medium mb-4">Select Games You Play</label>
+                                                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                                                            {availableGames.map((game) => {
+                                                                const isSelected = formData.GAMES_PLAYED.includes(game.name);
+                                                                return (
+                                                                    <motion.button
+                                                                        key={game.name}
+                                                                        type="button"
+                                                                        onClick={() => handleGameToggle(game.name)}
+                                                                        className={`p-4 rounded-lg border-2 flex flex-col items-center justify-center transition-all duration-200 ${
+                                                                            isSelected 
+                                                                                ? 'bg-[#95C5C5] border-[#95C5C5] text-[#292B35]' 
+                                                                                : 'bg-[#3A3D4A] border-[#3A3D4A] text-[#E0E0E0] hover:border-[#95C5C5]'
+                                                                        }`}
+                                                                        whileHover={{ scale: 1.05 }}
+                                                                        whileTap={{ scale: 0.95 }}
+                                                                    >
+                                                                        <span className="text-3xl mb-2">{game.icon}</span>
+                                                                        <span className="text-sm font-medium text-center">{game.name}</span>
+                                                                    </motion.button>
+                                                                );
+                                                            })}
                                                         </div>
                                                     </div>
                                                 </motion.div>
@@ -428,7 +496,7 @@ function UserProfileCreationPage() {
                                 initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
                                 transition={{ duration: 0.3 }}
                             >
-                                <div className="h-48 md:h-56 bg-center bg-cover relative group" style={{ backgroundImage: `url(${formData.PROFILE_BANNER || 'https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80'})` }}>
+                                <div className="h-48 md:h-56 bg-center bg-cover relative group" style={{ backgroundImage: `url(${bannerFile ? URL.createObjectURL(bannerFile) : 'https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80'})` }}>
                                     <div className="absolute inset-0 bg-gradient-to-t from-[#292B35] via-transparent to-transparent opacity-80"></div>
                                     <motion.button onClick={() => setPreviewMode(false)} className="absolute top-4 right-4 bg-[#95C5C5] text-[#292B35] px-4 py-2 rounded-lg font-semibold flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /><path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd" /></svg>
@@ -438,8 +506,13 @@ function UserProfileCreationPage() {
                                 
                                 <div className="px-6 md:px-8 pt-0 pb-8 relative">
                                     <div className="flex flex-col sm:flex-row sm:items-end -mt-12 sm:-mt-16">
-                                        <motion.div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-[#292B35] relative z-10 shadow-xl flex-shrink-0" layoutId="profilePic">
-                                            <img src={formData.PROFILE_PIC || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'} alt="Profile" className="w-full h-full object-cover" />
+                                        <motion.div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-[#292B35] relative z-10 shadow-xl flex-shrink-0 bg-[#3A3D4A]" layoutId="profilePic">
+                                            <img 
+                                                src={profilePicFile ? URL.createObjectURL(profilePicFile) : 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'} 
+                                                alt="Profile" 
+                                                className="w-full h-full object-cover" 
+                                                onLoad={e => { if (profilePicFile) URL.revokeObjectURL(e.target.src); }}
+                                            />
                                         </motion.div>
                                         <div className="mt-4 sm:mt-0 sm:ml-6 flex-grow">
                                             <h2 className="text-2xl sm:text-3xl font-bold text-[#E0E0E0]">{formData.USER_NAME || 'Your Username'}</h2>
