@@ -540,7 +540,7 @@ const CreateEvent = () => {
             case 6:
                 return (
                     <>
-                        <h2 className="text-3xl font-bold text-[#95C5C5] mb-6">FAQs & Questionnaire</h2>
+                        <h2 className="text-3xl font-bold text-[#95C5C5] mb-6">FAQs</h2>
                         
                         <div className="mb-8">
                             <h3 className="text-xl font-bold text-[#95C5C5] mb-4">Frequently Asked Questions</h3>
@@ -589,7 +589,7 @@ const CreateEvent = () => {
                             </button>
                         </div>
                         
-                        <div className="mb-4">
+                        {/* <div className="mb-4">
                             <h3 className="text-xl font-bold text-[#95C5C5] mb-4">Registration Questions</h3>
                             <p className="text-[#E0E0E0] mb-4">
                                 Add questions you want participants to answer during registration.
@@ -634,7 +634,7 @@ const CreateEvent = () => {
                             >
                                 <FaPlus className="mr-2" /> Add Question
                             </button>
-                        </div>
+                        </div> */}
                     </>
                 );
 
