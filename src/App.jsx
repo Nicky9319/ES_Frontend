@@ -16,6 +16,7 @@ import ViewUserProfilePage from './Views/Profile Page/viewUserProfilePage';
 import ViewMentorProfilePage from './Views/Mentor Profile Page/viewMentorProfilePage';
 
 import EventInfo from './Views/ES Events/eventInfo';
+import CreateEvent from './Views/ES Events/createEvent';
 
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
@@ -52,6 +53,7 @@ function AppInner() {
         <Route path='/choose-persona' element={<ChoosePersona />} />
         <Route path='/profile/:userId' element={<ViewUserProfilePage />} />
         <Route path='/mentorProfile/:mentorId' element={<ViewMentorProfilePage />} />
+        <Route path='/create-event' element={<CreateEvent />} />
         <Route path='/event-info' element={<EventInfo />} />
         {/* Add more routes as needed */}
       </Routes>
