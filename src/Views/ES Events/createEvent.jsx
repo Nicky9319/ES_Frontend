@@ -111,16 +111,23 @@ const CreateEvent = () => {
                         /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(eventForm.CONTACT_INFO.EMAIL) &&
                         eventForm.CONTACT_INFO.MOBILE_NUMBER.toString().trim() !== '';
                 break;
-            case 6: // FAQ & Questions
-                valid = eventForm.FAQ.length > 0 && 
-                        eventForm.FAQ.every(faq => faq.QUESTION.trim() !== '' && faq.ANSWER.trim() !== '') &&
-                        eventForm.QUESTIONNAIRE.length > 0 &&
-                        eventForm.QUESTIONNAIRE.every(q => q.QUESTION.trim() !== '');
+            case 6: // FAQ & Questions - Make FAQs optional
+                // FAQs are optional, but if any exist, they must be properly filled out
+                valid = (eventForm.FAQ.length === 0 || 
+                        eventForm.FAQ.every(faq => faq.QUESTION.trim() !== '' && faq.ANSWER.trim() !== ''));
+                
+                // If we need to validate questionnaire as well (currently commented out in UI)
+                // valid = valid && (eventForm.QUESTIONNAIRE.length === 0 || 
+                //         eventForm.QUESTIONNAIRE.every(q => q.QUESTION.trim() !== ''));
+                
+                // Make step 6 always valid since FAQs are optional
+                valid = true;
                 break;
             case 7: // Preview
                 // All previous steps must be valid
                 valid = validateStep(1) && validateStep(2) && validateStep(3) && 
-                        validateStep(4) && validateStep(5) && validateStep(6);
+                        validateStep(4) && validateStep(5);
+                // We don't include step 6 validation since FAQs are optional
                 break;
             default:
                 valid = false;
@@ -545,7 +552,7 @@ const CreateEvent = () => {
                         <div className="mb-8">
                             <h3 className="text-xl font-bold text-[#95C5C5] mb-4">Frequently Asked Questions</h3>
                             <p className="text-[#E0E0E0] mb-4">
-                                Add common questions and answers about your event.
+                                Add common questions and answers about your event. (Optional)
                             </p>
                             
                             {eventForm.FAQ.map((faq, index) => (
