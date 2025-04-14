@@ -1,22 +1,84 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import profileData from './playerProfileData.json';
 
 const ProfilePage = () => {
-    const [userData, setUserData] = useState({
-        name: "Player One",
-        username: "@player1",
-        bio: "Professional esports player specializing in FPS games",
-        profilePic: "https://via.placeholder.com/150",
-        bannerImage: "https://via.placeholder.com/1200x300/123456/ffffff",
-        stats: {
-            wins: 156,
-            losses: 43,
-            winRate: "78%"
-        }
-    });
-
+    const [loading, setLoading] = useState(true);
+    const [userData, setUserData] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
     const [activeTab, setActiveTab] = useState('stats');
+
+    // Simulate API call to fetch user profile data
+    const fetchUserProfile = async () => {
+        try {
+            setLoading(true);
+            // In a real app, this would be an actual API call
+            // For now, simulate network delay and return the JSON data
+            await new Promise(resolve => setTimeout(resolve, 800));
+            
+            // Transform JSON data into the structure needed by our UI
+            const transformedData = {
+                name: "Player One", // This could come from a separate user info endpoint
+                username: profileData.SOCIAL_LINKS?.INSTAGRAM || "@player1",
+                bio: profileData.BIO || "No bio provided",
+                profilePic: profileData.PROFILE_PIC || "https://via.placeholder.com/150",
+                bannerImage: profileData.PROFILE_BANNER || "https://via.placeholder.com/1200x300/123456/ffffff",
+                location: profileData.LOCATION || "Unknown",
+                teamStatus: profileData.TEAM_STATUS || "Unknown",
+                gamesPlayed: profileData.GAMES_PLAYED || [],
+                socialLinks: profileData.SOCIAL_LINKS || {},
+                history: profileData.HISTORY || [],
+                platformStatus: profileData.PLATFORM_STATUS || "INACTIVE",
+                stats: {
+                    // Sample stats - in a real app these would come from the backend
+                    wins: 156,
+                    losses: 43,
+                    winRate: "78%"
+                }
+            };
+            
+            setUserData(transformedData);
+            setLoading(false);
+        } catch (error) {
+            console.error("Error fetching profile data:", error);
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchUserProfile();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-[#292B35] text-[#E0E0E0]">
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-[#EE8631] mx-auto mb-4"></div>
+                    <p className="text-xl">Loading profile...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!userData) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-[#292B35] text-[#E0E0E0]">
+                <div className="text-center bg-[#292B35]/80 p-8 rounded-xl shadow-xl">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-[#EE8631] mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <h2 className="text-2xl font-bold mb-2">Profile Not Found</h2>
+                    <p className="mb-4">We couldn't load the profile data. Please try again later.</p>
+                    <button 
+                        onClick={() => fetchUserProfile()}
+                        className="bg-[#EE8631] hover:bg-[#AD662F] text-white py-2 px-6 rounded-lg shadow-lg transition-all duration-200"
+                    >
+                        Retry
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-[#292B35] text-[#E0E0E0] overflow-x-hidden">
@@ -67,6 +129,29 @@ const ProfilePage = () => {
                         <div className="md:ml-6">
                             <h1 className="text-5xl font-bold text-[#95C5C5] drop-shadow-lg">{userData.name}</h1>
                             <p className="text-[#E0E0E0]/90 mb-1 text-xl">{userData.username}</p>
+                            <div className="flex items-center text-[#E0E0E0]/80 text-sm mt-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                {userData.location}
+                            </div>
+                            <div className="mt-2 flex items-center">
+                                <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                                    userData.teamStatus === "Looking for Team" 
+                                    ? "bg-[#EE8631]/20 text-[#EE8631]" 
+                                    : "bg-[#95C5C5]/20 text-[#95C5C5]"
+                                }`}>
+                                    {userData.teamStatus}
+                                </span>
+                                <span className={`ml-2 px-3 py-1 rounded-full text-xs font-medium ${
+                                    userData.platformStatus === "ACTIVE" 
+                                    ? "bg-green-500/20 text-green-500" 
+                                    : "bg-gray-500/20 text-gray-400"
+                                }`}>
+                                    {userData.platformStatus === "ACTIVE" ? "Active" : "Inactive"}
+                                </span>
+                            </div>
                         </div>
                         
                         <div className="flex gap-4 ml-auto">
@@ -108,6 +193,23 @@ const ProfilePage = () => {
                     {/* Profile Bio */}
                     <div className="px-4 py-8 bg-[#292B35]/80 backdrop-blur-sm rounded-xl shadow-xl border border-[#95C5C5]/10 mb-10">
                         <p className="text-[#E0E0E0] text-lg border-l-4 border-[#EE8631] pl-4 italic">{userData.bio}</p>
+                    </div>
+                    
+                    {/* Games Played Section */}
+                    <div className="px-4 py-6 bg-[#292B35]/80 backdrop-blur-sm rounded-xl shadow-xl border border-[#95C5C5]/10 mb-10">
+                        <h2 className="text-xl font-semibold mb-4 flex items-center text-[#95C5C5]">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-[#EE8631]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+                            </svg>
+                            Games Played
+                        </h2>
+                        <div className="flex flex-wrap gap-2">
+                            {userData.gamesPlayed.map((game, index) => (
+                                <span key={index} className="bg-[#292B35] text-[#E0E0E0] px-3 py-1 rounded-lg border border-[#95C5C5]/30 text-sm">
+                                    {game}
+                                </span>
+                            ))}
+                        </div>
                     </div>
                     
                     {/* Stats Row */}
@@ -163,88 +265,66 @@ const ProfilePage = () => {
                         </div>
                     </div>
 
-                    {/* Additional Sections */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
-                        <div className="bg-[#292B35]/80 p-6 rounded-xl shadow-xl hover:shadow-[#EE8631]/10 transition-all duration-300 border border-[#95C5C5]/10">
-                            <h2 className="text-xl font-semibold mb-4 flex items-center text-[#95C5C5]">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-[#EE8631]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                                </svg>
-                                Recent Achievements
-                            </h2>
-                            <ul className="space-y-3 text-[#E0E0E0]">
-                                <li className="flex items-center p-3 hover:bg-[#292B35] rounded-lg transition-colors border border-[#95C5C5]/10 group">
-                                    <span className="mr-3 text-[#EE8631] text-xl group-hover:scale-125 transition-transform duration-200">🏆</span> 
-                                    <div>
-                                        <div className="font-medium">First place in Summer Tournament</div>
-                                        <div className="text-[#E0E0E0]/60 text-sm">July 28, 2023</div>
+                    {/* Team History Section */}
+                    <div className="bg-[#292B35]/80 p-6 rounded-xl shadow-xl hover:shadow-[#EE8631]/10 transition-all duration-300 border border-[#95C5C5]/10 mb-10">
+                        <h2 className="text-xl font-semibold mb-4 flex items-center text-[#95C5C5]">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-[#EE8631]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                            </svg>
+                            Team History
+                        </h2>
+                        <div className="space-y-4">
+                            {userData.history.map((historyItem, index) => (
+                                <div key={index} className="p-4 bg-[#292B35] rounded-lg border border-[#95C5C5]/10 hover:border-[#95C5C5]/30 transition-colors">
+                                    <div className="flex flex-wrap justify-between items-start">
+                                        <div>
+                                            <h3 className="text-[#95C5C5] font-medium text-lg">{historyItem.TEAM_NAME}</h3>
+                                            <p className="text-[#E0E0E0]/70 text-sm mb-2">Game: {historyItem.GAME_NAME}</p>
+                                            
+                                            <div className="flex flex-wrap gap-2 mt-3">
+                                                {historyItem.ROLES_PLAYED.map((role, roleIndex) => (
+                                                    <span key={roleIndex} className="bg-[#EE8631]/10 text-[#EE8631] px-2 py-1 rounded text-xs">
+                                                        {role}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div className="bg-[#292B35]/80 px-3 py-1 rounded border border-[#95C5C5]/20 text-[#E0E0E0]/80 text-sm">
+                                            {historyItem.DURATION}
+                                        </div>
                                     </div>
-                                </li>
-                                <li className="flex items-center p-3 hover:bg-[#292B35] rounded-lg transition-colors border border-[#95C5C5]/10 group">
-                                    <span className="mr-3 text-[#95C5C5] text-xl group-hover:scale-125 transition-transform duration-200">🎮</span> 
-                                    <div>
-                                        <div className="font-medium">10-win streak in ranked matches</div>
-                                        <div className="text-[#E0E0E0]/60 text-sm">July 15, 2023</div>
-                                    </div>
-                                </li>
-                                <li className="flex items-center p-3 hover:bg-[#292B35] rounded-lg transition-colors border border-[#95C5C5]/10 group">
-                                    <span className="mr-3 text-[#AD662F] text-xl group-hover:scale-125 transition-transform duration-200">📈</span> 
-                                    <div>
-                                        <div className="font-medium">Reached Diamond League</div>
-                                        <div className="text-[#E0E0E0]/60 text-sm">June 30, 2023</div>
-                                    </div>
-                                </li>
-                            </ul>
+                                </div>
+                            ))}
                         </div>
+                    </div>
 
-                        <div className="bg-[#292B35]/80 p-6 rounded-xl shadow-xl hover:shadow-[#EE8631]/10 transition-all duration-300 border border-[#95C5C5]/10">
-                            <h2 className="text-xl font-semibold mb-4 flex items-center text-[#95C5C5]">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-[#EE8631]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                Upcoming Matches
-                            </h2>
-                            <div className="space-y-3">
-                                <div className="p-4 bg-[#292B35] rounded-lg hover:bg-[#292B35]/90 transition-colors border border-[#95C5C5]/10 relative group">
-                                    <div className="absolute -right-2 -top-2 bg-[#EE8631] text-white text-xs px-2 py-1 rounded font-medium group-hover:bg-[#AD662F] transition-colors">
-                                        Featured
+                    {/* Social Links */}
+                    <div className="bg-[#292B35]/80 p-6 rounded-xl shadow-xl border border-[#95C5C5]/10 mb-10">
+                        <h2 className="text-xl font-semibold mb-4 flex items-center text-[#95C5C5]">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2 text-[#EE8631]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                            </svg>
+                            Connect With Me
+                        </h2>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                            {Object.entries(userData.socialLinks).map(([platform, handle], index) => (
+                                <a 
+                                    key={index}
+                                    href="#" 
+                                    className="flex flex-col items-center p-3 bg-[#292B35] rounded-lg border border-[#95C5C5]/10 hover:border-[#95C5C5]/30 transition-all hover:transform hover:scale-105"
+                                >
+                                    <div className="text-2xl mb-2">
+                                        {platform === 'INSTAGRAM' && '📸'}
+                                        {platform === 'DISCORD' && '💬'}
+                                        {platform === 'TWITTER' && '🐦'}
+                                        {platform === 'LINKEDIN' && '💼'}
+                                        {platform === 'WEBSITE' && '🌐'}
+                                        {platform === 'YOUTUBE' && '▶️'}
                                     </div>
-                                    <p className="font-medium text-[#95C5C5] text-lg mb-1">Team Alpha vs Team Omega</p>
-                                    <p className="text-[#E0E0E0]/70 mb-3">Championship Series - Round 2</p>
-                                    <div className="flex justify-between items-center">
-                                        <div className="text-sm text-[#E0E0E0] flex items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-[#EE8631]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                            </svg>
-                                            Aug 15, 2023
-                                        </div>
-                                        <div className="text-sm text-[#E0E0E0] flex items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-[#EE8631]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                            8:00 PM EST
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="p-4 bg-[#292B35] rounded-lg hover:bg-[#292B35]/90 transition-colors border border-[#95C5C5]/10">
-                                    <p className="font-medium text-[#95C5C5] text-lg mb-1">Summer Championship - Quarterfinals</p>
-                                    <p className="text-[#E0E0E0]/70 mb-3">Winner advances to semifinals</p>
-                                    <div className="flex justify-between items-center">
-                                        <div className="text-sm text-[#E0E0E0] flex items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-[#EE8631]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                            </svg>
-                                            Aug 22, 2023
-                                        </div>
-                                        <div className="text-sm text-[#E0E0E0] flex items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-[#EE8631]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                            7:30 PM EST
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                    <div className="text-xs text-[#E0E0E0]/70">{platform}</div>
+                                    <div className="text-sm text-[#E0E0E0] mt-1 truncate max-w-full">{handle}</div>
+                                </a>
+                            ))}
                         </div>
                     </div>
 
