@@ -11,6 +11,7 @@ import Profile from './Views/Profile Page/profilePage';
 import MentorProfile from './Views/Mentor Profile Page/mentorProfilePage';
 import DMPage from './Views/DM Page/dmPage';
 import Dashboard from './Views/Dashboard/dashboard';
+import ChoosePersona from './Views/Choose Persona Page/choosePersonaPage';
 
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
@@ -42,6 +43,7 @@ function AppInner() {
         <Route path='/mentorProfile' element={<MentorProfile />} />
         <Route path='/dm-page' element={<DMPage />} />
         <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/choose-persona' element={<ChoosePersona />} />
         {/* Add more routes as needed */}
       </Routes>
       {!isProfileRoute && <Footer />}
