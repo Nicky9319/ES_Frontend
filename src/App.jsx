@@ -31,10 +31,11 @@ function App() {
 function AppInner() {
   const location = useLocation();
   const isProfileRoute = location.pathname === "/profile";
+  const isChoosePersonaRoute = location.pathname === "/choose-persona";
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-gray-50 text-gray-800">
-      {!isProfileRoute && <Navbar />}
+      {(!isProfileRoute && !isChoosePersonaRoute) && <Navbar />}
       <Routes>
         <Route path="/" element={<EsEvents />} />
         <Route path="/social" element={<Social />} />
@@ -46,7 +47,7 @@ function AppInner() {
         <Route path='/choose-persona' element={<ChoosePersona />} />
         {/* Add more routes as needed */}
       </Routes>
-      {!isProfileRoute && <Footer />}
+      {(!isProfileRoute && !isChoosePersonaRoute) && <Footer />}
     </div>
   );
 }
