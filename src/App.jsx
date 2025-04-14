@@ -11,6 +11,8 @@ import Profile from './Views/Profile Page/profilePage';
 import MentorProfile from './Views/Mentor Profile Page/mentorProfilePage';
 import DMPage from './Views/DM Page/dmPage';
 import Dashboard from './Views/Dashboard/dashboard';
+import ChoosePersona from './Views/Choose Persona Page/choosePersonaPage';
+import ViewUserProfilePage from './Views/Profile Page/viewUserProfilePage'; // Import the view component
 
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
@@ -29,22 +31,28 @@ function App() {
 
 function AppInner() {
   const location = useLocation();
-  const isProfileRoute = location.pathname === "/profile";
+  // Update logic to check if the path starts with /profile
+  const isProfileRoute = location.pathname.startsWith("/profile");
+  const isChoosePersonaRoute = location.pathname === "/choose-persona";
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-gray-50 text-gray-800">
-      {!isProfileRoute && <Navbar />}
+      {(!isProfileRoute && !isChoosePersonaRoute) && <Navbar />}
       <Routes>
         <Route path="/" element={<EsEvents />} />
         <Route path="/social" element={<Social />} />
         <Route path="/connect" element={<Connect />} />
+        {/* Route for the logged-in user's editable profile */}
         <Route path='/profile' element={<Profile />} />
+        {/* Dynamic route for viewing other user profiles */}
+        <Route path='/profile/:userId' element={<ViewUserProfilePage />} />
         <Route path='/mentorProfile' element={<MentorProfile />} />
         <Route path='/dm-page' element={<DMPage />} />
         <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/choose-persona' element={<ChoosePersona />} />
         {/* Add more routes as needed */}
       </Routes>
-      {!isProfileRoute && <Footer />}
+      {(!isProfileRoute && !isChoosePersonaRoute) && <Footer />}
     </div>
   );
 }
