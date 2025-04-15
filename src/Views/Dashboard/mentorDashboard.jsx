@@ -100,13 +100,6 @@ export default function MentorDashboard() {
       color: VERIFIED ? "#4ade80" : "#f87171",
     },
     {
-      id: 3,
-      title: "Tagline",
-      value: TAGLINE,
-      icon: <Award size={18} />,
-      color: "#95C5C5",
-    },
-    {
       id: 4,
       title: "Sessions Completed",
       value: SESSIONS_COMPLETED,
@@ -514,7 +507,7 @@ export default function MentorDashboard() {
   const glassCard = "bg-[#23242a]/80 backdrop-blur-md border border-[#95C5C5]/10 shadow-xl";
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#181a20] via-[#23242a] to-[#292B35] text-[#E0E0E0] p-0 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-[#181a20] via-[#23242a] to-[#292B35] text-[#E0E0E0] p-0 md:p-8 mb-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-6 gap-8">
         {/* Sidebar - Player Card */}
         <aside className="lg:col-span-1 sticky top-8 self-start z-10">
@@ -604,7 +597,7 @@ export default function MentorDashboard() {
             )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[350px] overflow-y-auto pr-1 mt-2">
               {milestones.map((milestone, idx) => (
-                <div className="transition-all duration-300 hover:scale-[1.02]" key={milestone.id}>
+                <div className="transition-all duration-300 hover:scale-[1.01]" key={milestone.id}>
                   <MilestoneItem 
                     milestone={milestone} 
                     onToggle={toggleMilestone}
