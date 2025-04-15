@@ -43,7 +43,7 @@ const COLORS = {
   textSecondary: "#A0A0A0",
 };
 
-export default function CompactEsportsDashboard() {
+export default function MentorDashboard() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedView, setSelectedView] = useState("dashboard");
   const [milestones, setMilestones] = useState([
@@ -464,15 +464,10 @@ export default function CompactEsportsDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#292B35] text-[#E0E0E0] p-4">
-
-      {/* Grid Layout - Rearranged */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-        {/* Player and Stats Column - Left Column */}
-        <div className="space-y-4">
-
-          {/* Player Card */}
+    <div className="min-h-screen bg-[#292B35] text-[#E0E0E0] p-6">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="lg:col-span-1 space-y-4">
+          {/* Left Column */}
           <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 overflow-hidden shadow-lg">
             <div className="h-12 bg-gradient-to-r from-[#95C5C5]/60 to-[#EE8631]/60"></div>
             <div className="p-4 -mt-6">
@@ -487,68 +482,16 @@ export default function CompactEsportsDashboard() {
                 <div className="ml-4 mt-2">
                   <div className="flex items-center">
                     <h2 className="text-lg font-bold">UserName</h2>
-                    {/* <div className="ml-2 bg-[#95C5C5] text-[#292B35] text-xs px-1.5 py-0.5 rounded text-xs font-bold">
-                      PRO
-                    </div> */}
                   </div>
                   <p className="text-gray-400 text-xs">TaglineOfPlayer</p>
                 </div>
               </div>
-              
-              
             </div>
           </div>
-          
-          {/* My Teams (renamed from Team Roster) */}
-          <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
-            <SectionHeader 
-              icon={<Users size={16} />} 
-              title="MY TEAMS" 
-              // actionText="View All"
-              onAction={() => {}}
-            />
-
-            <div className="space-y-3">
-              {playerTeams.map((team) => (
-                <div
-                  key={team.id}
-                  className={`flex items-center p-2.5 bg-[#292B35] hover:bg-[#292B35]/80 rounded-lg transition-colors ${
-                    team.status === "inactive" ? "opacity-60" : ""
-                  }`}
-                >
-                  <div className="relative mr-3">
-                    <img
-                      src={team.logo}
-                      alt={team.name}
-                      className="w-10 h-10 rounded-lg"
-                    />
-                    <div
-                      className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border border-[#35383f] ${
-                        team.status === "active" ? "bg-green-500" : "bg-gray-500"
-                      }`}
-                    ></div>
-                  </div>
-                  <div className="flex-grow">
-                    <div className="text-sm font-medium">{team.name}</div>
-                    <div className="flex justify-between">
-                      <span className="text-xs text-gray-400">{team.role}</span>
-                      <span className="text-xs text-[#95C5C5]">{team.game}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-              
-              {/* <button className="w-full p-2 mt-2 border border-dashed border-[#95C5C5]/30 rounded-lg text-sm text-gray-400 hover:bg-[#292B35] transition-colors">
-                + Join New Team
-              </button> */}
-            </div>
-          </div>
-          
         </div>
-        
-        {/* Middle Column - Tasks and Calendar */}
-        <div className="space-y-4">
-          {/* Today's Tasks */}
+
+        <div className="lg:col-span-2 space-y-4">
+          {/* Middle Column */}
           <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
             <SectionHeader 
               icon={<Clock size={16} />} 
@@ -584,7 +527,6 @@ export default function CompactEsportsDashboard() {
             </div>
           </div>
           
-          {/* Calendar - Simplified Single Column */}
           <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
             <SectionHeader 
               icon={<CalendarIcon size={16} />} 
@@ -655,10 +597,9 @@ export default function CompactEsportsDashboard() {
             </div>
           </div>
         </div>
-        
-        {/* Right Column - Milestones and Events */}
-        <div className="space-y-4">
-          {/* Milestones Section */}
+
+        <div className="lg:col-span-1 space-y-4">
+          {/* Right Column */}
           <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
             <SectionHeader 
               icon={<Flag size={16} />} 
@@ -709,140 +650,6 @@ export default function CompactEsportsDashboard() {
                 />
               ))}
             </div>
-          </div>
-          
-          {/* Upcoming Events (renamed from Tournaments) */}
-          <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
-            <SectionHeader 
-              icon={<Trophy size={16} />} 
-              title="UPCOMING EVENTS" 
-              actionText="View All"
-              onAction={() => {}}
-            />
-
-            <div className="space-y-3">
-              {futureEvents.length > 0 ? (
-                futureEvents.map((event) => (
-                  <div
-                    key={event.id}
-                    className={`flex items-center p-2.5 rounded-lg ${
-                      event.important ? "bg-[#EE8631]/10" : "bg-[#292B35]"
-                    }`}
-                  >
-                    <div
-                      className={`p-2 rounded-full mr-3 ${
-                        event.important
-                          ? "bg-[#EE8631]/20 text-[#EE8631]"
-                          : "bg-[#95C5C5]/10 text-[#95C5C5]"
-                      }`}
-                    >
-                      <Trophy size={16} />
-                    </div>
-                    <div className="flex-grow">
-                      <div className="text-sm font-medium">{event.title}</div>
-                      <div className="text-xs text-gray-400 flex justify-between">
-                        <span>{event.formattedDate}</span>
-                        <span className="font-medium text-[#95C5C5]">
-                          {event.prize}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <div className="text-center py-8 text-gray-500">
-                  <Trophy size={24} className="mx-auto mb-2 opacity-50" />
-                  <p className="text-sm">No upcoming events</p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* Performance Monitoring System - Full Width at Bottom */}
-        <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg md:col-span-3">
-          <SectionHeader 
-            icon={<LineChart size={16} />} 
-            title="PERFORMANCE MONITORING" 
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-[#292B35] rounded-lg p-3">
-              <PerformanceChart 
-                data={performanceData.winRate} 
-                title="WIN RATE (%)" 
-                color="#95C5C5"
-                height="h-28"
-              />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>Last 7 Days</span>
-                <span className="text-[#95C5C5]">↑ 5%</span>
-              </div>
-            </div>
-            
-            <div className="bg-[#292B35] rounded-lg p-3">
-              <PerformanceChart 
-                data={performanceData.kdRatio} 
-                title="K/D RATIO" 
-                color="#EE8631"
-                height="h-28"
-              />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>Last 7 Days</span>
-                <span className="text-[#EE8631]">↑ 0.3</span>
-              </div>
-            </div>
-            
-            <div className="bg-[#292B35] rounded-lg p-3">
-              <PerformanceChart 
-                data={performanceData.viewership} 
-                title="STREAM VIEWERS" 
-                color="#AD662F"
-                height="h-28"
-              />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>Last 7 Days</span>
-                <span className="text-[#AD662F]">↑ 300</span>
-              </div>
-            </div>
-            
-            <div className="bg-[#292B35] rounded-lg p-3">
-              <PerformanceChart 
-                data={performanceData.matches} 
-                title="MATCHES PLAYED" 
-                color="#95C5C5"
-                height="h-28"
-              />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>Last 7 Days</span>
-                <span className="text-[#95C5C5]">Total: 24</span>
-              </div>
-            </div>
-          </div>
-          
-          <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
-            <StatCard 
-              title="Total Matches" 
-              value="248" 
-              icon={<Gamepad size={16} />} 
-            />
-            <StatCard 
-              title="Win Rate" 
-              value="72%" 
-              icon={<Activity size={16} />} 
-              bgColor="bg-[#292B35]"
-            />
-            <StatCard 
-              title="Hours Played" 
-              value="1,240" 
-              icon={<Clock size={16} />} 
-            />
-            <StatCard 
-              title="Ranking" 
-              value="#3" 
-              icon={<Award size={16} />} 
-              bgColor="bg-[#292B35]"
-            />
           </div>
         </div>
       </div>

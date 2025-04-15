@@ -10,7 +10,10 @@ import Connect from './Views/Connect/connect';
 import Profile from './Views/Profile Page/profilePage';
 import MentorProfile from './Views/Mentor Profile Page/mentorProfilePage';
 import DMPage from './Views/DM Page/dmPage';
-import Dashboard from './Views/Dashboard/dashboard';
+
+import UserDashboard from './Views/Dashboard/userDashboard';
+import MentorDashboard from './Views/Dashboard/mentorDashboard';
+
 import ChoosePersona from './Views/Choose Persona Page/choosePersonaPage';
 import ViewUserProfilePage from './Views/Profile Page/viewUserProfilePage';
 import ViewMentorProfilePage from './Views/Mentor Profile Page/viewMentorProfilePage';
@@ -62,7 +65,10 @@ function AppInner() {
         <Route path='/profile' element={<Profile />} />
         <Route path='/mentorProfile' element={<MentorProfile />} />
         <Route path='/dm-page' element={<DMPage />} />
-        <Route path='/dashboard' element={<Dashboard />} />
+
+        <Route path='/user-dashboard' element={<UserDashboard />} />
+        <Route path='mentor-dashboard' element={<MentorDashboard/>}/>
+
         <Route path='/choose-persona' element={<ChoosePersona />} />
         <Route path='/profile/:userId' element={<ViewUserProfilePage />} />
         <Route path='/mentorProfile/:mentorId' element={<ViewMentorProfilePage />} />
