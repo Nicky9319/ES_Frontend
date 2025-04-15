@@ -26,13 +26,13 @@ const FormInput = ({ id, name, label, type = "text", value, onChange, placeholde
                 type={type}
                 id={id}
                 name={name}
-                value={value} // Ensure value is controlled for all input types
+                value={value ?? ''}
                 onChange={onChange}
                 required={required}
                 min={min}
                 step={step}
                 max={max}
-                className={`w-full bg-[#292B35] border border-[#3A3D4A] rounded-lg px-4 py-3 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#95C5C5] transition-colors placeholder-[#6b7280] ${type === 'file' ? 'file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#95C5C5] file:text-[#292B35] hover:file:bg-opacity-80 cursor-pointer' : ''}`}
+                className={`w-full bg-[#292B35] border border-[#3A3D4A] rounded-lg px-4 py-3 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#95C5C5] transition-colors placeholder-[#6b7280] ${type === 'file' ? 'file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#95C5C5] file:text-[#292B35] hover:file:bg-opacity-80 cursor-pointer' : ''} ${type === 'number' ? '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none' : ''}`}
                 placeholder={placeholder}
                 accept={accept}
             />
@@ -118,7 +118,7 @@ const BasicInfoSection = ({ formData, handleChange, className }) => (
         <FormInput id="bio" name="BIO" label="Bio" type="textarea" value={formData.BIO || ''} onChange={handleChange} placeholder="Tell students about your coaching experience and style..." />
         <div className="grid md:grid-cols-2 gap-6">
             <FormInput id="location" name="LOCATION" label="Location" value={formData.LOCATION || ''} onChange={handleChange} placeholder="City, Country" />
-            <FormInput id="experience" name="EXPERIENCE_YEARS" label="Years of Experience" type="number" value={formData.EXPERIENCE_YEARS || 0} onChange={handleChange} min="0" step="1" />
+            <FormInput id="experience" name="EXPERIENCE_YEARS" label="Years of Experience" type="number" value={formData.EXPERIENCE_YEARS ?? ''} onChange={handleChange} min="0" step="1" />
         </div>
     </motion.div>
 );
@@ -193,7 +193,7 @@ const BusinessSection = ({ formData, handleChange, className }) => (
                 name="PRICE_PER_SESSION"
                 label="Price Per Session (USD)"
                 type="number"
-                value={formData.PRICE_PER_SESSION || 0}
+                value={formData.PRICE_PER_SESSION ?? ''}
                 onChange={handleChange}
                 min="0"
                 step="5"
@@ -203,7 +203,7 @@ const BusinessSection = ({ formData, handleChange, className }) => (
                 name="SESSIONS_COMPLETED"
                 label="Sessions Completed (Optional)"
                 type="number"
-                value={formData.SESSIONS_COMPLETED || 0}
+                value={formData.SESSIONS_COMPLETED ?? ''}
                 onChange={handleChange}
                 min="0"
                 step="1"
@@ -215,7 +215,7 @@ const BusinessSection = ({ formData, handleChange, className }) => (
                 name="SUCCESS_RATE"
                 label="Success Rate (%) (Optional)"
                 type="number"
-                value={formData.SUCCESS_RATE || 0}
+                value={formData.SUCCESS_RATE ?? ''}
                 onChange={handleChange}
                 min="0"
                 max="100"
@@ -260,9 +260,9 @@ function MentorProfileCreationPage() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         USER_NAME: '', TAGLINE: '', BIO: '',
-        LOCATION: '', EXPERIENCE_YEARS: 0,
+        LOCATION: '', EXPERIENCE_YEARS: '',
         GAMES: [], SPECIALITIES: [], LANGUAGES: [],
-        PRICE_PER_SESSION: 0, SESSIONS_COMPLETED: 0, SUCCESS_RATE: 0,
+        PRICE_PER_SESSION: '', SESSIONS_COMPLETED: '', SUCCESS_RATE: '',
         SOCIAL_LINKS: { INSTAGRAM: '', DISCORD: '', TWITTER: '', LINKEDIN: '', WEBSITE: '', YOUTUBE: '' }
     });
     const [profilePicFile, setProfilePicFile] = useState(null);
@@ -283,10 +283,14 @@ function MentorProfileCreationPage() {
         if (profilePicFile) {
             picUrl = URL.createObjectURL(profilePicFile);
             setProfilePicPreview(picUrl);
+        } else {
+            setProfilePicPreview('');
         }
         if (bannerFile) {
             bannerUrl = URL.createObjectURL(bannerFile);
             setBannerPreview(bannerUrl);
+        } else {
+            setBannerPreview('');
         }
         return () => {
             if (picUrl) URL.revokeObjectURL(picUrl);
@@ -300,13 +304,13 @@ function MentorProfileCreationPage() {
             TAGLINE: defaultMentorData.TAGLINE || '',
             BIO: defaultMentorData.BIO || '',
             LOCATION: defaultMentorData.LOCATION || '',
-            EXPERIENCE_YEARS: defaultMentorData.EXPERIENCE_YEARS || 0,
+            EXPERIENCE_YEARS: defaultMentorData.EXPERIENCE_YEARS ?? '',
             GAMES: defaultMentorData.GAMES || [],
             SPECIALITIES: defaultMentorData.SPECIALITIES || [],
             LANGUAGES: defaultMentorData.LANGUAGES || [],
-            PRICE_PER_SESSION: defaultMentorData.PRICE_PER_SESSION || 0,
-            SESSIONS_COMPLETED: defaultMentorData.SESSIONS_COMPLETED || 0,
-            SUCCESS_RATE: defaultMentorData.SUCCESS_RATE || 0,
+            PRICE_PER_SESSION: defaultMentorData.PRICE_PER_SESSION ?? '',
+            SESSIONS_COMPLETED: defaultMentorData.SESSIONS_COMPLETED ?? '',
+            SUCCESS_RATE: defaultMentorData.SUCCESS_RATE ?? '',
             SOCIAL_LINKS: {
                 INSTAGRAM: defaultMentorData.SOCIAL_LINKS?.INSTAGRAM || '',
                 DISCORD: defaultMentorData.SOCIAL_LINKS?.DISCORD || '',
@@ -328,8 +332,8 @@ function MentorProfileCreationPage() {
 
         if (type === 'file') {
             const file = files[0];
-            if (name === 'PROFILE_PIC' && file) { setProfilePicFile(file); }
-            else if (name === 'PROFILE_BANNER' && file) { setBannerFile(file); }
+            if (name === 'PROFILE_PIC') { setProfilePicFile(file || null); }
+            else if (name === 'PROFILE_BANNER') { setBannerFile(file || null); }
         } else if (name.includes('.')) {
             const [parent, child] = name.split('.');
             setFormData(prev => ({
@@ -337,9 +341,11 @@ function MentorProfileCreationPage() {
                 [parent]: { ...(prev[parent] || {}), [child]: value }
             }));
         } else if (type === 'number') {
-            const numValue = value === '' ? '' : parseFloat(value);
-            if (name === 'SUCCESS_RATE' && (numValue < 0 || numValue > 100)) return;
-            setFormData(prev => ({ ...prev, [name]: numValue }));
+            const numericValue = value.replace(/[^0-9.]/g, '');
+            if (name === 'SUCCESS_RATE' && parseFloat(numericValue) > 100) return;
+            if (name === 'EXPERIENCE_YEARS' && parseFloat(numericValue) < 0) return;
+
+            setFormData(prev => ({ ...prev, [name]: numericValue }));
         } else {
             setFormData(prev => ({ ...prev, [name]: value }));
         }
@@ -383,7 +389,9 @@ function MentorProfileCreationPage() {
         const submissionData = new FormData();
 
         Object.entries(formData).forEach(([key, value]) => {
-            if (Array.isArray(value)) {
+            if (['EXPERIENCE_YEARS', 'PRICE_PER_SESSION', 'SESSIONS_COMPLETED', 'SUCCESS_RATE'].includes(key)) {
+                submissionData.append(key, parseFloat(value) || 0);
+            } else if (Array.isArray(value)) {
                 submissionData.append(key, JSON.stringify(value));
             } else if (typeof value === 'object' && value !== null) {
                 submissionData.append(key, JSON.stringify(value));
@@ -631,7 +639,7 @@ function MentorProfileCreationPage() {
                                             <p className="text-[#EE8631] text-base sm:text-lg italic">{formData.TAGLINE || 'Your coaching tagline'}</p>
                                             <div className="flex flex-wrap items-center text-[#95C5C5] text-sm mt-1 gap-x-3 gap-y-1">
                                                 {formData.LOCATION && <span className="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" /></svg>{formData.LOCATION}</span>}
-                                                {formData.EXPERIENCE_YEARS > 0 && <span className="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" /></svg>{formData.EXPERIENCE_YEARS} Year{formData.EXPERIENCE_YEARS !== 1 ? 's' : ''} Exp.</span>}
+                                                {(formData.EXPERIENCE_YEARS !== '' && formData.EXPERIENCE_YEARS >= 0) && <span className="flex items-center"><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" /></svg>{formData.EXPERIENCE_YEARS || 0} Year{formData.EXPERIENCE_YEARS !== 1 ? 's' : ''} Exp.</span>}
                                             </div>
                                         </div>
                                     </div>
