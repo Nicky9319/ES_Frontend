@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import defaultPlayerData from './playerProfileData.json';
 
@@ -78,8 +78,8 @@ const availableGames = [
 ];
 
 // --- Section Components ---
-const BasicInfoSection = ({ formData, handleChange, teamStatusOptions }) => (
-    <motion.div key="basic" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }} className="space-y-6">
+const BasicInfoSection = ({ formData, handleChange, teamStatusOptions, className }) => (
+    <motion.div className={`space-y-6 ${className || ""}`} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
         <div className="grid md:grid-cols-2 gap-6">
             <FormInput id="userName" name="USER_NAME" label="Username" value={formData.USER_NAME} onChange={handleChange} placeholder="Your gaming alias" required />
             <FormInput id="tagline" name="TAGLINE" label="Tagline" value={formData.TAGLINE} onChange={handleChange} placeholder="Your gaming motto" required />
@@ -92,8 +92,8 @@ const BasicInfoSection = ({ formData, handleChange, teamStatusOptions }) => (
     </motion.div>
 );
 
-const AppearanceSection = ({ handleChange, profilePicFile, bannerFile, profilePicPreview, bannerPreview }) => (
-    <motion.div key="appearance" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }} className="space-y-6">
+const AppearanceSection = ({ handleChange, profilePicFile, bannerFile, profilePicPreview, bannerPreview, className }) => (
+    <motion.div className={`space-y-6 ${className || ""}`} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
         <div className="grid md:grid-cols-2 gap-6 items-start">
             <div>
                 <FormInput id="profilePic" name="PROFILE_PIC" label="Profile Picture" type="file" onChange={handleChange} accept="image/*" />
@@ -117,8 +117,8 @@ const AppearanceSection = ({ handleChange, profilePicFile, bannerFile, profilePi
     </motion.div>
 );
 
-const GamesSection = ({ formData, handleGameToggle }) => (
-    <motion.div key="games" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }} className="space-y-6">
+const GamesSection = ({ formData, handleGameToggle, className }) => (
+    <motion.div className={`space-y-6 ${className || ""}`} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
         <div>
             <label className="block text-[#E0E0E0] font-medium mb-4">Select Games You Play</label>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
@@ -138,8 +138,8 @@ const GamesSection = ({ formData, handleGameToggle }) => (
     </motion.div>
 );
 
-const SocialMediaSection = ({ formData, handleChange }) => (
-    <motion.div key="social" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }} className="grid md:grid-cols-2 gap-x-6 gap-y-6">
+const SocialMediaSection = ({ formData, handleChange, className }) => (
+    <motion.div className={`grid md:grid-cols-2 gap-x-6 gap-y-6 ${className || ""}`} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }}>
         {Object.entries(formData.SOCIAL_LINKS).map(([key, value]) => (
             <FormInput key={key} id={key.toLowerCase()} name={`SOCIAL_LINKS.${key}`} label={key.charAt(0) + key.slice(1).toLowerCase()}
                 value={value} onChange={handleChange} placeholder={ key === 'INSTAGRAM' || key==='TWITTER' ? '@username' : key==='DISCORD' ? 'username#1234' : key==='LINKEDIN' ? 'linkedin.com/in/...' : key==='WEBSITE' ? 'yourdomain.com' : key==='YOUTUBE' ? 'youtube.com/c/...' : '' }
@@ -256,8 +256,6 @@ function UserProfileCreationPage() {
     };
     const nextSection = () => {
         const currentIndex = getSectionIndex(activeSection);
-        console.log(currentIndex)
-        console.log(canAccessSection(sections[currentIndex + 1].id))
         if (currentIndex < sections.length - 1 && canAccessSection(sections[currentIndex + 1].id))
             setActiveSection(sections[currentIndex + 1].id);
     };
@@ -376,20 +374,30 @@ function UserProfileCreationPage() {
                                 {/* Form Content */}
                                 <form onSubmit={handleSubmit}>
                                     <div className="p-6">
-                                        <AnimatePresence mode="wait">
-                                            {activeSection === 'basic' && (
-                                                <BasicInfoSection formData={formData} handleChange={handleChange} teamStatusOptions={teamStatusOptions} />
-                                            )}
-                                            {activeSection === 'appearance' && (
-                                                <AppearanceSection handleChange={handleChange} profilePicFile={profilePicFile} bannerFile={bannerFile} profilePicPreview={profilePicPreview} bannerPreview={bannerPreview} />
-                                            )}
-                                            {activeSection === 'games' && (
-                                                <GamesSection formData={formData} handleGameToggle={handleGameToggle} />
-                                            )}
-                                            {activeSection === 'social' && (
-                                                <SocialMediaSection formData={formData} handleChange={handleChange} />
-                                            )}
-                                        </AnimatePresence>
+                                        <BasicInfoSection 
+                                            formData={formData} 
+                                            handleChange={handleChange} 
+                                            teamStatusOptions={teamStatusOptions} 
+                                            className={activeSection === 'basic' ? "" : "hidden"} 
+                                        />
+                                        <AppearanceSection 
+                                            handleChange={handleChange} 
+                                            profilePicFile={profilePicFile} 
+                                            bannerFile={bannerFile} 
+                                            profilePicPreview={profilePicPreview} 
+                                            bannerPreview={bannerPreview} 
+                                            className={activeSection === 'appearance' ? "" : "hidden"} 
+                                        />
+                                        <GamesSection 
+                                            formData={formData} 
+                                            handleGameToggle={handleGameToggle} 
+                                            className={activeSection === 'games' ? "" : "hidden"} 
+                                        />
+                                        <SocialMediaSection 
+                                            formData={formData} 
+                                            handleChange={handleChange} 
+                                            className={activeSection === 'social' ? "" : "hidden"} 
+                                        />
                                     </div>
 
                                     {/* Navigation Buttons */}
@@ -399,8 +407,6 @@ function UserProfileCreationPage() {
                                             whileHover={{ scale: getSectionIndex(activeSection) === 0 ? 1 : 1.05 }} whileTap={{ scale: 0.95 }}>
                                             Back
                                         </motion.button>
-
-                                        {/* {console.log("Sectin Index" , getSectionIndex(activeSection))} {console.log("Section Length" , sections.length)} */}
 
                                         {getSectionIndex(activeSection) < sections.length - 1 ? (
                                             <motion.button type="button" onClick={nextSection} disabled={activeSection === 'basic' ? !isBasicSectionValid() : false}
@@ -445,7 +451,7 @@ function UserProfileCreationPage() {
                                             <div className="flex items-center text-[#95C5C5] text-sm mt-1">
                                                 {formData.LOCATION && <><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" /></svg>{formData.LOCATION}</>}
                                                 {formData.LOCATION && formData.TEAM_STATUS && <span className="mx-2">|</span>}
-                                                {formData.TEAM_STATUS && <><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" /></svg>{formData.TEAM_STATUS}</>}
+                                                {formData.TEAM_STATUS && <><svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3a4 4 0 00-8 0v3H4v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" /></svg>{formData.TEAM_STATUS}</>}
                                             </div>
                                         </div>
                                     </div>
