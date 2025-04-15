@@ -79,8 +79,19 @@ const EventInfo = () => {
 
     const handleSaveChanges = () => {
         if (JSON.stringify(editedEvent) !== JSON.stringify(event)) {
-            // Simulate API call: prepare and log formData payload
-            console.log("Simulated API call payload:", editedEvent);
+            const formData = new FormData();
+            for (const [key, value] of Object.entries(editedEvent)) {
+                // If value is an object (and not a File) then stringify it, otherwise append directly
+                if (typeof value === 'object' && !(value instanceof File)) {
+                    formData.append(key, JSON.stringify(value));
+                } else {
+                    formData.append(key, value);
+                }
+            }
+            // Log each entry from the FormData for simulation
+            for (let pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
             setEvent(editedEvent);
             setIsEditing(false);
             alert("Event details updated successfully and changes sent to backend!");
