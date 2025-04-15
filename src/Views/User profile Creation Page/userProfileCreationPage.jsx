@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import defaultPlayerData from './playerProfileData.json';
 
-// Helper component for form inputs
+// --- Helper Components ---
 const FormInput = ({ id, name, label, type = "text", value, onChange, placeholder, required = false, rows = 4, icon, accept }) => (
     <div>
         <label htmlFor={id} className="block text-[#E0E0E0] font-medium mb-2 flex items-center">
@@ -36,7 +36,6 @@ const FormInput = ({ id, name, label, type = "text", value, onChange, placeholde
     </div>
 );
 
-// Helper component for select input
 const FormSelect = ({ id, name, label, value, onChange, options }) => (
     <div>
         <label htmlFor={id} className="block text-[#E0E0E0] font-medium mb-2">{label}</label>
@@ -59,7 +58,6 @@ const FormSelect = ({ id, name, label, value, onChange, options }) => (
     </div>
 );
 
-// Social Link Icons
 const socialIcons = {
     INSTAGRAM: <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>,
     DISCORD: <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#5865F2" viewBox="0 0 16 16"><path d="M13.545 2.907a13.227 13.227 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 0 0-3.658 0 8.258 8.258 0 0 0-.412-.833.051.051 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019c.308-.42.582-.863.818-1.329a.05.05 0 0 0-.01-.059.051.051 0 0 0-.018-.011 8.875 8.875 0 0 1-1.248-.595.05.05 0 0 1-.02-.066.051.051 0 0 1 .015-.019c.084-.063.168-.129.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.052.052 0 0 1 .053.007c.08.066.164.132.248.195a.051.051 0 0 1-.004.085 8.254 8.254 0 0 1-1.249.594.05.05 0 0 0-.03.03.052.052 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.235 13.235 0 0 0 4.001-2.02.049.049 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 0 0-.02-.019Zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612Zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612Z"/></svg>,
@@ -69,7 +67,6 @@ const socialIcons = {
     YOUTUBE: <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#FF0000" viewBox="0 0 16 16"><path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/></svg>,
 };
 
-// Available Games List
 const availableGames = [
     { name: 'Valorant', icon: '🎮' },
     { name: 'Fortnite', icon: '🧱' },
@@ -80,6 +77,78 @@ const availableGames = [
     { name: 'Garena Free Fire', icon: '🔥' }
 ];
 
+// --- Section Components ---
+const BasicInfoSection = ({ formData, handleChange, teamStatusOptions }) => (
+    <motion.div key="basic" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }} className="space-y-6">
+        <div className="grid md:grid-cols-2 gap-6">
+            <FormInput id="userName" name="USER_NAME" label="Username" value={formData.USER_NAME} onChange={handleChange} placeholder="Your gaming alias" required />
+            <FormInput id="tagline" name="TAGLINE" label="Tagline" value={formData.TAGLINE} onChange={handleChange} placeholder="Your gaming motto" required />
+        </div>
+        <FormInput id="bio" name="BIO" label="Bio" type="textarea" value={formData.BIO} onChange={handleChange} placeholder="Tell us about your gaming journey..." />
+        <div className="grid md:grid-cols-2 gap-6">
+            <FormInput id="location" name="LOCATION" label="Location" value={formData.LOCATION} onChange={handleChange} placeholder="City, Country" />
+            <FormSelect id="teamStatus" name="TEAM_STATUS" label="Team Status" value={formData.TEAM_STATUS} onChange={handleChange} options={teamStatusOptions} />
+        </div>
+    </motion.div>
+);
+
+const AppearanceSection = ({ handleChange, profilePicFile, bannerFile, profilePicPreview, bannerPreview }) => (
+    <motion.div key="appearance" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }} className="space-y-6">
+        <div className="grid md:grid-cols-2 gap-6 items-start">
+            <div>
+                <FormInput id="profilePic" name="PROFILE_PIC" label="Profile Picture" type="file" onChange={handleChange} accept="image/*" />
+                {profilePicFile && <p className="text-sm text-[#95C5C5] mt-2">Selected: {profilePicFile.name}</p>}
+                {profilePicPreview && (
+                    <motion.div className="mt-4 flex justify-center" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
+                        <img src={profilePicPreview} alt="Profile preview" className="w-32 h-32 rounded-full object-cover border-4 border-[#3A3D4A]" />
+                    </motion.div>
+                )}
+            </div>
+            <div>
+                <FormInput id="profileBanner" name="PROFILE_BANNER" label="Profile Banner" type="file" onChange={handleChange} accept="image/*" />
+                {bannerFile && <p className="text-sm text-[#95C5C5] mt-2">Selected: {bannerFile.name}</p>}
+                {bannerPreview && (
+                    <motion.div className="mt-4 rounded-lg overflow-hidden" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }}>
+                        <img src={bannerPreview} alt="Banner preview" className="w-full h-32 object-cover border-2 border-[#3A3D4A]" />
+                    </motion.div>
+                )}
+            </div>
+        </div>
+    </motion.div>
+);
+
+const GamesSection = ({ formData, handleGameToggle }) => (
+    <motion.div key="games" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }} className="space-y-6">
+        <div>
+            <label className="block text-[#E0E0E0] font-medium mb-4">Select Games You Play</label>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                {availableGames.map((game) => {
+                    const isSelected = formData.GAMES_PLAYED.includes(game.name);
+                    return (
+                        <motion.button key={game.name} type="button" onClick={() => handleGameToggle(game.name)}
+                            className={`p-4 rounded-lg border-2 flex flex-col items-center justify-center transition-all duration-200 ${isSelected ? 'bg-[#95C5C5] border-[#95C5C5] text-[#292B35]' : 'bg-[#3A3D4A] border-[#3A3D4A] text-[#E0E0E0] hover:border-[#95C5C5]'}`}
+                            whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                            <span className="text-3xl mb-2">{game.icon}</span>
+                            <span className="text-sm font-medium text-center">{game.name}</span>
+                        </motion.button>
+                    );
+                })}
+            </div>
+        </div>
+    </motion.div>
+);
+
+const SocialMediaSection = ({ formData, handleChange }) => (
+    <motion.div key="social" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }} className="grid md:grid-cols-2 gap-x-6 gap-y-6">
+        {Object.entries(formData.SOCIAL_LINKS).map(([key, value]) => (
+            <FormInput key={key} id={key.toLowerCase()} name={`SOCIAL_LINKS.${key}`} label={key.charAt(0) + key.slice(1).toLowerCase()}
+                value={value} onChange={handleChange} placeholder={ key === 'INSTAGRAM' || key==='TWITTER' ? '@username' : key==='DISCORD' ? 'username#1234' : key==='LINKEDIN' ? 'linkedin.com/in/...' : key==='WEBSITE' ? 'yourdomain.com' : key==='YOUTUBE' ? 'youtube.com/c/...' : '' }
+                icon={socialIcons[key]} />
+        ))}
+    </motion.div>
+);
+
+// --- Main Component ---
 function UserProfileCreationPage() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -117,11 +186,7 @@ function UserProfileCreationPage() {
     }, [bannerFile]);
 
     const loadExampleData = () => {
-        setFormData({
-            ...defaultPlayerData,
-            PROFILE_PIC: undefined,
-            PROFILE_BANNER: undefined,
-        });
+        setFormData({ ...defaultPlayerData, PROFILE_PIC: undefined, PROFILE_BANNER: undefined });
         setBannerPreview(defaultPlayerData.PROFILE_BANNER || '');
         setProfilePicPreview(defaultPlayerData.PROFILE_PIC || '');
         setProfilePicFile(null);
@@ -130,14 +195,10 @@ function UserProfileCreationPage() {
 
     const handleChange = (e) => {
         const { name, value, type, files } = e.target;
-
         if (type === 'file') {
             const file = files[0];
-            if (name === 'PROFILE_PIC' && file) {
-                setProfilePicFile(file);
-            } else if (name === 'PROFILE_BANNER' && file) {
-                setBannerFile(file);
-            }
+            if (name === 'PROFILE_PIC' && file) { setProfilePicFile(file); }
+            else if (name === 'PROFILE_BANNER' && file) { setBannerFile(file); }
         } else if (name.includes('.')) {
             const [parent, child] = name.split('.');
             setFormData(prev => ({ ...prev, [parent]: { ...prev[parent], [child]: value } }));
@@ -148,8 +209,7 @@ function UserProfileCreationPage() {
 
     const handleGameToggle = (gameName) => {
         setFormData(prev => {
-            const currentlySelected = prev.GAMES_PLAYED.includes(gameName);
-            const newGamesPlayed = currentlySelected
+            const newGamesPlayed = prev.GAMES_PLAYED.includes(gameName)
                 ? prev.GAMES_PLAYED.filter(g => g !== gameName)
                 : [...prev.GAMES_PLAYED, gameName];
             return { ...prev, GAMES_PLAYED: newGamesPlayed };
@@ -158,38 +218,21 @@ function UserProfileCreationPage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        if (activeSection !== 'social') {
-            nextSection();
-            return;
-        }
-
+        if (activeSection !== 'social') { nextSection(); return; }
         const submissionData = new FormData();
-
         Object.entries(formData).forEach(([key, value]) => {
-            if (key === 'SOCIAL_LINKS') {
-                submissionData.append(key, JSON.stringify(value));
-            } else if (key === 'GAMES_PLAYED') {
-                value.forEach(game => submissionData.append('GAMES_PLAYED[]', game));
-            } else {
-                submissionData.append(key, value);
-            }
+            if (key === 'SOCIAL_LINKS') submissionData.append(key, JSON.stringify(value));
+            else if (key === 'GAMES_PLAYED') value.forEach(game => submissionData.append('GAMES_PLAYED[]', game));
+            else submissionData.append(key, value);
         });
-
-        if (profilePicFile) {
-            submissionData.append('PROFILE_PIC_FILE', profilePicFile);
-        }
-        if (bannerFile) {
-            submissionData.append('PROFILE_BANNER_FILE', bannerFile);
-        }
-
+        if (profilePicFile) submissionData.append('PROFILE_PIC_FILE', profilePicFile);
+        if (bannerFile) submissionData.append('PROFILE_BANNER_FILE', bannerFile);
         console.log('Profile data to be submitted:');
         for (let [key, value] of submissionData.entries()) {
             console.log(`${key}:`, value);
         }
-
         alert('Profile created successfully!');
-        navigate('/dashboard');
+        // navigate('/dashboard');
     };
 
     const sections = [
@@ -205,122 +248,53 @@ function UserProfileCreationPage() {
     ];
 
     const getSectionIndex = (id) => sections.findIndex(s => s.id === id);
-
-    const isBasicSectionValid = () => {
-        return formData.USER_NAME.trim() !== '' && formData.TAGLINE.trim() !== '';
-    };
-
-    const canAccessSection = (sectionId) => {
-        if (sectionId === 'basic') return true;
-        return isBasicSectionValid();
-    };
-
+    const isBasicSectionValid = () => formData.USER_NAME.trim() !== '' && formData.TAGLINE.trim() !== '';
+    const canAccessSection = (sectionId) => sectionId === 'basic' ? true : isBasicSectionValid();
     const handleSectionChange = (sectionId) => {
-        if (canAccessSection(sectionId)) {
-            setActiveSection(sectionId);
-        } else {
-            alert('Please fill in required fields (Username and Tagline) before proceeding.');
-        }
+        if (canAccessSection(sectionId)) setActiveSection(sectionId);
+        else alert('Please fill in required fields (Username and Tagline) before proceeding.');
     };
-
     const nextSection = () => {
         const currentIndex = getSectionIndex(activeSection);
-        if (currentIndex < sections.length - 1 && canAccessSection(sections[currentIndex + 1].id)) {
+        if (currentIndex < sections.length - 1 && canAccessSection(sections[currentIndex + 1].id))
             setActiveSection(sections[currentIndex + 1].id);
-        }
     };
-
     const prevSection = () => {
         const currentIndex = getSectionIndex(activeSection);
-        if (currentIndex > 0) {
-            setActiveSection(sections[currentIndex - 1].id);
-        }
+        if (currentIndex > 0) setActiveSection(sections[currentIndex - 1].id);
     };
-
-    const isSectionValid = () => {
-        if (activeSection === 'basic') {
-            return isBasicSectionValid();
-        }
-        return true;
-    };
+    const isSectionValid = () => activeSection === 'basic' ? isBasicSectionValid() : true;
 
     return (
         <div className="min-h-screen bg-[#292B35] text-[#E0E0E0] py-10 px-4 md:px-8 bg-gradient-to-br from-[#292B35] to-[#2A2C36]">
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: showContent ? 1 : 0 }}
-                transition={{ duration: 0.7 }}
-                className="max-w-7xl mx-auto"
-            >
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: showContent ? 1 : 0 }} transition={{ duration: 0.7 }} className="max-w-7xl mx-auto">
                 {/* Header */}
-                <motion.div 
-                    className="text-center mb-10"
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: showContent ? 1 : 0, y: showContent ? 0 : -20 }}
-                    transition={{ duration: 0.7, ease: "easeOut" }}
-                >
-                    <motion.h1 
-                        className="text-4xl md:text-5xl font-bold mb-3 text-[#E0E0E0] tracking-tight"
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: showContent ? 1 : 0, y: showContent ? 0 : -10 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                    >
+                <motion.div className="text-center mb-10" initial={{ opacity: 0, y: -20 }} animate={{ opacity: showContent ? 1 : 0, y: showContent ? 0 : -20 }} transition={{ duration: 0.7, ease: "easeOut" }}>
+                    <motion.h1 className="text-4xl md:text-5xl font-bold mb-3 text-[#E0E0E0] tracking-tight" initial={{ opacity: 0, y: -10 }} animate={{ opacity: showContent ? 1 : 0, y: showContent ? 0 : -10 }} transition={{ duration: 0.5, delay: 0.2 }}>
                         Craft Your Player Profile
                     </motion.h1>
-                    <motion.p 
-                        className="text-lg md:text-xl text-[#95C5C5]"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: showContent ? 1 : 0 }}
-                        transition={{ duration: 0.5, delay: 0.4 }}
-                    >
+                    <motion.p className="text-lg md:text-xl text-[#95C5C5]" initial={{ opacity: 0 }} animate={{ opacity: showContent ? 1 : 0 }} transition={{ duration: 0.5, delay: 0.4 }}>
                         Showcase your skills and connect with the community
                     </motion.p>
                 </motion.div>
 
                 {/* Main Content */}
                 <div className="flex flex-col lg:flex-row gap-8">
-                    {/* Sidebar for larger screens */}
-                    <motion.div 
-                        className="hidden lg:block lg:w-1/4"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: showContent ? 1 : 0, x: showContent ? 0 : -20 }}
-                        transition={{ duration: 0.5, delay: 0.3 }}
-                    >
+                    {/* Sidebar */}
+                    <motion.div className="hidden lg:block lg:w-1/4" initial={{ opacity: 0, x: -20 }} animate={{ opacity: showContent ? 1 : 0, x: showContent ? 0 : -20 }} transition={{ duration: 0.5, delay: 0.3 }}>
                         <div className="bg-[#2F3140] rounded-xl overflow-hidden shadow-lg sticky top-8">
                             <div className="p-6">
                                 <div className="flex items-center justify-between mb-6">
                                     <h3 className="text-xl font-semibold">Profile Setup</h3>
-                                    <motion.button 
-                                        onClick={loadExampleData}
-                                        title="Load Example Data"
-                                        className="text-[#95C5C5] hover:text-[#EE8631] transition-colors"
-                                        whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}
-                                    >
+                                    <motion.button onClick={loadExampleData} title="Load Example Data" className="text-[#95C5C5] hover:text-[#EE8631] transition-colors" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.97l-2.308.964a2 2 0 01-1.566 0l-2.308-.964a6 6 0 00-3.86-.97l-2.387.477a2 2 0 00-1.022.547m16.022 0v1.046a2 2 0 01-.999 1.75l-2.387.955a6 6 0 01-3.86.97l-2.308-.964a2 2 0 00-1.566 0l-2.308.964a6 6 0 01-3.86-.97l-2.387-.955a2 2 0 01-.999-1.75v-1.046m16.022 0l-3-17.32a2 2 0 00-2-1.68h-6a2 2 0 00-2 1.68l-3 17.32" /></svg>
                                     </motion.button>
                                 </div>
-                                
                                 <div className="space-y-2">
                                     {sections.map((section) => (
-                                        <motion.button
-                                            key={section.id}
-                                            onClick={() => handleSectionChange(section.id)}
-                                            className={`w-full text-left py-3 px-4 rounded-lg transition-all duration-200 flex items-center
-                                                ${activeSection === section.id 
-                                                ? 'bg-[#95C5C5] text-[#292B35] font-medium shadow-md'
-                                                : 'text-[#E0E0E0] hover:bg-[#3A3D4A]'}
-                                                ${!canAccessSection(section.id) ? 'opacity-50 cursor-not-allowed' : ''}
-                                            `}
-                                            whileHover={{ x: activeSection === section.id || !canAccessSection(section.id) ? 0 : 5 }}
-                                            whileTap={{ scale: canAccessSection(section.id) ? 0.98 : 1 }}
-                                        >
+                                        <motion.button key={section.id} onClick={() => handleSectionChange(section.id)} className={`w-full text-left py-3 px-4 rounded-lg transition-all duration-200 flex items-center ${activeSection === section.id ? 'bg-[#95C5C5] text-[#292B35] font-medium shadow-md' : 'text-[#E0E0E0] hover:bg-[#3A3D4A]'} ${!canAccessSection(section.id) ? 'opacity-50 cursor-not-allowed' : ''}`} whileHover={{ x: activeSection === section.id || !canAccessSection(section.id) ? 0 : 5 }} whileTap={{ scale: canAccessSection(section.id) ? 0.98 : 1 }}>
                                             <span className="mr-3 w-5 h-5 flex-shrink-0">{section.icon}</span>
                                             <span>{section.label}</span>
-                                            {activeSection === section.id && (
-                                                <motion.div className="ml-auto" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 500, damping: 20 }}>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
-                                                </motion.div>
-                                            )}
                                             {!canAccessSection(section.id) && section.id !== 'basic' && (
                                                 <motion.div className="ml-auto">
                                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -332,27 +306,16 @@ function UserProfileCreationPage() {
                                     ))}
                                 </div>
                             </div>
-                            
-                            {/* Preview Toggle */}
+                            {/* Preview toggle */}
                             <div className="border-t border-[#3A3D4A] p-4 bg-[#292B35] bg-opacity-30">
-                                <motion.button 
-                                    onClick={() => setPreviewMode(!previewMode)}
-                                    className={`w-full py-3 rounded-lg font-semibold flex items-center justify-center transition-colors duration-300 ${
-                                        previewMode ? 'bg-[#EE8631] text-white hover:bg-[#AD662F]' : 'bg-[#95C5C5] text-[#292B35] hover:bg-opacity-80'
-                                    }`}
-                                    whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-                                >
-                                    {previewMode ? (
-                                        <><svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /><path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd" /></svg>Back to Edit</>
-                                    ) : (
-                                        <><svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z" /><path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" /></svg>Preview Profile</>
-                                    )}
+                                <motion.button onClick={() => setPreviewMode(!previewMode)} className={`w-full py-3 rounded-lg font-semibold flex items-center justify-center transition-colors duration-300 ${previewMode ? 'bg-[#EE8631] text-white hover:bg-[#AD662F]' : 'bg-[#95C5C5] text-[#292B35] hover:bg-opacity-80'}`} whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+                                    {previewMode ? <>Back to Edit</> : <>Preview Profile</>}
                                 </motion.button>
                             </div>
                         </div>
                     </motion.div>
 
-                    {/* Mobile section tabs */}
+                    {/* Mobile Tabs */}
                     <div className="lg:hidden mb-6">
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="text-lg font-medium text-[#95C5C5]">Profile Setup</h3>
@@ -368,15 +331,7 @@ function UserProfileCreationPage() {
                         {!previewMode && (
                             <div className="flex overflow-x-auto gap-2 pb-4 -mx-4 px-4 scrollbar-thin scrollbar-thumb-[#3A3D4A] scrollbar-track-transparent">
                                 {sections.map((section) => (
-                                    <motion.button 
-                                        key={section.id} 
-                                        onClick={() => handleSectionChange(section.id)} 
-                                        className={`px-4 py-2 rounded-lg whitespace-nowrap flex items-center text-sm 
-                                            ${activeSection === section.id ? 'bg-[#95C5C5] text-[#292B35] font-medium' : 'bg-[#3A3D4A] text-[#E0E0E0]'}
-                                            ${!canAccessSection(section.id) ? 'opacity-50 cursor-not-allowed' : ''}
-                                        `}
-                                        whileTap={{ scale: canAccessSection(section.id) ? 0.95 : 1 }}
-                                    >
+                                    <motion.button key={section.id} onClick={() => handleSectionChange(section.id)} className={`px-4 py-2 rounded-lg whitespace-nowrap flex items-center text-sm ${activeSection === section.id ? 'bg-[#95C5C5] text-[#292B35] font-medium' : 'bg-[#3A3D4A] text-[#E0E0E0]'} ${!canAccessSection(section.id) ? 'opacity-50 cursor-not-allowed' : ''}`} whileTap={{ scale: canAccessSection(section.id) ? 0.95 : 1 }}>
                                         <span className="mr-2 w-4 h-4">{section.icon}</span>
                                         {section.label}
                                         {!canAccessSection(section.id) && section.id !== 'basic' && (
@@ -391,13 +346,7 @@ function UserProfileCreationPage() {
                     </div>
 
                     {/* Main Form/Preview Area */}
-                    <motion.div 
-                        className="flex-1"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: showContent ? 1 : 0, y: showContent ? 0 : 20 }}
-                        transition={{ duration: 0.5, delay: 0.5 }}
-                    >
-                        {/* Edit Mode */}
+                    <motion.div className="flex-1" initial={{ opacity: 0, y: 20 }} animate={{ opacity: showContent ? 1 : 0, y: showContent ? 0 : 20 }} transition={{ duration: 0.5, delay: 0.5 }}>
                         {!previewMode ? (
                             <div className="bg-[#2F3140] rounded-xl overflow-hidden shadow-xl">
                                 {/* Form Header */}
@@ -426,202 +375,49 @@ function UserProfileCreationPage() {
                                 <form onSubmit={handleSubmit}>
                                     <div className="p-6">
                                         <AnimatePresence mode="wait">
-                                            {/* Basic Information */}
                                             {activeSection === 'basic' && (
-                                                <motion.div key="basic" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }} className="space-y-6">
-                                                    <div className="grid md:grid-cols-2 gap-6">
-                                                        <div>
-                                                            <FormInput 
-                                                                id="userName" 
-                                                                name="USER_NAME" 
-                                                                label="Username" 
-                                                                value={formData.USER_NAME} 
-                                                                onChange={handleChange} 
-                                                                placeholder="Your gaming alias" 
-                                                                required 
-                                                            />
-                                                            {formData.USER_NAME.trim() === '' && (
-                                                                <p className="mt-1 text-[#EE8631] text-sm">Username is required to proceed</p>
-                                                            )}
-                                                        </div>
-                                                        <div>
-                                                            <FormInput 
-                                                                id="tagline" 
-                                                                name="TAGLINE" 
-                                                                label="Tagline" 
-                                                                value={formData.TAGLINE} 
-                                                                onChange={handleChange} 
-                                                                placeholder="Your gaming motto" 
-                                                                required 
-                                                            />
-                                                            {formData.TAGLINE.trim() === '' && (
-                                                                <p className="mt-1 text-[#EE8631] text-sm">Tagline is required to proceed</p>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                    <FormInput id="bio" name="BIO" label="Bio" type="textarea" value={formData.BIO} onChange={handleChange} placeholder="Tell us about your gaming journey..." />
-                                                    <div className="grid md:grid-cols-2 gap-6">
-                                                        <FormInput id="location" name="LOCATION" label="Location" value={formData.LOCATION} onChange={handleChange} placeholder="City, Country" />
-                                                        <FormSelect id="teamStatus" name="TEAM_STATUS" label="Team Status" value={formData.TEAM_STATUS} onChange={handleChange} options={teamStatusOptions} />
-                                                    </div>
-                                                </motion.div>
+                                                <BasicInfoSection formData={formData} handleChange={handleChange} teamStatusOptions={teamStatusOptions} />
                                             )}
-
-                                            {/* Appearance */}
                                             {activeSection === 'appearance' && (
-                                                <motion.div key="appearance" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }} className="space-y-6">
-                                                    <div className="grid md:grid-cols-2 gap-6 items-start">
-                                                        <div>
-                                                            <FormInput 
-                                                                id="profilePic" 
-                                                                name="PROFILE_PIC" 
-                                                                label="Profile Picture" 
-                                                                type="file" 
-                                                                onChange={handleChange} 
-                                                                accept="image/*" 
-                                                            />
-                                                            {profilePicFile && <p className="text-sm text-[#95C5C5] mt-2">Selected: {profilePicFile.name}</p>}
-                                                            {profilePicPreview && (
-                                                                <motion.div className="mt-4 flex justify-center" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
-                                                                    <img 
-                                                                        src={profilePicPreview} 
-                                                                        alt="Profile preview" 
-                                                                        className="w-32 h-32 rounded-full object-cover border-4 border-[#3A3D4A]" 
-                                                                    />
-                                                                </motion.div>
-                                                            )}
-                                                        </div>
-                                                        <div>
-                                                            <FormInput 
-                                                                id="profileBanner" 
-                                                                name="PROFILE_BANNER" 
-                                                                label="Profile Banner" 
-                                                                type="file" 
-                                                                onChange={handleChange} 
-                                                                accept="image/*" 
-                                                            />
-                                                            {bannerFile && <p className="text-sm text-[#95C5C5] mt-2">Selected: {bannerFile.name}</p>}
-                                                            {bannerPreview && (
-                                                                <motion.div className="mt-4 rounded-lg overflow-hidden" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }}>
-                                                                    <img 
-                                                                        src={bannerPreview} 
-                                                                        alt="Banner preview" 
-                                                                        className="w-full h-32 object-cover border-2 border-[#3A3D4A]" 
-                                                                    />
-                                                                </motion.div>
-                                                            )}
-                                                        </div>
-                                                    </div>
-                                                </motion.div>
+                                                <AppearanceSection handleChange={handleChange} profilePicFile={profilePicFile} bannerFile={bannerFile} profilePicPreview={profilePicPreview} bannerPreview={bannerPreview} />
                                             )}
-
-                                            {/* Games */}
                                             {activeSection === 'games' && (
-                                                <motion.div key="games" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }} className="space-y-6">
-                                                    <div>
-                                                        <label className="block text-[#E0E0E0] font-medium mb-4">Select Games You Play</label>
-                                                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                                                            {availableGames.map((game) => {
-                                                                const isSelected = formData.GAMES_PLAYED.includes(game.name);
-                                                                return (
-                                                                    <motion.button
-                                                                        key={game.name}
-                                                                        type="button"
-                                                                        onClick={() => handleGameToggle(game.name)}
-                                                                        className={`p-4 rounded-lg border-2 flex flex-col items-center justify-center transition-all duration-200 ${
-                                                                            isSelected 
-                                                                                ? 'bg-[#95C5C5] border-[#95C5C5] text-[#292B35]' 
-                                                                                : 'bg-[#3A3D4A] border-[#3A3D4A] text-[#E0E0E0] hover:border-[#95C5C5]'
-                                                                        }`}
-                                                                        whileHover={{ scale: 1.05 }}
-                                                                        whileTap={{ scale: 0.95 }}
-                                                                    >
-                                                                        <span className="text-3xl mb-2">{game.icon}</span>
-                                                                        <span className="text-sm font-medium text-center">{game.name}</span>
-                                                                    </motion.button>
-                                                                );
-                                                            })}
-                                                        </div>
-                                                    </div>
-                                                </motion.div>
+                                                <GamesSection formData={formData} handleGameToggle={handleGameToggle} />
                                             )}
-
-                                            {/* Social Media */}
                                             {activeSection === 'social' && (
-                                                <motion.div key="social" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }} className="grid md:grid-cols-2 gap-x-6 gap-y-6">
-                                                    {Object.entries(formData.SOCIAL_LINKS).map(([key, value]) => (
-                                                        <FormInput 
-                                                            key={key}
-                                                            id={key.toLowerCase()} 
-                                                            name={`SOCIAL_LINKS.${key}`} 
-                                                            label={key.charAt(0) + key.slice(1).toLowerCase()} 
-                                                            value={value} 
-                                                            onChange={handleChange} 
-                                                            placeholder={
-                                                                key === 'INSTAGRAM' || key === 'TWITTER' ? '@username' :
-                                                                key === 'DISCORD' ? 'username#1234' :
-                                                                key === 'LINKEDIN' ? 'linkedin.com/in/...' :
-                                                                key === 'WEBSITE' ? 'yourdomain.com' :
-                                                                key === 'YOUTUBE' ? 'youtube.com/c/...' : ''
-                                                            }
-                                                            icon={socialIcons[key]}
-                                                        />
-                                                    ))}
-                                                </motion.div>
+                                                <SocialMediaSection formData={formData} handleChange={handleChange} />
                                             )}
                                         </AnimatePresence>
                                     </div>
 
                                     {/* Navigation Buttons */}
                                     <div className="p-6 border-t border-[#3A3D4A] flex justify-between items-center bg-[#292B35] bg-opacity-30">
-                                        <motion.button 
-                                            type="button" 
-                                            onClick={prevSection}
-                                            disabled={getSectionIndex(activeSection) === 0}
+                                        <motion.button type="button" onClick={prevSection} disabled={getSectionIndex(activeSection) === 0}
                                             className="px-6 py-3 border border-[#95C5C5] text-[#95C5C5] font-medium rounded-lg transition-all flex items-center disabled:opacity-50 disabled:cursor-not-allowed hover:enabled:bg-[#95C5C5] hover:enabled:text-[#292B35]"
-                                            whileHover={{ scale: getSectionIndex(activeSection) === 0 ? 1 : 1.05 }} whileTap={{ scale: 0.95 }}
-                                        >
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="mr-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
+                                            whileHover={{ scale: getSectionIndex(activeSection) === 0 ? 1 : 1.05 }} whileTap={{ scale: 0.95 }}>
                                             Back
                                         </motion.button>
-                                        
+
                                         {getSectionIndex(activeSection) < sections.length - 1 ? (
-                                            <motion.button 
-                                                type="button" 
-                                                onClick={nextSection}
-                                                disabled={activeSection === 'basic' ? !isBasicSectionValid() : false}
-                                                className={`px-6 py-3 font-medium rounded-lg transition-colors flex items-center ${
-                                                    (activeSection === 'basic' && isBasicSectionValid()) || activeSection !== 'basic' 
-                                                        ? 'bg-[#95C5C5] text-[#292B35] hover:bg-opacity-80' 
-                                                        : 'bg-gray-500 text-gray-300 cursor-not-allowed'
-                                                }`}
-                                                whileHover={{ scale: ((activeSection === 'basic' && isBasicSectionValid()) || activeSection !== 'basic') ? 1.05 : 1 }} 
-                                                whileTap={{ scale: ((activeSection === 'basic' && isBasicSectionValid()) || activeSection !== 'basic') ? 0.95 : 1 }}
-                                            >
+                                            <motion.button type="button" onClick={nextSection} disabled={activeSection === 'basic' ? !isBasicSectionValid() : false}
+                                                className={`px-6 py-3 font-medium rounded-lg transition-colors flex items-center ${ (activeSection === 'basic' && isBasicSectionValid()) || activeSection !== 'basic' ? 'bg-[#95C5C5] text-[#292B35] hover:bg-opacity-80' : 'bg-gray-500 text-gray-300 cursor-not-allowed' }`}
+                                                whileHover={{ scale: ((activeSection === 'basic' && isBasicSectionValid()) || activeSection !== 'basic') ? 1.05 : 1 }}
+                                                whileTap={{ scale: ((activeSection === 'basic' && isBasicSectionValid()) || activeSection !== 'basic') ? 0.95 : 1 }}>
                                                 Next
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="ml-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
                                             </motion.button>
                                         ) : (
-                                            <motion.button 
-                                                type="submit"
+                                            <motion.button type="submit"
                                                 className="px-8 py-3 bg-[#EE8631] text-white font-medium rounded-lg transition-colors hover:bg-[#AD662F] flex items-center shadow-lg"
-                                                whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-                                            >
+                                                whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                                                 Create Profile
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="ml-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
                                             </motion.button>
                                         )}
                                     </div>
                                 </form>
-
                             </div>
                         ) : (
-                            // Preview Mode
-                            <motion.div
-                                className="bg-gradient-to-b from-[#2F3140] to-[#292B35] rounded-xl shadow-xl overflow-hidden"
-                                initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
-                                transition={{ duration: 0.3 }}
-                            >
+                            // Preview Mode (unchanged)
+                            <motion.div className="bg-gradient-to-b from-[#2F3140] to-[#292B35] rounded-xl shadow-xl overflow-hidden" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.3 }}>
                                 <div className="h-48 md:h-56 bg-center bg-cover relative group" style={{ backgroundImage: `url(${bannerPreview || 'https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80'})` }}>
                                     <div className="absolute inset-0 bg-gradient-to-t from-[#292B35] via-transparent to-transparent opacity-80"></div>
                                     <motion.button onClick={() => setPreviewMode(false)} className="absolute top-4 right-4 bg-[#95C5C5] text-[#292B35] px-4 py-2 rounded-lg font-semibold flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -629,7 +425,7 @@ function UserProfileCreationPage() {
                                         Edit
                                     </motion.button>
                                 </div>
-                                
+
                                 <div className="px-6 md:px-8 pt-0 pb-8 relative">
                                     <div className="flex flex-col sm:flex-row sm:items-end -mt-12 sm:-mt-16">
                                         <motion.div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-[#292B35] relative z-10 shadow-xl flex-shrink-0 bg-[#3A3D4A]" layoutId="profilePic">
