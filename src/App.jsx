@@ -26,7 +26,11 @@ import LandingPage from './Views/Landing Page/landingPage';
 import UserProfileCreationPage from './Views/User profile Creation Page/userProfileCreationPage';
 import MentorProfileCreationPage from './Views/Mentor Profile Creation Page/mentorProfileCreationPage';
 
+
+import Authentication from './Views/Authentication/authentication';
+
 import Teams from './Views/Teams/teams';
+
 
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
@@ -53,11 +57,13 @@ function AppInner() {
   const isDMPageRoute = location.pathname === '/dm-page';
   const isUserProfileCreationPageRoute = location.pathname === '/user-profile-creation-page';
   const isMentorProfileCreationPageRoute = location.pathname === '/mentor-profile-creation-page';
+  const isAuthenticationPageRoute = location.pathname === '/authentication';
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-gray-50 text-gray-800">
       {(!isProfilePageRoute && !isChoosePersonaRoute && !isMentorProfileRoute &&
-         !isLandingPageRoute && !isDMPageRoute && !isUserProfileCreationPageRoute && !isMentorProfileCreationPageRoute) && <Navbar />}
+        !isLandingPageRoute && !isDMPageRoute && !isUserProfileCreationPageRoute &&
+        !isMentorProfileCreationPageRoute && !isAuthenticationPageRoute) && <Navbar />}
       <Routes>
         <Route path="/" element={<EsEvents />} />
         <Route path="/social" element={<Social />} />
@@ -80,12 +86,15 @@ function AppInner() {
         <Route path='/user-profile-creation-page' element={<UserProfileCreationPage />} />
         <Route path='/mentor-profile-creation-page' element={<MentorProfileCreationPage />} />
 
+        <Route path='/authentication' element={<Authentication />} />
+
 
 
         {/* Add more routes as needed */}
       </Routes>
       {(!isProfilePageRoute && !isChoosePersonaRoute && !isMentorProfileRoute &&
-        !isLandingPageRoute && !isDMPageRoute && !isUserProfileCreationPageRoute && !isMentorProfileCreationPageRoute) && <Footer />}
+        !isLandingPageRoute && !isDMPageRoute && !isUserProfileCreationPageRoute &&
+        !isMentorProfileCreationPageRoute && !isAuthenticationPageRoute) && <Footer />}
     </div>
   );
 }
