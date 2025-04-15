@@ -41,7 +41,7 @@ const Footer = () => {
   };
 
     return (
-      <section className="bg-[#292B35] text-[#E0E0E0] fixed bottom-0 w-full">
+      <section className="bg-[#292B35] text-[#E0E0E0] fixed bottom-0 w-full z-20">
         <div className='h-50px flex items-center'>
           <div className='w-[10%] flex justify-start'>
             <button onClick={handleLogoClick}>
