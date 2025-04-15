@@ -17,12 +17,6 @@
     "YOUTUBE": "youtube.com/mentor"
   },
   "BIO": "Experienced esports mentor specializing in FPS and MOBA games. etc etc etc ",
-  "MENTOR_ID": "590b6f34-feff-4a5b-8bc6-626b975ef4cd",
-  "CREATED_AT": {
-    "$date": "2025-04-13T07:54:34.171Z"
-  },
-  "RATING": 4.5,
-  "VERIFIED": true,
   "TAGLINE": "Level up your game with personalized coaching!",
   "SESSIONS_COMPLETED": 150,
   "SUCCESS_RATE": 75,
