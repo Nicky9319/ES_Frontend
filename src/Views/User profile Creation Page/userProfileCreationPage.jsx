@@ -88,7 +88,9 @@ function UserProfileCreationPage() {
         SOCIAL_LINKS: { INSTAGRAM: '', DISCORD: '', TWITTER: '', LINKEDIN: '', WEBSITE: '', YOUTUBE: '' }
     });
     const [profilePicFile, setProfilePicFile] = useState(null);
+    const [profilePicPreview, setProfilePicPreview] = useState('');
     const [bannerFile, setBannerFile] = useState(null);
+    const [bannerPreview, setBannerPreview] = useState('');
     const [previewMode, setPreviewMode] = useState(false);
     const [activeSection, setActiveSection] = useState('basic');
     const [showContent, setShowContent] = useState(false);
@@ -98,12 +100,30 @@ function UserProfileCreationPage() {
         return () => clearTimeout(timer);
     }, []);
 
+    useEffect(() => {
+        if (profilePicFile) {
+            const objectUrl = URL.createObjectURL(profilePicFile);
+            setProfilePicPreview(objectUrl);
+            return () => URL.revokeObjectURL(objectUrl);
+        }
+    }, [profilePicFile]);
+
+    useEffect(() => {
+        if (bannerFile) {
+            const objectUrl = URL.createObjectURL(bannerFile);
+            setBannerPreview(objectUrl);
+            return () => URL.revokeObjectURL(objectUrl);
+        }
+    }, [bannerFile]);
+
     const loadExampleData = () => {
         setFormData({
             ...defaultPlayerData,
             PROFILE_PIC: undefined,
             PROFILE_BANNER: undefined,
         });
+        setBannerPreview(defaultPlayerData.PROFILE_BANNER || '');
+        setProfilePicPreview(defaultPlayerData.PROFILE_PIC || '');
         setProfilePicFile(null);
         setBannerFile(null);
     };
@@ -113,9 +133,9 @@ function UserProfileCreationPage() {
 
         if (type === 'file') {
             const file = files[0];
-            if (name === 'PROFILE_PIC') {
+            if (name === 'PROFILE_PIC' && file) {
                 setProfilePicFile(file);
-            } else if (name === 'PROFILE_BANNER') {
+            } else if (name === 'PROFILE_BANNER' && file) {
                 setBannerFile(file);
             }
         } else if (name.includes('.')) {
@@ -138,6 +158,12 @@ function UserProfileCreationPage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (activeSection !== 'social') {
+            nextSection();
+            return;
+        }
+
         const submissionData = new FormData();
 
         Object.entries(formData).forEach(([key, value]) => {
@@ -190,6 +216,13 @@ function UserProfileCreationPage() {
         if (currentIndex > 0) {
             setActiveSection(sections[currentIndex - 1].id);
         }
+    };
+
+    const isSectionValid = () => {
+        if (activeSection === 'basic') {
+            return formData.USER_NAME.trim() !== '' && formData.TAGLINE.trim() !== '';
+        }
+        return true;
     };
 
     return (
@@ -380,6 +413,15 @@ function UserProfileCreationPage() {
                                                                 accept="image/*" 
                                                             />
                                                             {profilePicFile && <p className="text-sm text-[#95C5C5] mt-2">Selected: {profilePicFile.name}</p>}
+                                                            {profilePicPreview && (
+                                                                <motion.div className="mt-4 flex justify-center" initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
+                                                                    <img 
+                                                                        src={profilePicPreview} 
+                                                                        alt="Profile preview" 
+                                                                        className="w-32 h-32 rounded-full object-cover border-4 border-[#3A3D4A]" 
+                                                                    />
+                                                                </motion.div>
+                                                            )}
                                                         </div>
                                                         <div>
                                                             <FormInput 
@@ -391,6 +433,15 @@ function UserProfileCreationPage() {
                                                                 accept="image/*" 
                                                             />
                                                             {bannerFile && <p className="text-sm text-[#95C5C5] mt-2">Selected: {bannerFile.name}</p>}
+                                                            {bannerPreview && (
+                                                                <motion.div className="mt-4 rounded-lg overflow-hidden" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }}>
+                                                                    <img 
+                                                                        src={bannerPreview} 
+                                                                        alt="Banner preview" 
+                                                                        className="w-full h-32 object-cover border-2 border-[#3A3D4A]" 
+                                                                    />
+                                                                </motion.div>
+                                                            )}
                                                         </div>
                                                     </div>
                                                 </motion.div>
@@ -470,8 +521,14 @@ function UserProfileCreationPage() {
                                             <motion.button 
                                                 type="button" 
                                                 onClick={nextSection}
-                                                className="px-6 py-3 bg-[#95C5C5] text-[#292B35] font-medium rounded-lg transition-colors hover:bg-opacity-80 flex items-center"
-                                                whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                                                disabled={!isSectionValid()}
+                                                className={`px-6 py-3 font-medium rounded-lg transition-colors flex items-center ${
+                                                    isSectionValid() 
+                                                        ? 'bg-[#95C5C5] text-[#292B35] hover:bg-opacity-80' 
+                                                        : 'bg-gray-500 text-gray-300 cursor-not-allowed'
+                                                }`}
+                                                whileHover={{ scale: isSectionValid() ? 1.05 : 1 }} 
+                                                whileTap={{ scale: isSectionValid() ? 0.95 : 1 }}
                                             >
                                                 Next
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="ml-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
@@ -496,7 +553,7 @@ function UserProfileCreationPage() {
                                 initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
                                 transition={{ duration: 0.3 }}
                             >
-                                <div className="h-48 md:h-56 bg-center bg-cover relative group" style={{ backgroundImage: `url(${bannerFile ? URL.createObjectURL(bannerFile) : 'https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80'})` }}>
+                                <div className="h-48 md:h-56 bg-center bg-cover relative group" style={{ backgroundImage: `url(${bannerPreview || 'https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80'})` }}>
                                     <div className="absolute inset-0 bg-gradient-to-t from-[#292B35] via-transparent to-transparent opacity-80"></div>
                                     <motion.button onClick={() => setPreviewMode(false)} className="absolute top-4 right-4 bg-[#95C5C5] text-[#292B35] px-4 py-2 rounded-lg font-semibold flex items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /><path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd" /></svg>
@@ -508,10 +565,9 @@ function UserProfileCreationPage() {
                                     <div className="flex flex-col sm:flex-row sm:items-end -mt-12 sm:-mt-16">
                                         <motion.div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-[#292B35] relative z-10 shadow-xl flex-shrink-0 bg-[#3A3D4A]" layoutId="profilePic">
                                             <img 
-                                                src={profilePicFile ? URL.createObjectURL(profilePicFile) : 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'} 
+                                                src={profilePicPreview || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'} 
                                                 alt="Profile" 
                                                 className="w-full h-full object-cover" 
-                                                onLoad={e => { if (profilePicFile) URL.revokeObjectURL(e.target.src); }}
                                             />
                                         </motion.div>
                                         <div className="mt-4 sm:mt-0 sm:ml-6 flex-grow">
