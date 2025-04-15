@@ -266,15 +266,17 @@ const SocialMediaSection = ({ formData, handleChange, className }) => (
 );
 
 // --- Main Component ---
+const initialFormData = {
+    USER_NAME: '', TAGLINE: '', BIO: '',
+    LOCATION: '', EXPERIENCE_YEARS: '',
+    GAMES: [], SPECIALITIES: [], LANGUAGES: [],
+    PRICE_PER_SESSION: '', SESSIONS_COMPLETED: '', SUCCESS_RATE: '',
+    SOCIAL_LINKS: { INSTAGRAM: '', DISCORD: '', TWITTER: '', LINKEDIN: '', WEBSITE: '', YOUTUBE: '' }
+};
+
 function MentorProfileCreationPage() {
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-        USER_NAME: '', TAGLINE: '', BIO: '',
-        LOCATION: '', EXPERIENCE_YEARS: '',
-        GAMES: [], SPECIALITIES: [], LANGUAGES: [],
-        PRICE_PER_SESSION: '', SESSIONS_COMPLETED: '', SUCCESS_RATE: '',
-        SOCIAL_LINKS: { INSTAGRAM: '', DISCORD: '', TWITTER: '', LINKEDIN: '', WEBSITE: '', YOUTUBE: '' }
-    });
+    const [formData, setFormData] = useState(initialFormData);
     const [profilePicFile, setProfilePicFile] = useState(null);
     const [profilePicPreview, setProfilePicPreview] = useState('');
     const [bannerFile, setBannerFile] = useState(null);
@@ -308,33 +310,16 @@ function MentorProfileCreationPage() {
         };
     }, [profilePicFile, bannerFile]);
 
-    const loadExampleData = () => {
-        const exampleData = {
-            USER_NAME: defaultMentorData.USER_NAME || '',
-            TAGLINE: defaultMentorData.TAGLINE || '',
-            BIO: defaultMentorData.BIO || '',
-            LOCATION: defaultMentorData.LOCATION || '',
-            EXPERIENCE_YEARS: defaultMentorData.EXPERIENCE_YEARS ?? '',
-            GAMES: defaultMentorData.GAMES || [],
-            SPECIALITIES: defaultMentorData.SPECIALITIES || [],
-            LANGUAGES: defaultMentorData.LANGUAGES || [],
-            PRICE_PER_SESSION: defaultMentorData.PRICE_PER_SESSION ?? '',
-            SESSIONS_COMPLETED: defaultMentorData.SESSIONS_COMPLETED ?? '',
-            SUCCESS_RATE: defaultMentorData.SUCCESS_RATE ?? '',
-            SOCIAL_LINKS: {
-                INSTAGRAM: defaultMentorData.SOCIAL_LINKS?.INSTAGRAM || '',
-                DISCORD: defaultMentorData.SOCIAL_LINKS?.DISCORD || '',
-                TWITTER: defaultMentorData.SOCIAL_LINKS?.TWITTER || '',
-                LINKEDIN: defaultMentorData.SOCIAL_LINKS?.LINKEDIN || '',
-                WEBSITE: defaultMentorData.SOCIAL_LINKS?.WEBSITE || '',
-                YOUTUBE: defaultMentorData.SOCIAL_LINKS?.YOUTUBE || '',
-            }
-        };
-        setFormData(exampleData);
-        setBannerPreview(defaultMentorData.PROFILE_BANNER || '');
-        setProfilePicPreview(defaultMentorData.PROFILE_PIC || '');
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [activeSection, previewMode]);
+
+    const resetForm = () => {
+        setFormData(initialFormData);
         setProfilePicFile(null);
+        setProfilePicPreview('');
         setBannerFile(null);
+        setBannerPreview('');
     };
 
     const handleChange = (e) => {
@@ -481,8 +466,8 @@ function MentorProfileCreationPage() {
                             <div className="p-6">
                                 <div className="flex items-center justify-between mb-6">
                                     <h3 className="text-xl font-semibold">Profile Setup</h3>
-                                    <motion.button onClick={loadExampleData} title="Load Example Data" className="text-[#95C5C5] hover:text-[#EE8631] transition-colors" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9M4 4h5m0 0v5m-5-5l4.293 4.293M20 20v-5h-.581m-15.357-2a8.001 8.001 0 0015.357 2M20 20h-5m0 0v-5m5 5l-4.293-4.293" /></svg>
+                                    <motion.button onClick={resetForm} title="Reset Data" className="text-[#95C5C5] hover:text-[#EE8631] transition-colors" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405M4 4v5h.582m15.356 2a9 9 0 11-2.196-3.454" /></svg>
                                     </motion.button>
                                 </div>
                                 <div className="space-y-2">
@@ -517,8 +502,8 @@ function MentorProfileCreationPage() {
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="text-lg font-medium text-[#95C5C5]">Profile Setup</h3>
                             <div className="flex gap-2">
-                                <motion.button onClick={loadExampleData} title="Load Example Data" className="p-2 bg-[#3A3D4A] rounded-md text-[#95C5C5]" whileTap={{ scale: 0.95 }}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9M4 4h5m0 0v5m-5-5l4.293 4.293M20 20v-5h-.581m-15.357-2a8.001 8.001 0 0015.357 2M20 20h-5m0 0v-5m5 5l-4.293-4.293" /></svg>
+                                <motion.button onClick={resetForm} title="Reset Data" className="p-2 bg-[#3A3D4A] rounded-md text-[#95C5C5]" whileTap={{ scale: 0.95 }}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405M4 4v5h.582m15.356 2a9 9 0 11-2.196-3.454" /></svg>
                                 </motion.button>
                                 <motion.button onClick={() => setPreviewMode(!previewMode)} className={`p-2 rounded-md ${previewMode ? 'bg-[#EE8631] text-white' : 'bg-[#3A3D4A] text-[#95C5C5]'}`} whileTap={{ scale: 0.95 }}>
                                     {previewMode ? <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" /><path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd" /></svg> : <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z" /><path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" /></svg>}
