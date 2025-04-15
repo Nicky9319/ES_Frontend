@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RightSlider from '../components/rightSlider';
+import LeftSlider from '../components/leftSlider';
 
 // Simulated API call returning news data based on search query
 function simulateNewsAPICall(query) {
@@ -32,6 +33,7 @@ function Social() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#292B35] to-[#2A2C36] text-[#E0E0E0]">
+      <LeftSlider/>
       <div className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
         <h1 className="text-4xl md:text-5xl font-bold text-center mb-6">Esports News</h1>
         {/* Search Bar */}

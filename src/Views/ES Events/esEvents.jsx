@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaSearch, FaFilter, FaGamepad, FaMapMarkerAlt, FaCalendarAlt, FaTrophy, FaSort, FaChevronDown, FaList, FaTh } from 'react-icons/fa';
 import RightSlider from '../components/rightSlider';
+import LeftSlider from '../components/leftSlider';
 import dummyData from './dummyEvents.json';
 
 function EsEvents() {
@@ -105,6 +106,7 @@ function EsEvents() {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-[#292B35] to-[#23242b] text-[#E0E0E0] pb-15">
+            <LeftSlider/>
             <div className="relative h-[38vh] md:h-[44vh] flex items-center justify-center bg-gradient-to-br from-[#23242b] via-[#292B35] to-[#1a1b20] overflow-hidden mb-10">
                 <img
                     src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
