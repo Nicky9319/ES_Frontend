@@ -58,20 +58,20 @@ const FormSelect = ({ id, name, label, value, onChange, options }) => (
     </div>
 );
 
-const TagInput = ({ label, tags, addTag, removeTag, placeholder }) => {
+const TagInput = ({ label, tags, addTag, removeTag, placeholder, max }) => {
     const [input, setInput] = useState('');
-
     const handleKeyDown = (e) => {
-        if (e.key === 'Enter' && input.trim()) {
+        if (e.key === 'Enter' && input.trim() && (!max || tags.length < max)) {
             e.preventDefault();
             addTag(input.trim());
             setInput('');
         }
     };
-
     return (
         <div className="space-y-2">
-            <label className="block text-[#E0E0E0] font-medium mb-2">{label}</label>
+            <label className="block text-[#E0E0E0] font-medium mb-2">
+                {label} {max && <span className="text-xs text-[#6b7280]">(Max {max} allowed)</span>}
+            </label>
             <div className="flex flex-wrap gap-2 mb-2 min-h-[2.5rem] items-center">
                 {tags.map((tag, index) => (
                     <motion.div
@@ -102,13 +102,9 @@ const TagInput = ({ label, tags, addTag, removeTag, placeholder }) => {
                 />
                 <button
                     type="button"
-                    onClick={() => {
-                        if (input.trim()) {
-                            addTag(input.trim());
-                            setInput('');
-                        }
-                    }}
-                    className="bg-[#95C5C5] text-[#292B35] px-4 py-3 rounded-r-lg font-medium hover:bg-opacity-80 transition-colors"
+                    onClick={() => { if (input.trim() && (!max || tags.length < max)) { addTag(input.trim()); setInput(''); } }}
+                    disabled={max ? tags.length >= max : false}
+                    className={`bg-[#95C5C5] text-[#292B35] px-4 py-3 rounded-r-lg font-medium transition-colors ${max && tags.length >= max ? 'opacity-50 cursor-not-allowed' : 'hover:bg-opacity-80'}`}
                 >
                     Add
                 </button>
@@ -185,6 +181,7 @@ const ExpertiseSection = ({ formData, handleGameToggle, addSpeciality, removeSpe
             addTag={addSpeciality}
             removeTag={removeSpeciality}
             placeholder="Add a speciality and press Enter"
+            max={5}
         />
 
         <TagInput
@@ -193,6 +190,7 @@ const ExpertiseSection = ({ formData, handleGameToggle, addSpeciality, removeSpe
             addTag={addLanguage}
             removeTag={removeLanguage}
             placeholder="Add a language and press Enter"
+            max={5}
         />
     </motion.div>
 );
