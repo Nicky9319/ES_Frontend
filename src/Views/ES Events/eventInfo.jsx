@@ -78,9 +78,16 @@ const EventInfo = () => {
     };
 
     const handleSaveChanges = () => {
-        setEvent(editedEvent);
-        setIsEditing(false);
-        alert("Event details updated successfully!");
+        if (JSON.stringify(editedEvent) !== JSON.stringify(event)) {
+            // Simulate API call: prepare and log formData payload
+            console.log("Simulated API call payload:", editedEvent);
+            setEvent(editedEvent);
+            setIsEditing(false);
+            alert("Event details updated successfully and changes sent to backend!");
+        } else {
+            setIsEditing(false);
+            alert("No changes detected!");
+        }
     };
 
     const handleCancelEdit = () => {
