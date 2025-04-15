@@ -78,9 +78,7 @@ const Teams = () => {
                 </AnimatePresence>
             </div>
 
-            {/* Right Slider */}
-            <RightSlider />
-
+            <RightSlider/>
         </div>
     );
 };
