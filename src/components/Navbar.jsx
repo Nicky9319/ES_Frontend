@@ -35,18 +35,18 @@ const Navbar = () => {
   }, [isMenuOpen]);
 
   return (
-    <div className="sticky top-0 z-50 bg-black shadow-md">
-      <div className="navbar-container border-b-2 border-[#292B35] fixed inset-x-0 top-0 z-50 w-full">
-        <nav className="navbar flex justify-between items-center p-4 bg-[#E0E0E0] relative z-10">
-          <a href="/" onClick={(e) => handleNavigation('/', e)} className="logo text-2xl font-bold text-[#292B35] no-underline hover:text-[#EE8631] transition-colors">
+    <div className="sticky top-0 z-50 bg-black ">
+      <div className="navbar-container fixed inset-x-0 top-0 z-50 w-full">
+        <nav className="navbar flex justify-between items-center p-4 bg-[#292B35] relative z-10">
+          <a href="/" onClick={(e) => handleNavigation('/', e)} className="logo text-2xl font-bold text-[#EE8631] no-underline hover:text-[#95C5C5] transition-colors">
             ELOSphere
           </a>
           <div className="flex items-center space-x-4">
             <button className="menu-toggle bg-transparent border-none cursor-pointer" onClick={toggleMenu}>
               <div className="hamburger flex flex-col justify-between w-8 h-5 relative">
-                <span className={`block h-1 w-full bg-[#292B35] rounded absolute transition-all duration-300 ${isMenuOpen ? 'rotate-45 top-2' : 'top-0'}`}></span>
-                <span className={`block h-1 w-full bg-[#292B35] rounded absolute top-2 transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
-                <span className={`block h-1 w-full bg-[#292B35] rounded absolute transition-all duration-300 ${isMenuOpen ? '-rotate-45 top-2' : 'top-4'}`}></span>
+                <span className={`block h-1 w-full bg-[#EE8631] rounded absolute transition-all duration-300 ${isMenuOpen ? 'rotate-45 top-2' : 'top-0'}`}></span>
+                <span className={`block h-1 w-full bg-[#EE8631] rounded absolute top-2 transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'opacity-100'}`}></span>
+                <span className={`block h-1 w-full bg-[#EE8631] rounded absolute transition-all duration-300 ${isMenuOpen ? '-rotate-45 top-2' : 'top-4'}`}></span>
               </div>
             </button>
           </div>
@@ -54,11 +54,11 @@ const Navbar = () => {
 
         <div
           ref={menuRef}
-          className={`menu-container absolute left-1/2 transform -translate-x-1/2 top-0 w-auto bg-[#292B35] z-20 transition-all duration-500 rounded-lg ${isMenuOpen ? 'opacity-100 translate-y-12' : 'opacity-0 -translate-y-full pointer-events-none'
+          className={`menu-container absolute left-1/2 transform -translate-x-1/2 top-0 w-auto bg-[#292B35] z-20 transition-all duration-500 rounded-lg ${isMenuOpen ? 'opacity-100 translate-y-4' : 'opacity-0 -translate-y-full pointer-events-none'
             } shadow-lg border border-[#292B35] md:w-auto w-[90%]`}
         >
           
-          <div className="menu py-2 px-6 rounded-lg">
+          <div className="menu py-2 px-6 rounded-lg border border-[#EE8631]">
             <ul className="flex md:flex-row flex-col justify-center items-center">
               <li className="md:mb-0 mb-4">
                 <a
