@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaStar, FaClock, FaDiscord, FaDollarSign, FaMedal } from 'react-icons/fa';
+import { FaStar, FaClock, FaDollarSign } from 'react-icons/fa';
 
 const MentorCard = ({ mentor, onClick, viewMode = 'grid' }) => {
     const isListMode = viewMode === 'list';
@@ -27,12 +27,6 @@ const MentorCard = ({ mentor, onClick, viewMode = 'grid' }) => {
                             <div className="absolute top-2 right-2 bg-[#292B35]/80 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-[#E0E0E0] border border-[#3A3D4A]">
                                 {mentor.GAMES[0]}
                                 {mentor.GAMES.length > 1 && <span className="ml-1">+{mentor.GAMES.length - 1}</span>}
-                            </div>
-                        )}
-                        
-                        {mentor.EXPERIENCE_YEARS >= 5 && (
-                            <div className="absolute bottom-2 left-2 bg-[#EE8631]/80 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-white flex items-center">
-                                <FaMedal className="mr-1" /> Expert
                             </div>
                         )}
                     </div>
@@ -104,14 +98,8 @@ const MentorCard = ({ mentor, onClick, viewMode = 'grid' }) => {
                             
                             <div className="flex space-x-2 mt-4">
                                 <button className="flex-grow bg-gradient-to-r from-[#AD662F] to-[#EE8631] text-white py-2 px-3 rounded-md text-sm font-medium hover:from-[#EE8631] hover:to-[#EE8631] transition-all shadow-md">
-                                    Book Session
+                                    Contact Right Now
                                 </button>
-                                
-                                {mentor.SOCIAL_LINKS?.DISCORD && (
-                                    <button className="bg-[#414455] hover:bg-[#5865F2] text-white py-2 px-3 rounded-md text-sm transition-colors shadow-md flex items-center justify-center">
-                                        <FaDiscord />
-                                    </button>
-                                )}
                             </div>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaStar, FaGamepad, FaDiscord, FaMapMarkerAlt, FaUsers } from 'react-icons/fa';
+import { FaStar, FaGamepad, FaMapMarkerAlt, FaUsers } from 'react-icons/fa';
 
 const PlayerCard = ({ player, onClick, viewMode = 'grid' }) => {
     const isListMode = viewMode === 'list';
@@ -49,9 +49,6 @@ const PlayerCard = ({ player, onClick, viewMode = 'grid' }) => {
                                     className="w-full h-full object-cover"
                                 />
                             </div>
-                            <div className="absolute -bottom-1 -right-1 bg-[#95C5C5] text-[#292B35] rounded-full h-6 w-6 flex items-center justify-center text-xs font-bold z-20 shadow-md">
-                                {player.RATING || "4.5"}
-                            </div>
                         </div>
                         {/* Info Section */}
                         <div className={`${isListMode ? 'flex-1' : 'text-center'} w-full`}>
@@ -59,12 +56,6 @@ const PlayerCard = ({ player, onClick, viewMode = 'grid' }) => {
                                 <h3 className="text-lg font-bold text-[#E0E0E0] line-clamp-1">
                                     {player.USER_NAME || player.NAME || "Player"}
                                 </h3>
-                                {!isListMode && (
-                                    <div className="flex items-center text-sm text-[#95C5C5]">
-                                        <FaStar className="text-[#EE8631] mr-1" />
-                                        <span>{player.RATING}</span>
-                                    </div>
-                                )}
                             </div>
                             <p className="text-xs text-[#95C5C5] font-medium mb-2 line-clamp-1">
                                 {player.TAGLINE || "Competitive player looking to team up"}
@@ -94,11 +85,6 @@ const PlayerCard = ({ player, onClick, viewMode = 'grid' }) => {
                                 <button className="flex-grow bg-gradient-to-r from-[#95C5C5] to-[#6BA4A4] text-white py-2 px-3 rounded-md text-sm font-medium hover:opacity-90 transition-opacity shadow-md">
                                     Team Up
                                 </button>
-                                {player.SOCIAL_LINKS?.DISCORD && (
-                                    <button className="bg-[#414455] hover:bg-[#5865F2] text-white py-2 px-3 rounded-md text-sm transition-colors shadow-md flex items-center justify-center">
-                                        <FaDiscord />
-                                    </button>
-                                )}
                             </div>
                         </div>
                     </div>
