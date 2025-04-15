@@ -205,12 +205,31 @@ function UserProfileCreationPage() {
     ];
 
     const getSectionIndex = (id) => sections.findIndex(s => s.id === id);
+
+    const isBasicSectionValid = () => {
+        return formData.USER_NAME.trim() !== '' && formData.TAGLINE.trim() !== '';
+    };
+
+    const canAccessSection = (sectionId) => {
+        if (sectionId === 'basic') return true;
+        return isBasicSectionValid();
+    };
+
+    const handleSectionChange = (sectionId) => {
+        if (canAccessSection(sectionId)) {
+            setActiveSection(sectionId);
+        } else {
+            alert('Please fill in required fields (Username and Tagline) before proceeding.');
+        }
+    };
+
     const nextSection = () => {
         const currentIndex = getSectionIndex(activeSection);
-        if (currentIndex < sections.length - 1) {
+        if (currentIndex < sections.length - 1 && canAccessSection(sections[currentIndex + 1].id)) {
             setActiveSection(sections[currentIndex + 1].id);
         }
     };
+
     const prevSection = () => {
         const currentIndex = getSectionIndex(activeSection);
         if (currentIndex > 0) {
@@ -220,7 +239,7 @@ function UserProfileCreationPage() {
 
     const isSectionValid = () => {
         if (activeSection === 'basic') {
-            return formData.USER_NAME.trim() !== '' && formData.TAGLINE.trim() !== '';
+            return isBasicSectionValid();
         }
         return true;
     };
@@ -285,19 +304,28 @@ function UserProfileCreationPage() {
                                     {sections.map((section) => (
                                         <motion.button
                                             key={section.id}
-                                            onClick={() => setActiveSection(section.id)}
+                                            onClick={() => handleSectionChange(section.id)}
                                             className={`w-full text-left py-3 px-4 rounded-lg transition-all duration-200 flex items-center
                                                 ${activeSection === section.id 
                                                 ? 'bg-[#95C5C5] text-[#292B35] font-medium shadow-md'
-                                                : 'text-[#E0E0E0] hover:bg-[#3A3D4A]'}`}
-                                            whileHover={{ x: activeSection === section.id ? 0 : 5 }}
-                                            whileTap={{ scale: 0.98 }}
+                                                : 'text-[#E0E0E0] hover:bg-[#3A3D4A]'}
+                                                ${!canAccessSection(section.id) ? 'opacity-50 cursor-not-allowed' : ''}
+                                            `}
+                                            whileHover={{ x: activeSection === section.id || !canAccessSection(section.id) ? 0 : 5 }}
+                                            whileTap={{ scale: canAccessSection(section.id) ? 0.98 : 1 }}
                                         >
                                             <span className="mr-3 w-5 h-5 flex-shrink-0">{section.icon}</span>
                                             <span>{section.label}</span>
                                             {activeSection === section.id && (
                                                 <motion.div className="ml-auto" initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", stiffness: 500, damping: 20 }}>
                                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" /></svg>
+                                                </motion.div>
+                                            )}
+                                            {!canAccessSection(section.id) && section.id !== 'basic' && (
+                                                <motion.div className="ml-auto">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                                                    </svg>
                                                 </motion.div>
                                             )}
                                         </motion.button>
@@ -340,8 +368,22 @@ function UserProfileCreationPage() {
                         {!previewMode && (
                             <div className="flex overflow-x-auto gap-2 pb-4 -mx-4 px-4 scrollbar-thin scrollbar-thumb-[#3A3D4A] scrollbar-track-transparent">
                                 {sections.map((section) => (
-                                    <motion.button key={section.id} onClick={() => setActiveSection(section.id)} className={`px-4 py-2 rounded-lg whitespace-nowrap flex items-center text-sm ${activeSection === section.id ? 'bg-[#95C5C5] text-[#292B35] font-medium' : 'bg-[#3A3D4A] text-[#E0E0E0]'}`} whileTap={{ scale: 0.95 }}>
-                                        <span className="mr-2 w-4 h-4">{section.icon}</span>{section.label}
+                                    <motion.button 
+                                        key={section.id} 
+                                        onClick={() => handleSectionChange(section.id)} 
+                                        className={`px-4 py-2 rounded-lg whitespace-nowrap flex items-center text-sm 
+                                            ${activeSection === section.id ? 'bg-[#95C5C5] text-[#292B35] font-medium' : 'bg-[#3A3D4A] text-[#E0E0E0]'}
+                                            ${!canAccessSection(section.id) ? 'opacity-50 cursor-not-allowed' : ''}
+                                        `}
+                                        whileTap={{ scale: canAccessSection(section.id) ? 0.95 : 1 }}
+                                    >
+                                        <span className="mr-2 w-4 h-4">{section.icon}</span>
+                                        {section.label}
+                                        {!canAccessSection(section.id) && section.id !== 'basic' && (
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                                            </svg>
+                                        )}
                                     </motion.button>
                                 ))}
                             </div>
@@ -388,8 +430,34 @@ function UserProfileCreationPage() {
                                             {activeSection === 'basic' && (
                                                 <motion.div key="basic" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} transition={{ duration: 0.3 }} className="space-y-6">
                                                     <div className="grid md:grid-cols-2 gap-6">
-                                                        <FormInput id="userName" name="USER_NAME" label="Username" value={formData.USER_NAME} onChange={handleChange} placeholder="Your gaming alias" required />
-                                                        <FormInput id="tagline" name="TAGLINE" label="Tagline" value={formData.TAGLINE} onChange={handleChange} placeholder="Your gaming motto" required />
+                                                        <div>
+                                                            <FormInput 
+                                                                id="userName" 
+                                                                name="USER_NAME" 
+                                                                label="Username" 
+                                                                value={formData.USER_NAME} 
+                                                                onChange={handleChange} 
+                                                                placeholder="Your gaming alias" 
+                                                                required 
+                                                            />
+                                                            {formData.USER_NAME.trim() === '' && (
+                                                                <p className="mt-1 text-[#EE8631] text-sm">Username is required to proceed</p>
+                                                            )}
+                                                        </div>
+                                                        <div>
+                                                            <FormInput 
+                                                                id="tagline" 
+                                                                name="TAGLINE" 
+                                                                label="Tagline" 
+                                                                value={formData.TAGLINE} 
+                                                                onChange={handleChange} 
+                                                                placeholder="Your gaming motto" 
+                                                                required 
+                                                            />
+                                                            {formData.TAGLINE.trim() === '' && (
+                                                                <p className="mt-1 text-[#EE8631] text-sm">Tagline is required to proceed</p>
+                                                            )}
+                                                        </div>
                                                     </div>
                                                     <FormInput id="bio" name="BIO" label="Bio" type="textarea" value={formData.BIO} onChange={handleChange} placeholder="Tell us about your gaming journey..." />
                                                     <div className="grid md:grid-cols-2 gap-6">
@@ -521,14 +589,14 @@ function UserProfileCreationPage() {
                                             <motion.button 
                                                 type="button" 
                                                 onClick={nextSection}
-                                                disabled={!isSectionValid()}
+                                                disabled={activeSection === 'basic' ? !isBasicSectionValid() : false}
                                                 className={`px-6 py-3 font-medium rounded-lg transition-colors flex items-center ${
-                                                    isSectionValid() 
+                                                    (activeSection === 'basic' && isBasicSectionValid()) || activeSection !== 'basic' 
                                                         ? 'bg-[#95C5C5] text-[#292B35] hover:bg-opacity-80' 
                                                         : 'bg-gray-500 text-gray-300 cursor-not-allowed'
                                                 }`}
-                                                whileHover={{ scale: isSectionValid() ? 1.05 : 1 }} 
-                                                whileTap={{ scale: isSectionValid() ? 0.95 : 1 }}
+                                                whileHover={{ scale: ((activeSection === 'basic' && isBasicSectionValid()) || activeSection !== 'basic') ? 1.05 : 1 }} 
+                                                whileTap={{ scale: ((activeSection === 'basic' && isBasicSectionValid()) || activeSection !== 'basic') ? 0.95 : 1 }}
                                             >
                                                 Next
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="ml-2 h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" /></svg>
@@ -545,6 +613,7 @@ function UserProfileCreationPage() {
                                         )}
                                     </div>
                                 </form>
+
                             </div>
                         ) : (
                             // Preview Mode
