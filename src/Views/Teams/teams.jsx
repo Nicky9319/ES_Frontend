@@ -6,6 +6,9 @@ import ManageTeams from "./manageTeams";
 import TeamDashboard from "./TeamDashboard";
 import teamsData from "./Teams.json";
 
+import RightSlider from '../components/rightSlider';
+import LeftSlider from '../components/leftSlider';
+
 // Mock data for dashboard stats
 const dashboardStats = [
   {
@@ -146,6 +149,7 @@ const Teams = () => {
 
   return (
     <div className="h-screen bg-[#292B35]">
+      <LeftSlider/>
       <AnimatePresence mode="wait">
         {activeView === "dashboard" && (
           <motion.div
@@ -199,6 +203,7 @@ const Teams = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      <RightSlider/>
     </div>
   );
 };
