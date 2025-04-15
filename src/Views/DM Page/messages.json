@@ -1,0 +1,58 @@
+{
+  "CONVERSATIONS": {
+    "1": [
+      {
+        "ID": "msg1_1",
+        "TEXT": "Hey, are you free this weekend for the tournament?",
+        "IS_USER": false,
+        "TIMESTAMP": "10:30 AM"
+      },
+      {
+        "ID": "msg1_2",
+        "TEXT": "Yes, I've been practicing a lot!",
+        "IS_USER": true,
+        "TIMESTAMP": "10:32 AM"
+      },
+      {
+        "ID": "msg1_3",
+        "TEXT": "Are you joining the tournament this weekend?",
+        "IS_USER": false,
+        "TIMESTAMP": "10:45 AM"
+      }
+    ],
+    "2": [
+      {
+        "ID": "msg2_1",
+        "TEXT": "Your aim was incredible in that last round",
+        "IS_USER": false,
+        "TIMESTAMP": "9:15 AM"
+      },
+      {
+        "ID": "msg2_2",
+        "TEXT": "Thanks! Been working on my crosshair placement",
+        "IS_USER": true,
+        "TIMESTAMP": "9:20 AM"
+      },
+      {
+        "ID": "msg2_3",
+        "TEXT": "I saw your last match. Great plays!",
+        "IS_USER": false,
+        "TIMESTAMP": "9:30 AM"
+      }
+    ],
+    "3": [
+      {
+        "ID": "msg3_1",
+        "TEXT": "Let's review your VODs tomorrow",
+        "IS_USER": false,
+        "TIMESTAMP": "3:15 PM"
+      },
+      {
+        "ID": "msg3_2",
+        "TEXT": "I'll prepare the clips",
+        "IS_USER": true,
+        "TIMESTAMP": "3:30 PM"
+      }
+    ]
+  }
+}

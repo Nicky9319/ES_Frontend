@@ -1,0 +1,24 @@
+        <div
+          className={`flex justify-around items-center p-2 border-b border-[${primaryAccentColor}]/20`}
+        >
+          <button
+            onClick={() => setActiveTab("Notifications")}
+            className={`text-sm font-medium py-1 px-3 rounded transition-colors duration-200 ${
+              activeTab === "Notifications"
+                ? `text-[${primaryAccentColor}] border-b-2 border-[${primaryAccentColor}]`
+                : `text-[${textColor}]/70 hover:text-[${textColor}]`
+            }`}
+          >
+            Notifications
+          </button>
+          <button
+            onClick={() => setActiveTab("Messages")}
+            className={`text-sm font-medium py-1 px-3 rounded transition-colors duration-200 ${
+              activeTab === "Messages"
+                ? `text-[${primaryAccentColor}] border-b-2 border-[${primaryAccentColor}]`
+                : `text-[${textColor}]/70 hover:text-[${textColor}]`
+            }`}
+          >
+            Messages
+          </button>
+        </div>

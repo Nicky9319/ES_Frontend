@@ -1,0 +1,84 @@
+{
+  "CONTACTS": [
+    {
+      "ID": "1",
+      "NAME": "Alex Rodriguez",
+      "PROFILE_PIC": "https://randomuser.me/api/portraits/men/32.jpg",
+      "BIO": "Pro Valorant Player | Team Liquid",
+      "LAST_MESSAGE": "Are you joining the tournament this weekend?",
+      "TIMESTAMP": "10:45 AM"
+    },
+    {
+      "ID": "2",
+      "NAME": "Sarah Chen",
+      "PROFILE_PIC": "https://randomuser.me/api/portraits/women/44.jpg",
+      "BIO": "CS:GO Analyst | Streamer",
+      "LAST_MESSAGE": "I saw your last match. Great plays!",
+      "TIMESTAMP": "9:30 AM"
+    },
+    {
+      "ID": "3",
+      "NAME": "Marcus Wright",
+      "PROFILE_PIC": "https://randomuser.me/api/portraits/men/85.jpg",
+      "BIO": "Esports Coach | Former Pro",
+      "LAST_MESSAGE": "Let's review your VODs tomorrow",
+      "TIMESTAMP": "Yesterday"
+    },
+    {
+      "ID": "4",
+      "NAME": "Emily Johnson",
+      "PROFILE_PIC": "https://randomuser.me/api/portraits/women/17.jpg",
+      "BIO": "League of Legends | Support Main",
+      "LAST_MESSAGE": "Do you want to duo queue tonight?",
+      "TIMESTAMP": "Yesterday"
+    },
+    {
+      "ID": "5",
+      "NAME": "Jamal Wilson",
+      "PROFILE_PIC": "https://randomuser.me/api/portraits/men/22.jpg",
+      "BIO": "Fortnite Player | Content Creator",
+      "LAST_MESSAGE": "Thanks for the tips on building",
+      "TIMESTAMP": "11:20 AM"
+    },
+    {
+      "ID": "6",
+      "NAME": "Luna Park",
+      "PROFILE_PIC": "https://randomuser.me/api/portraits/women/56.jpg",
+      "BIO": "Rocket League Professional | Team NRG",
+      "LAST_MESSAGE": "Practice session at 6?",
+      "TIMESTAMP": "12:15 PM"
+    },
+    {
+      "ID": "7",
+      "NAME": "Carlos Silva",
+      "PROFILE_PIC": "https://randomuser.me/api/portraits/men/45.jpg",
+      "BIO": "DOTA 2 Captain | Team Secret",
+      "LAST_MESSAGE": "Strategy meeting tomorrow morning",
+      "TIMESTAMP": "2:30 PM"
+    },
+    {
+      "ID": "8",
+      "NAME": "Aria Zhang",
+      "PROFILE_PIC": "https://randomuser.me/api/portraits/women/28.jpg",
+      "BIO": "Overwatch Pro | Dynasty",
+      "LAST_MESSAGE": "Great scrim today!",
+      "TIMESTAMP": "4:45 PM"
+    },
+    {
+      "ID": "9",
+      "NAME": "Viktor Petrov",
+      "PROFILE_PIC": "https://randomuser.me/api/portraits/men/67.jpg",
+      "BIO": "CS:GO IGL | Natus Vincere",
+      "LAST_MESSAGE": "New strats to discuss",
+      "TIMESTAMP": "5:50 PM"
+    },
+    {
+      "ID": "10",
+      "NAME": "Jade Williams",
+      "PROFILE_PIC": "https://randomuser.me/api/portraits/women/89.jpg",
+      "BIO": "Apex Legends Pro | Cloud9",
+      "LAST_MESSAGE": "Tournament lobby is ready",
+      "TIMESTAMP": "6:15 PM"
+    }
+  ]
+}

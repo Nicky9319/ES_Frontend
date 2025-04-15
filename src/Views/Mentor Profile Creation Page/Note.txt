@@ -1,0 +1,13 @@
+Make 3 Different API Calls for 
+Uploading the Profile Pic
+Uploading the Profile Banner
+Uploading the Profile Data for the Mentor (this is text data)
+
+Rating is given by default as 3 and it will change later on so the mentor cant edit it 
+
+Specialities is a tag system, so the mentor can write 3 to 5 tags that would be attached in the specialities section
+
+Be Default the Mentor would be not verified so no need to give the mentor to choose that
+
+Location can choose anything try karlio like if possible a drop down where the person can write down the city and it comes and all
+but no need to enforce it very much u can give a simple description ki need to put all these
