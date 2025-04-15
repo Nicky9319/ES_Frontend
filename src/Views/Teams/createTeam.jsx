@@ -148,6 +148,7 @@ const CreateTeam = ({ onBackClick }) => {
         e.preventDefault();
         setFormData({ ...formData, MILESTONES: milestones });
         setShowSummary(true);
+        // This would be where you'd send the data to your backend
     };
 
     const SummaryView = () => (

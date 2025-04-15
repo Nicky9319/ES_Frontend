@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { FaArrowLeft, FaEdit, FaTrash, FaTrophy, FaUsers, FaUserPlus, FaUserMinus, FaFlagCheckered } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react';
+import { FaArrowLeft, FaEdit, FaTrash, FaTrophy, FaUsers, FaUserPlus, FaUserMinus, FaFlagCheckered, FaSave } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // Color palette
@@ -49,16 +49,21 @@ const TeamCard = ({ team, onClick }) => (
 );
 
 // Milestone List
-const MilestoneList = ({ milestones }) => (
+const MilestoneList = ({ milestones, editable }) => (
     <div className="space-y-4">
         {milestones && milestones.length > 0 ? milestones.map(m => (
             <div key={m.MILESTONE_ID} className="bg-[#292B35] p-4 rounded-lg flex items-center">
                 <FaFlagCheckered className="text-[#EE8631] mr-4 text-2xl" />
-                <div>
+                <div className="flex-1">
                     <div className="font-bold text-[#95C5C5]">{m.MILESTONE_NAME}</div>
                     <div className="text-[#E0E0E0]">{m.MILESTONE_DESCRIPTION}</div>
                     <div className="text-xs text-[#95C5C5] mt-1">{new Date(m.MILESTONE_DATE).toLocaleDateString()}</div>
                 </div>
+                {editable && (
+                    <button className="ml-2 text-[#EE8631] hover:text-[#AD662F]">
+                        <FaEdit />
+                    </button>
+                )}
             </div>
         )) : (
             <div className="text-[#95C5C5]/70 italic">No milestones yet.</div>
@@ -84,9 +89,31 @@ const EventList = ({ events }) => (
     </div>
 );
 
-// Team Details (Tabs)
-const TeamDetails = ({ team, onBack }) => {
+// Team Details (Tabs) with edit capability
+const TeamDetails = ({ team, onBack, isEditing, setIsEditing }) => {
     const [activeTab, setActiveTab] = useState('info');
+    const [editedTeam, setEditedTeam] = useState({...team});
+
+    useEffect(() => {
+        setEditedTeam({...team});
+    }, [team]);
+
+    const handleEditToggle = () => {
+        setIsEditing(!isEditing);
+        if (isEditing) {
+            // Save changes logic would go here
+            console.log("Saving changes:", editedTeam);
+        }
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setEditedTeam({
+            ...editedTeam,
+            [name]: value
+        });
+    };
+
     return (
         <motion.div
             className="bg-[#2F3140] rounded-lg shadow-xl overflow-hidden"
@@ -109,17 +136,64 @@ const TeamDetails = ({ team, onBack }) => {
                         )}
                     </div>
                     <div>
-                        <h2 className="text-3xl font-bold">{team.NAME}</h2>
-                        <p className="text-[#95C5C5]">{team.TAG} • {team.GAME}</p>
+                        {isEditing ? (
+                            <input
+                                type="text"
+                                name="NAME"
+                                value={editedTeam.NAME}
+                                onChange={handleChange}
+                                className="text-3xl font-bold bg-[#292B35] border border-[#95C5C5] rounded px-2"
+                            />
+                        ) : (
+                            <h2 className="text-3xl font-bold">{team.NAME}</h2>
+                        )}
+                        <p className="text-[#95C5C5]">
+                            {isEditing ? (
+                                <input
+                                    type="text"
+                                    name="TAG"
+                                    value={editedTeam.TAG}
+                                    onChange={handleChange}
+                                    className="bg-[#292B35] border border-[#95C5C5] rounded px-2 mr-1 w-16"
+                                />
+                            ) : (
+                                team.TAG
+                            )}
+                            {" • "}
+                            {isEditing ? (
+                                <input
+                                    type="text"
+                                    name="GAME"
+                                    value={editedTeam.GAME}
+                                    onChange={handleChange}
+                                    className="bg-[#292B35] border border-[#95C5C5] rounded px-2 ml-1"
+                                />
+                            ) : (
+                                team.GAME
+                            )}
+                        </p>
                     </div>
                 </div>
                 <div className="space-x-2">
-                    <motion.button className="px-4 py-2 bg-[#EE8631] text-white rounded-md hover:bg-[#AD662F]">
-                        <FaEdit className="inline mr-2" /> Edit
+                    <motion.button 
+                        onClick={handleEditToggle}
+                        className={`px-4 py-2 ${isEditing ? 'bg-[#95C5C5] text-[#292B35]' : 'bg-[#EE8631] text-white'} rounded-md hover:opacity-90`}
+                    >
+                        {isEditing ? (
+                            <>
+                                <FaSave className="inline mr-2" /> Save
+                            </>
+                        ) : (
+                            <>
+                                <FaEdit className="inline mr-2" /> Edit
+                            </>
+                        )}
                     </motion.button>
-                    <motion.button className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
-                        <FaTrash className="inline mr-2" /> Disband
-                    </motion.button>
+                    {!isEditing && (
+                        <motion.button className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                            <FaTrash className="inline mr-2" /> Disband
+                        </motion.button>
+                    )}
                 </div>
             </div>
             {/* Tabs */}
@@ -139,19 +213,66 @@ const TeamDetails = ({ team, onBack }) => {
                 {activeTab === 'info' && (
                     <div>
                         <h3 className="text-xl font-bold mb-2 text-[#95C5C5]">Team Description</h3>
-                        <p className="mb-4 text-[#E0E0E0]">{team.TEAM_DESCRIPTION}</p>
+                        {isEditing ? (
+                            <textarea
+                                name="TEAM_DESCRIPTION"
+                                value={editedTeam.TEAM_DESCRIPTION}
+                                onChange={handleChange}
+                                className="w-full mb-4 px-4 py-3 bg-[#292B35] border border-[#3A3D4A] rounded-lg text-[#E0E0E0]"
+                                rows={4}
+                            />
+                        ) : (
+                            <p className="mb-4 text-[#E0E0E0]">{team.TEAM_DESCRIPTION}</p>
+                        )}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div className="bg-[#292B35] p-4 rounded-lg">
                                 <div className="font-semibold text-[#95C5C5]">Game</div>
-                                <div className="text-[#E0E0E0]">{team.GAME}</div>
+                                <div className="text-[#E0E0E0]">
+                                    {isEditing ? (
+                                        <input
+                                            type="text"
+                                            name="GAME"
+                                            value={editedTeam.GAME}
+                                            onChange={handleChange}
+                                            className="w-full bg-[#292B35] border border-[#3A3D4A] rounded px-2"
+                                        />
+                                    ) : (
+                                        team.GAME
+                                    )}
+                                </div>
                             </div>
                             <div className="bg-[#292B35] p-4 rounded-lg">
                                 <div className="font-semibold text-[#95C5C5]">Team Size</div>
-                                <div className="text-[#E0E0E0]">{team.TEAM_SIZE}</div>
+                                <div className="text-[#E0E0E0]">
+                                    {isEditing ? (
+                                        <input
+                                            type="number"
+                                            name="TEAM_SIZE"
+                                            value={editedTeam.TEAM_SIZE}
+                                            onChange={handleChange}
+                                            min={1}
+                                            className="w-full bg-[#292B35] border border-[#3A3D4A] rounded px-2"
+                                        />
+                                    ) : (
+                                        team.TEAM_SIZE
+                                    )}
+                                </div>
                             </div>
                             <div className="bg-[#292B35] p-4 rounded-lg">
                                 <div className="font-semibold text-[#95C5C5]">Tag</div>
-                                <div className="text-[#E0E0E0]">{team.TAG}</div>
+                                <div className="text-[#E0E0E0]">
+                                    {isEditing ? (
+                                        <input
+                                            type="text"
+                                            name="TAG"
+                                            value={editedTeam.TAG}
+                                            onChange={handleChange}
+                                            className="w-full bg-[#292B35] border border-[#3A3D4A] rounded px-2"
+                                        />
+                                    ) : (
+                                        team.TAG
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -165,21 +286,70 @@ const TeamDetails = ({ team, onBack }) => {
                                     <FaUsers className="text-[#95C5C5] mr-3" />
                                     <span className="text-[#E0E0E0]">{p.USER_ID}</span>
                                     <span className="ml-auto px-2 py-1 rounded bg-[#95C5C5] text-[#292B35] text-xs font-bold">{p.ACCESS}</span>
+                                    {isEditing && (
+                                        <button className="ml-2 text-red-400 hover:text-red-300">
+                                            <FaUserMinus />
+                                        </button>
+                                    )}
                                 </div>
                             ))}
+                            {isEditing && (
+                                <div className="mt-4 flex">
+                                    <input
+                                        type="text"
+                                        placeholder="Add member by ID"
+                                        className="flex-1 px-3 py-2 bg-[#292B35] border border-[#3A3D4A] rounded-l text-[#E0E0E0]"
+                                    />
+                                    <button className="px-4 py-2 bg-[#95C5C5] text-[#292B35] rounded-r">
+                                        <FaUserPlus />
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
                 )}
                 {activeTab === 'milestones' && (
                     <div>
                         <h3 className="text-xl font-bold mb-2 text-[#95C5C5]">Milestones</h3>
-                        <MilestoneList milestones={team.MILESTONES} />
+                        <MilestoneList milestones={team.MILESTONES} editable={isEditing} />
+                        {isEditing && (
+                            <div className="mt-4 bg-[#292B35] p-4 rounded-lg">
+                                <h4 className="font-bold text-[#95C5C5] mb-2">Add Milestone</h4>
+                                <div className="flex flex-col md:flex-row gap-2">
+                                    <input
+                                        type="text"
+                                        placeholder="Milestone Name"
+                                        className="flex-1 px-3 py-2 bg-[#2F3140] border border-[#3A3D4A] rounded text-[#E0E0E0]"
+                                    />
+                                    <input
+                                        type="text"
+                                        placeholder="Description"
+                                        className="flex-1 px-3 py-2 bg-[#2F3140] border border-[#3A3D4A] rounded text-[#E0E0E0]"
+                                    />
+                                    <input
+                                        type="date"
+                                        className="px-3 py-2 bg-[#2F3140] border border-[#3A3D4A] rounded text-[#E0E0E0]"
+                                    />
+                                    <button
+                                        type="button"
+                                        className="px-4 py-2 bg-[#95C5C5] text-[#292B35] rounded hover:bg-opacity-80"
+                                    >
+                                        Add
+                                    </button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                 )}
                 {activeTab === 'events' && (
                     <div>
                         <h3 className="text-xl font-bold mb-2 text-[#95C5C5]">Events Enrolled</h3>
                         <EventList events={team.EVENTS_ENROLLED} />
+                        {isEditing && (
+                            <button className="mt-4 px-4 py-2 bg-[#EE8631] text-white rounded hover:bg-[#AD662F] flex items-center">
+                                <FaTrophy className="mr-2" /> Find Events to Join
+                            </button>
+                        )}
                     </div>
                 )}
             </div>
@@ -187,7 +357,7 @@ const TeamDetails = ({ team, onBack }) => {
     );
 };
 
-const ManageTeams = ({ onBackClick }) => {
+const ManageTeams = ({ onBackClick, onTeamSelect, selectedTeam, viewMode = "list" }) => {
     // Example: list of teams, each matching the JSON structure
     const [teams] = useState([
         {
@@ -257,7 +427,19 @@ const ManageTeams = ({ onBackClick }) => {
             ]
         }
     ]);
-    const [activeTeam, setActiveTeam] = useState(null);
+    const [activeTeam, setActiveTeam] = useState(selectedTeam || null);
+    const [isEditing, setIsEditing] = useState(false);
+
+    useEffect(() => {
+        setActiveTeam(selectedTeam);
+    }, [selectedTeam]);
+
+    const handleTeamClick = (team) => {
+        setActiveTeam(team);
+        if (onTeamSelect) {
+            onTeamSelect(team);
+        }
+    };
 
     return (
         <div className="h-screen overflow-y-auto bg-gradient-to-br from-[#292B35] to-[#363945] text-[#E0E0E0] p-6">
@@ -269,29 +451,49 @@ const ManageTeams = ({ onBackClick }) => {
                     transition={{ duration: 0.5 }}
                 >
                     <button
-                        onClick={activeTeam ? () => setActiveTeam(null) : onBackClick}
+                        onClick={() => {
+                            if (activeTeam && viewMode !== "details") {
+                                setActiveTeam(null);
+                            } else {
+                                onBackClick();
+                            }
+                        }}
                         className="mr-4 text-[#95C5C5] hover:text-[#EE8631] transition-colors"
                     >
                         <FaArrowLeft size={24} />
                     </button>
                     <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#95C5C5] to-[#EE8631]">
-                        {activeTeam ? activeTeam.NAME : "Manage Your Teams"}
+                        {activeTeam && viewMode !== "details" ? activeTeam.NAME : "Manage Your Teams"}
                     </h1>
                 </motion.div>
                 <AnimatePresence mode="wait">
-                    {!activeTeam ? (
-                        <motion.div
-                            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                        >
-                            {teams.map(team => (
-                                <TeamCard key={team.TEAM_ID} team={team} onClick={setActiveTeam} />
-                            ))}
-                        </motion.div>
+                    {!activeTeam || viewMode === "details" ? (
+                        viewMode === "details" && selectedTeam ? (
+                            <TeamDetails 
+                                team={selectedTeam} 
+                                onBack={onBackClick}
+                                isEditing={isEditing}
+                                setIsEditing={setIsEditing}
+                            />
+                        ) : (
+                            <motion.div
+                                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                            >
+                                {teams.map(team => (
+                                    <TeamCard key={team.TEAM_ID} team={team} onClick={handleTeamClick} />
+                                ))}
+                            </motion.div>
+                        )
                     ) : (
-                        <TeamDetails team={activeTeam} onBack={() => setActiveTeam(null)} />
+                        <TeamDetails 
+                            team={activeTeam} 
+                            onBack={() => setActiveTeam(null)}
+                            isEditing={isEditing}
+                            setIsEditing={setIsEditing}
+                        />
                     )}
                 </AnimatePresence>
             </div>
