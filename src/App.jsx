@@ -23,6 +23,8 @@ import LandingPage from './Views/Landing Page/landingPage';
 import UserProfileCreationPage from './Views/User profile Creation Page/userProfileCreationPage';
 import MentorProfileCreationPage from './Views/Mentor Profile Creation Page/mentorProfileCreationPage';
 
+import Teams from './Views/Teams/teams';
+
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
 
@@ -67,6 +69,7 @@ function AppInner() {
         <Route path='/create-event' element={<CreateEvent />} />
         <Route path='/event-info' element={<EventInfo />} />
         <Route path='/landing-page' element={<LandingPage />} />
+        <Route path='/teams' element={<Teams />} />
 
         <Route path='/user-profile-creation-page' element={<UserProfileCreationPage />} />
         <Route path='/mentor-profile-creation-page' element={<MentorProfileCreationPage />} />

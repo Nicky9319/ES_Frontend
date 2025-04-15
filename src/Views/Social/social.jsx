@@ -196,15 +196,16 @@ function Social() {
         <div className="min-h-screen" style={{ backgroundColor: '#E0E0E0' }}>
             <div className="flex min-h-screen">
                 <LeftSlider
-                    mentorIcon="📰"
-                    mentorTitle="Feed"
-                    mentorDescription="Latest community updates"
+                    upperVerticalIcon="📰"
+                    upperVerticalTitle="Feed"
+                    upperVerticalDescription="Latest community updates"
                     upperVerticalClick={handleFeedClick}
-                    playerIcon="📢"
-                    playerTitle="News"
-                    playerDescription="Esports headlines & articles"
+                    lowerVerticalIcon="📢"
+                    lowerVerticalTitle="News"
+                    lowerVerticalDescription="Esports headlines & articles"
                     lowerVerticalClick={handleNewsClick}
                 />
+                
                 <div className="flex-1 flex flex-col overflow-hidden">
                     <header className="shadow-md" style={{ backgroundColor: '#95C5C5', height: '4px' }}></header>
                     <main className="flex-1 overflow-x-hidden overflow-y-auto">

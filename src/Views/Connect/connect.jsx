@@ -555,13 +555,13 @@ function Connect() {
             <div className="flex h-screen bg-[#E0E0E0] justify-center">
                 {/* Left Slider */}
                 <LeftSlider
-                    mentorIcon="🧑‍🏫"
-                    mentorTitle="Mentors"
-                    mentorDescription="Connect with experienced mentors"
+                    upperVerticalIcon="🧑‍🏫"
+                    upperVerticalTitle="Mentors"
+                    upperVerticalDescription="Connect with experienced mentors"
                     upperVerticalClick={handleMentorClick}
-                    playerIcon="🎮"
-                    playerTitle="Players"
-                    playerDescription="Find skilled players to team up with"
+                    lowerVerticalIcon="🎮"
+                    lowerVerticalTitle="Players"
+                    lowerVerticalDescription="Find skilled players to team up with"
                     lowerVerticalClick={handlePlayerClick}
                 />
 
