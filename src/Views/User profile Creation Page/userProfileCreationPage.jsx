@@ -256,6 +256,7 @@ function UserProfileCreationPage() {
     };
     const nextSection = () => {
         const currentIndex = getSectionIndex(activeSection);
+        console.log(currentIndex)
         if (currentIndex < sections.length - 1 && canAccessSection(sections[currentIndex + 1].id))
             setActiveSection(sections[currentIndex + 1].id);
     };
@@ -397,6 +398,8 @@ function UserProfileCreationPage() {
                                             whileHover={{ scale: getSectionIndex(activeSection) === 0 ? 1 : 1.05 }} whileTap={{ scale: 0.95 }}>
                                             Back
                                         </motion.button>
+
+                                        {console.log("Sectin Index" , getSectionIndex(activeSection))} {console.log("Section Length" , sections.length)}
 
                                         {getSectionIndex(activeSection) < sections.length - 1 ? (
                                             <motion.button type="button" onClick={nextSection} disabled={activeSection === 'basic' ? !isBasicSectionValid() : false}
