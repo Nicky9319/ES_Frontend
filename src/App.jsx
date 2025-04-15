@@ -47,11 +47,12 @@ function AppInner() {
   const isLandingPageRoute = location.pathname === '/landing-page';
   const isDMPageRoute = location.pathname === '/dm-page';
   const isUserProfileCreationPageRoute = location.pathname === '/user-profile-creation-page';
+  const isMentorProfileCreationPageRoute = location.pathname === '/mentor-profile-creation-page';
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-gray-50 text-gray-800">
       {(!isProfilePageRoute && !isChoosePersonaRoute && !isMentorProfileRoute &&
-         !isLandingPageRoute && !isDMPageRoute && !isUserProfileCreationPageRoute) && <Navbar />}
+         !isLandingPageRoute && !isDMPageRoute && !isUserProfileCreationPageRoute && !isMentorProfileCreationPageRoute) && <Navbar />}
       <Routes>
         <Route path="/" element={<EsEvents />} />
         <Route path="/social" element={<Social />} />
@@ -66,12 +67,16 @@ function AppInner() {
         <Route path='/create-event' element={<CreateEvent />} />
         <Route path='/event-info' element={<EventInfo />} />
         <Route path='/landing-page' element={<LandingPage />} />
+
         <Route path='/user-profile-creation-page' element={<UserProfileCreationPage />} />
-        <Route path='/mentor-profile-creation' element={<MentorProfileCreationPage />} />
+        <Route path='/mentor-profile-creation-page' element={<MentorProfileCreationPage />} />
+
+
+
         {/* Add more routes as needed */}
       </Routes>
       {(!isProfilePageRoute && !isChoosePersonaRoute && !isMentorProfileRoute &&
-        !isLandingPageRoute && !isDMPageRoute && !isUserProfileCreationPageRoute) && <Footer />}
+        !isLandingPageRoute && !isDMPageRoute && !isUserProfileCreationPageRoute && !isMentorProfileCreationPageRoute) && <Footer />}
     </div>
   );
 }

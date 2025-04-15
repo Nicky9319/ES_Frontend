@@ -149,13 +149,15 @@ const SocialMediaSection = ({ formData, handleChange, className }) => (
 );
 
 // --- Main Component ---
+const initialFormData = {
+    USER_NAME: '', TAGLINE: '', BIO: '',
+    LOCATION: '', TEAM_STATUS: 'Looking For Team', GAMES_PLAYED: [],
+    SOCIAL_LINKS: { INSTAGRAM: '', DISCORD: '', TWITTER: '', LINKEDIN: '', WEBSITE: '', YOUTUBE: '' }
+};
+
 function UserProfileCreationPage() {
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-        USER_NAME: '', TAGLINE: '', BIO: '',
-        LOCATION: '', TEAM_STATUS: 'Looking For Team', GAMES_PLAYED: [],
-        SOCIAL_LINKS: { INSTAGRAM: '', DISCORD: '', TWITTER: '', LINKEDIN: '', WEBSITE: '', YOUTUBE: '' }
-    });
+    const [formData, setFormData] = useState(initialFormData);
     const [profilePicFile, setProfilePicFile] = useState(null);
     const [profilePicPreview, setProfilePicPreview] = useState('');
     const [bannerFile, setBannerFile] = useState(null);
@@ -185,12 +187,16 @@ function UserProfileCreationPage() {
         }
     }, [bannerFile]);
 
-    const loadExampleData = () => {
-        setFormData({ ...defaultPlayerData, PROFILE_PIC: undefined, PROFILE_BANNER: undefined });
-        setBannerPreview(defaultPlayerData.PROFILE_BANNER || '');
-        setProfilePicPreview(defaultPlayerData.PROFILE_PIC || '');
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [activeSection, previewMode]);
+
+    const resetForm = () => {
+        setFormData(initialFormData);
         setProfilePicFile(null);
+        setProfilePicPreview('');
         setBannerFile(null);
+        setBannerPreview('');
     };
 
     const handleChange = (e) => {
@@ -286,7 +292,7 @@ function UserProfileCreationPage() {
                             <div className="p-6">
                                 <div className="flex items-center justify-between mb-6">
                                     <h3 className="text-xl font-semibold">Profile Setup</h3>
-                                    <motion.button onClick={loadExampleData} title="Load Example Data" className="text-[#95C5C5] hover:text-[#EE8631] transition-colors" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
+                                    <motion.button onClick={resetForm} title="Reset Data" className="text-[#95C5C5] hover:text-[#EE8631] transition-colors" whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.97l-2.308.964a2 2 0 01-1.566 0l-2.308-.964a6 6 0 00-3.86-.97l-2.387.477a2 2 0 00-1.022.547m16.022 0v1.046a2 2 0 01-.999 1.75l-2.387.955a6 6 0 01-3.86.97l-2.308-.964a2 2 0 00-1.566 0l-2.308.964a6 6 0 01-3.86-.97l-2.387-.955a2 2 0 01-.999-1.75v-1.046m16.022 0l-3-17.32a2 2 0 00-2-1.68h-6a2 2 0 00-2 1.68l-3 17.32" /></svg>
                                     </motion.button>
                                 </div>
@@ -320,7 +326,7 @@ function UserProfileCreationPage() {
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="text-lg font-medium text-[#95C5C5]">Profile Setup</h3>
                             <div className="flex gap-2">
-                                <motion.button onClick={loadExampleData} title="Load Example Data" className="p-2 bg-[#3A3D4A] rounded-md text-[#95C5C5]" whileTap={{ scale: 0.95 }}>
+                                <motion.button onClick={resetForm} title="Reset Data" className="p-2 bg-[#3A3D4A] rounded-md text-[#95C5C5]" whileTap={{ scale: 0.95 }}>
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.97l-2.308.964a2 2 0 01-1.566 0l-2.308-.964a6 6 0 00-3.86-.97l-2.387.477a2 2 0 00-1.022.547m16.022 0v1.046a2 2 0 01-.999 1.75l-2.387.955a6 6 0 01-3.86.97l-2.308-.964a2 2 0 00-1.566 0l-2.308.964a6 6 0 01-3.86-.97l-2.387-.955a2 2 0 01-.999-1.75v-1.046m16.022 0l-3-17.32a2 2 0 00-2-1.68h-6a2 2 0 00-2 1.68l-3 17.32" /></svg>
                                 </motion.button>
                                 <motion.button onClick={() => setPreviewMode(!previewMode)} className={`p-2 rounded-md ${previewMode ? 'bg-[#EE8631] text-white' : 'bg-[#3A3D4A] text-[#95C5C5]'}`} whileTap={{ scale: 0.95 }}>
