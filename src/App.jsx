@@ -18,7 +18,15 @@ import ViewMentorProfilePage from './Views/Mentor Profile Page/viewMentorProfile
 import EventInfo from './Views/ES Events/eventInfo';
 import CreateEvent from './Views/ES Events/createEvent';
 
+import LandingPage from './Views/Landing Page/landingPage';
+
+import UserProfileCreationPage from './Views/User profile Creation Page/userProfileCreationPage';
+import MentorProfileCreationPage from './Views/Mentor Profile Creation Page/mentorProfileCreationPage';
+
+import Teams from './Views/Teams/teams';
+
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+
 
 // Get the base URL from the import.meta.env (injected by Vite)
 const baseUrl = import.meta.env.BASE_URL || '/';
@@ -38,10 +46,15 @@ function AppInner() {
   const isProfilePageRoute = location.pathname.startsWith('/profile');
   const isChoosePersonaRoute = location.pathname === '/choose-persona';
   const isMentorProfileRoute = location.pathname.startsWith('/mentorProfile');
+  const isLandingPageRoute = location.pathname === '/landing-page';
+  const isDMPageRoute = location.pathname === '/dm-page';
+  const isUserProfileCreationPageRoute = location.pathname === '/user-profile-creation-page';
+  const isMentorProfileCreationPageRoute = location.pathname === '/mentor-profile-creation-page';
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-gray-50 text-gray-800">
-      {(!isProfilePageRoute && !isChoosePersonaRoute && !isMentorProfileRoute) && <Navbar />}
+      {(!isProfilePageRoute && !isChoosePersonaRoute && !isMentorProfileRoute &&
+         !isLandingPageRoute && !isDMPageRoute && !isUserProfileCreationPageRoute && !isMentorProfileCreationPageRoute) && <Navbar />}
       <Routes>
         <Route path="/" element={<EsEvents />} />
         <Route path="/social" element={<Social />} />
@@ -55,9 +68,18 @@ function AppInner() {
         <Route path='/mentorProfile/:mentorId' element={<ViewMentorProfilePage />} />
         <Route path='/create-event' element={<CreateEvent />} />
         <Route path='/event-info' element={<EventInfo />} />
+        <Route path='/landing-page' element={<LandingPage />} />
+        <Route path='/teams' element={<Teams />} />
+
+        <Route path='/user-profile-creation-page' element={<UserProfileCreationPage />} />
+        <Route path='/mentor-profile-creation-page' element={<MentorProfileCreationPage />} />
+
+
+
         {/* Add more routes as needed */}
       </Routes>
-      {(!isProfilePageRoute && !isChoosePersonaRoute && !isMentorProfileRoute) && <Footer />}
+      {(!isProfilePageRoute && !isChoosePersonaRoute && !isMentorProfileRoute &&
+        !isLandingPageRoute && !isDMPageRoute && !isUserProfileCreationPageRoute && !isMentorProfileCreationPageRoute) && <Footer />}
     </div>
   );
 }
