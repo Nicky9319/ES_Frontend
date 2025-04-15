@@ -230,10 +230,8 @@ const ManageTeams = ({
           >
             <FaArrowLeft size={24} />
           </button>
-          <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#95C5C5] to-[#EE8631]">
-            {activeTeam && viewMode !== "details"
-              ? activeTeam.NAME
-              : "Manage Your Teams"}
+          <h1 className="text-4xl font-bold bg-clip-text text-transparent leading-loose bg-gradient-to-r from-[#95C5C5] to-[#EE8631]">
+            Manage your team
           </h1>
         </motion.div>
         <AnimatePresence mode="wait">
