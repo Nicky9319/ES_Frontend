@@ -280,23 +280,7 @@ const EventInfo = () => {
                             </h1>
                         )}
                         <div className="bg-[#EE8631] text-white inline-block px-4 py-2 rounded-lg font-bold text-lg drop-shadow-lg">
-                            {isEditing ? (
-                                <select 
-                                    value={editedEvent.GAME}
-                                    onChange={e => handleInputChange("GAME", e.target.value)}
-                                    className="bg-[#EE8631] text-white focus:outline-none"
-                                >
-                                    <option value="Valorant">Valorant</option>
-                                    <option value="CS:GO">CS:GO</option>
-                                    <option value="Fortnite">Fortnite</option>
-                                    <option value="PUBG">PUBG</option>
-                                    <option value="League of Legends">League of Legends</option>
-                                    <option value="Dota 2">Dota 2</option>
-                                    <option value="FIFA">FIFA</option>
-                                </select>
-                            ) : (
-                                event.GAME
-                            )}
+                            {event.GAME}
                         </div>
                     </div>
                 </div>
@@ -365,21 +349,15 @@ const EventInfo = () => {
                                                     value={editedEvent.VENUE}
                                                     onChange={e => handleInputChange("VENUE", e.target.value)}
                                                     className="text-[#E0E0E0] bg-transparent border-b border-[#95C5C5]/50 focus:outline-none w-full mb-2"
-                                                    placeholder="Venue"
+                                                    placeholder="Venue Name"
                                                 />
-                                                <select
+                                                <input
+                                                    type="text"
                                                     value={editedEvent.LOCATION}
                                                     onChange={e => handleInputChange("LOCATION", e.target.value)}
                                                     className="text-[#E0E0E0] bg-transparent border-b border-[#95C5C5]/50 focus:outline-none w-full"
-                                                >
-                                                    <option value="Online">Online</option>
-                                                    <option value="Online & Offline Hybrid">Online & Offline Hybrid</option>
-                                                    <option value="Delhi">Delhi</option>
-                                                    <option value="Mumbai">Mumbai</option>
-                                                    <option value="Bangalore">Bangalore</option>
-                                                    <option value="Hyderabad">Hyderabad</option>
-                                                    <option value="Chennai">Chennai</option>
-                                                </select>
+                                                    placeholder="City/Location"
+                                                />
                                             </>
                                         ) : (
                                             <>
@@ -399,18 +377,13 @@ const EventInfo = () => {
                                     <div>
                                         <h3 className="font-semibold text-[#EE8631]">Format</h3>
                                         {isEditing ? (
-                                            <select
+                                            <input
+                                                type="text"
                                                 value={editedEvent.FORMAT}
                                                 onChange={e => handleInputChange("FORMAT", e.target.value)}
                                                 className="text-[#E0E0E0] bg-transparent border-b border-[#95C5C5]/50 focus:outline-none w-full"
-                                            >
-                                                <option value="Single Elimination">Single Elimination</option>
-                                                <option value="Double Elimination">Double Elimination</option>
-                                                <option value="Round Robin">Round Robin</option>
-                                                <option value="Knockout">Knockout</option>
-                                                <option value="Swiss">Swiss</option>
-                                                <option value="League">League</option>
-                                            </select>
+                                                placeholder="Tournament Format"
+                                            />
                                         ) : (
                                             <p className="text-[#E0E0E0]">{event.FORMAT}</p>
                                         )}
@@ -449,45 +422,15 @@ const EventInfo = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="bg-[#292B35] p-4 rounded-lg border border-[#95C5C5]/30">
                                     <h3 className="text-[#EE8631] font-bold mb-2">Game</h3>
-                                    <p className="text-xl">{isEditing ? editedEvent.GAME : event.GAME}</p>
+                                    <p className="text-xl">{event.GAME}</p>
                                 </div>
                                 <div className="bg-[#292B35] p-4 rounded-lg border border-[#95C5C5]/30">
                                     <h3 className="text-[#EE8631] font-bold mb-2">Game Type</h3>
-                                    {isEditing ? (
-                                        <select
-                                            value={editedEvent.GAME_TYPE}
-                                            onChange={e => handleInputChange("GAME_TYPE", e.target.value)}
-                                            className="text-xl bg-transparent border-b border-[#95C5C5]/50 focus:outline-none w-full"
-                                        >
-                                            <option value="FPS">FPS</option>
-                                            <option value="Battle Royale">Battle Royale</option>
-                                            <option value="MOBA">MOBA</option>
-                                            <option value="Sports">Sports</option>
-                                            <option value="Card Games">Card Games</option>
-                                            <option value="Strategy">Strategy</option>
-                                        </select>
-                                    ) : (
-                                        <p className="text-xl">{event.GAME_TYPE}</p>
-                                    )}
+                                    <p className="text-xl">{event.GAME_TYPE}</p>
                                 </div>
                                 <div className="bg-[#292B35] p-4 rounded-lg border border-[#95C5C5]/30">
                                     <h3 className="text-[#EE8631] font-bold mb-2">Platform</h3>
-                                    {isEditing ? (
-                                        <select
-                                            value={editedEvent.CONSOLE}
-                                            onChange={e => handleInputChange("CONSOLE", e.target.value)}
-                                            className="text-xl bg-transparent border-b border-[#95C5C5]/50 focus:outline-none w-full"
-                                        >
-                                            <option value="PC">PC</option>
-                                            <option value="PlayStation 5">PlayStation 5</option>
-                                            <option value="PlayStation 4">PlayStation 4</option>
-                                            <option value="Xbox Series X">Xbox Series X</option>
-                                            <option value="Nintendo Switch">Nintendo Switch</option>
-                                            <option value="Mobile">Mobile</option>
-                                        </select>
-                                    ) : (
-                                        <p className="text-xl">{event.CONSOLE}</p>
-                                    )}
+                                    <p className="text-xl">{event.CONSOLE}</p>
                                 </div>
                                 <div className="bg-[#292B35] p-4 rounded-lg border border-[#95C5C5]/30">
                                     <h3 className="text-[#EE8631] font-bold mb-2">Format</h3>
