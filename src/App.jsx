@@ -22,6 +22,7 @@ import LandingPage from './Views/Landing Page/landingPage';
 import MentorProfileCreationPage from './Views/Mentor Profile Creation Page/mentorProfileCreationPage';
 
 import UserProfileCreationPage from './Views/User profile Creation Page/userProfileCreationPage';
+import MentorProfileCreationPage from './Views/Mentor Profile Creation Page/mentorProfileCreationPage';
 
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 
