@@ -1,0 +1,38 @@
+{
+  "GAMES": [
+    "Valorant",
+    "League of Legends"
+  ],
+  "PROFILE_BANNER": "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80",
+  "PROFILE_PIC": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+  "LOCATION": "New York, USA",
+  "EXPERIENCE_YEARS": 5,
+  "PRICE_PER_SESSION": 250,
+  "SOCIAL_LINKS": {
+    "INSTAGRAM": "www.instagram.com/saxena_paarth/",
+    "DISCORD": "mentor#5678",
+    "TWITTER": "@mentor_tweet",
+    "LINKEDIN": "linkedin.com/mentor",
+    "WEBSITE": "mentor.com",
+    "YOUTUBE": "youtube.com/mentor"
+  },
+  "BIO": "Experienced esports mentor specializing in FPS and MOBA games. etc etc etc ",
+  "MENTOR_ID": "590b6f34-feff-4a5b-8bc6-626b975ef4cd",
+  "CREATED_AT": {
+    "$date": "2025-04-13T07:54:34.171Z"
+  },
+  "RATING": 4.5,
+  "VERIFIED": true,
+  "TAGLINE": "Level up your game with personalized coaching!",
+  "SESSIONS_COMPLETED": 150,
+  "SUCCESS_RATE": 75,
+  "SPECIALITIES": [
+    "FPS",
+    "MOBA"
+  ],
+  "LANGUAGES": [
+    "English",
+    "Spanish"
+  ],
+  "USER_NAME" : "mentor_user"
+}

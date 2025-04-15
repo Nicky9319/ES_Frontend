@@ -1,78 +1,92 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const LeftPanel = ({ contacts, onSelectContact, activeContactId, isLoading }) => {
-    return (
-        <div className="flex flex-col h-full bg-white rounded-lg overflow-hidden shadow-lg">
-            {/* Header */}
-            <div className="bg-[#292B35] text-white px-4 py-4">
-                <h2 className="font-semibold text-xl">Messages</h2>
-                <p className="text-xs text-gray-300">Connect with fellow gamers</p>
-            </div>
-            
-            {/* Search bar */}
-            <div className="px-4 py-3 border-b border-gray-200">
-                <div className="relative">
-                    <input
-                        type="text"
-                        placeholder="Search conversations..."
-                        className="w-full bg-gray-100 rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
-                    />
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500 absolute left-3 top-2.5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-                    </svg>
-                </div>
-            </div>
-            
-            {/* Contacts list */}
-            <div className="flex-1 overflow-y-auto scrollbar-thin">
-                {isLoading ? (
-                    <div className="flex flex-col items-center justify-center h-full text-gray-500 py-8">
-                        <div className="w-12 h-12 border-4 border-[#EE8631] border-t-transparent rounded-full animate-spin mb-4"></div>
-                        <p>Loading contacts...</p>
-                    </div>
-                ) : contacts.length > 0 ? (
-                    <ul className="divide-y divide-gray-200">
-                        {contacts.map((contact) => (
-                            <li 
-                                key={contact.id} 
-                                onClick={() => onSelectContact(contact)}
-                                className={`px-4 py-3 cursor-pointer hover:bg-gray-50 transition-colors ${
-                                    activeContactId === contact.id ? 'bg-[#E0E0E0]' : ''
-                                }`}
-                            >
-                                <div className="flex items-start">
-                                    <div className="relative">
-                                        <img 
-                                            src={contact.profilePic} 
-                                            alt={contact.name}
-                                            className="h-12 w-12 rounded-full object-cover mr-3"
-                                        />
-                                        <div className="absolute bottom-0 right-1 h-3 w-3 bg-green-500 rounded-full border-2 border-white"></div>
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <div className="flex justify-between items-baseline">
-                                            <h3 className="font-medium text-gray-900 truncate">{contact.name}</h3>
-                                            <span className="text-xs text-gray-500">{contact.timestamp}</span>
-                                        </div>
-                                        <p className="text-sm text-gray-500 truncate">{contact.lastMessage}</p>
-                                        <p className="text-xs text-gray-400 truncate mt-0.5">{contact.bio}</p>
-                                    </div>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <div className="flex flex-col items-center justify-center h-full text-gray-500 p-6">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-gray-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                        </svg>
-                        <p className="text-center font-medium">No conversations yet</p>
-                        <p className="text-center text-sm mt-1">Connect with other players to start messaging</p>
-                    </div>
-                )}
-            </div>
+const LeftPanel = ({ contacts = [], onSelectContact, activeContactId, isLoading }) => {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredContacts = contacts?.filter(contact =>
+    contact.NAME.toLowerCase().includes(searchQuery.toLowerCase())
+  ) || [];
+
+  return (
+    <div className="h-full flex flex-col">
+      {/* Search bar */}
+      <div className="px-2 mb-4 flex-shrink-0">
+        <div className="relative">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search contacts..."
+            className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-full py-2 pl-10 pr-4 text-[#E0E0E0] placeholder:text-[#95C5C5]/70 focus:outline-none focus:ring-1 focus:ring-[#95C5C5]"
+          />
+          <div className="absolute left-3 top-2.5 text-[#95C5C5]">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
         </div>
-    );
+      </div>
+
+      {/* Contacts list with improved scrolling */}
+      <div 
+        className="flex-1 overflow-y-auto px-2"
+        style={{
+          maxHeight: 'calc(100vh - 200px)',
+          overflowY: 'auto',
+          scrollbarWidth: 'thin',
+          scrollbarColor: '#95C5C5 transparent'
+        }}
+      >
+        {isLoading ? (
+          Array(5).fill(0).map((_, index) => (
+            <div key={index} className="animate-pulse flex p-2 mb-2 rounded-lg">
+              <div className="rounded-full bg-[#353744] h-12 w-12"></div>
+              <div className="ml-3 flex-1">
+                <div className="h-4 bg-[#353744] rounded w-3/4 mb-2"></div>
+                <div className="h-3 bg-[#353744] rounded w-1/2"></div>
+              </div>
+            </div>
+          ))
+        ) : (
+          filteredContacts.length > 0 ? (
+            filteredContacts.map(contact => (
+              <div
+                key={contact.ID}
+                onClick={() => onSelectContact(contact)}
+                className={`p-3 mb-2 rounded-lg flex items-center cursor-pointer transition-all hover:bg-[#2D2F3A] ${
+                  activeContactId === contact.ID ? 'bg-[#353744] border-l-4 border-[#EE8631]' : ''
+                }`}
+              >
+                <div className="relative">
+                  <img 
+                    src={contact.PROFILE_PIC} 
+                    alt={contact.NAME} 
+                    className="w-12 h-12 rounded-full object-cover border-2 border-[#95C5C5]/30" 
+                  />
+                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full border-[1.5px] border-[#292B35]"></div>
+                </div>
+                <div className="ml-3 flex-1">
+                  <div className="flex justify-between">
+                    <h3 className={`font-medium ${activeContactId === contact.ID ? 'text-[#E0E0E0]' : 'text-[#E0E0E0]/90'}`}>
+                      {contact.NAME}
+                    </h3>
+                    <span className="text-xs text-[#95C5C5]">{contact.TIMESTAMP}</span>
+                  </div>
+                  <p className="text-sm text-[#95C5C5] truncate mt-1">
+                    {contact.LAST_MESSAGE}
+                  </p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div className="text-center py-8 text-[#95C5C5]">
+              No contacts found matching "{searchQuery}"
+            </div>
+          )
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default LeftPanel;
