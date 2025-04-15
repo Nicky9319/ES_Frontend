@@ -1,6 +1,6 @@
 import React from 'react';
 
-function MentorrProfileCreationPage() {
+function MentorProfileCreationPage() {
     return (
         <div>
             <h1>Mentor Profile Creation Page</h1>
