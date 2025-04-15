@@ -84,24 +84,7 @@ function LandingPage() {
                             </button>
                             
                         </div>
-                        <div className="mt-12 flex items-center space-x-6">
-                            <div className="flex -space-x-4">
-                                {[1, 2, 3, 4].map(num => (
-                                    <img 
-                                        key={num}
-                                        src={`/assets/user-${num}.png`} 
-                                        alt={`User ${num}`}
-                                        className="w-10 h-10 rounded-full border-2 border-[#292B35]" 
-                                    />
-                                ))}
-                                <div className="w-10 h-10 rounded-full bg-[#EE8631] flex items-center justify-center text-white text-xs font-bold border-2 border-[#292B35]">
-                                    +2K
-                                </div>
-                            </div>
-                            <p className="text-[#95C5C5] text-sm">
-                                Joined by over <span className="text-[#EE8631] font-bold">2,000+</span> competitive players this month
-                            </p>
-                        </div>
+                        
                     </div>
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#292B35] to-transparent" />
@@ -242,19 +225,7 @@ function LandingPage() {
                 </div>
             </section>
 
-            {/* Stats Section */}
-            <section className="py-16 bg-[#1D1E24] border-y border-[#95C5C5]/10">
-                <div className="container mx-auto px-6">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                        {stats.map((stat, index) => (
-                            <div key={index} data-aos="fade-up" data-aos-delay={index * 100}>
-                                <h3 className="text-4xl font-bold text-[#EE8631] mb-2">{stat.value}</h3>
-                                <p className="text-[#95C5C5]">{stat.label}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
+            
 
             {/* Target Audience Section */}
             <section id="audience" className="py-20 bg-[#1D1E24]">
@@ -285,8 +256,8 @@ function LandingPage() {
                 </div>
             </section>
 
-            {/* Testimonials */}
-            <section className="py-20 bg-[#292B35]">
+            {/* Testimonials */
+            /* <section className="py-20 bg-[#292B35]">
                 <div className="container mx-auto px-6">
                     <h2 className="text-4xl font-bold text-[#95C5C5] text-center mb-16" data-aos="fade-up">
                         What Our Users Say
@@ -316,7 +287,7 @@ function LandingPage() {
                         ))}
                     </div>
                 </div>
-            </section>
+            </section> */}
 
             {/* FAQ Section */}
             <section id="faq" className="py-20 bg-[#1D1E24]">
@@ -392,7 +363,7 @@ function LandingPage() {
                         <div>
                             <h3 className="text-lg font-bold mb-6 text-[#EE8631]">Quick Links</h3>
                             <ul className="space-y-3">
-                                {['Home', 'About Us', 'Tournaments', 'Leaderboards', 'Blog'].map(link => (
+                                {['Home', 'About Us', 'Tournaments'].map(link => (
                                     <li key={link}>
                                         <a href="#" className="text-[#E0E0E0] hover:text-[#EE8631] transition-colors">
                                             {link}
@@ -416,23 +387,7 @@ function LandingPage() {
                             </ul>
                         </div>
 
-                        {/* Newsletter */}
-                        <div>
-                            <h3 className="text-lg font-bold mb-6 text-[#EE8631]">Subscribe</h3>
-                            <p className="text-[#E0E0E0] mb-4">
-                                Stay updated with the latest tournaments and esports news.
-                            </p>
-                            <div className="flex">
-                                <input 
-                                    type="email" 
-                                    placeholder="Your email" 
-                                    className="bg-[#1D1E24] border border-[#95C5C5]/30 rounded-l-lg px-4 py-2 w-full focus:outline-none focus:border-[#EE8631]" 
-                                />
-                                <button className="bg-[#EE8631] text-white px-4 py-2 rounded-r-lg hover:bg-[#AD662F] transition-colors">
-                                    Subscribe
-                                </button>
-                            </div>
-                        </div>
+                       
                     </div>
                     <div className="mt-12 pt-8 border-t border-[#95C5C5]/10 text-center text-[#E0E0E0]">
                         <p>© {new Date().getFullYear()} ELOSphere. All rights reserved.</p>
