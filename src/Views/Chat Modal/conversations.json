@@ -1,0 +1,26 @@
+{
+  "AceStriker": [
+    {
+      "sender": "AceStriker",
+      "text": "Don't forget practice tonight at 8 PM EST!"
+    }
+  ],
+  "Coach Mike": [
+    {
+      "sender": "Coach Mike",
+      "text": "Let's review the VODs tomorrow morning."
+    }
+  ],
+  "ShadowGamer": [
+    {
+      "sender": "ShadowGamer",
+      "text": "Any plans for the weekend?"
+    }
+  ],
+  "TeamLeader": [
+    {
+      "sender": "TeamLeader",
+      "text": "Great job on the project, let's meet up tomorrow."
+    }
+  ]
+}
