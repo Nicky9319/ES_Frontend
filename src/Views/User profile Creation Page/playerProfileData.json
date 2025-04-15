@@ -1,0 +1,20 @@
+{
+    "GAMES_PLAYED": [
+      "Valorant"
+    ],
+    "PROFILE_BANNER": "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80",
+    "PROFILE_PIC": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+    "LOCATION": "Mumbai, India",
+    "TEAM_STATUS": "Looking for Team",
+    "SOCIAL_LINKS": {
+      "INSTAGRAM": "@gamer123",
+      "DISCORD": "gamer123#1234",
+      "TWITTER": "@gamer123",
+      "LINKEDIN": "linkedin.com/gamer123",
+      "WEBSITE": "gamer123.com",
+      "YOUTUBE": "youtube.com/gamer123"
+    },
+    "BIO": "Passionate gamer and esports enthusiast.",
+    "USER_NAME": "gamer123",
+    "TAGLINE" : "First Step to Win"
+  }

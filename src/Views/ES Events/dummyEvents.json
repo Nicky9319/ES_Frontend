@@ -2,39 +2,83 @@
     "EVENTS": [
       {
         "CONTACT_INFO": {
-          "EMAIL": "event.organizer@example.com",
+          "EMAIL": "organizer@example.com",
           "MOBILE_NUMBER": 9876543210
         },
-        "DESCRIPTION": "A national-level hackathon focusing on solving real-world problems with innovative solutions.",
-        "EVENT_DATE": "2025-06-20T10:00:00",
-        "EVENT_NAME": "Hack the Future 2025",
-        "REGISTRATION_DEADLINE": "2025-06-10T23:59:59",
-        "VENUE": "Innovation Hall, TechCity Campus",
-        "ELIGIBILITY": [
-          "College Students",
-          "Startup Founders",
-          "Freelancers"
+        "DESCRIPTION": "An exciting gaming tournament for amateur and pro gamers alike.",
+        "EVENT_DATE": { "$date": "2025-05-20T14:00:00Z" },
+        "EVENT_ID": "EVT12345",
+        "EVENT_NAME": "Spring Gaming Bash",
+        "REGISTRATION_DEADLINE": { "$date": "2025-05-10T23:59:59Z" },
+        "VENUE": "Neon Arena, Sector 21, Game City",
+        "ELIGIBILITY": ["18+", "Must bring valid ID"],
+        "GAME_TYPE": "Battle Royale",
+        "GAME": "Fortnite",
+        "CONSOLE": "PlayStation 5",
+        "PRIZE_POOL": "$5000",
+        "LOCATION": "Online & Offline Hybrid",
+        "FORMAT": "Knockout",
+        "IMAGE": "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "QUESTIONNAIRE": [
+          {
+            "QUESTION": "Do you have your own gaming setup?",
+            "ANSWER": "NO You Would have to bring ur own setup"
+          }
         ],
-        "EVENT_ID": "d29172b7-b7e5-4820-8e84-f2d02821f84a",
-        "CREATED_AT": "2025-04-13T07:54:45.363000"
-      },
+        "FAQ" : [
+          {
+            "QUESTION": "What is the prize pool?",
+            "ANSWER": "$5000"
+          },
+          {
+            "QUESTION": "How many players per team?",
+            "ANSWER": "4"
+          }
+        ],
+        "NUMBER_OF_MEMBERS": 4,
+        "NUMBER_OF_TEAMS": 16,
+        "CREATED_AT": { "$date": "2025-04-14T12:00:00Z" }
+      }
+      ,
       {
         "CONTACT_INFO": {
-          "EMAIL": "event.organizer@example.com",
+          "EMAIL": "organizer@example.com",
           "MOBILE_NUMBER": 9876543210
         },
-        "DESCRIPTION": "A national-level hackathon focusing on solving real-world problems with innovative solutions.",
-        "EVENT_DATE": "2025-06-20T10:00:00",
-        "EVENT_NAME": "Hack the Future 2025",
-        "REGISTRATION_DEADLINE": "2025-06-10T23:59:59",
-        "VENUE": "Innovation Hall, TechCity Campus",
-        "ELIGIBILITY": [
-          "College Students",
-          "Startup Founders",
-          "Freelancers"
+        "DESCRIPTION": "An exciting gaming tournament for amateur and pro gamers alike.",
+        "EVENT_DATE": { "$date": "2025-05-20T14:00:00Z" },
+        "EVENT_ID": "EVT12345",
+        "EVENT_NAME": "Spring Gaming Bash",
+        "REGISTRATION_DEADLINE": { "$date": "2025-05-10T23:59:59Z" },
+        "VENUE": "Neon Arena, Sector 21, Game City",
+        "ELIGIBILITY": ["18+", "Must bring valid ID"],
+        "GAME_TYPE": "Battle Royale",
+        "GAME": "Fortnite",
+        "CONSOLE": "PlayStation 5",
+        "PRIZE_POOL": "$5000",
+        "LOCATION": "Online & Offline Hybrid",
+        "FORMAT": "Knockout",
+        "IMAGE": "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+        "QUESTIONNAIRE": [
+          {
+            "QUESTION": "Do you have your own gaming setup?",
+            "ANSWER": "NO You Would have to bring ur own setup"
+          }
         ],
-        "EVENT_ID": "e161600a-0f80-4d4b-a106-2534287c72af",
-        "CREATED_AT": "2025-04-13T07:54:47.790000"
+        "FAQ" : [
+          {
+            "QUESTION": "What is the prize pool?",
+            "ANSWER": "$5000"
+          },
+          {
+            "QUESTION": "How many players per team?",
+            "ANSWER": "4"
+          }
+        ],
+        "NUMBER_OF_MEMBERS": 4,
+        "NUMBER_OF_TEAMS": 16,
+        "CREATED_AT": { "$date": "2025-04-14T12:00:00Z" }
       }
+      
     ]
-  }
+}
