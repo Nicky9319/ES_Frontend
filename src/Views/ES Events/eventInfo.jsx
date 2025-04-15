@@ -80,18 +80,26 @@ const EventInfo = () => {
     const handleSaveChanges = () => {
         if (JSON.stringify(editedEvent) !== JSON.stringify(event)) {
             const formData = new FormData();
+            const eventData = {};
+
             for (const [key, value] of Object.entries(editedEvent)) {
-                // If value is an object (and not a File) then stringify it, otherwise append directly
-                if (typeof value === 'object' && !(value instanceof File)) {
-                    formData.append(key, JSON.stringify(value));
+                if (key === 'IMAGE') {
+                    // Handle image separately
+                    formData.append('IMAGE', value);
                 } else {
-                    formData.append(key, value);
+                    // Add other fields to the eventData object
+                    eventData[key] = value;
                 }
             }
+
+            // Append the eventData object as a JSON string
+            formData.append('eventData', JSON.stringify(eventData));
+
             // Log each entry from the FormData for simulation
             for (let pair of formData.entries()) {
                 console.log(pair[0] + ': ' + pair[1]);
             }
+
             setEvent(editedEvent);
             setIsEditing(false);
             alert("Event details updated successfully and changes sent to backend!");
