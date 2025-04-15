@@ -232,7 +232,7 @@ function UserProfileCreationPage() {
             console.log(`${key}:`, value);
         }
         alert('Profile created successfully!');
-        // navigate('/dashboard');
+        navigate('/dashboard');
     };
 
     const sections = [
@@ -257,6 +257,7 @@ function UserProfileCreationPage() {
     const nextSection = () => {
         const currentIndex = getSectionIndex(activeSection);
         console.log(currentIndex)
+        console.log(canAccessSection(sections[currentIndex + 1].id))
         if (currentIndex < sections.length - 1 && canAccessSection(sections[currentIndex + 1].id))
             setActiveSection(sections[currentIndex + 1].id);
     };
@@ -399,7 +400,7 @@ function UserProfileCreationPage() {
                                             Back
                                         </motion.button>
 
-                                        {console.log("Sectin Index" , getSectionIndex(activeSection))} {console.log("Section Length" , sections.length)}
+                                        {/* {console.log("Sectin Index" , getSectionIndex(activeSection))} {console.log("Section Length" , sections.length)} */}
 
                                         {getSectionIndex(activeSection) < sections.length - 1 ? (
                                             <motion.button type="button" onClick={nextSection} disabled={activeSection === 'basic' ? !isBasicSectionValid() : false}
@@ -409,7 +410,7 @@ function UserProfileCreationPage() {
                                                 Next
                                             </motion.button>
                                         ) : (
-                                            <motion.button type="submit"
+                                            <motion.button type="button" onClick={handleSubmit} disabled={!isSectionValid()}
                                                 className="px-8 py-3 bg-[#EE8631] text-white font-medium rounded-lg transition-colors hover:bg-[#AD662F] flex items-center shadow-lg"
                                                 whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                                                 Create Profile
