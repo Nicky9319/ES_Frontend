@@ -19,6 +19,8 @@ import ViewUserProfilePage from './Views/Profile Page/viewUserProfilePage';
 import ViewMentorProfilePage from './Views/Mentor Profile Page/viewMentorProfilePage';
 
 import EventInfo from './Views/ES Events/eventInfo';
+import ViewEventInfo from './Views/ES Events/viewEventInfo';
+
 import CreateEvent from './Views/ES Events/createEvent';
 
 import LandingPage from './Views/Landing Page/landingPage';
@@ -79,7 +81,10 @@ function AppInner() {
         <Route path='/profile/:userId' element={<ViewUserProfilePage />} />
         <Route path='/mentorProfile/:mentorId' element={<ViewMentorProfilePage />} />
         <Route path='/create-event' element={<CreateEvent />} />
+
         <Route path='/event-info' element={<EventInfo />} />
+        <Route path='/view-event-info' element={<ViewEventInfo />} />
+
         <Route path='/landing-page' element={<LandingPage />} />
         <Route path='/teams' element={<Teams />} />
 
