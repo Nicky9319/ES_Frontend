@@ -35,6 +35,18 @@ const FormInput = ({ id, name, label, type = "text", value, onChange, placeholde
                 className={`w-full bg-[#292B35] border border-[#3A3D4A] rounded-lg px-4 py-3 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#95C5C5] transition-colors placeholder-[#6b7280] ${type === 'file' ? 'file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#95C5C5] file:text-[#292B35] hover:file:bg-opacity-80 cursor-pointer' : ''} ${type === 'number' ? '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none' : ''}`}
                 placeholder={placeholder}
                 accept={accept}
+                {...(type === "number" ? {
+                    onFocus: (e) => {
+                        if (e.target.value === "0") {
+                            onChange({ target: { ...e.target, value: "" } });
+                        }
+                    },
+                    onBlur: (e) => {
+                        if (e.target.value === "") {
+                            onChange({ target: { ...e.target, value: "0" } });
+                        }
+                    }
+                } : {})}
             />
         )}
     </div>
@@ -364,10 +376,12 @@ function MentorProfileCreationPage() {
     const addTag = (field, tag) => {
         setFormData(prev => {
             const currentTags = prev[field] || [];
-            if (!currentTags.includes(tag)) {
-                return { ...prev, [field]: [...currentTags, tag] };
+            if (currentTags.includes(tag)) return prev;
+            if ((field === 'SPECIALITIES' || field === 'LANGUAGES') && currentTags.length >= 5) {
+                alert(`You can add a maximum of 5 ${(field === 'SPECIALITIES') ? 'specialities' : 'languages'}.`);
+                return prev;
             }
-            return prev;
+            return { ...prev, [field]: [...currentTags, tag] };
         });
     };
 
