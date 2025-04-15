@@ -26,13 +26,13 @@ const Teams = () => {
         <div className="flex h-screen bg-[#E0E0E0] justify-center">
             {/* Left Slider */}
             <LeftSlider
-                mentorIcon="👥"
-                mentorTitle="Manage Teams"
-                mentorDescription="Organize and manage your teams"
+                upperVerticalIcon="👥"
+                upperVerticalTitle="Manage Teams"
+                upperVerticalDescription="Organize and manage your teams"
                 upperVerticalClick={handleManageTeamsClick}
-                playerIcon="➕"
-                playerTitle="Create Team"
-                playerDescription="Form a new team and invite members"
+                lowerVerticalIcon="➕"
+                lowerVerticalTitle="Create Team"
+                lowerVerticalDescription="Form a new team and invite members"
                 lowerVerticalClick={handleCreateTeamClick}
             />
 
@@ -77,6 +77,10 @@ const Teams = () => {
                     )}
                 </AnimatePresence>
             </div>
+
+            {/* Right Slider */}
+            <RightSlider />
+
         </div>
     );
 };
