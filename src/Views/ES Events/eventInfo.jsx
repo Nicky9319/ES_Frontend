@@ -343,22 +343,28 @@ const EventInfo = () => {
                                     <div>
                                         <h3 className="font-semibold text-[#EE8631]">Location</h3>
                                         {isEditing ? (
-                                            <>
-                                                <input
-                                                    type="text"
-                                                    value={editedEvent.VENUE}
-                                                    onChange={e => handleInputChange("VENUE", e.target.value)}
-                                                    className="text-[#E0E0E0] bg-transparent border-b border-[#95C5C5]/50 focus:outline-none w-full mb-2"
-                                                    placeholder="Venue Name"
-                                                />
-                                                <input
-                                                    type="text"
-                                                    value={editedEvent.LOCATION}
-                                                    onChange={e => handleInputChange("LOCATION", e.target.value)}
-                                                    className="text-[#E0E0E0] bg-transparent border-b border-[#95C5C5]/50 focus:outline-none w-full"
-                                                    placeholder="City/Location"
-                                                />
-                                            </>
+                                            <div className="space-y-2">
+                                                <div>
+                                                    <label className="block text-sm text-[#95C5C5]">Venue:</label>
+                                                    <input
+                                                        type="text"
+                                                        value={editedEvent.VENUE}
+                                                        onChange={e => handleInputChange("VENUE", e.target.value)}
+                                                        className="text-[#E0E0E0] bg-transparent border-b border-[#95C5C5]/50 focus:outline-none w-full"
+                                                        placeholder="Enter venue name"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-sm text-[#95C5C5]">City/Location:</label>
+                                                    <input
+                                                        type="text"
+                                                        value={editedEvent.LOCATION}
+                                                        onChange={e => handleInputChange("LOCATION", e.target.value)}
+                                                        className="text-[#E0E0E0] bg-transparent border-b border-[#95C5C5]/50 focus:outline-none w-full"
+                                                        placeholder="Enter city or location"
+                                                    />
+                                                </div>
+                                            </div>
                                         ) : (
                                             <>
                                                 <p className="text-[#E0E0E0]">{event.VENUE}</p>
