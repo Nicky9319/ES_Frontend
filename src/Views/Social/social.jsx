@@ -56,16 +56,15 @@ function Social() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {newsArticles.length > 0 ? newsArticles.map((news, idx) => (
-              <div key={idx} className="rounded-lg shadow-lg overflow-hidden bg-white transform transition-all duration-300 hover:scale-105">
+              <div key={idx} className="rounded-lg shadow-lg overflow-hidden bg-[#2F3140] border border-[#3A3D4A] transform transition-all duration-300 hover:scale-105">
                 <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-3" style={{ color: '#292B35' }}>{news.title}</h3>
-                  <p className="text-gray-700 mb-4">{news.description}</p>
+                  <h3 className="text-xl font-semibold mb-3 text-[#E0E0E0]">{news.title}</h3>
+                  <p className="text-sm text-[#95C5C5] mb-4">{news.description}</p>
                   <a 
                     href={news.link} 
                     target="_blank" 
                     rel="noopener noreferrer" 
-                    className="inline-block px-4 py-2 rounded-lg text-white" 
-                    style={{ backgroundColor: '#EE8631' }}
+                    className="inline-block px-4 py-2 rounded-lg text-white bg-[#EE8631] hover:bg-[#AD662F] transition-colors"
                   >
                     Read More
                   </a>
