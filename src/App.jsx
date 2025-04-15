@@ -66,6 +66,7 @@ function AppInner() {
         <Route path='/event-info' element={<EventInfo />} />
         <Route path='/landing-page' element={<LandingPage />} />
         <Route path='/user-profile-creation-page' element={<UserProfileCreationPage />} />
+        <Route path='/mentor-profile-creation' element={<MentorProfileCreationPage />} />
         {/* Add more routes as needed */}
       </Routes>
       {(!isProfilePageRoute && !isChoosePersonaRoute && !isMentorProfileRoute &&
