@@ -31,6 +31,7 @@ import {
   Save,
   Calendar as CalendarIcon,
 } from "lucide-react";
+import mentorProfile from "../Mentor Profile Page/mentorprofile.json"; // Import mentor profile JSON
 
 // Color constants for consistent styling
 const COLORS = {
@@ -43,7 +44,7 @@ const COLORS = {
   textSecondary: "#A0A0A0",
 };
 
-export default function CompactEsportsDashboard() {
+export default function MentorDashboard() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedView, setSelectedView] = useState("dashboard");
   const [milestones, setMilestones] = useState([
@@ -71,6 +72,41 @@ export default function CompactEsportsDashboard() {
   const [selectedDay, setSelectedDay] = useState(formatDate(new Date()));
   const [newTask, setNewTask] = useState({ title: "", time: "" });
   const [showTaskForm, setShowTaskForm] = useState(false);
+
+  // Use mentorProfile data
+  const {
+    RATING,
+    VERIFIED,
+    TAGLINE,
+    SESSIONS_COMPLETED,
+    USER_NAME,
+    PROFILE_PIC,
+  } = mentorProfile;
+
+  // New stats row data
+  const mentorStats = [
+    {
+      id: 1,
+      title: "Rating",
+      value: RATING,
+      icon: <Star size={18} />,
+      color: "#FFD700",
+    },
+    {
+      id: 2,
+      title: "Verified",
+      value: VERIFIED ? "Yes" : "No",
+      icon: <CheckCircle size={18} />,
+      color: VERIFIED ? "#4ade80" : "#f87171",
+    },
+    {
+      id: 4,
+      title: "Sessions Completed",
+      value: SESSIONS_COMPLETED,
+      icon: <CheckSquare size={18} />,
+      color: "#EE8631",
+    },
+  ];
 
   // Sample data for player stats
   const playerStats = [
@@ -463,212 +499,73 @@ export default function CompactEsportsDashboard() {
     );
   };
 
+  // Animation helpers
+  const fadeIn = "animate__animated animate__fadeIn";
+  const fadeInUp = "animate__animated animate__fadeInUp";
+  const fadeInLeft = "animate__animated animate__fadeInLeft";
+  const fadeInRight = "animate__animated animate__fadeInRight";
+  const glassCard = "bg-[#23242a]/80 backdrop-blur-md border border-[#95C5C5]/10 shadow-xl";
+
   return (
-    <div className="min-h-screen bg-[#292B35] text-[#E0E0E0] p-4">
-
-      {/* Grid Layout - Rearranged */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-
-        {/* Player and Stats Column - Left Column */}
-        <div className="space-y-4">
-
-          {/* Player Card */}
-          <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 overflow-hidden shadow-lg">
-            <div className="h-12 bg-gradient-to-r from-[#95C5C5]/60 to-[#EE8631]/60"></div>
-            <div className="p-4 -mt-6">
-              <div className="flex">
-                <div className="w-18 h-18 rounded-xl bg-[#292B35] border-2 border-[#292B35] overflow-hidden">
-                  <img
-                    src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
-                    alt="Player Avatar"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="ml-4 mt-2">
-                  <div className="flex items-center">
-                    <h2 className="text-lg font-bold">UserName</h2>
-                    {/* <div className="ml-2 bg-[#95C5C5] text-[#292B35] text-xs px-1.5 py-0.5 rounded text-xs font-bold">
-                      PRO
-                    </div> */}
-                  </div>
-                  <p className="text-gray-400 text-xs">TaglineOfPlayer</p>
-                </div>
+    <div className="min-h-screen bg-gradient-to-br from-[#181a20] via-[#23242a] to-[#292B35] text-[#E0E0E0] p-0 md:p-8 mb-8">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-6 gap-8">
+        {/* Sidebar - Player Card */}
+        <aside className="lg:col-span-1 sticky top-8 self-start z-10">
+          <div className={`${glassCard} rounded-2xl overflow-hidden shadow-2xl p-0 animate__animated animate__fadeInLeft`}>
+            <div className="h-20 bg-gradient-to-r from-[#95C5C5]/60 to-[#EE8631]/60 relative">
+              <div className="absolute inset-0 blur-xl opacity-40" style={{background: "radial-gradient(circle at 60% 40%, #EE8631 0%, transparent 70%)"}}></div>
+            </div>
+            <div className="p-6 -mt-12 flex flex-col items-center">
+              <div className="relative w-28 h-28 rounded-full border-4 border-[#EE8631] shadow-lg overflow-hidden mb-3 animate__animated animate__pulse animate__infinite">
+                <img
+                  src={PROFILE_PIC}
+                  alt="Player Avatar"
+                  className="w-full h-full object-cover"
+                />
+                <span className="absolute bottom-2 right-2 w-4 h-4 bg-green-500 border-2 border-[#23242a] rounded-full shadow"></span>
               </div>
-              
-              
+              <h2 className="text-xl font-extrabold tracking-wide text-white drop-shadow-lg">{USER_NAME}</h2>
+              <p className="text-[#95C5C5] text-sm font-medium mt-1">{TAGLINE}</p>
             </div>
           </div>
-          
-          {/* My Teams (renamed from Team Roster) */}
-          <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
-            <SectionHeader 
-              icon={<Users size={16} />} 
-              title="MY TEAMS" 
-              // actionText="View All"
-              onAction={() => {}}
-            />
+        </aside>
 
-            <div className="space-y-3">
-              {playerTeams.map((team) => (
-                <div
-                  key={team.id}
-                  className={`flex items-center p-2.5 bg-[#292B35] hover:bg-[#292B35]/80 rounded-lg transition-colors ${
-                    team.status === "inactive" ? "opacity-60" : ""
-                  }`}
-                >
-                  <div className="relative mr-3">
-                    <img
-                      src={team.logo}
-                      alt={team.name}
-                      className="w-10 h-10 rounded-lg"
-                    />
-                    <div
-                      className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border border-[#35383f] ${
-                        team.status === "active" ? "bg-green-500" : "bg-gray-500"
-                      }`}
-                    ></div>
-                  </div>
-                  <div className="flex-grow">
-                    <div className="text-sm font-medium">{team.name}</div>
-                    <div className="flex justify-between">
-                      <span className="text-xs text-gray-400">{team.role}</span>
-                      <span className="text-xs text-[#95C5C5]">{team.game}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-              
-              {/* <button className="w-full p-2 mt-2 border border-dashed border-[#95C5C5]/30 rounded-lg text-sm text-gray-400 hover:bg-[#292B35] transition-colors">
-                + Join New Team
-              </button> */}
-            </div>
+        {/* Main Content */}
+        <main className="lg:col-span-5 flex flex-col gap-8">
+          {/* Stats Row */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {mentorStats.map((stat, idx) => (
+              <div
+                key={stat.id}
+                className={`${glassCard} rounded-xl p-5 flex flex-col items-center hover:scale-105 transition-transform duration-300 ${fadeInUp}`}
+                style={{ animationDelay: `${idx * 0.1 + 0.2}s` }}
+              >
+                <div className="mb-2" style={{ color: stat.color }}>{stat.icon}</div>
+                <div className="text-2xl font-bold text-center">{stat.value}</div>
+                <div className="text-xs text-gray-400 text-center">{stat.title}</div>
+              </div>
+            ))}
           </div>
-          
-        </div>
-        
-        {/* Middle Column - Tasks and Calendar */}
-        <div className="space-y-4">
-          {/* Today's Tasks */}
-          <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
-            <SectionHeader 
-              icon={<Clock size={16} />} 
-              title="TODAY'S TASKS"  
-            />
 
-            <div className="space-y-2 max-h-[250px] overflow-y-auto pr-1">
-              {todayTasks.length > 0 ? (
-                todayTasks.map(task => (
-                  <TaskItem 
-                    key={task.id} 
-                    task={task} 
-                    date={formatDate(new Date())}
-                    onToggle={toggleTask}
-                    onDelete={deleteTask}
-                  />
-                ))
-              ) : (
-                <div className="text-center py-6 text-gray-500">
-                  <Clock size={24} className="mx-auto mb-2 opacity-50" />
-                  <p className="text-sm">No tasks scheduled for today</p>
-                  <button 
-                    className="mt-2 text-xs text-[#EE8631]"
-                    onClick={() => {
-                      setSelectedDay(formatDate(new Date()));
-                      setShowTaskForm(true);
-                    }}
-                  >
-                    Add a task
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-          
-          {/* Calendar - Simplified Single Column */}
-          <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
+          {/* Milestones Section - now full width and clearer */}
+          <section className={`${glassCard} rounded-2xl p-6 ${fadeInRight} relative mt-4`}>
             <SectionHeader 
-              icon={<CalendarIcon size={16} />} 
-              title="MY CALENDAR" 
-            />
-            {renderCalendar()}
-            
-            <div className="mt-4">
-              <div className="flex justify-between items-center mb-3">
-                <h3 className="font-medium text-sm">
-                  {new Date(selectedDay).toLocaleDateString('en-US', { 
-                    month: 'long', 
-                    day: 'numeric' 
-                  })}
-                </h3>
-                <button 
-                  onClick={() => setShowTaskForm(!showTaskForm)}
-                  className="text-xs flex items-center text-[#EE8631]"
-                >
-                  {showTaskForm ? 'Cancel' : 'Add Task'} 
-                  {!showTaskForm && <PlusCircle size={12} className="ml-1" />}
-                </button>
-              </div>
-              
-              {showTaskForm && (
-                <div className="mb-3 p-3 bg-[#292B35] rounded-lg">
-                  <input
-                    type="text"
-                    placeholder="Task title"
-                    className="w-full mb-2 p-2 bg-[#35383f] border border-[#95C5C5]/20 rounded text-sm"
-                    value={newTask.title}
-                    onChange={(e) => setNewTask({...newTask, title: e.target.value})}
-                  />
-                  <div className="flex gap-2">
-                    <input
-                      type="time"
-                      className="flex-grow p-2 bg-[#35383f] border border-[#95C5C5]/20 rounded text-sm"
-                      value={newTask.time}
-                      onChange={(e) => setNewTask({...newTask, time: e.target.value})}
-                    />
-                    <button 
-                      onClick={addTask}
-                      className="px-3 py-2 bg-[#EE8631] text-[#292B35] rounded font-medium text-sm"
-                    >
-                      Add
-                    </button>
-                  </div>
-                </div>
-              )}
-              
-              <div className="space-y-2 max-h-[150px] overflow-y-auto">
-                {calendarTasks[selectedDay]?.length > 0 ? (
-                  calendarTasks[selectedDay].map(task => (
-                    <TaskItem 
-                      key={task.id} 
-                      task={task} 
-                      date={selectedDay}
-                      onToggle={toggleTask}
-                      onDelete={deleteTask}
-                    />
-                  ))
-                ) : (
-                  <div className="text-center py-4 text-gray-500">
-                    <p className="text-sm">No tasks for this day</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Right Column - Milestones and Events */}
-        <div className="space-y-4">
-          {/* Milestones Section */}
-          <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
-            <SectionHeader 
-              icon={<Flag size={16} />} 
+              icon={<Flag size={18} />} 
               title="MILESTONES" 
-              actionText="Add New"
+              actionText={showMilestoneForm ? undefined : "Add New"}
               onAction={() => setShowMilestoneForm(!showMilestoneForm)}
             />
-            
+            {/* Floating Action Button for Milestone */}
+            <button
+              className="fixed bottom-8 right-8 z-50 bg-[#EE8631] text-[#23242a] rounded-full p-4 shadow-lg hover:scale-110 transition-transform animate__animated animate__bounceIn"
+              style={{display: showMilestoneForm ? "none" : "block"}}
+              onClick={() => setShowMilestoneForm(true)}
+              title="Add Milestone"
+            >
+              <PlusCircle size={28} />
+            </button>
             {showMilestoneForm && (
-              <div className="mb-3 p-3 bg-[#292B35] rounded-lg">
+              <div className="mb-3 p-3 bg-[#23242a]/80 rounded-lg animate__animated animate__fadeInDown max-w-lg mx-auto">
                 <input
                   type="text"
                   placeholder="Milestone title"
@@ -685,166 +582,138 @@ export default function CompactEsportsDashboard() {
                   />
                   <button 
                     onClick={addMilestone}
-                    className="px-3 py-2 bg-[#EE8631] text-[#292B35] rounded font-medium text-sm"
+                    className="px-3 py-2 bg-[#EE8631] text-[#23242a] rounded font-medium text-sm hover:bg-[#ffb366] transition-colors"
                   >
                     Add
                   </button>
                   <button 
                     onClick={() => setShowMilestoneForm(false)}
-                    className="p-2 bg-[#35383f] text-gray-400 rounded"
+                    className="p-2 bg-[#35383f] text-gray-400 rounded hover:bg-[#23242a]/60 transition-colors"
                   >
                     <X size={16} />
                   </button>
                 </div>
               </div>
             )}
-            
-            <div className="space-y-2 max-h-[250px] overflow-y-auto pr-1">
-              {milestones.map(milestone => (
-                <MilestoneItem 
-                  key={milestone.id} 
-                  milestone={milestone} 
-                  onToggle={toggleMilestone}
-                  onDelete={deleteMilestone}
-                />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[350px] overflow-y-auto pr-1 mt-2">
+              {milestones.map((milestone, idx) => (
+                <div className="transition-all duration-300 hover:scale-[1.01]" key={milestone.id}>
+                  <MilestoneItem 
+                    milestone={milestone} 
+                    onToggle={toggleMilestone}
+                    onDelete={deleteMilestone}
+                  />
+                </div>
               ))}
             </div>
-          </div>
-          
-          {/* Upcoming Events (renamed from Tournaments) */}
-          <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
-            <SectionHeader 
-              icon={<Trophy size={16} />} 
-              title="UPCOMING EVENTS" 
-              actionText="View All"
-              onAction={() => {}}
-            />
+          </section>
 
-            <div className="space-y-3">
-              {futureEvents.length > 0 ? (
-                futureEvents.map((event) => (
-                  <div
-                    key={event.id}
-                    className={`flex items-center p-2.5 rounded-lg ${
-                      event.important ? "bg-[#EE8631]/10" : "bg-[#292B35]"
-                    }`}
-                  >
-                    <div
-                      className={`p-2 rounded-full mr-3 ${
-                        event.important
-                          ? "bg-[#EE8631]/20 text-[#EE8631]"
-                          : "bg-[#95C5C5]/10 text-[#95C5C5]"
-                      }`}
+          {/* Tasks & Calendar */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4">
+            {/* Today's Tasks */}
+            <section className={`${glassCard} rounded-2xl p-6 ${fadeInLeft}`}>
+              <SectionHeader 
+                icon={<Clock size={18} />} 
+                title="TODAY'S TASKS"  
+              />
+              <div className="space-y-2 max-h-[250px] overflow-y-auto pr-1">
+                {todayTasks.length > 0 ? (
+                  todayTasks.map(task => (
+                    <TaskItem 
+                      key={task.id} 
+                      task={task} 
+                      date={formatDate(new Date())}
+                      onToggle={toggleTask}
+                      onDelete={deleteTask}
+                    />
+                  ))
+                ) : (
+                  <div className="text-center py-6 text-gray-500">
+                    <Clock size={24} className="mx-auto mb-2 opacity-50" />
+                    <p className="text-sm">No tasks scheduled for today</p>
+                    <button 
+                      className="mt-2 text-xs text-[#EE8631] hover:underline"
+                      onClick={() => {
+                        setSelectedDay(formatDate(new Date()));
+                        setShowTaskForm(true);
+                      }}
                     >
-                      <Trophy size={16} />
-                    </div>
-                    <div className="flex-grow">
-                      <div className="text-sm font-medium">{event.title}</div>
-                      <div className="text-xs text-gray-400 flex justify-between">
-                        <span>{event.formattedDate}</span>
-                        <span className="font-medium text-[#95C5C5]">
-                          {event.prize}
-                        </span>
-                      </div>
+                      Add a task
+                    </button>
+                  </div>
+                )}
+              </div>
+            </section>
+
+            {/* Calendar */}
+            <section className={`${glassCard} rounded-2xl p-6 ${fadeInRight}`}>
+              <SectionHeader 
+                icon={<CalendarIcon size={18} />} 
+                title="MY CALENDAR" 
+              />
+              {renderCalendar()}
+              <div className="mt-4">
+                <div className="flex justify-between items-center mb-3">
+                  <h3 className="font-medium text-sm">
+                    {new Date(selectedDay).toLocaleDateString('en-US', { 
+                      month: 'long', 
+                      day: 'numeric' 
+                    })}
+                  </h3>
+                  <button 
+                    onClick={() => setShowTaskForm(!showTaskForm)}
+                    className="text-xs flex items-center text-[#EE8631] hover:scale-110 transition-transform"
+                  >
+                    {showTaskForm ? 'Cancel' : 'Add Task'} 
+                    {!showTaskForm && <PlusCircle size={14} className="ml-1" />}
+                  </button>
+                </div>
+                {showTaskForm && (
+                  <div className="mb-3 p-3 bg-[#23242a]/80 rounded-lg animate__animated animate__fadeIn">
+                    <input
+                      type="text"
+                      placeholder="Task title"
+                      className="w-full mb-2 p-2 bg-[#35383f] border border-[#95C5C5]/20 rounded text-sm"
+                      value={newTask.title}
+                      onChange={(e) => setNewTask({...newTask, title: e.target.value})}
+                    />
+                    <div className="flex gap-2">
+                      <input
+                        type="time"
+                        className="flex-grow p-2 bg-[#35383f] border border-[#95C5C5]/20 rounded text-sm"
+                        value={newTask.time}
+                        onChange={(e) => setNewTask({...newTask, time: e.target.value})}
+                      />
+                      <button 
+                        onClick={addTask}
+                        className="px-3 py-2 bg-[#EE8631] text-[#23242a] rounded font-medium text-sm hover:bg-[#ffb366] transition-colors"
+                      >
+                        Add
+                      </button>
                     </div>
                   </div>
-                ))
-              ) : (
-                <div className="text-center py-8 text-gray-500">
-                  <Trophy size={24} className="mx-auto mb-2 opacity-50" />
-                  <p className="text-sm">No upcoming events</p>
+                )}
+                <div className="space-y-2 max-h-[150px] overflow-y-auto">
+                  {calendarTasks[selectedDay]?.length > 0 ? (
+                    calendarTasks[selectedDay].map(task => (
+                      <TaskItem 
+                        key={task.id} 
+                        task={task} 
+                        date={selectedDay}
+                        onToggle={toggleTask}
+                        onDelete={deleteTask}
+                      />
+                    ))
+                  ) : (
+                    <div className="text-center py-4 text-gray-500">
+                      <p className="text-sm">No tasks for this day</p>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
+              </div>
+            </section>
           </div>
-        </div>
-
-        {/* Performance Monitoring System - Full Width at Bottom */}
-        <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg md:col-span-3">
-          <SectionHeader 
-            icon={<LineChart size={16} />} 
-            title="PERFORMANCE MONITORING" 
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="bg-[#292B35] rounded-lg p-3">
-              <PerformanceChart 
-                data={performanceData.winRate} 
-                title="WIN RATE (%)" 
-                color="#95C5C5"
-                height="h-28"
-              />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>Last 7 Days</span>
-                <span className="text-[#95C5C5]">↑ 5%</span>
-              </div>
-            </div>
-            
-            <div className="bg-[#292B35] rounded-lg p-3">
-              <PerformanceChart 
-                data={performanceData.kdRatio} 
-                title="K/D RATIO" 
-                color="#EE8631"
-                height="h-28"
-              />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>Last 7 Days</span>
-                <span className="text-[#EE8631]">↑ 0.3</span>
-              </div>
-            </div>
-            
-            <div className="bg-[#292B35] rounded-lg p-3">
-              <PerformanceChart 
-                data={performanceData.viewership} 
-                title="STREAM VIEWERS" 
-                color="#AD662F"
-                height="h-28"
-              />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>Last 7 Days</span>
-                <span className="text-[#AD662F]">↑ 300</span>
-              </div>
-            </div>
-            
-            <div className="bg-[#292B35] rounded-lg p-3">
-              <PerformanceChart 
-                data={performanceData.matches} 
-                title="MATCHES PLAYED" 
-                color="#95C5C5"
-                height="h-28"
-              />
-              <div className="flex justify-between text-xs text-gray-500 mt-1">
-                <span>Last 7 Days</span>
-                <span className="text-[#95C5C5]">Total: 24</span>
-              </div>
-            </div>
-          </div>
-          
-          <div className="mt-4 grid grid-cols-2 md:grid-cols-4 gap-3">
-            <StatCard 
-              title="Total Matches" 
-              value="248" 
-              icon={<Gamepad size={16} />} 
-            />
-            <StatCard 
-              title="Win Rate" 
-              value="72%" 
-              icon={<Activity size={16} />} 
-              bgColor="bg-[#292B35]"
-            />
-            <StatCard 
-              title="Hours Played" 
-              value="1,240" 
-              icon={<Clock size={16} />} 
-            />
-            <StatCard 
-              title="Ranking" 
-              value="#3" 
-              icon={<Award size={16} />} 
-              bgColor="bg-[#292B35]"
-            />
-          </div>
-        </div>
+        </main>
       </div>
     </div>
   );
