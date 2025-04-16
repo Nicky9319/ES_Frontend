@@ -1,7 +1,70 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 // Import useParams
 import { useNavigate, useParams } from 'react-router-dom';
 import profileData from './playerProfileData.json';
+
+const CustomVideoPlayer = ({ src, poster }) => {
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [currentTime, setCurrentTime] = useState(0);
+    const [duration, setDuration] = useState(0);
+    const videoRef = useRef(null);
+
+    const togglePlayPause = () => {
+        if (isPlaying) {
+            videoRef.current.pause();
+        } else {
+            videoRef.current.play();
+        }
+        setIsPlaying(!isPlaying);
+    };
+
+    const handleTimeUpdate = () => {
+        setCurrentTime(videoRef.current.currentTime);
+    };
+
+    const handleLoadedMetadata = () => {
+        setDuration(videoRef.current.duration);
+    };
+
+    const handleSeek = (event) => {
+        const newTime = (event.target.value / 100) * duration;
+        videoRef.current.currentTime = newTime;
+        setCurrentTime(newTime);
+    };
+
+    return (
+        <div className="relative">
+            <video
+                ref={videoRef}
+                src={src}
+                poster={poster}
+                className="w-full rounded-t-xl"
+                onTimeUpdate={handleTimeUpdate}
+                onLoadedMetadata={handleLoadedMetadata}
+                controls={false}
+            />
+            <div className="absolute bottom-0 left-0 right-0 bg-black/70 p-4 flex items-center">
+                <button
+                    onClick={togglePlayPause}
+                    className="text-white mr-4"
+                >
+                    {isPlaying ? 'Pause' : 'Play'}
+                </button>
+                <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={(currentTime / duration) * 100 || 0}
+                    onChange={handleSeek}
+                    className="flex-1"
+                />
+                <span className="text-white ml-4">
+                    {Math.floor(currentTime)} / {Math.floor(duration)} sec
+                </span>
+            </div>
+        </div>
+    );
+};
 
 const ViewUserProfilePage = () => {
     // Get userId from URL params
@@ -57,18 +120,20 @@ const ViewUserProfilePage = () => {
                     {
                         id: 1,
                         game: "Valorant",
-                        title: "Epic Valorant Clutch Moments",
-                        thumbnail: "https://img.youtube.com/vi/tmQfQFkOtxc/maxresdefault.jpg",
-                        videoUrl: "https://www.youtube.com/embed/tmQfQFkOtxc",
-                        date: "2025-17-04"
+                        title: "Epic Valorant Plays",
+                        thumbnail: "https://i.ytimg.com/vi/7VAl9MZvnjs/maxresdefault.jpg",
+                        videoUrl: "https://www.youtube.com/embed/7VAl9MZvnjs",
+                        date: "2024-01-15",
+                        isYouTube: true
                     },
                     {
                         id: 2,
                         game: "Valorant",
-                        title: "Best Valorant Plays",
-                        thumbnail: "https://img.youtube.com/vi/kjf0HrX7Ym0/maxresdefault.jpg", // Fixed URL format
-                        videoUrl: "https://youtube.com/embed/kjf0HrX7Ym0",
-                        date: "2025-17-04"
+                        title: "Custom MP4 Gameplay",
+                        thumbnail: "https://i.ytimg.com/vi/MP5ED3vhLAM/maxresdefault.jpg",
+                        videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                        date: "2024-01-20",
+                        isYouTube: false
                     }
                 ],
                 activities: [
@@ -510,21 +575,29 @@ const ViewUserProfilePage = () => {
                         >
                             ✕
                         </button>
-                        <div className="aspect-video w-full rounded-t-xl overflow-hidden">
-                            <iframe
-                                className="w-full h-full"
-                                src={selectedClip.videoUrl}
-                                title={selectedClip.title}
-                                frameBorder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                            ></iframe>
+                        <div className="w-full rounded-t-xl overflow-hidden">
+                            {selectedClip.isYouTube ? (
+                                <div className="aspect-video">
+                                    <iframe
+                                        className="w-full h-full"
+                                        src={selectedClip.videoUrl}
+                                        title={selectedClip.title}
+                                        frameBorder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                        allowFullScreen
+                                    />
+                                </div>
+                            ) : (
+                                <CustomVideoPlayer 
+                                    src={selectedClip.videoUrl} 
+                                    poster={selectedClip.thumbnail}
+                                />
+                            )}
                         </div>
                         <div className="p-4">
                             <h3 className="text-lg font-semibold text-white">{selectedClip.title}</h3>
                             <p className="text-[#95C5C5]">{selectedClip.game}</p>
                             <p className="text-white/70 text-sm">
-                                {new Intl.NumberFormat('en-US').format(selectedClip.views)} views • 
                                 {new Date(selectedClip.date).toLocaleDateString()}
                             </p>
                         </div>
