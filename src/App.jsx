@@ -38,17 +38,24 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import {
+  MentorProtectedRoute,
+  PlayerProtectedRoute,
+  ProtectedRoute,
+} from "./utils/protectedRoute";
+import { AuthProvider } from "./context/authContext";
 
 // Get the base URL from the import.meta.env (injected by Vite)
 const baseUrl = import.meta.env.BASE_URL || "/";
 
 function App() {
-  // Wrap the routing in a separate component so useLocation can run inside the Router.
   return (
-    <Router basename={baseUrl}>
-      <ScrollToTop />
-      <AppInner />
-    </Router>
+    <AuthProvider>
+      <Router basename={baseUrl}>
+        <ScrollToTop />
+        <AppInner />
+      </Router>
+    </AuthProvider>
   );
 }
 
@@ -76,42 +83,57 @@ function AppInner() {
         !isMentorProfileCreationPageRoute &&
         !isAuthenticationPageRoute && <Navbar />}
       <Routes>
-        <Route path="/" element={<EsEvents />} />
-        <Route path="/manage-events" element={<ManageEvents />} />
-
-        <Route path="/social" element={<Social />} />
-        <Route path="/connect" element={<Connect />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/mentorProfile" element={<MentorProfile />} />
-        <Route path="/dm-page" element={<DMPage />} />
-
-        <Route path="/user-dashboard" element={<UserDashboard />} />
-        <Route path="mentor-dashboard" element={<MentorDashboard />} />
-
-        <Route path="/choose-persona" element={<ChoosePersona />} />
+        {/* unprotected */}
+        <Route path="/landing-page" element={<LandingPage />} />
+        <Route path="/authentication" element={<Authentication />} />
+        <Route path="/view-event-info" element={<ViewEventInfo />} />
         <Route path="/profile/:userId" element={<ViewUserProfilePage />} />
         <Route
           path="/mentorProfile/:mentorId"
           element={<ViewMentorProfilePage />}
         />
-        <Route path="/create-event" element={<CreateEvent />} />
 
-        <Route path="/event-info" element={<EventInfo />} />
-        <Route path="/view-event-info" element={<ViewEventInfo />} />
+        {/* protected Authenticated only. */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<EsEvents />} />
+          <Route path="/choose-persona" element={<ChoosePersona />} />
+          <Route
+            path="/user-profile-creation-page"
+            element={<UserProfileCreationPage />}
+          />
+          <Route
+            path="/mentor-profile-creation-page"
+            element={<MentorProfileCreationPage />}
+          />
+        </Route>
+        {/* player protected and mentor protected */}
+        <Route element={<MentorProtectedRoute />}>
+          <Route path="/manage-events" element={<ManageEvents />} />
+          <Route path="/social" element={<Social />} />
+          <Route path="/connect" element={<Connect />} />
+          <Route path="/profile" element={<Profile />} />
+        </Route>
 
-        <Route path="/landing-page" element={<LandingPage />} />
-        <Route path="/teams" element={<Teams />} />
+        <Route element={<PlayerProtectedRoute />}>
+          <Route path="/mentorProfile" element={<MentorProfile />} />
+          <Route path="/dm-page" element={<DMPage />} />
+          <Route path="/user-dashboard" element={<UserDashboard />} />
+          <Route path="mentor-dashboard" element={<MentorDashboard />} />
+          <Route path="/create-event" element={<CreateEvent />} />
+          <Route path="/event-info" element={<EventInfo />} />{" "}
+          {/* for organizers to organize event  */}
+          <Route path="/teams" element={<Teams />} />
+        </Route>
 
-        <Route
-          path="/user-profile-creation-page"
-          element={<UserProfileCreationPage />}
-        />
-        <Route
-          path="/mentor-profile-creation-page"
-          element={<MentorProfileCreationPage />}
-        />
+        {/* <Route element={<PlayerRoute />}>
+          authentiactied not authorized
+        </Route>
 
-        <Route path="/authentication" element={<Authentication />} />
+        <Route element={<MentorRoute />}>
+          
+          authentiactied not authorized
+
+        </Route> */}
 
         {/* Add more routes as needed */}
       </Routes>

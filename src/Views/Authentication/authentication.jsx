@@ -1,8 +1,26 @@
 import React from "react";
+import { signInWithGoogle } from "./auth";
+// import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 export default function AuthPage() {
-  const handleGoogleClick = () => {
-    alert("Google Sign-In clicked! (Frontend-only UI)");
+  const navigate = useNavigate();
+  // Add this modification in the handleGoogleClick function:
+
+  const handleGoogleClick = async () => {
+    try {
+      const userCredential = await signInWithGoogle();
+      if (userCredential) {
+        const userName = userCredential.displayName || 'User';
+        alert(`Welcome, ${userName}!`);
+        navigate("/choose-persona");
+      }
+    } catch (err) {
+      console.error("Error in handleGoogleClick:", err);
+      alert("Sign in successful but backend sync failed. Some features may be limited.");
+      // Still navigate if it's just a backend error
+      navigate("/choose-persona");
+    }
   };
 
   return (
@@ -25,7 +43,9 @@ export default function AuthPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-br from-[#292B35]/90 via-[#292B35]/80 to-[#95C5C5]/10" />
         <div className="relative w-full max-w-md bg-[#292B35]/80 backdrop-blur-md p-10 rounded-2xl shadow-[0_0_30px_#95C5C5] text-center border border-[#95C5C5]/30">
-          <h1 className="text-4xl font-bold mb-4 text-[#95C5C5] drop-shadow">ELOSphere Login</h1>
+          <h1 className="text-4xl font-bold mb-4 text-[#95C5C5] drop-shadow">
+            ELOSphere Login
+          </h1>
           <p className="text-[#E0E0E0] mb-8">Connect and conquer the arena.</p>
           <button
             onClick={handleGoogleClick}
