@@ -102,7 +102,7 @@ function LandingPage() {
             </div>
 
             {/* Game Categories Section */}
-            <section className="py-10 bg-[#292B35]">
+            {/* <section className="py-10 bg-[#292B35]">
                 <div className="container mx-auto px-6">
                     <div className="flex flex-wrap justify-center gap-8 md:gap-16">
                         {games.map((game, index) => (
@@ -119,7 +119,7 @@ function LandingPage() {
                         ))}
                     </div>
                 </div>
-            </section>
+            </section> */}
 
             {/* Problems Section */}
             <section id="problems" className="py-20 bg-[#1D1E24]">
@@ -144,53 +144,63 @@ function LandingPage() {
                 </div>
             </section>
 
-            {/* Featured Tournaments Section */}
+            {/* Future of Competitive Play Section */}
             <section className="py-16 bg-[#292B35]">
                 <div className="container mx-auto px-6">
-                    <div className="flex flex-col md:flex-row justify-between items-center mb-12">
-                        <h2 className="text-3xl font-bold text-[#95C5C5]" data-aos="fade-right">
-                            Featured Tournaments
+                    <div className="text-center mb-12">
+                        <h2 className="text-3xl font-bold text-[#95C5C5]" data-aos="fade-up">
+                            The Future of Competitive Play
                         </h2>
-                        <a href="#" className="mt-4 md:mt-0 text-[#EE8631] hover:underline flex items-center" data-aos="fade-left">
-                            View all tournaments <span className="ml-2">→</span>
-                        </a>
+                        <p className="text-[#95C5C5]/80 mt-4" data-aos="fade-up" data-aos-delay="100">
+                            Where Real Competition Begins
+                        </p>
+                       
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {tournaments.map((tournament, index) => (
+                        {[
+                            {
+                                icon: "📰",
+                                title: "Esports News & Updates",
+                                description: "Get the latest esports news and tournament updates",
+                                image: "https://images.unsplash.com/photo-1603481546579-65d935ba9cdd?auto=format&fit=crop&w=800&q=80"
+                            },
+                            {
+                                icon: "🏆",
+                                title: "Community-Powered Events",
+                                description: "Create custom tournaments with entry rules, prizes, and skill brackets that actually make sense.",
+                                image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=800&q=80"
+                            },
+                            {
+                                icon: "🚀",
+                                title: "Path-to-Pro Circuits",
+                                description: "Structured leagues where consistent performance gets you noticed by scouts and orgs.",
+                                image: "https://images.unsplash.com/photo-1600861194942-f883de0dfe96?auto=format&fit=crop&w=800&q=80"
+                            }
+                        ].map((feature, index) => (
                             <div 
                                 key={index}
                                 data-aos="fade-up"
                                 data-aos-delay={index * 100}
                                 className="bg-[#1D1E24] rounded-xl overflow-hidden hover:transform hover:scale-105 transition-all border border-[#95C5C5]/10"
                             >
-                                <div className="relative">
-                                    <img src={tournament.image} alt={tournament.title} className="w-full h-48 object-cover" />
-                                    <div className="absolute top-0 right-0 bg-[#EE8631] text-white px-3 py-1 rounded-bl-lg">
-                                        {tournament.prize}
-                                    </div>
-                                </div>
                                 <div className="p-6">
-                                    <div className="flex justify-between items-center mb-3">
-                                        <span className="text-[#95C5C5] text-sm">{tournament.date}</span>
-                                        <span className={`px-2 py-1 rounded text-xs ${tournament.status === 'Live' ? 'bg-green-500/20 text-green-400' : 'bg-[#EE8631]/20 text-[#EE8631]'}`}>
-                                            {tournament.status}
-                                        </span>
-                                    </div>
-                                    <h3 className="text-xl font-bold text-white mb-2">{tournament.title}</h3>
-                                    <div className="flex justify-between items-center mt-4">
-                                        <div className="flex items-center space-x-2">
-                                            <div className="w-6 h-6">
-                                                <img src={tournament.gameIcon} alt="Game" className="w-full h-full object-contain" />
-                                            </div>
-                                            <span className="text-[#E0E0E0] text-sm">{tournament.participants} participants</span>
-                                        </div>
-                                        <button className="px-3 py-1 bg-[#EE8631]/20 text-[#EE8631] rounded hover:bg-[#EE8631]/30 transition-colors">
-                                            Join Now
-                                        </button>
-                                    </div>
+                                    <div className="text-4xl mb-4">{feature.icon}</div>
+                                    <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
+                                    <p className="text-[#E0E0E0] text-sm mb-6">{feature.description}</p>
+                                    <img 
+                                        src={feature.image} 
+                                        alt={feature.title}
+                                        className="w-full h-48 object-cover rounded-lg opacity-75"
+                                    />
                                 </div>
                             </div>
                         ))}
+                    </div>
+                    <div className="text-center mt-12" data-aos="fade-up">
+                        <button className="px-8 py-4 bg-[#EE8631] text-white rounded-lg text-lg font-bold hover:bg-[#AD662F] transform hover:scale-105 transition-all">
+                            Join 
+                        </button>
+                        
                     </div>
                 </div>
             </section>
@@ -310,11 +320,11 @@ function LandingPage() {
                 <div className="container mx-auto px-6 text-center" data-aos="zoom-in">
                     <h2 className="text-4xl font-bold text-white mb-6">Ready to Level Up?</h2>
                     <p className="text-white/90 mb-8 max-w-2xl mx-auto">
-                        Join thousands of gamers who have already taken their gaming journey to the next level with ELOSphere.
+                        Join and take your gaming journey to the next level with ELOSphere.
                     </p>
                     <div className="flex flex-col md:flex-row justify-center gap-4">
                         <button className="px-8 py-4 bg-white text-[#EE8631] rounded-lg text-lg font-bold hover:bg-[#292B35] hover:text-white transition-all transform hover:scale-105 shadow-lg">
-                            Create Free Account
+                            Create Account
                         </button>
                     </div>
                 </div>
@@ -391,12 +401,12 @@ const solutions = [
     {
         icon: "🌟",
         title: "Unified Platform",
-        description: "One platform for all your competitive gaming needs - tournaments, practice, and community."
+        description: "One platform for all your competitive gaming needs - tournaments, mentorship, and competitive growth."
     },
     {
         icon: "📈",
         title: "Skill Development",
-        description: "Structured progression system with personalized coaching and analytics."
+        description: "Structured progression system with mentorship from verified mentors."
     },
     {
         icon: "🤝",
@@ -423,67 +433,11 @@ const audience = [
     }
 ];
 
-const games = [
-    { 
-        name: "League of Legends", 
-        icon: "https://www.freepnglogos.com/uploads/lol-logo-png/lol-logo-league-legends-logo-transparent-png-0.png"
-    },
-    { 
-        name: "Valorant", 
-        icon: "https://img.icons8.com/color/240/valorant.png"
-    },
-    { 
-        name: "CS:GO", 
-        icon: "https://www.freepnglogos.com/uploads/512x512-logo-png/512x512-logo-csgo-logo-counter-strike-global-offensive-custom-sticker-8.png"
-    },
-    { 
-        name: "Dota 2", 
-        icon: "https://cdn2.steamgriddb.com/file/sgdb-cdn/icon/1ff1de774005f8da13f42943881c655f/32/256x256.png"
-    },
-    { 
-        name: "Fortnite", 
-        icon: "https://www.freepnglogos.com/uploads/fortnite-png/fortnite-battle-royale-logo-png-11.png"
-    },
-    { 
-        name: "Apex Legends", 
-        icon: "https://www.freepnglogos.com/uploads/apex-legends-logo-png/apex-legends-red-logo-png-9.png"
-    }
-];
-
-const tournaments = [
-    {
-        title: "ELOSphere Summer Championships",
-        image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=800&q=80",
-        date: "Jun 15 - Jul 10, 2025",
-        status: "Upcoming",
-        prize: "$10,000",
-        gameIcon: "/assets/lol-icon.png",
-        participants: "128"
-    },
-    {
-        title: "Pro Valorant Showdown",
-        image: "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80",
-        date: "Apr 20 - Apr 25, 2025",
-        status: "Live",
-        prize: "$5,000",
-        gameIcon: "/assets/valorant-icon.png",
-        participants: "64"
-    },
-    {
-        title: "Casual CS:GO Weekend",
-        image: "https://images.unsplash.com/photo-1542751110-97427bbecf20?auto=format&fit=crop&w=800&q=80",
-        date: "May 5 - May 7, 2025",
-        status: "Upcoming",
-        prize: "$2,500",
-        gameIcon: "/assets/csgo-icon.png",
-        participants: "32"
-    }
-];
 
 const faqs = [
     {
         question: "How do I join tournaments?",
-        answer: "Joining tournaments is easy! Create an account, browse available tournaments, and click 'Join Now'. You can participate as an individual or form/join a team depending on the tournament requirements."
+        answer: "Joining tournaments is easy! Create an account, browse available tournaments, and register for any of them. You can participate as an individual or form/join a team depending on the tournament requirements."
     },
     {
         question: "Is ELOSphere free to use?",
@@ -491,19 +445,15 @@ const faqs = [
     },
     {
         question: "What games are supported?",
-        answer: "We currently support major esports titles including League of Legends, Valorant, CS:GO, Dota 2, Fortnite, Apex Legends, Rocket League, and more. We're constantly adding support for new games based on community feedback."
-    },
-    {
-        question: "How does the ranking system work?",
-        answer: "Our proprietary ELO-based ranking system tracks your performance across all tournaments and matches. As you play and win, your ranking improves, matching you with competitors of similar skill levels. Rankings are game-specific and refresh seasonally to keep competition fresh."
+        answer: "We support major esports titles including League of Legends, Valorant, CS:GO, Dota 2, Fortnite, Apex Legends, Rocket League, and more."
     },
     {
         question: "Can I organize my own tournaments?",
-        answer: "Absolutely! ELOSphere provides tournament creation tools for communities of all sizes. You can customize formats, set prize pools, invite participants, and manage the entire event with our intuitive organizer dashboard."
+        answer: "Absolutely! ELOSphere provides tournament creation tools for communities of all sizes. You can customize formats, set prize pools, invite participants, and manage the entire event."
     },
     {
         question: "How can I get mentorship or improve my skills?",
-        answer: "ELOSphere offers mentors where you can connect with verified mentors for your game of choice. We also provide automated performance analytics, replay analysis tools, and skill development programs to help you improve."
+        answer: "ELOSphere offers mentors where you can connect with verified mentors for your game of choice."
     }
 ];
 
