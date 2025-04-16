@@ -84,7 +84,7 @@ function AppInner() {
         !isAuthenticationPageRoute && <Navbar />}
       <Routes>
         {/* unprotected */}
-        <Route path="/landing-page" element={<LandingPage />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/authentication" element={<Authentication />} />
         <Route path="/view-event-info" element={<ViewEventInfo />} />
         <Route path="/profile/:userId" element={<ViewUserProfilePage />} />
@@ -95,7 +95,7 @@ function AppInner() {
 
         {/* protected Authenticated only. */}
         <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<EsEvents />} />
+          <Route path="/Esevents" element={<EsEvents />} />
           <Route path="/choose-persona" element={<ChoosePersona />} />
           <Route
             path="/user-profile-creation-page"
