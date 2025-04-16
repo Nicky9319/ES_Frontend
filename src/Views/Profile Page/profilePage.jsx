@@ -16,6 +16,8 @@ const ProfilePage = () => {
 
     const profilePicInputRef = useRef(null);
     const bannerImageInputRef = useRef(null);
+    const achievementImageRef = useRef(null);
+    const clipThumbnailRef = useRef(null);
 
     const fetchUserProfile = async () => {
         try {
@@ -98,6 +100,40 @@ const ProfilePage = () => {
         } catch (error) {
             console.error("Error uploading banner image:", error);
             alert("Failed to upload banner image. Please try again.");
+        }
+    };
+
+    const handleAchievementImageUpload = async (achievementId, e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        try {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                handleUpdateAchievement(achievementId, 'image', event.target.result);
+            };
+            reader.readAsDataURL(file);
+            console.log("Achievement image would be uploaded to server:", file);
+        } catch (error) {
+            console.error("Error uploading achievement image:", error);
+            alert("Failed to upload image. Please try again.");
+        }
+    };
+
+    const handleClipThumbnailUpload = async (clipId, e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        try {
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                handleUpdateClip(clipId, 'thumbnail', event.target.result);
+            };
+            reader.readAsDataURL(file);
+            console.log("Clip thumbnail would be uploaded to server:", file);
+        } catch (error) {
+            console.error("Error uploading thumbnail:", error);
+            alert("Failed to upload thumbnail. Please try again.");
         }
     };
 
@@ -617,8 +653,33 @@ const ProfilePage = () => {
                                                     className="w-full h-full object-cover"
                                                 />
                                             ) : (
-                                                <div className="absolute inset-0 flex items-center justify-center">
+                                                <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
                                                     <span className="text-[#95C5C5]">No image</span>
+                                                    <button
+                                                        onClick={() => achievementImageRef.current?.click()}
+                                                        className="bg-[#EE8631]/20 text-[#EE8631] px-3 py-1 rounded-lg text-sm hover:bg-[#EE8631]/30"
+                                                    >
+                                                        Upload Image
+                                                    </button>
+                                                </div>
+                                            )}
+                                            <input
+                                                type="file"
+                                                ref={achievementImageRef}
+                                                onChange={(e) => handleAchievementImageUpload(achievement.id, e)}
+                                                className="hidden"
+                                                accept="image/*"
+                                            />
+                                            {achievement.image && (
+                                                <div className="absolute top-2 left-2">
+                                                    <button
+                                                        onClick={() => achievementImageRef.current?.click()}
+                                                        className="bg-[#292B35]/80 text-white p-1.5 rounded-lg hover:bg-[#292B35] transition-colors"
+                                                    >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                        </svg>
+                                                    </button>
                                                 </div>
                                             )}
                                             <button 
@@ -686,8 +747,33 @@ const ProfilePage = () => {
                                                     className="w-full h-full object-cover"
                                                 />
                                             ) : (
-                                                <div className="absolute inset-0 flex items-center justify-center">
+                                                <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
                                                     <span className="text-[#95C5C5]">No thumbnail</span>
+                                                    <button
+                                                        onClick={() => clipThumbnailRef.current?.click()}
+                                                        className="bg-[#EE8631]/20 text-[#EE8631] px-3 py-1 rounded-lg text-sm hover:bg-[#EE8631]/30"
+                                                    >
+                                                        Upload Thumbnail
+                                                    </button>
+                                                </div>
+                                            )}
+                                            <input
+                                                type="file"
+                                                ref={clipThumbnailRef}
+                                                onChange={(e) => handleClipThumbnailUpload(clip.id, e)}
+                                                className="hidden"
+                                                accept="image/*"
+                                            />
+                                            {clip.thumbnail && (
+                                                <div className="absolute top-2 left-2">
+                                                    <button
+                                                        onClick={() => clipThumbnailRef.current?.click()}
+                                                        className="bg-[#292B35]/80 text-white p-1.5 rounded-lg hover:bg-[#292B35] transition-colors"
+                                                    >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                                        </svg>
+                                                    </button>
                                                 </div>
                                             )}
                                             <button 
