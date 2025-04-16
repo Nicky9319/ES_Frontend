@@ -11,6 +11,9 @@ const ViewUserProfilePage = () => {
     const [activeTab, setActiveTab] = useState('stats');
     const [bannerError, setBannerError] = useState(false);
     const [profileError, setProfileError] = useState(false);
+    const [selectedGameFilter, setSelectedGameFilter] = useState('all');
+    const [showClipModal, setShowClipModal] = useState(false);
+    const [selectedClip, setSelectedClip] = useState(null);
 
     // Simulate API call to fetch user profile data
     const fetchUserProfile = async () => {
@@ -36,7 +39,6 @@ const ViewUserProfilePage = () => {
                 socialLinks: profileData.SOCIAL_LINKS || {},
                 history: profileData.HISTORY || [],
                 platformStatus: profileData.PLATFORM_STATUS || "INACTIVE",
-                // Use the actual userId from params if needed, otherwise use the one from JSON
                 userId: userId || profileData.USER_ID || "unknown-id",
                 createdAt: profileData.CREATED_AT
                     ? new Intl.DateTimeFormat('en-US', {
@@ -45,7 +47,33 @@ const ViewUserProfilePage = () => {
                         day: 'numeric',
                         timeZone: 'UTC'
                     }).format(new Date(profileData.CREATED_AT.$date))
-                    : "Unknown"
+                    : "Unknown",
+                gameClips: [
+                    {
+                        id: 1,
+                        game: "Valorant",
+                        title: "Epic Valorant Clutch Moments",
+                        thumbnail: "https://img.youtube.com/vi/tmQfQFkOtxc/maxresdefault.jpg",
+                        videoUrl: "https://www.youtube.com/embed/tmQfQFkOtxc",
+                        date: "2023-12-01"
+                    },
+                    {
+                        id: 2,
+                        game: "CS:GO",
+                        title: "Pro CS:GO Best Plays",
+                        thumbnail: "https://img.youtube.com/vi/INJnD8ufQeM/maxresdefault.jpg",
+                        videoUrl: "https://www.youtube.com/embed/INJnD8ufQeM",
+                        date: "2023-11-28"
+                    },
+                    {
+                        id: 3,
+                        game: "Valorant",
+                        title: "Best Valorant Plays 2023",
+                        thumbnail: "https://img.youtube.com/vi/jzfcM_iO0FU/maxresdefault.jpg",
+                        videoUrl: "https://www.youtube.com/embed/jzfcM_iO0FU",
+                        date: "2023-11-15"
+                    }
+                ]
             };
 
             setUserData(transformedData);
@@ -84,6 +112,10 @@ const ViewUserProfilePage = () => {
         { label: 'Team Status', value: userData.teamStatus, icon: '👥' },
         { label: 'Joined', value: userData.createdAt, icon: '📅' }
     ];
+
+    const filteredClips = userData?.gameClips?.filter(clip =>
+        selectedGameFilter === 'all' || clip.game === selectedGameFilter
+    );
 
     return (
         <div className="bg-[#292B35] min-h-screen text-[#E0E0E0] font-sans">
@@ -247,6 +279,103 @@ const ViewUserProfilePage = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Game Clips Section */}
+            <div className="max-w-5xl mx-auto px-6 mt-12 pb-12">
+                <div className="bg-[#292B35] rounded-xl p-6 border border-[#95C5C5]/20">
+                    <h2 className="text-xl font-semibold text-[#EE8631] mb-6 flex items-center gap-2">
+                        <span>🎮</span> Game Clips
+                    </h2>
+
+                    {/* Game Filter */}
+                    <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+                        <button
+                            onClick={() => setSelectedGameFilter('all')}
+                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                selectedGameFilter === 'all' 
+                                    ? 'bg-[#EE8631] text-white' 
+                                    : 'bg-[#EE8631]/10 text-[#EE8631] hover:bg-[#EE8631]/20'
+                            }`}
+                        >
+                            All Clips
+                        </button>
+                        {userData?.gamesPlayed.map(game => (
+                            <button
+                                key={game}
+                                onClick={() => setSelectedGameFilter(game)}
+                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                                    selectedGameFilter === game 
+                                        ? 'bg-[#EE8631] text-white' 
+                                        : 'bg-[#EE8631]/10 text-[#EE8631] hover:bg-[#EE8631]/20'
+                                }`}
+                            >
+                                {game}
+                            </button>
+                        ))}
+                    </div>
+
+                    {/* Clips Grid */}
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                        {filteredClips?.map(clip => (
+                            <div
+                                key={clip.id}
+                                onClick={() => {
+                                    setSelectedClip(clip);
+                                    setShowClipModal(true);
+                                }}
+                                className="relative aspect-[9/16] rounded-lg overflow-hidden cursor-pointer group"
+                            >
+                                <img
+                                    src={clip.thumbnail}
+                                    alt={clip.title}
+                                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                                        <h3 className="text-white text-sm font-medium">{clip.title}</h3>
+                                        <p className="text-white/70 text-xs">{clip.views} views</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* Clip Modal */}
+            {showClipModal && selectedClip && (
+                <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+                    <div className="relative bg-[#292B35] rounded-xl max-w-4xl w-full">
+                        <button
+                            onClick={() => {
+                                setShowClipModal(false);
+                                setSelectedClip(null);
+                            }}
+                            className="absolute -top-10 right-0 text-white/70 hover:text-white text-xl"
+                        >
+                            ✕
+                        </button>
+                        <div className="aspect-video w-full rounded-t-xl overflow-hidden">
+                            <iframe
+                                className="w-full h-full"
+                                src={selectedClip.videoUrl}
+                                title={selectedClip.title}
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            ></iframe>
+                        </div>
+                        <div className="p-4">
+                            <h3 className="text-lg font-semibold text-white">{selectedClip.title}</h3>
+                            <p className="text-[#95C5C5]">{selectedClip.game}</p>
+                            <p className="text-white/70 text-sm">
+                                {new Intl.NumberFormat('en-US').format(selectedClip.views)} views • 
+                                {new Date(selectedClip.date).toLocaleDateString()}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
