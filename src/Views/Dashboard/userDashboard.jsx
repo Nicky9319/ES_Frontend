@@ -5,9 +5,7 @@ import {
   Trophy,
   Target,
   Activity,
-  ChevronRight,
   BarChart2,
-  User,
   Users,
   Zap,
   Flame,
@@ -20,24 +18,11 @@ import {
   CheckSquare,
   Square,
   Trash2,
-  LineChart,
   Calendar as CalendarIcon,
+  ChevronRight,
 } from "lucide-react";
 
-// Import only the needed components from recharts
-import {
-  LineChart as RechartsLineChart,
-  Line,
-  PieChart,
-  Pie,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  Cell,
-} from "recharts/es6";
+import PerformanceCharts from "./performanceCharts";
 
 // Color constants for consistent styling
 const COLORS = {
@@ -79,6 +64,9 @@ const generateDummyData = (days) => {
 
 // Generate a full year of data
 const fullYearData = generateDummyData(365);
+
+// Update image paths to use a default avatar image
+const defaultAvatar = "/assets/default-avatar.png"; // You should add this image to your public/assets folder
 
 export default function UserDashboard() {
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -124,32 +112,6 @@ export default function UserDashboard() {
   const [newTask, setNewTask] = useState({ title: "", time: "" });
   const [showTaskForm, setShowTaskForm] = useState(false);
 
-  // Performance dashboard states
-  const [timeRange, setTimeRange] = useState("last7days");
-  const [data, setData] = useState([]);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedMetric, setSelectedMetric] = useState("avgCombatScore");
-
-  // Time ranges mapping
-  const timeRanges = {
-    today: { label: "Today", days: 0 },
-    yesterday: { label: "Yesterday", days: 1 },
-    last7days: { label: "Last 7 Days", days: 7 },
-    lastMonth: { label: "Last 1 Month", days: 30 },
-    last6Months: { label: "Last 6 Months", days: 180 },
-    lastYear: { label: "Last 1 Year", days: 365 },
-  };
-
-  // Metrics options
-  const metrics = [
-    { value: "avgCombatScore", label: "Avg Combat Score" },
-    { value: "kdRatio", label: "K/D Ratio" },
-    { value: "econRating", label: "Econ Rating" },
-    { value: "firstBloods", label: "First Bloods" },
-    { value: "winRate", label: "Win Rate" },
-    { value: "headshots", label: "Headshots %" },
-  ];
-
   // Sample data for player stats
   const playerStats = [
     {
@@ -165,13 +127,6 @@ export default function UserDashboard() {
       value: "3.2",
       change: "+0.4",
       icon: <Zap size={18} />,
-    },
-    {
-      id: 3,
-      title: "Stream Hours",
-      value: "142h",
-      change: "+6h",
-      icon: <Flame size={18} />,
     },
   ];
 
@@ -215,14 +170,6 @@ export default function UserDashboard() {
   const today = formatDate(new Date());
   const futureEvents = upcomingEvents.filter((event) => event.date >= today);
 
-  // Performance metrics
-  const performanceData = {
-    winRate: [65, 67, 70, 72, 75, 68, 70],
-    kdRatio: [2.8, 3.0, 3.2, 3.1, 3.4, 3.2, 3.5],
-    viewership: [1200, 1500, 1400, 1800, 2000, 2200, 2100],
-    matches: [3, 2, 4, 3, 5, 3, 4],
-  };
-
   // Player's teams (replacing team members)
   const playerTeams = [
     {
@@ -230,7 +177,7 @@ export default function UserDashboard() {
       name: "Nexus Elite",
       role: "Captain",
       game: "Valorant",
-      logo: "/api/placeholder/32/32",
+      logo: defaultAvatar, // Using same default image for now
       status: "active",
     },
     {
@@ -238,7 +185,7 @@ export default function UserDashboard() {
       name: "Frontier Squad",
       role: "Member",
       game: "Apex Legends",
-      logo: "/api/placeholder/32/32",
+      logo: defaultAvatar, // Using same default image for now
       status: "active",
     },
     {
@@ -246,7 +193,7 @@ export default function UserDashboard() {
       name: "Midnight Gamers",
       role: "Sub",
       game: "CS:GO",
-      logo: "/api/placeholder/32/32",
+      logo: defaultAvatar, // Using same default image for now
       status: "inactive",
     },
   ];
@@ -258,32 +205,12 @@ export default function UserDashboard() {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
-    return `<span class="math-inline">\{year\}\-</span>{month}-${day}`;
+    return `${year}-${month}-${day}`;
   }
-
-  useEffect(() => {
-    // Filter data based on selected time range
-    const filterData = () => {
-      const days = timeRanges[timeRange].days;
-
-      if (days === 0) {
-        // Just today's data
-        setData(fullYearData.slice(-1));
-      } else if (days === 1) {
-        // Just yesterday's data
-        setData(fullYearData.slice(-2, -1));
-      } else {
-        // Last X days
-        setData(fullYearData.slice(-(days + 1)));
-      }
-    };
-
-    filterData();
-  }, [timeRange]);
 
   // Calculate averages for the summary cards
   const calculateAverages = () => {
-    if (data.length === 0)
+    if (fullYearData.length === 0)
       return {
         avgCombatScore: 0,
         kdRatio: 0,
@@ -294,21 +221,28 @@ export default function UserDashboard() {
 
     return {
       avgCombatScore: Math.round(
-        data.reduce((sum, item) => sum + item.avgCombatScore, 0) / data.length
+        fullYearData.reduce((sum, item) => sum + item.avgCombatScore, 0) /
+          fullYearData.length
       ),
       kdRatio: (
-        data.reduce((sum, item) => sum + parseFloat(item.kdRatio), 0) /
-        data.length
+        fullYearData.reduce((sum, item) => sum + parseFloat(item.kdRatio), 0) /
+        fullYearData.length
       ).toFixed(2),
       econRating: Math.round(
-        data.reduce((sum, item) => sum + item.econRating, 0) / data.length
+        fullYearData.reduce((sum, item) => sum + item.econRating, 0) /
+          fullYearData.length
       ),
       firstBloods: Math.round(
-        data.reduce((sum, item) => sum + item.firstBloods, 0) / data.length
+        fullYearData.reduce((sum, item) => sum + item.firstBloods, 0) /
+          fullYearData.length
       ),
-      matchesPlayed: data.reduce((sum, item) => sum + item.matchesPlayed, 0),
+      matchesPlayed: fullYearData.reduce(
+        (sum, item) => sum + item.matchesPlayed,
+        0
+      ),
       winRate: Math.round(
-        data.reduce((sum, item) => sum + item.winRate, 0) / data.length
+        fullYearData.reduce((sum, item) => sum + item.winRate, 0) /
+          fullYearData.length
       ),
     };
   };
@@ -605,84 +539,52 @@ export default function UserDashboard() {
     );
   };
 
-  // Performance chart
-  const PerformanceChart = ({ data, title, color, height = "h-24" }) => {
-    const max = Math.max(...data);
-
-    return (
-      <div className="mb-3">
-        <div className="flex justify-between items-center mb-1">
-          <span className="text-xs text-gray-400">{title}</span>
-          <span className="text-xs font-medium" style={{ color }}>
-            {data[data.length - 1]}
-          </span>
-        </div>
-        <div className={`flex items-end ${height} gap-1`}>
-          {data.map((value, index) => (
-            <div key={index} className="flex-grow flex flex-col items-center">
-              <div
-                className="w-full rounded-sm"
-                style={{
-                  height: `${(value / max) * 100}%`,
-                  backgroundColor: color,
-                  opacity: 0.8,
-                }}
-              ></div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
-  // Get agent usage data for pie chart
-  const getAgentUsageData = () => {
-    const agentCounts = {};
-    data.forEach((match) => {
-      agentCounts[match.agentPlayed] =
-        (agentCounts[match.agentPlayed] || 0) + 1;
-    });
-
-    return Object.keys(agentCounts).map((agent) => ({
-      name: agent,
-      value: agentCounts[agent],
-    }));
-  };
-
-  // Format date for x-axis
-  const formatDateChart = (dateStr) => {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
-  };
-
   return (
     <div className="min-h-screen bg-[#292B35] text-[#E0E0E0] p-4">
+      {/* New User Header - Outside of Grid */}
+      <div className="mb-6 bg-gradient-to-r from-[#35383f] to-[#292B35] rounded-xl border border-[#95C5C5]/30 shadow-lg overflow-hidden">
+        <div className="h-3 bg-gradient-to-r from-[#95C5C5] to-[#EE8631]"></div>
+        <div className="p-4 flex items-center justify-between">
+          <div className="flex items-center">
+            <div className="w-16 h-16 rounded-full bg-[#292B35] border-2 border-[#95C5C5] overflow-hidden shadow-lg">
+              <img
+                src={defaultAvatar}
+                alt="Player Avatar"
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className="ml-4">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-[#95C5C5] to-[#EE8631] bg-clip-text text-transparent">
+                UserName
+              </h1>
+              <p className="text-[#A0A0A0]">@TaglineOfPlayer</p>
+            </div>
+          </div>
+          <div className="hidden md:flex space-x-4">
+            {playerStats.map((stat) => (
+              <div key={stat.id} className="text-center px-4">
+                <div className="text-[#95C5C5] mb-1">{stat.icon}</div>
+                <div className="text-lg font-bold">{stat.value}</div>
+                <div className="text-xs text-gray-400">{stat.title}</div>
+                <div
+                  className={`text-xs ${
+                    stat.change.startsWith("+")
+                      ? "text-green-400"
+                      : "text-red-400"
+                  }`}
+                >
+                  {stat.change}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
       {/* Main Grid Layout */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         {/* Player and Stats Column - Left Column */}
         <div className="space-y-4">
-          {/* Player Card */}
-          <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 overflow-hidden shadow-lg">
-            <div className="h-12 bg-gradient-to-r from-[#95C5C5]/60 to-[#EE8631]/60"></div>
-            <div className="p-4 -mt-6">
-              <div className="flex">
-                <div className="w-18 h-18 rounded-xl bg-[#292B35] border-2 border-[#292B35] overflow-hidden">
-                  <img
-                    src="/api/placeholder/72/72"
-                    alt="Player Avatar"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="ml-4 mt-2">
-                  <div className="flex items-center">
-                    <h2 className="text-lg font-bold">UserName</h2>
-                  </div>
-                  <p className="text-gray-400 text-xs">TaglineOfPlayer</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
           {/* My Teams (renamed from Team Roster) */}
           <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
             <SectionHeader
@@ -727,7 +629,7 @@ export default function UserDashboard() {
             </div>
           </div>
 
-          <div className=" bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
+          <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
             <SectionHeader
               icon={<Target size={16} />}
               title="MY MILESTONES"
@@ -891,9 +793,8 @@ export default function UserDashboard() {
           </div>
         </div>
 
-        {/* Right Column - Modified to remove performance graphs */}
+        {/* Right Column - Performance Summary */}
         <div className="space-y-4">
-          {/* Performance Summary */}
           <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
             <SectionHeader
               icon={<BarChart2 size={16} />}
@@ -935,192 +836,8 @@ export default function UserDashboard() {
         </div>
       </div>
 
-      {/* Upcoming Events Section */}
-      {/* <div className="mb-4 bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
-        <SectionHeader icon={<Flag size={16} />} title="UPCOMING EVENTS" />
-        <div className="space-y-3">
-          {futureEvents.length > 0 ? (
-            futureEvents
-              .sort((a, b) => new Date(a.date) - new Date(b.date))
-              .map((event) => (
-                <div
-                  key={event.id}
-                  className="flex items-center justify-between p-2.5 bg-[#292B35] rounded-lg"
-                >
-                  <div>
-                    <h4 className="font-medium text-sm">{event.title}</h4>
-                    <p className="text-xs text-gray-500">
-                      {event.formattedDate}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <span className="text-xs text-gray-400">
-                      Prize: {event.prize}
-                    </span>
-                    {event.important && (
-                      <Award
-                        size={16}
-                        className="ml-1 text-[#EE8631] inline-block"
-                      />
-                    )}
-                  </div>
-                </div>
-              ))
-          ) : (
-            <p className="text-gray-500 text-sm text-center py-4">
-              No upcoming events scheduled.
-            </p>
-          )}
-        </div>
-      </div> */}
-
-      {/* Performance Chart */}
-      <div className="min-h-screen bg-[#292B35] text-[#E0E0E0] p-4">
-        <div className="grid grid-cols-12 gap-4">
-          {/* Performance Chart - Now takes 9 columns (3/4) */}
-          <div className="col-span-9 bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
-            <div className="flex justify-between items-center mb-3">
-              <div className="flex items-center gap-2">
-                <div className="text-[#95C5C5]">
-                  <LineChart size={16} />
-                </div>
-                <h2 className="font-semibold text-sm">PERFORMANCE TREND</h2>
-              </div>
-              <div className="relative">
-                <button
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="text-gray-400 text-xs flex items-center hover:text-gray-300"
-                >
-                  {timeRanges[timeRange].label}
-                  <ChevronRight size={12} />
-                </button>
-                {isDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-32 bg-[#292B35] border border-[#95C5C5]/20 rounded-md shadow-lg z-10">
-                    {Object.entries(timeRanges).map(([key, value]) => (
-                      <button
-                        key={key}
-                        onClick={() => {
-                          setTimeRange(key);
-                          setIsDropdownOpen(false);
-                        }}
-                        className={`block w-full text-left px-4 py-2 text-xs text-gray-400 hover:bg-[#35383f] ${
-                          key === timeRange ? "font-semibold" : ""
-                        }`}
-                      >
-                        {value.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-            <ResponsiveContainer width="100%" height={200}>
-              <RechartsLineChart
-                data={data}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
-                <CartesianGrid
-                  strokeDasharray="3 3"
-                  stroke="#95C5C5"
-                  opacity={0.1}
-                  horizontal={true}
-                  vertical={true}
-                />
-                <XAxis
-                  dataKey="date"
-                  tickFormatter={formatDateChart}
-                  stroke="#A0A0A0"
-                  tickLine={false}
-                  axisLine={false}
-                />
-                <YAxis stroke="#A0A0A0" tickLine={false} axisLine={false} />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "#292B35",
-                    color: "#E0E0E0",
-                  }}
-                  itemStyle={{ color: "#E0E0E0" }}
-                />
-                <Legend wrapperStyle={{ bottom: 0 }} />
-                <Line
-                  type="monotone"
-                  dataKey={selectedMetric}
-                  stroke="#EE8631"
-                  strokeWidth={2}
-                  dot={false}
-                  activeDot={{ r: 8 }}
-                  name={metrics.find((m) => m.value === selectedMetric)?.label}
-                />
-              </RechartsLineChart>
-            </ResponsiveContainer>
-            <div className="mt-2">
-              <select
-                className="bg-[#292B35] border border-[#95C5C5]/20 rounded p-2 text-xs text-gray-400 w-full"
-                value={selectedMetric}
-                onChange={(e) => setSelectedMetric(e.target.value)}
-              >
-                {metrics.map((metric) => (
-                  <option key={metric.value} value={metric.value}>
-                    {metric.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {/* Agent Usage - Now takes 3 columns (1/4) */}
-          <div className="col-span-3 bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
-            <SectionHeader icon={<User size={16} />} title="AGENT USAGE" />
-            <ResponsiveContainer width="100%" height={200}>
-              <PieChart>
-                <Pie
-                  data={getAgentUsageData()}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  outerRadius={80}
-                  fill={COLORS.accent1}
-                  dataKey="value"
-                  nameKey="name"
-                  label={({ name, percent }) =>
-                    percent > 0.05
-                      ? `${name} ${(percent * 100).toFixed(0)}%`
-                      : null
-                  }
-                >
-                  {getAgentUsageData().map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={
-                        COLORS[["accent1", "accent2", "accent3"][index % 3]]
-                      }
-                    />
-                  ))}
-                </Pie>
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: COLORS.secondary,
-                    color: COLORS.text,
-                  }}
-                  itemStyle={{ color: COLORS.text }}
-                />
-                <Legend
-                  layout="vertical"
-                  align="right"
-                  verticalAlign="middle"
-                  wrapperStyle={{ color: COLORS.textSecondary }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-            <br />
-          </div>
-          <br />
-        </div>
-      </div>
-
-      {/* Agent Usage */}
-
-      <br />
+      {/* Performance Charts Section */}
+      <PerformanceCharts />
     </div>
   );
 }
