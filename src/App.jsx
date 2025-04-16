@@ -28,6 +28,8 @@ import LandingPage from "./Views/Landing Page/landingPage";
 import UserProfileCreationPage from "./Views/User profile Creation Page/userProfileCreationPage";
 import MentorProfileCreationPage from "./Views/Mentor Profile Creation Page/mentorProfileCreationPage";
 
+import EventRegister from "./Views/Register/register";
+
 import Authentication from "./Views/Authentication/authentication";
 
 import Teams from "./Views/Teams/teams";
@@ -112,6 +114,8 @@ function AppInner() {
         />
 
         <Route path="/authentication" element={<Authentication />} />
+
+        <Route path="/event-register" element={<EventRegister />} />
 
         {/* Add more routes as needed */}
       </Routes>
