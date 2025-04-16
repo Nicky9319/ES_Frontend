@@ -3,7 +3,7 @@ import ChatModal from "../Chat Modal/chatModal";
 
 const RightSlider = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState("Notifications"); // 'Notifications' or 'Messages'
+  const [activeTab, setActiveTab] = useState("Messages"); // Changed default from "Notifications" to "Messages"
   const [isModalOpen, setIsModalOpen] = useState(false); // State for opening/closing the modal
   const [currentMessage, setCurrentMessage] = useState(null); // Store the current message that was clicked
 
@@ -92,28 +92,40 @@ const RightSlider = () => {
         </div>
 
         {/* Navbar */}
-        <div
-          className={`flex justify-around items-center p-2 border-b border-[${primaryAccentColor}]/20`}
-        >
-          <button
-            onClick={() => setActiveTab("Notifications")}
-            className={`text-sm font-medium py-1 px-3 rounded transition-colors duration-200 ${
-              activeTab === "Notifications"
-                ? `text-[${primaryAccentColor}] border-b-2 border-[${primaryAccentColor}]`
-                : `text-[${textColor}]/70 hover:text-[${textColor}]`
-            }`}
-          >
-            Notifications
-          </button>
+        <div className="relative p-2 border-b border-[${primaryAccentColor}]/20">
           <button
             onClick={() => setActiveTab("Messages")}
-            className={`text-sm font-medium py-1 px-3 rounded transition-colors duration-200 ${
+            className={`text-sm font-medium py-1 px-3 rounded transition-colors duration-200 block mx-auto ${
               activeTab === "Messages"
                 ? `text-[${primaryAccentColor}] border-b-2 border-[${primaryAccentColor}]`
                 : `text-[${textColor}]/70 hover:text-[${textColor}]`
             }`}
           >
             Messages
+          </button>
+          <button
+            onClick={() => window.open("/dm-page", "_blank")}
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 hover:text-[${primaryAccentColor}]"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M18 2l4 4-10 10-4 1 1-4L18 2z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M14 2h8v8"
+              />
+            </svg>
           </button>
         </div>
 

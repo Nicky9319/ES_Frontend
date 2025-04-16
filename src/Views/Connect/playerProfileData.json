@@ -1,13 +1,8 @@
 {
-    "_id": {
-      "$oid": "67fbf085fda1e70ffc118590"
-    },
     "GAMES_PLAYED": [
       "Valorant"
     ],
     "GAME_RELATED_INFO": {
-      "rank": "Diamond",
-      "role": "Duelist"
     },
     "HISTORY": [
       {
@@ -22,8 +17,8 @@
       }
     ],
     "PLATFORM_STATUS": "ACTIVE",
-    "PROFILE_BANNER": "https://example.com/banner.jpg",
-    "PROFILE_PIC": "https://example.com/profile.jpg",
+    "PROFILE_BANNER": "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80",
+    "PROFILE_PIC": "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
     "LOCATION": "Mumbai, India",
     "TEAM_STATUS": "Looking for Team",
     "SOCIAL_LINKS": {
@@ -37,6 +32,8 @@
     "BIO": "Passionate gamer and esports enthusiast.",
     "USER_ID": "727da271-5319-45f7-b049-b8e737c22a8e",
     "CREATED_AT": {
-      "$date": "2025-04-13T22:42:37.398Z"
-    }
+      "$date": "2025-04-09T22:42:37.398Z"
+    },
+    "USER_NAME": "gamer123",
+    "TAGLINE" : "First Step to Win"
   }

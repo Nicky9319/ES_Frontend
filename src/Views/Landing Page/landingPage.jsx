@@ -1,9 +1,12 @@
+
 import React, { useEffect, useState } from 'react';
+
 import { Link } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 function LandingPage() {
+
     const [activeFaq, setActiveFaq] = useState(null);
     
     useEffect(() => {
@@ -12,6 +15,7 @@ function LandingPage() {
             once: false,
             mirror: true
         });
+
 
         // Add image size check
         const images = document.querySelectorAll('img');
@@ -34,6 +38,7 @@ function LandingPage() {
                     <div className="flex justify-between items-center">
                         <div className="flex items-center space-x-4" data-aos="fade-right">
                             <img src="/assets/logo.png" alt="Logo" className="h-12 hover:scale-110 transition-transform" />
+
                             <span className="text-[#95C5C5] text-2xl font-bold">ELOSphere</span>
                         </div>
                         <div className="hidden md:flex items-center space-x-8">
@@ -41,10 +46,12 @@ function LandingPage() {
                             <a href="#solution" className="text-[#95C5C5] hover:text-[#EE8631] transition-colors">Solution</a>
                             <a href="#audience" className="text-[#95C5C5] hover:text-[#EE8631] transition-colors">Audience</a>
                             <a href="#faq" className="text-[#95C5C5] hover:text-[#EE8631] transition-colors">FAQ</a>
+
                             <button className="px-6 py-2 bg-[#EE8631] text-white rounded-lg hover:bg-[#AD662F] transform hover:scale-105 transition-all">
                                 Get Started
                             </button>
                         </div>
+
                         <div className="md:hidden">
                             {/* Mobile menu button would go here */}
                             <button className="text-[#95C5C5]">☰</button>
@@ -81,12 +88,14 @@ function LandingPage() {
                             Organize and participate in tournaments, connect with fellow gamers, track your progress, and take your gaming career to new heights. Whether you're a casual player or aspiring pro, ELOSphere is your gateway to competitive gaming excellence.
                         </p>
                         <div className="flex gap-4 flex-wrap">
+
                             <button className="group px-8 py-4 bg-[#EE8631] text-white rounded-lg text-lg font-bold hover:bg-[#AD662F] transform hover:scale-105 transition-all">
                                 Start Your Journey
                                 <span className="ml-2 group-hover:translate-x-2 inline-block transition-transform">→</span>
                             </button>
                         </div>
                     </div>
+
                     {/* <div className="hidden lg:block w-1/3" data-aos="fade-left">
                         <div className="relative rounded-lg overflow-hidden shadow-2xl">
                             <img 
@@ -143,6 +152,7 @@ function LandingPage() {
                     </div>
                 </div>
             </section>
+
 
             {/* Future of Competitive Play Section */}
             <section className="py-16 bg-[#292B35]">
@@ -205,6 +215,7 @@ function LandingPage() {
                 </div>
             </section>
 
+
             {/* Solution Section with Floating Elements */}
             <section id="solution" className="relative py-20 bg-[#292B35] overflow-hidden">
                 {/* Animated background elements */}
@@ -225,17 +236,21 @@ function LandingPage() {
                         />
                     ))}
                 </div>
+
+
                 <div className="container mx-auto px-6 relative">
                     <h2 className="text-4xl font-bold text-[#95C5C5] text-center mb-16" data-aos="fade-up">
                         Our Solution
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+
                         <div data-aos="fade-right" className="max-w-xl mx-auto">
                             <img 
                                 src=""
                                 alt="Platform Preview" 
                                 className="rounded-xl shadow-2xl hover:transform hover:scale-105 transition-all w-full max-w-md mx-auto" 
                             />
+
                         </div>
                         <div data-aos="fade-left" className="space-y-6">
                             {solutions.map((item, index) => (
@@ -283,6 +298,7 @@ function LandingPage() {
                 </div>
             </section>
 
+
             {/* FAQ Section */}
             <section id="faq" className="py-20 bg-[#1D1E24]">
                 <div className="container mx-auto px-6">
@@ -315,11 +331,13 @@ function LandingPage() {
                 </div>
             </section>
 
+
             {/* CTA Section */}
             <section className="py-20 bg-[#EE8631]">
                 <div className="container mx-auto px-6 text-center" data-aos="zoom-in">
                     <h2 className="text-4xl font-bold text-white mb-6">Ready to Level Up?</h2>
                     <p className="text-white/90 mb-8 max-w-2xl mx-auto">
+
                         Join and take your gaming journey to the next level with ELOSphere.
                     </p>
                     <div className="flex flex-col md:flex-row justify-center gap-4">
@@ -327,10 +345,12 @@ function LandingPage() {
                             Create Account
                         </button>
                     </div>
+
                 </div>
             </section>
 
             {/* Footer */}
+
             <footer className="bg-[#292B35] text-[#95C5C5] py-16 border-t border-[#95C5C5]/10">
                 <div className="container mx-auto px-6">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
@@ -372,6 +392,7 @@ function LandingPage() {
                     <div className="mt-12 pt-8 border-t border-[#95C5C5]/10 text-center text-[#E0E0E0]">
                         <p>© {new Date().getFullYear()} ELOSphere. All rights reserved.</p>
                     </div>
+
                 </div>
             </footer>
         </div>
@@ -401,12 +422,16 @@ const solutions = [
     {
         icon: "🌟",
         title: "Unified Platform",
+
         description: "One platform for all your competitive gaming needs - tournaments, mentorship, and competitive growth."
+
     },
     {
         icon: "📈",
         title: "Skill Development",
+
         description: "Structured progression system with mentorship from verified mentors."
+
     },
     {
         icon: "🤝",
@@ -432,6 +457,7 @@ const audience = [
         description: "Established communities looking to grow and organize events."
     }
 ];
+
 
 
 const faqs = [
