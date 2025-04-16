@@ -534,7 +534,7 @@ const CreateTeam = ({ onBackClick }) => {
           Back to Teams
         </button>
         <button
-          onClick={() => (window.location.href = "/teams/manage")}
+          onClick={() => (window.location.href = "/teams")}
           className="py-3 bg-[#EE8631] text-white rounded-lg hover:bg-[#AD662F] flex-1 transition-all"
         >
           Manage Your Team
