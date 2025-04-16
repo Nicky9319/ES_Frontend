@@ -1,5 +1,7 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+const EVENTS_SERVICE = import.meta.env.VITE_EVENTS_SERVICE;
+console.log(EVENTS_SERVICE);
 import {
   FaSearch,
   FaFilter,
@@ -14,9 +16,23 @@ import {
 } from "react-icons/fa";
 import RightSlider from "../components/rightSlider";
 import LeftSlider from "../components/leftSlider";
-import dummyData from "./dummyEvents.json";
 
 function EsEvents() {
+  const [AllEvents, setEvents] = useState([]);
+  useEffect(() => {
+    const fetchEvents = async () => {
+      try {
+        const response = await fetch(`${EVENTS_SERVICE}/Events/AllEvents`);
+        const data = await response.json();
+        setEvents(data);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+      }
+    };
+
+    fetchEvents();
+  }, []);
+
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedConsole, setSelectedConsole] = useState("");
@@ -67,8 +83,8 @@ function EsEvents() {
   };
 
   const esportsEvents = useMemo(() => {
-    if (!dummyData?.EVENTS) return [];
-    return dummyData.EVENTS.map((event) => ({
+    if (!AllEvents?.EVENTS) return [];
+    return AllEvents.EVENTS.map((event) => ({
       id: event.EVENT_ID,
       title: event.EVENT_NAME,
       game: event.GAME,
@@ -82,7 +98,7 @@ function EsEvents() {
       location: event.LOCATION,
       image: event.IMAGE || "https://via.placeholder.com/400x200",
     }));
-  }, [dummyData]);
+  }, [AllEvents]);
 
   const parsePrizePool = (prizeStr) => {
     if (!prizeStr) return 0;
