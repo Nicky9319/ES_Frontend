@@ -1,24 +1,29 @@
 import React from "react";
 import { signInWithGoogle } from "./auth";
 // import { Navigate } from "react-router-dom";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
+import { useAuthStatus } from "../../context/authStatusContext";
 
 export default function AuthPage() {
   const navigate = useNavigate();
-  // Add this modification in the handleGoogleClick function:
+  const { setIsAuthenticating } = useAuthStatus();
 
   const handleGoogleClick = async () => {
     try {
       const userCredential = await signInWithGoogle();
       if (userCredential) {
-        const userName = userCredential.displayName || 'User';
+        const userName = userCredential.displayName || "User";
         alert(`Welcome, ${userName}!`);
+        setIsAuthenticating(true);
         navigate("/choose-persona");
       }
     } catch (err) {
       console.error("Error in handleGoogleClick:", err);
-      alert("Sign in successful but backend sync failed. Some features may be limited.");
-      // Still navigate if it's just a backend error
+      alert(
+        "Sign in successful but backend sync failed. Some features may be limited."
+      );
+      // Still set authentication status and navigate if it's just a backend error
+      setIsAuthenticating(true);
       navigate("/choose-persona");
     }
   };

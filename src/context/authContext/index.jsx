@@ -18,7 +18,7 @@ export function AuthProvider({ children }) {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setCurrentUser({ ...user });
-        setUserLoggedIn(true);
+        setUserLoggedIn(true)
         const storedRole = localStorage.getItem("userRole");
         setUserRole(storedRole);
       } else {
