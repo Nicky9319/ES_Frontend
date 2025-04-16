@@ -181,7 +181,7 @@ const TeamDashboard = ({ team, userRole = "MEMBER", onBack }) => {
               actionText={isAdmin ? "Manage" : null}
               onAction={() => {}}
             />
-            <div className="space-y-2 max-h-[250px] overflow-y-auto pr-1">
+            <div className="space-y-2 max-h-[300px] min-h-[200px] overflow-y-auto pr-1">
               {teamMembers.length > 0 ? (
                 teamMembers.map((member, index) => (
                   <div
@@ -326,47 +326,6 @@ const TeamDashboard = ({ team, userRole = "MEMBER", onBack }) => {
               )}
             </div>
           </div>
-        </div>
-
-        {/* Right Column - Chat + Events */}
-        <div className="space-y-4">
-          {/* Team Chat Section */}
-          <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
-            <SectionHeader icon={<FaComments size={16} />} title="TEAM CHAT" />
-            <div className="flex flex-col h-[200px]">
-              <div className="flex-1 bg-[#292B35] rounded-lg p-4 mb-4 overflow-y-auto">
-                {chatMessages.map((msg) => (
-                  <div key={msg.id} className="mb-2">
-                    <span className="font-bold text-[#95C5C5]">
-                      {msg.user}:
-                    </span>
-                    <span className="text-[#E0E0E0]"> {msg.message}</span>
-                    <span className="text-xs text-gray-500 ml-2">
-                      {msg.timestamp}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  className="flex-1 px-3 py-2 bg-[#292B35] border border-[#95C5C5]/20 rounded text-[#E0E0E0]"
-                  placeholder="Type a message..."
-                  value={chatInput}
-                  onChange={(e) => setChatInput(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
-                />
-                <button
-                  onClick={handleSendMessage}
-                  className="px-4 py-2 bg-[#95C5C5] text-[#292B35] rounded hover:bg-opacity-90"
-                >
-                  Send
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Event Information Section */}
           <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
             <SectionHeader
               icon={<FaTrophy size={16} />}
@@ -410,6 +369,47 @@ const TeamDashboard = ({ team, userRole = "MEMBER", onBack }) => {
               )}
             </div>
           </div>
+        </div>
+
+        {/* Right Column - Chat + Events */}
+        <div className="space-y-4">
+          {/* Team Chat Section */}
+          <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
+            <SectionHeader icon={<FaComments size={16} />} title="TEAM CHAT" />
+            <div className="flex flex-col h-[500px]">
+              <div className="flex-1 bg-[#292B35] rounded-lg p-4 mb-4 overflow-y-auto">
+                {chatMessages.map((msg) => (
+                  <div key={msg.id} className="mb-2">
+                    <span className="font-bold text-[#95C5C5]">
+                      {msg.user}:
+                    </span>
+                    <span className="text-[#E0E0E0]"> {msg.message}</span>
+                    <span className="text-xs text-gray-500 ml-2">
+                      {msg.timestamp}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  className="flex-1 px-3 py-2 bg-[#292B35] border border-[#95C5C5]/20 rounded text-[#E0E0E0]"
+                  placeholder="Type a message..."
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
+                />
+                <button
+                  onClick={handleSendMessage}
+                  className="px-4 py-2 bg-[#95C5C5] text-[#292B35] rounded hover:bg-opacity-90"
+                >
+                  Send
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Event Information Section */}
         </div>
       </div>
     </div>
