@@ -6,15 +6,17 @@ import path from "path";
 // https://vite.dev/config/
 export default defineConfig(({ command, mode }) => {
   // Check if we need to use the GitHub Pages path prefix
-  const useGitHubPages = process.env.USE_GITHUB_PAGES === 'true';
-  const base = useGitHubPages ? '/Gryork_Frontend/' : '/';
-  
+  const useGitHubPages = process.env.USE_GITHUB_PAGES === "true";
+  const base = useGitHubPages ? "/Gryork_Frontend/" : "/";
+
   return {
-    
-    plugins: [react({
-      // Add fast refresh configuration
-      fastRefresh: true,
-    }), tailwindcss()],
+    plugins: [
+      react({
+        // Add fast refresh configuration
+        fastRefresh: true,
+      }),
+      tailwindcss(),
+    ],
     base: base,
     resolve: {
       alias: {
@@ -25,7 +27,7 @@ export default defineConfig(({ command, mode }) => {
       host: "0.0.0.0", // Expose to all network interfaces
       watch: {
         usePolling: true, // Enables polling for file changes, useful in WSL or VM environments
-        ignored: ['**/node_modules/**', '**/dist/**'],
+        ignored: ["**/node_modules/**", "**/dist/**"],
       },
       proxy: {
         // Proxy requests to your ngrok tunnel
@@ -40,14 +42,14 @@ export default defineConfig(({ command, mode }) => {
       },
       hmr: {
         clientPort: 5173, // If using HTTPS ngrok tunnel, set to 443
-        host: 'localhost',
+        host: "localhost",
         overlay: true, // Shows full-screen overlay when errors occur
         timeout: 20000, // Increase timeout for slower connections
       },
     },
     optimizeDeps: {
-      include: ['recharts'],
-      force: true
+      include: ["recharts"],
+      force: true,
     },
   };
 });

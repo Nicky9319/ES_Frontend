@@ -444,7 +444,7 @@ export default function UserDashboard() {
         id: newId,
         title: newMilestone.title,
         completed: false,
-        date: newMilewMilestone.date,
+        date: newMilestone.date,
       },
     ]);
     setNewMilestone({ title: "", date: "" });
@@ -657,8 +657,8 @@ export default function UserDashboard() {
 
   return (
     <div className="min-h-screen bg-[#292B35] text-[#E0E0E0] p-4">
-      {/* Grid Layout - Rearranged */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* Main Grid Layout */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
         {/* Player and Stats Column - Left Column */}
         <div className="space-y-4">
           {/* Player Card */}
@@ -724,6 +724,58 @@ export default function UserDashboard() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+
+          <div className=" bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
+            <SectionHeader
+              icon={<Target size={16} />}
+              title="MY MILESTONES"
+              actionText={showMilestoneForm ? "Cancel" : "Add Milestone"}
+              onAction={() => setShowMilestoneForm(!showMilestoneForm)}
+            />
+
+            {showMilestoneForm && (
+              <div className="mb-4 p-3 bg-[#292B35] rounded-lg">
+                <input
+                  type="text"
+                  placeholder="Milestone Title"
+                  className="w-full mb-2 p-2 bg-[#35383f] border border-[#95C5C5]/20 rounded text-sm"
+                  value={newMilestone.title}
+                  onChange={(e) =>
+                    setNewMilestone({ ...newMilestone, title: e.target.value })
+                  }
+                />
+                <input
+                  type="date"
+                  className="w-full mb-2 p-2 bg-[#35383f] border border-[#95C5C5]/20 rounded text-sm"
+                  value={newMilestone.date}
+                  onChange={(e) =>
+                    setNewMilestone({ ...newMilestone, date: e.target.value })
+                  }
+                />
+                <button
+                  onClick={addMilestone}
+                  className="px-4 py-2 bg-[#EE8631] text-[#292B35] rounded font-medium text-sm"
+                >
+                  Add Milestone
+                </button>
+              </div>
+            )}
+            <div className="space-y-2">
+              {milestones.map((milestone) => (
+                <MilestoneItem
+                  key={milestone.id}
+                  milestone={milestone}
+                  onToggle={toggleMilestone}
+                  onDelete={deleteMilestone}
+                />
+              ))}
+              {milestones.length === 0 && !showMilestoneForm && (
+                <p className="text-gray-500 text-sm text-center py-4">
+                  No milestones set yet.
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -839,7 +891,7 @@ export default function UserDashboard() {
           </div>
         </div>
 
-        {/* Right Column - Performance Overview */}
+        {/* Right Column - Modified to remove performance graphs */}
         <div className="space-y-4">
           {/* Performance Summary */}
           <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
@@ -880,197 +932,11 @@ export default function UserDashboard() {
               />
             </div>
           </div>
-
-          {/* Performance Chart */}
-          <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
-            <div className="flex justify-between items-center mb-3">
-              <div className="flex items-center gap-2">
-                <div className="text-[#95C5C5]">
-                  <LineChart size={16} />
-                </div>
-                <h2 className="font-semibold text-sm">PERFORMANCE TREND</h2>
-              </div>
-              <div className="relative">
-                <button
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="text-gray-400 text-xs flex items-center hover:text-gray-300"
-                >
-                  {timeRanges[timeRange].label}
-                  <ChevronRight size={12} />
-                </button>
-                {isDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-32 bg-[#292B35] border border-[#95C5C5]/20 rounded-md shadow-lg z-10">
-                    {Object.entries(timeRanges).map(([key, value]) => (
-                      <button
-                        key={key}
-                        onClick={() => {
-                          setTimeRange(key);
-                          setIsDropdownOpen(false);
-                        }}
-                        className={`block w-full text-left px-4 py-2 text-xs text-gray-400 hover:bg-[#35383f] ${
-                          key === timeRange ? "font-semibold" : ""
-                        }`}
-                      >
-                        {value.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-            <ResponsiveContainer width="100%" height={200}>
-              <RechartsLineChart
-                data={data}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" stroke="#35383f" />
-                <XAxis
-                  dataKey="date"
-                  tickFormatter={formatDateChart}
-                  stroke="#A0A0A0"
-                  tickLine={false}
-                  axisLine={false}
-                />
-                <YAxis stroke="#A0A0A0" tickLine={false} axisLine={false} />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: COLORS.secondary,
-                    color: COLORS.text,
-                  }}
-                  itemStyle={{ color: COLORS.text }}
-                />
-                <Legend wrapperStyle={{ bottom: 0 }} />
-                <Line
-                  type="monotone"
-                  dataKey={selectedMetric}
-                  stroke={COLORS.accent1}
-                  strokeWidth={2}
-                  dot={false}
-                  activeDot={{ r: 8 }}
-                  name={metrics.find((m) => m.value === selectedMetric)?.label}
-                />
-              </RechartsLineChart>
-            </ResponsiveContainer>
-            <div className="mt-2">
-              <select
-                className="bg-[#292B35] border border-[#95C5C5]/20 rounded p-2 text-xs text-gray-400 w-full"
-                value={selectedMetric}
-                onChange={(e) => setSelectedMetric(e.target.value)}
-              >
-                {metrics.map((metric) => (
-                  <option key={metric.value} value={metric.value}>
-                    {metric.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </div>
-
-          {/* Agent Usage */}
-          <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
-            <SectionHeader icon={<User size={16} />} title="AGENT USAGE" />
-            <ResponsiveContainer width="100%" height={200}>
-              <PieChart>
-                <Pie
-                  data={getAgentUsageData()}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  outerRadius={80}
-                  fill={COLORS.accent1}
-                  dataKey="value"
-                  nameKey="name"
-                  label={({ name, percent }) =>
-                    percent > 0.05
-                      ? `${name} ${(percent * 100).toFixed(0)}%`
-                      : null
-                  }
-                >
-                  {getAgentUsageData().map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={
-                        COLORS[["accent1", "accent2", "accent3"][index % 3]]
-                      }
-                    />
-                  ))}
-                  )) ;
-                </Pie>
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: COLORS.secondary,
-                    color: COLORS.text,
-                  }}
-                  itemStyle={{ color: COLORS.text }}
-                />
-                <Legend
-                  layout="vertical"
-                  align="right"
-                  verticalAlign="middle"
-                  wrapperStyle={{ color: COLORS.textSecondary }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
         </div>
       </div>
 
-      {/* Milestones Section - Moved outside the main grid for full width */}
-      <div className="mt-8 bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
-        <SectionHeader
-          icon={<Target size={16} />}
-          title="MY MILESTONES"
-          actionText={showMilestoneForm ? "Cancel" : "Add Milestone"}
-          onAction={() => setShowMilestoneForm(!showMilestoneForm)}
-        />
-
-        {showMilestoneForm && (
-          <div className="mb-4 p-3 bg-[#292B35] rounded-lg">
-            <input
-              type="text"
-              placeholder="Milestone Title"
-              className="w-full mb-2 p-2 bg-[#35383f] border border-[#95C5C5]/20 rounded text-sm"
-              value={newMilestone.title}
-              onChange={(e) =>
-                setNewMilestone({ ...newMilestone, title: e.target.value })
-              }
-            />
-            <input
-              type="date"
-              className="w-full mb-2 p-2 bg-[#35383f] border border-[#95C5C5]/20 rounded text-sm"
-              value={newMilestone.date}
-              onChange={(e) =>
-                setNewMilestone({ ...newMilestone, date: e.target.value })
-              }
-            />
-            <button
-              onClick={addMilestone}
-              className="px-4 py-2 bg-[#EE8631] text-[#292B35] rounded font-medium text-sm"
-            >
-              Add Milestone
-            </button>
-          </div>
-        )}
-
-        <div className="space-y-2">
-          {milestones.map((milestone) => (
-            <MilestoneItem
-              key={milestone.id}
-              milestone={milestone}
-              onToggle={toggleMilestone}
-              onDelete={deleteMilestone}
-            />
-          ))}
-          {milestones.length === 0 && !showMilestoneForm && (
-            <p className="text-gray-500 text-sm text-center py-4">
-              No milestones set yet.
-            </p>
-          )}
-        </div>
-      </div>
-
-      {/* Upcoming Events Section - Moved outside the main grid for full width */}
-      <div className="mt-8 bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
+      {/* Upcoming Events Section */}
+      {/* <div className="mb-4 bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
         <SectionHeader icon={<Flag size={16} />} title="UPCOMING EVENTS" />
         <div className="space-y-3">
           {futureEvents.length > 0 ? (
@@ -1105,6 +971,138 @@ export default function UserDashboard() {
               No upcoming events scheduled.
             </p>
           )}
+        </div>
+      </div> */}
+
+      {/* Performance Graphs and Agent Usage - Side by Side */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {/* Performance Chart */}
+        <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
+          <div className="flex justify-between items-center mb-3">
+            <div className="flex items-center gap-2">
+              <div className="text-[#95C5C5]">
+                <LineChart size={16} />
+              </div>
+              <h2 className="font-semibold text-sm">PERFORMANCE TREND</h2>
+            </div>
+            <div className="relative">
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="text-gray-400 text-xs flex items-center hover:text-gray-300"
+              >
+                {timeRanges[timeRange].label}
+                <ChevronRight size={12} />
+              </button>
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-32 bg-[#292B35] border border-[#95C5C5]/20 rounded-md shadow-lg z-10">
+                  {Object.entries(timeRanges).map(([key, value]) => (
+                    <button
+                      key={key}
+                      onClick={() => {
+                        setTimeRange(key);
+                        setIsDropdownOpen(false);
+                      }}
+                      className={`block w-full text-left px-4 py-2 text-xs text-gray-400 hover:bg-[#35383f] ${
+                        key === timeRange ? "font-semibold" : ""
+                      }`}
+                    >
+                      {value.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+          <ResponsiveContainer width="100%" height={200}>
+            <RechartsLineChart
+              data={data}
+              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="#35383f" />
+              <XAxis
+                dataKey="date"
+                tickFormatter={formatDateChart}
+                stroke="#A0A0A0"
+                tickLine={false}
+                axisLine={false}
+              />
+              <YAxis stroke="#A0A0A0" tickLine={false} axisLine={false} />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: COLORS.secondary,
+                  color: COLORS.text,
+                }}
+                itemStyle={{ color: COLORS.text }}
+              />
+              <Legend wrapperStyle={{ bottom: 0 }} />
+              <Line
+                type="monotone"
+                dataKey={selectedMetric}
+                stroke={COLORS.accent1}
+                strokeWidth={2}
+                dot={false}
+                activeDot={{ r: 8 }}
+                name={metrics.find((m) => m.value === selectedMetric)?.label}
+              />
+            </RechartsLineChart>
+          </ResponsiveContainer>
+          <div className="mt-2">
+            <select
+              className="bg-[#292B35] border border-[#95C5C5]/20 rounded p-2 text-xs text-gray-400 w-full"
+              value={selectedMetric}
+              onChange={(e) => setSelectedMetric(e.target.value)}
+            >
+              {metrics.map((metric) => (
+                <option key={metric.value} value={metric.value}>
+                  {metric.label}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {/* Agent Usage */}
+        <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
+          <SectionHeader icon={<User size={16} />} title="AGENT USAGE" />
+          <ResponsiveContainer width="100%" height={200}>
+            <PieChart>
+              <Pie
+                data={getAgentUsageData()}
+                cx="50%"
+                cy="50%"
+                labelLine={false}
+                outerRadius={80}
+                fill={COLORS.accent1}
+                dataKey="value"
+                nameKey="name"
+                label={({ name, percent }) =>
+                  percent > 0.05
+                    ? `${name} ${(percent * 100).toFixed(0)}%`
+                    : null
+                }
+              >
+                {getAgentUsageData().map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[["accent1", "accent2", "accent3"][index % 3]]}
+                  />
+                ))}
+              </Pie>
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: COLORS.secondary,
+                  color: COLORS.text,
+                }}
+                itemStyle={{ color: COLORS.text }}
+              />
+              <Legend
+                layout="vertical"
+                align="right"
+                verticalAlign="middle"
+                wrapperStyle={{ color: COLORS.textSecondary }}
+              />
+            </PieChart>
+          </ResponsiveContainer>
         </div>
       </div>
     </div>
