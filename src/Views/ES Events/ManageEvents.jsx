@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Search,
   Calendar,
@@ -12,7 +12,13 @@ import {
   Filter,
   Grid,
   List,
+  MapPin,
+  Clock,
+  HelpCircle,
+  Monitor,
+  AlertCircle,
 } from "lucide-react";
+import dummyEvents from "./dummyEvents.json";
 
 export default function ManageEvents() {
   const [activeTab, setActiveTab] = useState("all");
@@ -23,6 +29,93 @@ export default function ManageEvents() {
     prize: "all",
     location: "all",
   });
+  const [events, setEvents] = useState([]);
+
+  // Load and transform event data from the JSON file
+  useEffect(() => {
+    try {
+      // Process the raw events data from JSON
+      const processedEvents = dummyEvents.EVENTS.map((event, index) => {
+        // Parse the event date from the JSON date format
+        const eventDate = new Date(event.EVENT_DATE.$date);
+        const formattedDate = eventDate.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+
+        // Determine event status based on date
+        const now = new Date();
+        let status = "Upcoming";
+        if (eventDate < now) {
+          status = "Past";
+        } else if (Math.abs(eventDate - now) < 24 * 60 * 60 * 1000) {
+          status = "Active";
+        }
+
+        // Calculate registrations based on NUMBER_OF_TEAMS if available
+        const registeredTeams = Math.floor(
+          Math.random() * event.NUMBER_OF_TEAMS
+        );
+        const registrations = `${registeredTeams}/${event.NUMBER_OF_TEAMS}`;
+
+        return {
+          id: event.EVENT_ID || `event-${index + 1}`,
+          title: event.EVENT_NAME,
+          date: formattedDate,
+          game: `${event.GAME} - ${event.GAME_TYPE}`,
+          registrations: registrations,
+          prize: event.PRIZE_POOL,
+          status: status,
+          location: event.VENUE,
+          image: event.IMAGE || "/api/placeholder/60/60",
+          description: event.DESCRIPTION,
+          deadline: new Date(
+            event.REGISTRATION_DEADLINE.$date
+          ).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }),
+          eligibility: event.ELIGIBILITY,
+          console: event.CONSOLE,
+          format: event.FORMAT,
+          contact: event.CONTACT_INFO,
+          faq: event.FAQ,
+          teamSize: event.NUMBER_OF_MEMBERS,
+        };
+      });
+
+      setEvents(processedEvents);
+    } catch (error) {
+      console.error("Error loading event data:", error);
+      // Fallback to sample data if JSON loading fails
+      setEvents([
+        {
+          id: "EVT12345",
+          title: "Spring Gaming Bash",
+          date: "May 20, 2025",
+          game: "Fortnite - Battle Royale",
+          registrations: "12/16",
+          prize: "$5,000",
+          status: "Active",
+          location: "Neon Arena, Game City",
+          image: "/api/placeholder/60/60",
+        },
+        {
+          id: "EVT12346",
+          title: "Summer Apex Legends Cup",
+          date: "June 15, 2025",
+          game: "Apex Legends - Squads",
+          registrations: "8/20",
+          prize: "$3,500",
+          status: "Upcoming",
+          location: "Virtual Gaming Hub",
+          image: "/api/placeholder/60/60",
+        },
+      ]);
+    }
+  }, []);
 
   const tabs = [
     { id: "all", label: "All Events" },
@@ -31,99 +124,24 @@ export default function ManageEvents() {
     { id: "past", label: "Past" },
   ];
 
+  // Generate game options from the available events
   const games = [
     "all",
-    "Fortnite",
-    "Apex Legends",
-    "VALORANT",
-    "Rocket League",
-    "Call of Duty",
-    "NBA 2K25",
-  ];
-  const prizes = ["all", "Under $3,000", "$3,000-$5,000", "Over $5,000"];
-  const locations = [
-    "all",
-    "Neon Arena",
-    "Virtual Gaming Hub",
-    "Game Dome Center",
-    "Cyber Stadium",
-    "FPS Arena Complex",
-    "Sports Gaming Center",
+    ...new Set(events.map((event) => event.game.split(" - ")[0])),
   ];
 
-  const events = [
-    {
-      id: 1,
-      title: "Spring Gaming Bash",
-      date: "May 20, 2025",
-      game: "Fortnite - Battle Royale",
-      registrations: "12/16",
-      prize: "$5,000",
-      status: "Active",
-      location: "Neon Arena, Game City",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNVOKi709QAbUiSuX9xnGk5qyu0pFCpenIMQ&s",
-    },
-    {
-      id: 2,
-      title: "Summer Apex Legends Cup",
-      date: "June 15, 2025",
-      game: "Apex Legends - Squads",
-      registrations: "8/20",
-      prize: "$3,500",
-      status: "Upcoming",
-      location: "Virtual Gaming Hub",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNVOKi709QAbUiSuX9xnGk5qyu0pFCpenIMQ&s",
-    },
-    {
-      id: 3,
-      title: "Fall VALORANT Challenge",
-      date: "September 5, 2025",
-      game: "VALORANT - 5v5",
-      registrations: "0/12",
-      prize: "$2,000",
-      status: "Upcoming",
-      location: "Game Dome Center",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNVOKi709QAbUiSuX9xnGk5qyu0pFCpenIMQ&s",
-    },
-    {
-      id: 4,
-      title: "Winter Rocket League Tournament",
-      date: "February 10, 2025",
-      game: "Rocket League - 3v3",
-      registrations: "16/16",
-      prize: "$4,000",
-      status: "Past",
-      location: "Cyber Stadium",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNVOKi709QAbUiSuX9xnGk5qyu0pFCpenIMQ&s",
-    },
-    {
-      id: 5,
-      title: "Call of Duty Weekend Clash",
-      date: "April 5, 2025",
-      game: "Call of Duty: Warzone",
-      registrations: "24/32",
-      prize: "$6,000",
-      status: "Past",
-      location: "FPS Arena Complex",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNVOKi709QAbUiSuX9xnGk5qyu0pFCpenIMQ&s",
-    },
-    {
-      id: 6,
-      title: "NBA 2K25 Championship",
-      date: "June 30, 2025",
-      game: "NBA 2K25 - Teams",
-      registrations: "4/16",
-      prize: "$3,000",
-      status: "Upcoming",
-      location: "Sports Gaming Center",
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNVOKi709QAbUiSuX9xnGk5qyu0pFCpenIMQ&s",
-    },
+  // Generate prize options
+  const prizes = ["all", "Under $3,000", "$3,000-$5,000", "Over $5,000"];
+
+  // Generate location options from the available events
+  const locations = [
+    "all",
+    ...new Set(
+      events.map((event) => {
+        const venue = event.location.split(",")[0];
+        return venue;
+      })
+    ),
   ];
 
   // Custom styles based on the color palette
@@ -144,7 +162,9 @@ export default function ManageEvents() {
   // Filter events based on active tab and filters
   const filteredEvents = events
     .filter(
-      (event) => activeTab === "all" || event.status.toLowerCase() === activeTab
+      (event) =>
+        activeTab === "all" ||
+        event.status.toLowerCase() === activeTab.toLowerCase()
     )
     .filter(
       (event) =>
@@ -170,7 +190,7 @@ export default function ManageEvents() {
         filters.location === "all" || event.location.includes(filters.location)
     );
 
-  // Card view component
+  // Card view component with expanded event details
   const EventCard = ({ event }) => (
     <div
       className="rounded-xl overflow-hidden transition-all hover:shadow-xl cursor-pointer"
@@ -181,9 +201,12 @@ export default function ManageEvents() {
     >
       <div className="h-40 relative">
         <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTNVOKi709QAbUiSuX9xnGk5qyu0pFCpenIMQ&s"
+          src={event.image}
           alt={event.title}
           className="w-full h-full object-cover"
+          onError={(e) => {
+            e.target.src = "/api/placeholder/400/200";
+          }}
         />
         <div
           className="absolute bottom-0 left-0 right-0 p-2 text-white"
@@ -237,6 +260,24 @@ export default function ManageEvents() {
             <Users size={14} className="mr-2" />
             {event.registrations} Teams
           </div>
+          {event.location && (
+            <div
+              className="flex items-center text-sm"
+              style={{ color: styles.textSecondary }}
+            >
+              <MapPin size={14} className="mr-2" />
+              {event.location}
+            </div>
+          )}
+          {event.deadline && (
+            <div
+              className="flex items-center text-sm"
+              style={{ color: styles.textSecondary }}
+            >
+              <Clock size={14} className="mr-2" />
+              Registration ends: {event.deadline}
+            </div>
+          )}
         </div>
 
         <div
@@ -288,6 +329,7 @@ export default function ManageEvents() {
               backgroundColor: styles.primary,
               color: styles.background,
             }}
+            onClick={() => (window.location.href = "/create-event")}
           >
             <Plus size={20} />
             <span>Create Event</span>
@@ -328,33 +370,33 @@ export default function ManageEvents() {
             ))}
           </div>
 
+          {/* Search and View Options */}
           <div
-            className="p-6 flex flex-col gap-4"
+            className="p-6 border-b flex items-center justify-between"
             style={{ borderColor: styles.background }}
           >
-            {/* Top row with search and view options */}
-            <div className="flex items-center justify-between">
-              <div className="relative flex-grow mr-4">
-                <input
-                  type="text"
-                  placeholder="Search your events..."
-                  className="w-full rounded-lg px-4 py-3 pl-10 focus:outline-none"
-                  style={{
-                    backgroundColor: styles.background,
-                    color: styles.text,
-                    borderColor: styles.background,
-                  }}
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <Search
-                  className="absolute top-3.5 left-3"
-                  style={{ color: styles.textSecondary }}
-                  size={18}
-                />
-              </div>
+            <div className="relative flex-grow mr-4">
+              <input
+                type="text"
+                placeholder="Search your events..."
+                className="w-full rounded-lg px-4 py-3 pl-10 focus:outline-none"
+                style={{
+                  backgroundColor: styles.background,
+                  color: styles.text,
+                  borderColor: styles.background,
+                }}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <Search
+                className="absolute top-3.5 left-3"
+                style={{ color: styles.textSecondary }}
+                size={18}
+              />
+            </div>
 
-              <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2">
+              <div className="relative">
                 <button
                   className="px-4 py-3 rounded-lg flex items-center gap-2"
                   style={{
@@ -369,142 +411,151 @@ export default function ManageEvents() {
                   <span>Filter</span>
                 </button>
 
-                <div
-                  className="flex border rounded-lg overflow-hidden"
-                  style={{ borderColor: styles.background }}
+                {filterOpen && (
+                  <div
+                    className="absolute right-0 top-12 p-4 rounded-lg shadow-xl z-10 w-64"
+                    style={{ backgroundColor: styles.cardBackground }}
+                  >
+                    <div className="mb-4">
+                      <label
+                        className="block mb-2 text-sm font-medium"
+                        style={{ color: styles.text }}
+                      >
+                        Game
+                      </label>
+                      <select
+                        className="w-full p-2 rounded text-sm"
+                        style={{
+                          backgroundColor: styles.background,
+                          color: styles.text,
+                        }}
+                        value={filters.game}
+                        onChange={(e) =>
+                          setFilters({ ...filters, game: e.target.value })
+                        }
+                      >
+                        {games.map((game) => (
+                          <option key={game} value={game}>
+                            {game === "all" ? "All Games" : game}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="mb-4">
+                      <label
+                        className="block mb-2 text-sm font-medium"
+                        style={{ color: styles.text }}
+                      >
+                        Prize Pool
+                      </label>
+                      <select
+                        className="w-full p-2 rounded text-sm"
+                        style={{
+                          backgroundColor: styles.background,
+                          color: styles.text,
+                        }}
+                        value={filters.prize}
+                        onChange={(e) =>
+                          setFilters({ ...filters, prize: e.target.value })
+                        }
+                      >
+                        {prizes.map((prize) => (
+                          <option key={prize} value={prize}>
+                            {prize === "all" ? "All Prizes" : prize}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="mb-4">
+                      <label
+                        className="block mb-2 text-sm font-medium"
+                        style={{ color: styles.text }}
+                      >
+                        Location
+                      </label>
+                      <select
+                        className="w-full p-2 rounded text-sm"
+                        style={{
+                          backgroundColor: styles.background,
+                          color: styles.text,
+                        }}
+                        value={filters.location}
+                        onChange={(e) =>
+                          setFilters({ ...filters, location: e.target.value })
+                        }
+                      >
+                        {locations.map((location) => (
+                          <option key={location} value={location}>
+                            {location === "all" ? "All Locations" : location}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className="flex justify-between">
+                      <button
+                        className="px-3 py-1 rounded text-sm"
+                        style={{
+                          backgroundColor: styles.background,
+                          color: styles.text,
+                        }}
+                        onClick={() =>
+                          setFilters({
+                            game: "all",
+                            prize: "all",
+                            location: "all",
+                          })
+                        }
+                      >
+                        Reset
+                      </button>
+                      <button
+                        className="px-3 py-1 rounded text-sm"
+                        style={{
+                          backgroundColor: styles.primary,
+                          color: styles.background,
+                        }}
+                        onClick={() => setFilterOpen(false)}
+                      >
+                        Apply
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div
+                className="flex border rounded-lg overflow-hidden"
+                style={{ borderColor: styles.background }}
+              >
+                <button
+                  className="px-3 py-2"
+                  style={{
+                    backgroundColor:
+                      viewMode === "list" ? styles.primary : styles.background,
+                    color:
+                      viewMode === "list" ? styles.background : styles.text,
+                  }}
+                  onClick={() => setViewMode("list")}
                 >
-                  <button
-                    className="px-3 py-2"
-                    style={{
-                      backgroundColor:
-                        viewMode === "list"
-                          ? styles.primary
-                          : styles.background,
-                      color:
-                        viewMode === "list" ? styles.background : styles.text,
-                    }}
-                    onClick={() => setViewMode("list")}
-                  >
-                    <List size={16} />
-                  </button>
-                  <button
-                    className="px-3 py-2"
-                    style={{
-                      backgroundColor:
-                        viewMode === "grid"
-                          ? styles.primary
-                          : styles.background,
-                      color:
-                        viewMode === "grid" ? styles.background : styles.text,
-                    }}
-                    onClick={() => setViewMode("grid")}
-                  >
-                    <Grid size={16} />
-                  </button>
-                </div>
+                  <List size={16} />
+                </button>
+                <button
+                  className="px-3 py-2"
+                  style={{
+                    backgroundColor:
+                      viewMode === "grid" ? styles.primary : styles.background,
+                    color:
+                      viewMode === "grid" ? styles.background : styles.text,
+                  }}
+                  onClick={() => setViewMode("grid")}
+                >
+                  <Grid size={16} />
+                </button>
               </div>
             </div>
-
-            {/* Horizontal filter bar */}
-            {filterOpen && (
-              <div
-                className="flex gap-4 items-center p-4 rounded-lg"
-                style={{ backgroundColor: styles.background }}
-              >
-                <div className="flex-1">
-                  <label
-                    className="block mb-2 text-sm font-medium"
-                    style={{ color: styles.text }}
-                  >
-                    Game
-                  </label>
-                  <select
-                    className="w-full p-2 rounded text-sm"
-                    style={{
-                      backgroundColor: styles.cardBackground,
-                      color: styles.text,
-                    }}
-                    value={filters.game}
-                    onChange={(e) =>
-                      setFilters({ ...filters, game: e.target.value })
-                    }
-                  >
-                    {games.map((game) => (
-                      <option key={game} value={game}>
-                        {game === "all" ? "All Games" : game}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="flex-1">
-                  <label
-                    className="block mb-2 text-sm font-medium"
-                    style={{ color: styles.text }}
-                  >
-                    Prize Pool
-                  </label>
-                  <select
-                    className="w-full p-2 rounded text-sm"
-                    style={{
-                      backgroundColor: styles.cardBackground,
-                      color: styles.text,
-                    }}
-                    value={filters.prize}
-                    onChange={(e) =>
-                      setFilters({ ...filters, prize: e.target.value })
-                    }
-                  >
-                    {prizes.map((prize) => (
-                      <option key={prize} value={prize}>
-                        {prize === "all" ? "All Prizes" : prize}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="flex-1">
-                  <label
-                    className="block mb-2 text-sm font-medium"
-                    style={{ color: styles.text }}
-                  >
-                    Location
-                  </label>
-                  <select
-                    className="w-full p-2 rounded text-sm"
-                    style={{
-                      backgroundColor: styles.cardBackground,
-                      color: styles.text,
-                    }}
-                    value={filters.location}
-                    onChange={(e) =>
-                      setFilters({ ...filters, location: e.target.value })
-                    }
-                  >
-                    {locations.map((location) => (
-                      <option key={location} value={location}>
-                        {location === "all" ? "All Locations" : location}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="flex flex-col justify-end h-full gap-2">
-                  <button
-                    className="px-4 py-2 rounded text-sm"
-                    style={{
-                      backgroundColor: styles.primary,
-                      color: styles.background,
-                    }}
-                    onClick={() =>
-                      setFilters({ game: "all", prize: "all", location: "all" })
-                    }
-                  >
-                    Reset
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
 
           {/* Content based on view mode */}
@@ -578,6 +629,9 @@ export default function ManageEvents() {
                               src={event.image}
                               alt={event.title}
                               className="w-full h-full object-cover"
+                              onError={(e) => {
+                                e.target.src = "/api/placeholder/60/60";
+                              }}
                             />
                           </div>
                           <span className="font-medium">{event.title}</span>
@@ -601,6 +655,7 @@ export default function ManageEvents() {
                       <td className="px-6 py-4 flex gap-2">
                         <button
                           className="p-2 rounded-md transition-colors"
+                          onClick={() => (window.location.href = "/event-info")}
                           style={{
                             backgroundColor: "rgba(149, 197, 197, 0.1)",
                             color: styles.primary,
@@ -614,6 +669,8 @@ export default function ManageEvents() {
                             backgroundColor: "rgba(238, 134, 49, 0.1)",
                             color: styles.secondary,
                           }}
+                          onClick={() => (window.location.href = "/")}
+
                         >
                           <Edit size={16} />
                         </button>
@@ -644,7 +701,7 @@ export default function ManageEvents() {
               <span className="font-medium">{filteredEvents.length}</span> of{" "}
               <span className="font-medium">{events.length}</span> events
             </div>
-            {/* <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2">
               <button
                 className="p-2 rounded-md"
                 style={{
@@ -681,7 +738,7 @@ export default function ManageEvents() {
               >
                 <ChevronRight size={16} />
               </button>
-            </div> */}
+            </div>
           </div>
         </div>
       </div>
