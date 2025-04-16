@@ -376,7 +376,7 @@ function LandingPage() {
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="mailto:elosphere@gmail.com" className="text-[#E0E0E0] hover:text-[#EE8631] transition-colors">
+                                    <a href="mailto:elosphere.4@gmail.com" className="text-[#E0E0E0] hover:text-[#EE8631] transition-colors">
                                         Contact Us
                                     </a>
                                 </li>
