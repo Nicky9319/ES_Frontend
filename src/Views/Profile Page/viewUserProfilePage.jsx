@@ -55,23 +55,15 @@ const ViewUserProfilePage = () => {
                         title: "Epic Valorant Clutch Moments",
                         thumbnail: "https://img.youtube.com/vi/tmQfQFkOtxc/maxresdefault.jpg",
                         videoUrl: "https://www.youtube.com/embed/tmQfQFkOtxc",
-                        date: "2023-12-01"
+                        date: "2025-17-04"
                     },
                     {
                         id: 2,
-                        game: "CS:GO",
-                        title: "Pro CS:GO Best Plays",
-                        thumbnail: "https://img.youtube.com/vi/INJnD8ufQeM/maxresdefault.jpg",
-                        videoUrl: "https://www.youtube.com/embed/INJnD8ufQeM",
-                        date: "2023-11-28"
-                    },
-                    {
-                        id: 3,
                         game: "Valorant",
-                        title: "Best Valorant Plays 2023",
-                        thumbnail: "https://img.youtube.com/vi/jzfcM_iO0FU/maxresdefault.jpg",
-                        videoUrl: "https://www.youtube.com/embed/jzfcM_iO0FU",
-                        date: "2023-11-15"
+                        title: "Best Valorant Plays",
+                        thumbnail: "https://img.youtube.com/vi/kjf0HrX7Ym0/maxresdefault.jpg", // Fixed URL format
+                        videoUrl: "https://youtube.com/embed/kjf0HrX7Ym0",
+                        date: "2025-17-04"
                     }
                 ]
             };
