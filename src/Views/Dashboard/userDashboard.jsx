@@ -974,137 +974,153 @@ export default function UserDashboard() {
         </div>
       </div> */}
 
-      {/* Performance Graphs and Agent Usage - Side by Side */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Performance Chart */}
-        <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
-          <div className="flex justify-between items-center mb-3">
-            <div className="flex items-center gap-2">
-              <div className="text-[#95C5C5]">
-                <LineChart size={16} />
-              </div>
-              <h2 className="font-semibold text-sm">PERFORMANCE TREND</h2>
-            </div>
-            <div className="relative">
-              <button
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="text-gray-400 text-xs flex items-center hover:text-gray-300"
-              >
-                {timeRanges[timeRange].label}
-                <ChevronRight size={12} />
-              </button>
-              {isDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-32 bg-[#292B35] border border-[#95C5C5]/20 rounded-md shadow-lg z-10">
-                  {Object.entries(timeRanges).map(([key, value]) => (
-                    <button
-                      key={key}
-                      onClick={() => {
-                        setTimeRange(key);
-                        setIsDropdownOpen(false);
-                      }}
-                      className={`block w-full text-left px-4 py-2 text-xs text-gray-400 hover:bg-[#35383f] ${
-                        key === timeRange ? "font-semibold" : ""
-                      }`}
-                    >
-                      {value.label}
-                    </button>
-                  ))}
+      {/* Performance Chart */}
+      <div className="min-h-screen bg-[#292B35] text-[#E0E0E0] p-4">
+        <div className="grid grid-cols-12 gap-4">
+          {/* Performance Chart - Now takes 9 columns (3/4) */}
+          <div className="col-span-9 bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
+            <div className="flex justify-between items-center mb-3">
+              <div className="flex items-center gap-2">
+                <div className="text-[#95C5C5]">
+                  <LineChart size={16} />
                 </div>
-              )}
+                <h2 className="font-semibold text-sm">PERFORMANCE TREND</h2>
+              </div>
+              <div className="relative">
+                <button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="text-gray-400 text-xs flex items-center hover:text-gray-300"
+                >
+                  {timeRanges[timeRange].label}
+                  <ChevronRight size={12} />
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-32 bg-[#292B35] border border-[#95C5C5]/20 rounded-md shadow-lg z-10">
+                    {Object.entries(timeRanges).map(([key, value]) => (
+                      <button
+                        key={key}
+                        onClick={() => {
+                          setTimeRange(key);
+                          setIsDropdownOpen(false);
+                        }}
+                        className={`block w-full text-left px-4 py-2 text-xs text-gray-400 hover:bg-[#35383f] ${
+                          key === timeRange ? "font-semibold" : ""
+                        }`}
+                      >
+                        {value.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+            <ResponsiveContainer width="100%" height={200}>
+              <RechartsLineChart
+                data={data}
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  stroke="#95C5C5"
+                  opacity={0.1}
+                  horizontal={true}
+                  vertical={true}
+                />
+                <XAxis
+                  dataKey="date"
+                  tickFormatter={formatDateChart}
+                  stroke="#A0A0A0"
+                  tickLine={false}
+                  axisLine={false}
+                />
+                <YAxis stroke="#A0A0A0" tickLine={false} axisLine={false} />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: "#292B35",
+                    color: "#E0E0E0",
+                  }}
+                  itemStyle={{ color: "#E0E0E0" }}
+                />
+                <Legend wrapperStyle={{ bottom: 0 }} />
+                <Line
+                  type="monotone"
+                  dataKey={selectedMetric}
+                  stroke="#EE8631"
+                  strokeWidth={2}
+                  dot={false}
+                  activeDot={{ r: 8 }}
+                  name={metrics.find((m) => m.value === selectedMetric)?.label}
+                />
+              </RechartsLineChart>
+            </ResponsiveContainer>
+            <div className="mt-2">
+              <select
+                className="bg-[#292B35] border border-[#95C5C5]/20 rounded p-2 text-xs text-gray-400 w-full"
+                value={selectedMetric}
+                onChange={(e) => setSelectedMetric(e.target.value)}
+              >
+                {metrics.map((metric) => (
+                  <option key={metric.value} value={metric.value}>
+                    {metric.label}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
-          <ResponsiveContainer width="100%" height={200}>
-            <RechartsLineChart
-              data={data}
-              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-            >
-              <CartesianGrid strokeDasharray="3 3" stroke="#35383f" />
-              <XAxis
-                dataKey="date"
-                tickFormatter={formatDateChart}
-                stroke="#A0A0A0"
-                tickLine={false}
-                axisLine={false}
-              />
-              <YAxis stroke="#A0A0A0" tickLine={false} axisLine={false} />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: COLORS.secondary,
-                  color: COLORS.text,
-                }}
-                itemStyle={{ color: COLORS.text }}
-              />
-              <Legend wrapperStyle={{ bottom: 0 }} />
-              <Line
-                type="monotone"
-                dataKey={selectedMetric}
-                stroke={COLORS.accent1}
-                strokeWidth={2}
-                dot={false}
-                activeDot={{ r: 8 }}
-                name={metrics.find((m) => m.value === selectedMetric)?.label}
-              />
-            </RechartsLineChart>
-          </ResponsiveContainer>
-          <div className="mt-2">
-            <select
-              className="bg-[#292B35] border border-[#95C5C5]/20 rounded p-2 text-xs text-gray-400 w-full"
-              value={selectedMetric}
-              onChange={(e) => setSelectedMetric(e.target.value)}
-            >
-              {metrics.map((metric) => (
-                <option key={metric.value} value={metric.value}>
-                  {metric.label}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
 
-        {/* Agent Usage */}
-        <div className="bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
-          <SectionHeader icon={<User size={16} />} title="AGENT USAGE" />
-          <ResponsiveContainer width="100%" height={200}>
-            <PieChart>
-              <Pie
-                data={getAgentUsageData()}
-                cx="50%"
-                cy="50%"
-                labelLine={false}
-                outerRadius={80}
-                fill={COLORS.accent1}
-                dataKey="value"
-                nameKey="name"
-                label={({ name, percent }) =>
-                  percent > 0.05
-                    ? `${name} ${(percent * 100).toFixed(0)}%`
-                    : null
-                }
-              >
-                {getAgentUsageData().map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={COLORS[["accent1", "accent2", "accent3"][index % 3]]}
-                  />
-                ))}
-              </Pie>
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: COLORS.secondary,
-                  color: COLORS.text,
-                }}
-                itemStyle={{ color: COLORS.text }}
-              />
-              <Legend
-                layout="vertical"
-                align="right"
-                verticalAlign="middle"
-                wrapperStyle={{ color: COLORS.textSecondary }}
-              />
-            </PieChart>
-          </ResponsiveContainer>
+          {/* Agent Usage - Now takes 3 columns (1/4) */}
+          <div className="col-span-3 bg-[#35383f] rounded-xl border border-[#95C5C5]/10 p-4 shadow-lg">
+            <SectionHeader icon={<User size={16} />} title="AGENT USAGE" />
+            <ResponsiveContainer width="100%" height={200}>
+              <PieChart>
+                <Pie
+                  data={getAgentUsageData()}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  outerRadius={80}
+                  fill={COLORS.accent1}
+                  dataKey="value"
+                  nameKey="name"
+                  label={({ name, percent }) =>
+                    percent > 0.05
+                      ? `${name} ${(percent * 100).toFixed(0)}%`
+                      : null
+                  }
+                >
+                  {getAgentUsageData().map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={
+                        COLORS[["accent1", "accent2", "accent3"][index % 3]]
+                      }
+                    />
+                  ))}
+                </Pie>
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: COLORS.secondary,
+                    color: COLORS.text,
+                  }}
+                  itemStyle={{ color: COLORS.text }}
+                />
+                <Legend
+                  layout="vertical"
+                  align="right"
+                  verticalAlign="middle"
+                  wrapperStyle={{ color: COLORS.textSecondary }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+            <br />
+          </div>
+          <br />
         </div>
       </div>
+
+      {/* Agent Usage */}
+
+      <br />
     </div>
   );
 }
