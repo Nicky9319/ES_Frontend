@@ -16,7 +16,7 @@ export default function AuthPage() {
         `}
       </style>
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative">
-        <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[500px] overflow-hidden rounded-lg opacity-20">
+        <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[1500px] h-[900px] overflow-hidden rounded-lg opacity-20">
           <img
             src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1500&q=80"
             alt="gaming bg"
