@@ -1044,8 +1044,8 @@ const CreateTeam = ({ onBackClick }) => {
   };
 
   return (
-    <div className="h-screen overflow-y-auto bg-gradient-to-br from-[#292B35] to-[#363945] p-6">
-      <div className="max-w-3xl mx-auto">
+    <div className="h-screen items-center overflow-y-auto scrollbar-hide p-6">
+      <div className="max-w-3xl mx-auto scrollbar-hide">
         <motion.div className="flex items-center mb-8">
           <button
             onClick={onBackClick}
