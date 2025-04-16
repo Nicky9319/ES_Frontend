@@ -17,6 +17,7 @@ import {
   FaCalendarAlt,
   FaMapMarkerAlt,
   FaGamepad,
+  FaSignOutAlt,
 } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -143,7 +144,7 @@ const Input = ({
   </div>
 );
 
-const TeamDashboard = ({ team, userRole = "MEMBER", onBack }) => {
+const TeamDashboard = ({ team, userRole = "MEMBER", onBack, onLeaveTeam }) => {
   const navigate = useNavigate();
   const [milestones, setMilestones] = useState(team.MILESTONES || []);
   const [chatMessages, setChatMessages] = useState([
@@ -322,6 +323,17 @@ const TeamDashboard = ({ team, userRole = "MEMBER", onBack }) => {
                       <Badge color="secondary">"{team.TAGLINE}"</Badge>
                     )}
                   </div>
+                  {!isAdmin && onLeaveTeam && (
+                    <Button
+                      variant="danger"
+                      size="sm"
+                      className="mt-4"
+                      onClick={onLeaveTeam}
+                      icon={<FaSignOutAlt size={12} />}
+                    >
+                      Leave Team
+                    </Button>
+                  )}
                 </>
               )}
             </div>
