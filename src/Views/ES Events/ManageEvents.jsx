@@ -22,7 +22,7 @@ import dummyEvents from "./dummyEvents.json";
 
 export default function ManageEvents() {
   const [activeTab, setActiveTab] = useState("all");
-  const [viewMode, setViewMode] = useState("list");
+  const [viewMode, setViewMode] = useState("grid");
   const [filterOpen, setFilterOpen] = useState(false);
   const [filters, setFilters] = useState({
     game: "all",
@@ -324,7 +324,7 @@ export default function ManageEvents() {
             Manage Your Events
           </h1>
           <button
-            className="px-6 py-3 rounded-lg font-semibold flex items-center gap-2 transition-all shadow-lg hover:shadow-xl"
+            className="px-6 py-3 rounded-2xl font-semibold flex items-center gap-2 transition-all shadow-lg hover:shadow-xl"
             style={{
               backgroundColor: styles.primary,
               color: styles.background,
@@ -332,15 +332,15 @@ export default function ManageEvents() {
             onClick={() => (window.location.href = "/create-event")}
           >
             <Plus size={20} />
-            <span>Create Event</span>
+            <span className="">Create Event</span>
           </button>
         </div>
 
         {/* Events Overview */}
         <div
-          className="rounded-xl shadow-lg border overflow-hidden mb-8"
+          className="rounded-xl  overflow-hidden mb-8"
           style={{
-            backgroundColor: styles.cardBackground,
+            // backgroundColor: styles.cardBackground,
             borderColor: styles.background,
           }}
         >
@@ -372,18 +372,17 @@ export default function ManageEvents() {
 
           {/* Search and View Options */}
           <div
-            className="p-6 border-b flex items-center justify-between"
+            className="p-6 pl-2 border-b flex items-center justify-between"
             style={{ borderColor: styles.background }}
           >
             <div className="relative flex-grow mr-4">
               <input
                 type="text"
                 placeholder="Search your events..."
-                className="w-full rounded-lg px-4 py-3 pl-10 focus:outline-none"
+                className="w-full rounded-lg px-4 py-3 border-white border pl-10 focus:outline-none"
                 style={{
                   backgroundColor: styles.background,
                   color: styles.text,
-                  borderColor: styles.background,
                 }}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -670,7 +669,6 @@ export default function ManageEvents() {
                             color: styles.secondary,
                           }}
                           onClick={() => (window.location.href = "/")}
-
                         >
                           <Edit size={16} />
                         </button>
@@ -682,7 +680,7 @@ export default function ManageEvents() {
             </div>
           ) : (
             /* Grid Card View */
-            <div className="p-6">
+            <div className="p-2">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredEvents.map((event) => (
                   <EventCard key={event.id} event={event} />
@@ -701,7 +699,7 @@ export default function ManageEvents() {
               <span className="font-medium">{filteredEvents.length}</span> of{" "}
               <span className="font-medium">{events.length}</span> events
             </div>
-            <div className="flex items-center space-x-2">
+            {/* <div className="flex items-center space-x-2">
               <button
                 className="p-2 rounded-md"
                 style={{
@@ -738,7 +736,7 @@ export default function ManageEvents() {
               >
                 <ChevronRight size={16} />
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
