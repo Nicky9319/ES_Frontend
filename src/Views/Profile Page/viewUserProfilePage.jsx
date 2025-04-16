@@ -12,7 +12,7 @@ const ViewUserProfilePage = () => {
     const [bannerError, setBannerError] = useState(false);
     const [profileError, setProfileError] = useState(false);
     const [selectedGameFilter, setSelectedGameFilter] = useState('all');
-    const [selectedAchievementFilter, setSelectedAchievementFilter] = useState('all');
+    const [selectedAchievementFilter, setSelectedAchievementFilter] = useState(profileData.GAMES_PLAYED?.[0] || 'Valorant');
     const [showClipModal, setShowClipModal] = useState(false);
     const [selectedClip, setSelectedClip] = useState(null);
     const [showActivityModal, setShowActivityModal] = useState(false);
@@ -93,17 +93,6 @@ const ViewUserProfilePage = () => {
                         comments: 89,
                         date: "2024-01-10",
                         type: "achievement"
-                    },
-                    {
-                        id: 3,
-                        game: "General",
-                        image: "https://images.unsplash.com/photo-1542751110-97427bbecf20",
-                        title: "Joined ESports Mentor Program",
-                        description: "Excited to announce that I've been selected for the prestigious ESports Mentor Program! Looking forward to sharing my competitive gaming experience and helping aspiring players reach their full potential. This program will allow me to give back to the gaming community that has given me so much. Ready to guide the next generation of esports talent! 🎮 Join my weekly coaching sessions - link in bio. #ESports #Gaming #Mentorship #GamingCommunity #GivingBack",
-                        likes: 123,
-                        comments: 18,
-                        date: "2024-01-05",
-                        type: "personal"
                     }
                 ]
             };
@@ -312,33 +301,23 @@ const ViewUserProfilePage = () => {
                 </div>
             </div>
 
-            {/* Activity Section */}
+            {/* Activity Section with Instagram Grid Layout */}
             <div className="max-w-5xl mx-auto px-6 mt-12 pb-12">
                 <div className="bg-[#292B35] rounded-xl p-6 border border-[#95C5C5]/20">
                     <div className="flex justify-between items-center mb-6">
                         <h2 className="text-xl font-semibold text-[#EE8631] flex items-center gap-2">
-                            Achievements
+                            Game Achievements
                         </h2>
                         <button 
                             onClick={() => setShowAllPosts(prev => !prev)}
                             className="text-sm text-[#EE8631] hover:text-[#EE8631]/80 transition-colors"
                         >
-                            {showAllPosts ? 'Show Less' : 'Show All Posts'}
+                            {showAllPosts ? 'Show Less' : 'Show All Achievements'}
                         </button>
                     </div>
                     
-                    {/* Game Filter for Achievements */}
+                    {/* Game Filter for Achievements - Removed All option */}
                     <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
-                        <button
-                            onClick={() => setSelectedAchievementFilter('all')}
-                            className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                                selectedAchievementFilter === 'all' 
-                                    ? 'bg-[#EE8631] text-white' 
-                                    : 'bg-[#EE8631]/10 text-[#EE8631] hover:bg-[#EE8631]/20'
-                            }`}
-                        >
-                            All Achievements
-                        </button>
                         {userData?.gamesPlayed.map(game => (
                             <button
                                 key={game}
@@ -354,13 +333,10 @@ const ViewUserProfilePage = () => {
                         ))}
                     </div>
                     
-                    {/* Activity Feed with filtered posts */}
-                    <div className="space-y-4 flex flex-col items-center">
+                    {/* Instagram-style Grid Layout - Updated filter */}
+                    <div className="grid grid-cols-3 gap-1">
                         {userData.activities
-                            .filter(activity => 
-                                selectedAchievementFilter === 'all' || 
-                                activity.game.toLowerCase() === selectedAchievementFilter.toLowerCase()
-                            )
+                            .filter(activity => activity.game === selectedAchievementFilter)
                             .slice(0, showAllPosts ? undefined : INITIAL_POSTS_TO_SHOW)
                             .map(activity => (
                                 <div
@@ -369,49 +345,40 @@ const ViewUserProfilePage = () => {
                                         setSelectedActivity(activity);
                                         setShowActivityModal(true);
                                     }}
-                                    className="bg-[#1E1F25] rounded-lg overflow-hidden cursor-pointer transition-all hover:bg-[#1E1F25]/80 w-full max-w-2xl"
+                                    className="relative aspect-square cursor-pointer group"
                                 >
-                                    <div className="p-4">
-                                        <div className="flex items-center gap-3 mb-2">
-                                            <img
-                                                src={userData.profilePic}
-                                                alt="Profile"
-                                                className="w-8 h-8 rounded-full"
-                                            />
-                                            <div>
-                                                <h3 className="font-medium text-white text-sm">{userData.name}</h3>
-                                                <p className="text-xs text-[#95C5C5]">{new Date(activity.date).toLocaleDateString()}</p>
-                                            </div>
-                                        </div>
-                                        <p className="text-[#E0E0E0] text-sm mb-3 line-clamp-2">{activity.description}</p>
-                                        <img
-                                            src={activity.image}
-                                            alt={activity.title}
-                                            className="w-full h-48 object-cover rounded-lg mb-3"
-                                        />
-                                        <div className="flex items-center justify-between text-xs text-[#95C5C5]">
-                                            <div className="flex items-center gap-3">
-                                                <span className="flex items-center gap-1">❤️ {activity.likes}</span>
-                                                <span className="flex items-center gap-1">💬 {activity.comments}</span>
-                                            </div>
-                                            <button className="text-[#EE8631] hover:text-[#EE8631]/80">Read more</button>
+                                    <img
+                                        src={activity.image}
+                                        alt={activity.title}
+                                        className="w-full h-full object-cover"
+                                    />
+                                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                        <div className="flex gap-6 text-white">
+                                            <span className="flex items-center gap-2">
+                                                <span>❤️</span>
+                                                <span className="font-semibold">{activity.likes}</span>
+                                            </span>
+                                            <span className="flex items-center gap-2">
+                                                <span>💬</span>
+                                                <span className="font-semibold">{activity.comments}</span>
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
-                        ))}
-                        
-                        {/* Show More Button */}
-                        {!showAllPosts && userData.activities.length > INITIAL_POSTS_TO_SHOW && (
-                            <div className="text-center pt-2 w-full max-w-2xl">
-                                <button 
-                                    onClick={() => setShowAllPosts(true)}
-                                    className="px-4 py-2 bg-[#1E1F25] text-[#EE8631] rounded-lg text-sm hover:bg-[#1E1F25]/80 transition-colors w-full"
-                                >
-                                    Show More Posts (+{userData.activities.length - INITIAL_POSTS_TO_SHOW})
-                                </button>
-                            </div>
-                        )}
+                            ))}
                     </div>
+                    
+                    {/* Show More Button */}
+                    {!showAllPosts && userData.activities.length > INITIAL_POSTS_TO_SHOW && (
+                        <div className="text-center pt-4">
+                            <button 
+                                onClick={() => setShowAllPosts(true)}
+                                className="text-[#EE8631] font-semibold hover:text-[#EE8631]/80"
+                            >
+                                Load more
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
 
