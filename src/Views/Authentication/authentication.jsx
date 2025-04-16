@@ -14,9 +14,9 @@ export default function AuthPage() {
     <>
       <style>
         {`
-          @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Quantico:wght@400;700&display=swap');
           body {
-            font-family: 'Chakra Petch', sans-serif;
+            font-family: 'Quantico', sans-serif;
           }
         `}
       </style>
@@ -30,7 +30,9 @@ export default function AuthPage() {
         
         <div className="relative w-full max-w-md bg-[#292B35]/90 backdrop-blur-md p-10 rounded-2xl shadow-[0_0_30px_#95C5C5] text-center border border-[#95C5C5]/30">
           <h1 className="text-4xl font-bold mb-4 text-[#95C5C5] drop-shadow tracking-wider">ELOSphere</h1>
-          <p className="text-[#E0E0E0] mb-8 tracking-wide">Connect and conquer the arena.</p>
+          <p className="text-[#95C5C5] mb-8 tracking-wide text-lg">
+            Your Gateway to Competitive Gaming Excellence
+          </p>
           
           <button
             onClick={handleGoogleClick}
@@ -70,7 +72,7 @@ export default function AuthPage() {
           </form>
 
           <p className="text-sm text-[#95C5C5] mt-6 tracking-wide">
-            No account? Just sign in to create one
+            Don't have an account? <span className="text-[#EE8631] hover:text-[#AD662F] cursor-pointer transition-colors">Create one here</span>
           </p>
         </div>
       </div>
