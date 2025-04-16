@@ -47,12 +47,12 @@ function ChoosePersona() {
       const playerToken = generatePlayerToken();
       localStorage.setItem("player", playerToken);
       setShowContent(false);
-      setTimeout(() => navigate("/player/dashboard"), 500);
+      setTimeout(() => navigate("/user-profile-creation-page"), 500);
     } else if (selectedPersona === "mentor") {
       const mentorToken = generateMentorToken();
       localStorage.setItem("mentor", mentorToken);
       setShowContent(false);
-      setTimeout(() => navigate("/mentor/dashboard"), 500);
+      setTimeout(() => navigate("/mentor-profile-creation-page"), 500);
     }
   };
 
