@@ -306,7 +306,57 @@ const ViewUserProfilePage = () => {
                 </div>
             </div>
 
-            {/* Game Clips Section */}
+            {/* Activity Section - Moved above Game Clips */}
+            <div className="max-w-5xl mx-auto px-6 mt-12 pb-12">
+                <div className="bg-[#292B35] rounded-xl p-6 border border-[#95C5C5]/20">
+                    <h2 className="text-xl font-semibold text-[#EE8631] mb-6 flex items-center gap-2">
+                        <span>📝</span> Activity
+                    </h2>
+                    
+                    {/* Activity Feed */}
+                    <div className="space-y-4">
+                        {userData.activities.map(activity => (
+                            <div
+                                key={activity.id}
+                                onClick={() => {
+                                    setSelectedActivity(activity);
+                                    setShowActivityModal(true);
+                                }}
+                                className="bg-[#1E1F25] rounded-lg overflow-hidden cursor-pointer transition-all hover:bg-[#1E1F25]/80"
+                            >
+                                <div className="p-4">
+                                    <div className="flex items-center gap-3 mb-3">
+                                        <img
+                                            src={userData.profilePic}
+                                            alt="Profile"
+                                            className="w-10 h-10 rounded-full"
+                                        />
+                                        <div>
+                                            <h3 className="font-medium text-white">{userData.name}</h3>
+                                            <p className="text-sm text-[#95C5C5]">{new Date(activity.date).toLocaleDateString()}</p>
+                                        </div>
+                                    </div>
+                                    <p className="text-[#E0E0E0] mb-4">{activity.description}</p>
+                                    <img
+                                        src={activity.image}
+                                        alt={activity.title}
+                                        className="w-full rounded-lg mb-4"
+                                    />
+                                    <div className="flex items-center justify-between text-sm text-[#95C5C5]">
+                                        <div className="flex items-center gap-4">
+                                            <span className="flex items-center gap-1">❤️ {activity.likes}</span>
+                                            <span className="flex items-center gap-1">💬 {activity.comments}</span>
+                                        </div>
+                                        <button className="text-[#EE8631] hover:text-[#EE8631]/80">Read more</button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* Game Clips Section - Now below Activity */}
             <div className="max-w-5xl mx-auto px-6 mt-12 pb-12">
                 <div className="bg-[#292B35] rounded-xl p-6 border border-[#95C5C5]/20">
                     <h2 className="text-xl font-semibold text-[#EE8631] mb-6 flex items-center gap-2">
@@ -368,43 +418,58 @@ const ViewUserProfilePage = () => {
                 </div>
             </div>
 
-            {/* Activity Section */}
-            <div className="max-w-5xl mx-auto px-6 mt-12 pb-12">
-                <div className="bg-[#292B35] rounded-xl p-6 border border-[#95C5C5]/20">
-                    <h2 className="text-xl font-semibold text-[#EE8631] mb-6 flex items-center gap-2">
-                        <span>📝</span> Activity
-                    </h2>
-                    
-                    {/* Activity Grid */}
-                    <div className="grid grid-cols-3 gap-4">
-                        {userData.activities.map(activity => (
-                            <div
-                                key={activity.id}
-                                onClick={() => {
-                                    setSelectedActivity(activity);
-                                    setShowActivityModal(true);
-                                }}
-                                className="relative aspect-square rounded-lg overflow-hidden cursor-pointer group"
-                            >
+            {/* Update Activity Modal to be more LinkedIn-style */}
+            {showActivityModal && selectedActivity && (
+                <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+                    <div className="relative bg-[#292B35] rounded-xl max-w-2xl w-full">
+                        <button
+                            onClick={() => {
+                                setShowActivityModal(false);
+                                setSelectedActivity(null);
+                            }}
+                            className="absolute -top-10 right-0 text-white/70 hover:text-white text-xl"
+                        >
+                            ✕
+                        </button>
+                        <div className="p-6">
+                            <div className="flex items-center gap-4 mb-4">
                                 <img
-                                    src={activity.image}
-                                    alt={activity.title}
-                                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                    src={userData.profilePic}
+                                    alt="Profile"
+                                    className="w-12 h-12 rounded-full"
                                 />
-                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                    <div className="text-white text-center p-4">
-                                        <p className="font-medium">{activity.title}</p>
-                                        <div className="flex items-center justify-center gap-4 mt-2">
-                                            <span>❤️ {activity.likes}</span>
-                                            <span>💬 {activity.comments}</span>
-                                        </div>
-                                    </div>
+                                <div>
+                                    <h3 className="font-medium text-white">{userData.name}</h3>
+                                    <p className="text-sm text-[#95C5C5]">
+                                        {new Date(selectedActivity.date).toLocaleDateString()}
+                                    </p>
                                 </div>
                             </div>
-                        ))}
+                            <p className="text-[#E0E0E0] mb-4">{selectedActivity.description}</p>
+                            <img
+                                src={selectedActivity.image}
+                                alt={selectedActivity.title}
+                                className="w-full rounded-lg mb-4"
+                            />
+                            <div className="flex items-center justify-between border-t border-[#95C5C5]/20 pt-4 mt-4">
+                                <div className="flex gap-4">
+                                    <button className="flex items-center gap-2 text-[#95C5C5] hover:text-[#EE8631]">
+                                        <span>❤️</span>
+                                        <span>{selectedActivity.likes}</span>
+                                    </button>
+                                    <button className="flex items-center gap-2 text-[#95C5C5] hover:text-[#EE8631]">
+                                        <span>💬</span>
+                                        <span>{selectedActivity.comments}</span>
+                                    </button>
+                                </div>
+                                <button className="text-[#EE8631] hover:text-[#EE8631]/80">
+                                    Share
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
 
             {/* Clip Modal */}
             {showClipModal && selectedClip && (
@@ -436,47 +501,6 @@ const ViewUserProfilePage = () => {
                                 {new Intl.NumberFormat('en-US').format(selectedClip.views)} views • 
                                 {new Date(selectedClip.date).toLocaleDateString()}
                             </p>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* Activity Modal */}
-            {showActivityModal && selectedActivity && (
-                <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-                    <div className="relative bg-[#292B35] rounded-xl max-w-4xl w-full">
-                        <button
-                            onClick={() => {
-                                setShowActivityModal(false);
-                                setSelectedActivity(null);
-                            }}
-                            className="absolute -top-10 right-0 text-white/70 hover:text-white text-xl"
-                        >
-                            ✕
-                        </button>
-                        <div className="flex flex-col md:flex-row">
-                            <div className="md:w-1/2">
-                                <img
-                                    src={selectedActivity.image}
-                                    alt={selectedActivity.title}
-                                    className="w-full h-full object-cover rounded-t-xl md:rounded-l-xl md:rounded-tr-none"
-                                />
-                            </div>
-                            <div className="md:w-1/2 p-6">
-                                <h3 className="text-xl font-semibold text-white mb-2">{selectedActivity.title}</h3>
-                                <p className="text-[#95C5C5] mb-4">{selectedActivity.description}</p>
-                                <div className="flex items-center gap-4 text-white/70">
-                                    <span className="flex items-center gap-1">
-                                        <span className="text-red-500">❤️</span> {selectedActivity.likes}
-                                    </span>
-                                    <span className="flex items-center gap-1">
-                                        <span>💬</span> {selectedActivity.comments}
-                                    </span>
-                                    <span className="text-sm">
-                                        {new Date(selectedActivity.date).toLocaleDateString()}
-                                    </span>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
