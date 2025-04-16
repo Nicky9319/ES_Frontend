@@ -70,6 +70,7 @@ const mockTeams = [
       "Striking from the shadows with tactical precision and unwavering teamwork",
     TEAM_SIZE: 5,
     PARTICIPANTS: [
+      { USER_ID: "user1", USERNAME: "FlameLeader", ACCESS: "MEMBER" },
       { USER_ID: "user3", USERNAME: "AlphaWolf", ACCESS: "ADMIN" },
       { USER_ID: "user5", USERNAME: "NightHunter", ACCESS: "MEMBER" },
     ],
@@ -86,6 +87,7 @@ const mockTeams = [
       "Combining technical prowess with aggressive gameplay to dominate the rift",
     TEAM_SIZE: 5,
     PARTICIPANTS: [
+      { USER_ID: "user1", USERNAME: "FlameLeader", ACCESS: "MEMBER" },
       { USER_ID: "user6", USERNAME: "TechMaster", ACCESS: "ADMIN" },
       { USER_ID: "user7", USERNAME: "TigerFang", ACCESS: "MEMBER" },
       { USER_ID: "user8", USERNAME: "CodeStriker", ACCESS: "MEMBER" },
@@ -183,7 +185,7 @@ const TeamCard = ({
     >
       {/* Team management options */}
       {showOptions && isMember && (
-        <div className="absolute top-4 right-4 z-20">
+        <div className="absolute top-4 right-4 z-20 flex space-x-2">
           {isAdmin ? (
             <button
               onClick={(e) => {
@@ -196,17 +198,20 @@ const TeamCard = ({
               <FaTrash size={16} />
             </button>
           ) : (
+            
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 onLeave(team);
               }}
-              className="bg-[#292B35] hover:bg-[#353744] text-white p-2 rounded-lg shadow-lg transition-colors flex items-center"
+              className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg shadow-lg transition-colors flex items-center"
               title="Leave Team"
             >
               <FaSignOutAlt size={16} />
+              
             </button>
           )}
+          
         </div>
       )}
 
@@ -620,8 +625,9 @@ const Teams = () => {
       {/* Notification */}
       <Notification notification={notification} />
 
-      {/* Global Styles for animations */}
-      <style jsx global>{`
+      {/* Global Styles */}
+      <style>
+        {`
         @keyframes fadeIn {
           from {
             opacity: 0;
@@ -651,7 +657,8 @@ const Teams = () => {
         .animate-slideInRight {
           animation: slideInRight 0.3s ease-out forwards;
         }
-      `}</style>
+        `}
+      </style>
     </div>
   );
 };
