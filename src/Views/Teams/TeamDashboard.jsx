@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   FaFlagCheckered,
   FaTrophy,
@@ -143,6 +144,7 @@ const Input = ({
 );
 
 const TeamDashboard = ({ team, userRole = "MEMBER", onBack }) => {
+  const navigate = useNavigate();
   const [milestones, setMilestones] = useState(team.MILESTONES || []);
   const [chatMessages, setChatMessages] = useState([
     {
@@ -174,6 +176,10 @@ const TeamDashboard = ({ team, userRole = "MEMBER", onBack }) => {
   const [teamMembers, setTeamMembers] = useState(team.PARTICIPANTS || []);
   const [isAdding, setIsAdding] = useState(false);
   const [newMember, setNewMember] = useState({ id: "", access: "MEMBER" });
+  const [isEditingDescription, setIsEditingDescription] = useState(false);
+  const [editedDescription, setEditedDescription] = useState(
+    team.TEAM_DESCRIPTION || ""
+  );
 
   const isAdmin = userRole === "ADMIN";
 
@@ -227,6 +233,16 @@ const TeamDashboard = ({ team, userRole = "MEMBER", onBack }) => {
     setIsAdding(false);
   };
 
+  const removeMember = (userId) => {
+    if (!isAdmin) return;
+    setTeamMembers(teamMembers.filter((member) => member.USER_ID !== userId));
+  };
+
+  const handleDescriptionUpdate = () => {
+    team.TEAM_DESCRIPTION = editedDescription;
+    setIsEditingDescription(false);
+  };
+
   return (
     <div className="min-h-screen bg-[#292B35] text-[#E0E0E0] p-6">
       {/* Team Header Section */}
@@ -270,21 +286,44 @@ const TeamDashboard = ({ team, userRole = "MEMBER", onBack }) => {
             <SectionHeader
               icon={<FaUsers size={16} />}
               title="TEAM INFO"
-              actionText={isAdmin ? "Edit" : null}
-              onAction={() => {}}
+              actionText={
+                isAdmin ? (isEditingDescription ? "Cancel" : "Edit") : null
+              }
+              onAction={() => setIsEditingDescription(!isEditingDescription)}
             />
             <div className="bg-[#292B35] rounded-xl p-4 mb-4">
-              <p className="text-sm text-[#E0E0E0] mb-4 leading-relaxed">
-                {team.TEAM_DESCRIPTION || "No team description available."}
-              </p>
-              <div className="flex flex-wrap gap-2 text-xs">
-                <Badge color="primary">
-                  Team Size: {team.TEAM_SIZE || teamMembers.length}
-                </Badge>
-                {team.TAGLINE && (
-                  <Badge color="secondary">"{team.TAGLINE}"</Badge>
-                )}
-              </div>
+              {isEditingDescription ? (
+                <div className="space-y-3">
+                  <textarea
+                    value={editedDescription}
+                    onChange={(e) => setEditedDescription(e.target.value)}
+                    className="w-full px-3 py-2 bg-[#35383f] border border-[#95C5C5]/20 rounded-lg text-[#E0E0E0] focus:outline-none focus:ring-1 focus:ring-[#95C5C5] focus:border-[#95C5C5] min-h-[100px]"
+                    placeholder="Enter team description..."
+                  />
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    onClick={handleDescriptionUpdate}
+                    icon={<FaSave size={12} />}
+                  >
+                    Save Changes
+                  </Button>
+                </div>
+              ) : (
+                <>
+                  <p className="text-sm text-[#E0E0E0] mb-4 leading-relaxed">
+                    {team.TEAM_DESCRIPTION || "No team description available."}
+                  </p>
+                  <div className="flex flex-wrap gap-2 text-xs">
+                    <Badge color="primary">
+                      Team Size: {team.TEAM_SIZE || teamMembers.length}
+                    </Badge>
+                    {team.TAGLINE && (
+                      <Badge color="secondary">"{team.TAGLINE}"</Badge>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
           </Card>
 
@@ -293,7 +332,7 @@ const TeamDashboard = ({ team, userRole = "MEMBER", onBack }) => {
             <SectionHeader
               icon={<FaUsers size={16} />}
               title="TEAM MEMBERS"
-              actionText={isAdmin ? "Manage" : null}
+              // actionText={isAdmin ? "Manage" : null}
               onAction={() => {}}
             />
             <div className="space-y-2 max-h-[300px] min-h-[200px] overflow-y-auto pr-1">
@@ -321,7 +360,10 @@ const TeamDashboard = ({ team, userRole = "MEMBER", onBack }) => {
                       </div>
                     </div>
                     {isAdmin && member.ACCESS !== "ADMIN" && (
-                      <button className="text-[#EE8631] hover:text-[#d6752c] bg-[#EE8631]/10 p-2 rounded-lg">
+                      <button
+                        className="text-[#EE8631] hover:text-[#d6752c] bg-[#EE8631]/10 p-2 rounded-lg"
+                        onClick={() => removeMember(member.USER_ID)}
+                      >
                         <FaTrash size={14} />
                       </button>
                     )}
@@ -545,7 +587,7 @@ const TeamDashboard = ({ team, userRole = "MEMBER", onBack }) => {
               icon={<FaTrophy size={16} />}
               title="EVENT INFORMATION"
               actionText="View All"
-              onAction={() => {}}
+              onAction={() => navigate("/")}
             />
             <div className="space-y-3 max-h-[250px] overflow-y-auto pr-1">
               {team.EVENTS_ENROLLED && team.EVENTS_ENROLLED.length > 0 ? (
@@ -584,16 +626,6 @@ const TeamDashboard = ({ team, userRole = "MEMBER", onBack }) => {
                     className="mx-auto mb-3 text-[#A8A8A8] opacity-30"
                   />
                   <p className="text-sm text-[#A8A8A8]">No events enrolled</p>
-                  {isAdmin && (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="mt-3"
-                      icon={<FaPlus size={12} />}
-                    >
-                      Find events
-                    </Button>
-                  )}
                 </div>
               )}
             </div>
