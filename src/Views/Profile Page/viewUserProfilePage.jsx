@@ -14,6 +14,8 @@ const ViewUserProfilePage = () => {
     const [selectedGameFilter, setSelectedGameFilter] = useState('all');
     const [showClipModal, setShowClipModal] = useState(false);
     const [selectedClip, setSelectedClip] = useState(null);
+    const [showActivityModal, setShowActivityModal] = useState(false);
+    const [selectedActivity, setSelectedActivity] = useState(null);
 
     // Simulate API call to fetch user profile data
     const fetchUserProfile = async () => {
@@ -64,6 +66,38 @@ const ViewUserProfilePage = () => {
                         thumbnail: "https://img.youtube.com/vi/kjf0HrX7Ym0/maxresdefault.jpg", // Fixed URL format
                         videoUrl: "https://youtube.com/embed/kjf0HrX7Ym0",
                         date: "2025-17-04"
+                    }
+                ],
+                activities: [
+                    {
+                        id: 1,
+                        image: "https://images.unsplash.com/photo-1542751371-adc38448a05e",
+                        title: "Joined Team Phantom",
+                        description: "Excited to announce that I've joined Team Phantom as the Lead Strategist for Valorant division! Looking forward to bringing my expertise to the team.",
+                        likes: 234,
+                        comments: 45,
+                        date: "2024-01-15",
+                        type: "team_update"
+                    },
+                    {
+                        id: 2,
+                        image: "https://images.unsplash.com/photo-1511882150382-421056c89033",
+                        title: "Won Regional Championship",
+                        description: "🏆 Proud to announce our victory at the Regional Championships! It was an intense finale but our team's dedication and strategy paid off. Thanks to everyone who supported us!",
+                        likes: 567,
+                        comments: 89,
+                        date: "2024-01-10",
+                        type: "achievement"
+                    },
+                    {
+                        id: 3,
+                        image: "https://images.unsplash.com/photo-1542751110-97427bbecf20",
+                        title: "New Personal Best",
+                        description: "Hit a new milestone today! Achieved my highest score yet in competitive play. The grind never stops! 💪",
+                        likes: 123,
+                        comments: 18,
+                        date: "2024-01-05",
+                        type: "personal"
                     }
                 ]
             };
@@ -334,6 +368,44 @@ const ViewUserProfilePage = () => {
                 </div>
             </div>
 
+            {/* Activity Section */}
+            <div className="max-w-5xl mx-auto px-6 mt-12 pb-12">
+                <div className="bg-[#292B35] rounded-xl p-6 border border-[#95C5C5]/20">
+                    <h2 className="text-xl font-semibold text-[#EE8631] mb-6 flex items-center gap-2">
+                        <span>📝</span> Activity
+                    </h2>
+                    
+                    {/* Activity Grid */}
+                    <div className="grid grid-cols-3 gap-4">
+                        {userData.activities.map(activity => (
+                            <div
+                                key={activity.id}
+                                onClick={() => {
+                                    setSelectedActivity(activity);
+                                    setShowActivityModal(true);
+                                }}
+                                className="relative aspect-square rounded-lg overflow-hidden cursor-pointer group"
+                            >
+                                <img
+                                    src={activity.image}
+                                    alt={activity.title}
+                                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                />
+                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                    <div className="text-white text-center p-4">
+                                        <p className="font-medium">{activity.title}</p>
+                                        <div className="flex items-center justify-center gap-4 mt-2">
+                                            <span>❤️ {activity.likes}</span>
+                                            <span>💬 {activity.comments}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
             {/* Clip Modal */}
             {showClipModal && selectedClip && (
                 <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
@@ -364,6 +436,47 @@ const ViewUserProfilePage = () => {
                                 {new Intl.NumberFormat('en-US').format(selectedClip.views)} views • 
                                 {new Date(selectedClip.date).toLocaleDateString()}
                             </p>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Activity Modal */}
+            {showActivityModal && selectedActivity && (
+                <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
+                    <div className="relative bg-[#292B35] rounded-xl max-w-4xl w-full">
+                        <button
+                            onClick={() => {
+                                setShowActivityModal(false);
+                                setSelectedActivity(null);
+                            }}
+                            className="absolute -top-10 right-0 text-white/70 hover:text-white text-xl"
+                        >
+                            ✕
+                        </button>
+                        <div className="flex flex-col md:flex-row">
+                            <div className="md:w-1/2">
+                                <img
+                                    src={selectedActivity.image}
+                                    alt={selectedActivity.title}
+                                    className="w-full h-full object-cover rounded-t-xl md:rounded-l-xl md:rounded-tr-none"
+                                />
+                            </div>
+                            <div className="md:w-1/2 p-6">
+                                <h3 className="text-xl font-semibold text-white mb-2">{selectedActivity.title}</h3>
+                                <p className="text-[#95C5C5] mb-4">{selectedActivity.description}</p>
+                                <div className="flex items-center gap-4 text-white/70">
+                                    <span className="flex items-center gap-1">
+                                        <span className="text-red-500">❤️</span> {selectedActivity.likes}
+                                    </span>
+                                    <span className="flex items-center gap-1">
+                                        <span>💬</span> {selectedActivity.comments}
+                                    </span>
+                                    <span className="text-sm">
+                                        {new Date(selectedActivity.date).toLocaleDateString()}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
