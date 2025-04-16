@@ -16,14 +16,18 @@ import {
 } from "react-icons/fa";
 import RightSlider from "../components/rightSlider";
 import LeftSlider from "../components/leftSlider";
+import { DatabaseZap } from "lucide-react";
 
 function EsEvents() {
   const [AllEvents, setEvents] = useState([]);
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const response = await fetch(`${EVENTS_SERVICE}/Events/AllEvents`);
+        console.log(`http://${EVENTS_SERVICE}/Events/AllEvents`)
+        const response = await fetch(`http://${EVENTS_SERVICE}/Events/AllEvents`);
+        console.log(response)
         const data = await response.json();
+        console.log(data)
         setEvents(data);
       } catch (error) {
         console.error("Error fetching events:", error);
