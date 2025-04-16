@@ -10,7 +10,10 @@ const ProfilePage = () => {
     const [profileError, setProfileError] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [editedData, setEditedData] = useState(null);
-    
+    const [gameClips, setGameClips] = useState([]);
+    const [showClipModal, setShowClipModal] = useState(false);
+    const [achievements, setAchievements] = useState([]);
+
     const profilePicInputRef = useRef(null);
     const bannerImageInputRef = useRef(null);
 
@@ -112,6 +115,8 @@ const ProfilePage = () => {
                 SOCIAL_LINKS: editedData.socialLinks,
                 HISTORY: editedData.history,
                 PLATFORM_STATUS: editedData.platformStatus,
+                achievements: achievements,
+                gameClips: gameClips
             };
 
             console.log("Profile data would be updated:", updateData);
@@ -165,6 +170,57 @@ const ProfilePage = () => {
             ...prev,
             history: prev.history.filter((_, i) => i !== index)
         }));
+    };
+
+    const handleAddGameClip = () => {
+        const newClip = {
+            id: Date.now(),
+            game: userData.gamesPlayed[0] || "",
+            title: "",
+            thumbnail: "",
+            videoUrl: "",
+            date: new Date().toISOString()
+        };
+        setGameClips([...gameClips, newClip]);
+    };
+
+    const handleUpdateClip = (clipId, field, value) => {
+        setGameClips(clips => 
+            clips.map(clip => 
+                clip.id === clipId ? { ...clip, [field]: value } : clip
+            )
+        );
+    };
+
+    const handleRemoveClip = (clipId) => {
+        setGameClips(clips => clips.filter(clip => clip.id !== clipId));
+    };
+
+    const handleAddAchievement = () => {
+        const newAchievement = {
+            id: Date.now(),
+            game: userData.gamesPlayed[0] || "",
+            image: "",
+            title: "",
+            description: "",
+            likes: 0,
+            comments: 0,
+            date: new Date().toISOString(),
+            type: "achievement"
+        };
+        setAchievements([...achievements, newAchievement]);
+    };
+
+    const handleUpdateAchievement = (achievementId, field, value) => {
+        setAchievements(items => 
+            items.map(item => 
+                item.id === achievementId ? { ...item, [field]: value } : item
+            )
+        );
+    };
+
+    const handleRemoveAchievement = (achievementId) => {
+        setAchievements(items => items.filter(item => item.id !== achievementId));
     };
 
     if (loading) {
@@ -534,6 +590,145 @@ const ProfilePage = () => {
                                 ) : (
                                     <p className="text-[#E0E0E0]/60 italic">No team history available</p>
                                 )}
+                            </div>
+                        </div>
+
+                        <div className="bg-[#292B35] rounded-xl p-6 border border-[#95C5C5]/20">
+                            <div className="flex justify-between items-center mb-4">
+                                <h2 className="text-xl font-semibold text-[#EE8631] flex items-center gap-2">
+                                    <span>🏆</span> Game Achievements
+                                </h2>
+                                <button 
+                                    onClick={handleAddAchievement}
+                                    className="bg-[#95C5C5]/10 text-[#95C5C5] px-3 py-1 rounded-lg text-sm font-medium hover:bg-[#95C5C5]/20 transition-colors"
+                                >
+                                    + Add Achievement
+                                </button>
+                            </div>
+
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                {achievements.map(achievement => (
+                                    <div key={achievement.id} className="space-y-2">
+                                        <div className="relative aspect-square rounded-lg overflow-hidden bg-[#1E1F25]">
+                                            {achievement.image ? (
+                                                <img
+                                                    src={achievement.image}
+                                                    alt={achievement.title}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            ) : (
+                                                <div className="absolute inset-0 flex items-center justify-center">
+                                                    <span className="text-[#95C5C5]">No image</span>
+                                                </div>
+                                            )}
+                                            <button 
+                                                onClick={() => handleRemoveAchievement(achievement.id)}
+                                                className="absolute top-2 right-2 bg-red-500/80 text-white p-1 rounded-full hover:bg-red-600 transition-colors"
+                                            >
+                                                ✕
+                                            </button>
+                                        </div>
+                                        <select
+                                            value={achievement.game}
+                                            onChange={(e) => handleUpdateAchievement(achievement.id, 'game', e.target.value)}
+                                            className="w-full bg-[#1E1F25] text-[#E0E0E0] border border-[#95C5C5]/20 rounded p-2 text-sm"
+                                        >
+                                            {userData.gamesPlayed.map(game => (
+                                                <option key={game} value={game}>{game}</option>
+                                            ))}
+                                        </select>
+                                        <input
+                                            type="text"
+                                            value={achievement.title}
+                                            onChange={(e) => handleUpdateAchievement(achievement.id, 'title', e.target.value)}
+                                            placeholder="Achievement title"
+                                            className="w-full bg-[#1E1F25] text-[#E0E0E0] border border-[#95C5C5]/20 rounded p-2 text-sm"
+                                        />
+                                        <textarea
+                                            value={achievement.description}
+                                            onChange={(e) => handleUpdateAchievement(achievement.id, 'description', e.target.value)}
+                                            placeholder="Achievement description"
+                                            className="w-full bg-[#1E1F25] text-[#E0E0E0] border border-[#95C5C5]/20 rounded p-2 text-sm min-h-[80px]"
+                                        />
+                                        <input
+                                            type="text"
+                                            value={achievement.image}
+                                            onChange={(e) => handleUpdateAchievement(achievement.id, 'image', e.target.value)}
+                                            placeholder="Image URL"
+                                            className="w-full bg-[#1E1F25] text-[#E0E0E0] border border-[#95C5C5]/20 rounded p-2 text-sm"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="bg-[#292B35] rounded-xl p-6 border border-[#95C5C5]/20">
+                            <div className="flex justify-between items-center mb-4">
+                                <h2 className="text-xl font-semibold text-[#EE8631] flex items-center gap-2">
+                                    <span>🎮</span> Game Clips
+                                </h2>
+                                <button 
+                                    onClick={handleAddGameClip}
+                                    className="bg-[#95C5C5]/10 text-[#95C5C5] px-3 py-1 rounded-lg text-sm font-medium hover:bg-[#95C5C5]/20 transition-colors"
+                                >
+                                    + Add Clip
+                                </button>
+                            </div>
+
+                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                                {gameClips.map(clip => (
+                                    <div key={clip.id} className="space-y-2">
+                                        <div className="relative aspect-[9/16] rounded-lg overflow-hidden bg-[#1E1F25]">
+                                            {clip.thumbnail ? (
+                                                <img
+                                                    src={clip.thumbnail}
+                                                    alt={clip.title}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            ) : (
+                                                <div className="absolute inset-0 flex items-center justify-center">
+                                                    <span className="text-[#95C5C5]">No thumbnail</span>
+                                                </div>
+                                            )}
+                                            <button 
+                                                onClick={() => handleRemoveClip(clip.id)}
+                                                className="absolute top-2 right-2 bg-red-500/80 text-white p-1 rounded-full hover:bg-red-600 transition-colors"
+                                            >
+                                                ✕
+                                            </button>
+                                        </div>
+                                        <input
+                                            type="text"
+                                            value={clip.title}
+                                            onChange={(e) => handleUpdateClip(clip.id, 'title', e.target.value)}
+                                            placeholder="Clip title"
+                                            className="w-full bg-[#1E1F25] text-[#E0E0E0] border border-[#95C5C5]/20 rounded p-2 text-sm"
+                                        />
+                                        <select
+                                            value={clip.game}
+                                            onChange={(e) => handleUpdateClip(clip.id, 'game', e.target.value)}
+                                            className="w-full bg-[#1E1F25] text-[#E0E0E0] border border-[#95C5C5]/20 rounded p-2 text-sm"
+                                        >
+                                            {userData.gamesPlayed.map(game => (
+                                                <option key={game} value={game}>{game}</option>
+                                            ))}
+                                        </select>
+                                        <input
+                                            type="text"
+                                            value={clip.videoUrl}
+                                            onChange={(e) => handleUpdateClip(clip.id, 'videoUrl', e.target.value)}
+                                            placeholder="YouTube video URL"
+                                            className="w-full bg-[#1E1F25] text-[#E0E0E0] border border-[#95C5C5]/20 rounded p-2 text-sm"
+                                        />
+                                        <input
+                                            type="text"
+                                            value={clip.thumbnail}
+                                            onChange={(e) => handleUpdateClip(clip.id, 'thumbnail', e.target.value)}
+                                            placeholder="Thumbnail URL"
+                                            className="w-full bg-[#1E1F25] text-[#E0E0E0] border border-[#95C5C5]/20 rounded p-2 text-sm"
+                                        />
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
