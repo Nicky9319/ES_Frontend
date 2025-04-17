@@ -63,13 +63,13 @@ function AppInner() {
   const location = useLocation();
   const isProfilePageRoute = location.pathname.startsWith("/profile");
   const isChoosePersonaRoute = location.pathname === "/choose-persona";
-  const isMentorProfileRoute = location.pathname.startsWith("/mentorProfile");
+  const isMentorProfileRoute = location.pathname.startsWith("/mentor/profile");
   const isLandingPageRoute = location.pathname === "/landing-page";
   const isDMPageRoute = location.pathname === "/dm-page";
   const isUserProfileCreationPageRoute =
-    location.pathname === "/user-profile-creation-page";
+    location.pathname === "/user/profile-creation-page";
   const isMentorProfileCreationPageRoute =
-    location.pathname === "/mentor-profile-creation-page";
+    location.pathname === "/mentor/profile-creation-page";
   const isAuthenticationPageRoute = location.pathname === "/authentication";
 
   return (
@@ -90,12 +90,12 @@ function AppInner() {
         <Route path="/social" element={<Social />} />
         <Route path="/connect" element={<Connect />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/mentorProfile" element={<MentorProfile />} />
+        <Route path="/mentor/profile" element={<MentorProfile />} />
         <Route path="/dm-page" element={<DMPage />} />
         <Route path="/es-tiers" element={<EsTiers />} />
 
         <Route path="/user-dashboard" element={<UserDashboard />} />
-        <Route path="mentor-dashboard" element={<MentorDashboard />} />
+        <Route path="/mentor/dashboard" element={<MentorDashboard />} />
 
         <Route path="/choose-persona" element={<ChoosePersona />} />
         <Route path="/profile/:userId" element={<ViewUserProfilePage />} />
@@ -114,11 +114,11 @@ function AppInner() {
         <Route path="/team-tryout" element={<TeamTryout />} />
 
         <Route
-          path="/user-profile-creation-page"
+          path="/user/profile-creation-page"
           element={<UserProfileCreationPage />}
         />
         <Route
-          path="/mentor-profile-creation-page"
+          path="/mentor/profile-creation-page"
           element={<MentorProfileCreationPage />}
         />
 

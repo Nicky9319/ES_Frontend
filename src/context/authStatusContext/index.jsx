@@ -11,7 +11,9 @@ export function AuthStatusProvider({ children }) {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   return (
-    <AuthStatusContext.Provider value={{ isAuthenticating, setIsAuthenticating }}>
+    <AuthStatusContext.Provider
+      value={{ isAuthenticating, setIsAuthenticating }}
+    >
       {children}
     </AuthStatusContext.Provider>
   );
