@@ -62,13 +62,14 @@ function AppInner() {
   const isProfilePageRoute = location.pathname.startsWith("/profile");
   const isChoosePersonaRoute = location.pathname === "/choose-persona";
   const isMentorProfileRoute = location.pathname.startsWith("/mentorProfile");
-  const isLandingPageRoute = location.pathname === "/landing-page";
+  const isLandingPageRoute = location.pathname === "/";
   const isDMPageRoute = location.pathname === "/dm-page";
   const isUserProfileCreationPageRoute =
     location.pathname === "/user-profile-creation-page";
   const isMentorProfileCreationPageRoute =
     location.pathname === "/mentor-profile-creation-page";
   const isAuthenticationPageRoute = location.pathname === "/authentication";
+
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-gray-50 text-gray-800">
@@ -81,7 +82,7 @@ function AppInner() {
         !isMentorProfileCreationPageRoute &&
         !isAuthenticationPageRoute && <Navbar />}
       <Routes>
-        <Route path="/" element={<UserDashboard />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/es-events" element={<EsEvents/>}/>
         <Route path="/manage-events" element={<ManageEvents />} />
 
@@ -93,6 +94,8 @@ function AppInner() {
 
         <Route path="/user-dashboard" element={<UserDashboard />} />
         <Route path="mentor-dashboard" element={<MentorDashboard />} />
+
+        <Route path="/user-dashboard" element={<UserDashboard />}></Route>
 
         <Route path="/choose-persona" element={<ChoosePersona />} />
         <Route path="/profile/:userId" element={<ViewUserProfilePage />} />
