@@ -247,6 +247,9 @@ const TeamTryout = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  const [selectedGame, setSelectedGame] = useState('');
+  const [selectedType, setSelectedType] = useState('1v1');
+  const [selectedMode, setSelectedMode] = useState('Open');
 
   useEffect(() => {
     setIsAnimating(true);
@@ -303,16 +306,23 @@ const TeamTryout = () => {
           </button>
         </div>
 
-        <form className="space-y-8">
+        <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
           <div className="grid grid-cols-3 gap-4">
-            {Object.keys(gameImages).map(game => (
+            {Object.entries(gameImages).map(([game, images]) => (
               <button
                 type="button"
                 key={game}
-                className="p-6 rounded-xl border border-[#95C5C5]/20 hover:border-[#EE8631] hover:bg-[#EE8631]/10 transition-all"
+                onClick={() => setSelectedGame(game)}
+                className={`p-6 rounded-xl border transition-all ${
+                  selectedGame === game
+                    ? 'border-[#EE8631] bg-[#EE8631]/10 text-white'
+                    : 'border-[#95C5C5]/20 hover:border-[#EE8631] hover:bg-[#EE8631]/10'
+                }`}
               >
                 <span className="block text-lg font-medium mb-2">{game}</span>
-                <span className="text-sm text-[#E0E0E0]/70">Select Game</span>
+                <span className={`text-sm ${
+                  selectedGame === game ? 'text-[#E0E0E0]' : 'text-[#E0E0E0]/70'
+                }`}>Select Game</span>
               </button>
             ))}
           </div>
@@ -321,12 +331,15 @@ const TeamTryout = () => {
             <div className="space-y-4">
               <label className="block text-sm font-medium">Type</label>
               <div className="bg-[#292B35] rounded-lg border border-[#95C5C5]/20 p-2">
-                {['1v1', '5v5', '3v3', 'Custom'].map((type, i) => (
+                {['1v1', '5v5', '3v3', 'Custom'].map(type => (
                   <button
                     key={type}
                     type="button"
-                    className={`w-full p-2 rounded-lg text-center ${
-                      i === 0 ? 'bg-[#EE8631] text-white' : 'hover:bg-[#95C5C5]/10'
+                    onClick={() => setSelectedType(type)}
+                    className={`w-full p-2 rounded-lg text-center transition-all ${
+                      selectedType === type
+                        ? 'bg-[#EE8631] text-white'
+                        : 'hover:bg-[#95C5C5]/10'
                     }`}
                   >
                     {type}
@@ -338,12 +351,15 @@ const TeamTryout = () => {
             <div className="space-y-4">
               <label className="block text-sm font-medium">Mode</label>
               <div className="bg-[#292B35] rounded-lg border border-[#95C5C5]/20 p-2">
-                {['Open', 'Invite Only', 'Limited'].map((mode, i) => (
+                {['Open', 'Invite Only', 'Limited'].map(mode => (
                   <button
                     key={mode}
                     type="button"
-                    className={`w-full p-2 rounded-lg text-center ${
-                      i === 0 ? 'bg-[#EE8631] text-white' : 'hover:bg-[#95C5C5]/10'
+                    onClick={() => setSelectedMode(mode)}
+                    className={`w-full p-2 rounded-lg text-center transition-all ${
+                      selectedMode === mode
+                        ? 'bg-[#EE8631] text-white'
+                        : 'hover:bg-[#95C5C5]/10'
                     }`}
                   >
                     {mode}
@@ -377,14 +393,24 @@ const TeamTryout = () => {
           <div className="flex justify-end gap-4">
             <button
               type="button"
-              onClick={() => setShowHostModal(false)}
+              onClick={() => {
+                setSelectedGame('');
+                setSelectedType('1v1');
+                setSelectedMode('Open');
+                setShowHostModal(false);
+              }}
               className="px-6 py-3 rounded-lg border border-[#95C5C5]/20 hover:bg-[#95C5C5]/10"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-6 py-3 bg-[#EE8631] hover:bg-[#AD662F] rounded-lg text-white"
+              disabled={!selectedGame}
+              className={`px-6 py-3 rounded-lg text-white transition-all ${
+                selectedGame
+                  ? 'bg-[#EE8631] hover:bg-[#AD662F]'
+                  : 'bg-[#95C5C5]/20 cursor-not-allowed'
+              }`}
             >
               Create Tryout
             </button>
