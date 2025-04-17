@@ -118,10 +118,10 @@ const mockTryouts = [
 ];
 
 const gameBackgrounds = {
-  'Valorant': 'from-red-600/20 to-red-900/10',
-  'CS2': 'from-yellow-600/20 to-yellow-900/10',
-  'Apex Legends': 'from-red-800/20 to-red-950/10',
-  'Default': 'from-gray-800/20 to-gray-900/10'
+  'Valorant': `from-[#EE8631]/20 to-[#AD662F]/10`,
+  'CS2': `from-[#95C5C5]/20 to-[#292B35]/10`,
+  'Apex Legends': `from-[#EE8631]/20 to-[#292B35]/10`,
+  'Default': `from-[#292B35]/20 to-[#292B35]/10`
 };
 
 const TeamTryout = () => {
@@ -178,15 +178,14 @@ const TeamTryout = () => {
   // Components
   const Badge = ({ children, variant = "default", className = "" }) => {
     const variantClasses = {
-      default: "bg-gray-800 text-gray-200",
-      primary: "bg-indigo-900/30 text-indigo-300 border border-indigo-700/50",
-      success: "bg-green-900/30 text-green-300 border border-green-700/50",
-      danger: "bg-red-900/30 text-red-300 border border-red-700/50",
-      warning: "bg-amber-900/30 text-amber-300 border border-amber-700/50",
-      info: "bg-blue-900/30 text-blue-300 border border-blue-700/50",
-      mode: "bg-violet-900/30 text-violet-300 border border-violet-700/50",
-      skill: "bg-teal-900/30 text-teal-300 border border-teal-700/50",
-      type: "bg-orange-900/30 text-orange-300 border border-orange-700/50",
+      default: "bg-[#292B35] text-[#E0E0E0]",
+      primary: "bg-[#95C5C5]/30 text-[#95C5C5] border border-[#95C5C5]/50",
+      success: "bg-[#95C5C5]/20 text-[#95C5C5] border border-[#95C5C5]/50",
+      danger: "bg-[#EE8631]/20 text-[#EE8631] border border-[#EE8631]/50",
+      warning: "bg-[#AD662F]/20 text-[#AD662F] border border-[#AD662F]/50",
+      mode: "bg-[#292B35]/30 text-[#95C5C5] border border-[#95C5C5]/50",
+      skill: "bg-[#292B35]/30 text-[#95C5C5] border border-[#95C5C5]/50",
+      type: "bg-[#292B35]/30 text-[#EE8631] border border-[#EE8631]/50",
     };
     
     return (
@@ -197,29 +196,29 @@ const TeamTryout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-950 via-indigo-950/10 to-gray-900 text-gray-200">
+    <div className="min-h-screen bg-gradient-to-br from-[#292B35] via-[#292B35]/90 to-[#292B35] text-[#E0E0E0]">
       {/* HUD-style top bar */}
-      <div className="sticky top-0 z-50 backdrop-blur-xl bg-gray-900/80 border-b border-indigo-500/20">
+      <div className="sticky top-0 z-50 backdrop-blur-xl bg-[#292B35]/80 border-b border-[#95C5C5]/20">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">
-              <Trophy className="w-6 h-6 text-indigo-400" />
-              <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">TRYOUT HUB</h1>
+              <Trophy className="w-6 h-6 text-[#95C5C5]" />
+              <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#95C5C5] to-[#EE8631]">TRYOUT HUB</h1>
             </div>
             <div className="flex items-center gap-4">
-              <button className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-all">
-                <Bell className="w-5 h-5 text-indigo-400" />
+              <button className="p-2 rounded-full bg-[#292B35] hover:bg-[#AD662F] transition-all">
+                <Bell className="w-5 h-5 text-[#95C5C5]" />
               </button>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Search className="h-4 w-4 text-gray-400" />
+                  <Search className="h-4 w-4 text-[#E0E0E0]" />
                 </div>
                 <input 
                   type="text" 
                   placeholder="Search tryouts..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 pr-4 py-2 w-64 bg-gray-800 rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="pl-10 pr-4 py-2 w-64 bg-[#292B35] rounded-lg border border-[#95C5C5]/20 focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
                 />
               </div>
             </div>
@@ -229,38 +228,38 @@ const TeamTryout = () => {
 
       {/* Hero Section with Dynamic Background */}
       <div className="relative h-64 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-indigo-900/30 to-gray-900">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#95C5C5]/30 to-[#292B35]">
           <div className="absolute inset-0 opacity-20">
-            <div className="absolute h-96 w-96 -top-20 -left-20 bg-indigo-600 rounded-full filter blur-3xl"></div>
-            <div className="absolute h-96 w-96 top-10 right-20 bg-purple-600 rounded-full filter blur-3xl"></div>
-            <div className="absolute h-96 w-96 bottom-10 left-1/2 bg-blue-600 rounded-full filter blur-3xl"></div>
+            <div className="absolute h-96 w-96 -top-20 -left-20 bg-[#EE8631] rounded-full filter blur-3xl"></div>
+            <div className="absolute h-96 w-96 top-10 right-20 bg-[#AD662F] rounded-full filter blur-3xl"></div>
+            <div className="absolute h-96 w-96 bottom-10 left-1/2 bg-[#95C5C5] rounded-full filter blur-3xl"></div>
           </div>
         </div>
         
         <div className="absolute inset-0">
           <div className="grid grid-cols-6 grid-rows-3 gap-2 opacity-10 h-full w-full">
             {Array(18).fill(0).map((_, i) => (
-              <div key={i} className="bg-gray-800 rounded-lg"></div>
+              <div key={i} className="bg-[#292B35] rounded-lg"></div>
             ))}
           </div>
         </div>
         
         <div className="relative h-full flex flex-col items-center justify-center text-center px-4">
           <h1 className="text-5xl font-black mb-3 tracking-tight">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-indigo-400">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#95C5C5] via-[#EE8631] to-[#95C5C5]">
               COMPETE & CONQUER
             </span>
           </h1>
-          <p className="text-gray-300 text-lg max-w-2xl mb-6">
+          <p className="text-[#E0E0E0] text-lg max-w-2xl mb-6">
             Join elite esports teams through skill-based tryouts and prove your worth
           </p>
           
           <div className="flex gap-3">
-            <button onClick={toggleFilter} className="flex items-center gap-2 px-5 py-2.5 bg-indigo-700 hover:bg-indigo-600 transition-all rounded-lg text-white font-medium shadow-lg shadow-indigo-700/20">
+            <button onClick={toggleFilter} className="flex items-center gap-2 px-5 py-2.5 bg-[#EE8631] hover:bg-[#AD662F] transition-all rounded-lg text-[#E0E0E0] font-medium shadow-lg shadow-[#EE8631]/20">
               <Filter className="w-4 h-4" />
               Filter Tryouts
             </button>
-            <button className="px-5 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 transition-all rounded-lg text-white font-medium shadow-lg shadow-purple-700/20">
+            <button className="px-5 py-2.5 bg-gradient-to-r from-[#EE8631] to-[#AD662F] hover:from-[#AD662F] hover:to-[#EE8631] transition-all rounded-lg text-[#E0E0E0] font-medium shadow-lg shadow-[#AD662F]/20">
               Host a Tryout
             </button>
           </div>
@@ -268,15 +267,15 @@ const TeamTryout = () => {
       </div>
 
       {/* Animated Filter Panel */}
-      <div className={`bg-gray-900/70 backdrop-blur-md border-y border-indigo-500/20 transition-all duration-300 overflow-hidden ${filterOpen ? 'max-h-80' : 'max-h-0'}`}>
+      <div className={`bg-[#292B35]/70 backdrop-blur-md border-y border-[#95C5C5]/20 transition-all duration-300 overflow-hidden ${filterOpen ? 'max-h-80' : 'max-h-0'}`}>
         <div className="max-w-7xl mx-auto px-4 py-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">Game</label>
+              <label className="block text-sm font-medium text-[#E0E0E0] mb-2">Game</label>
               <select
                 value={activeFilters.game}
                 onChange={(e) => setActiveFilters(prev => ({ ...prev, game: e.target.value }))}
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
               >
                 <option>All Games</option>
                 <option>Valorant</option>
@@ -286,11 +285,11 @@ const TeamTryout = () => {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">Type</label>
+              <label className="block text-sm font-medium text-[#E0E0E0] mb-2">Type</label>
               <select
                 value={activeFilters.type}
                 onChange={(e) => setActiveFilters(prev => ({ ...prev, type: e.target.value }))}
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
               >
                 <option>All Types</option>
                 <option>1v1</option>
@@ -301,11 +300,11 @@ const TeamTryout = () => {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">Mode</label>
+              <label className="block text-sm font-medium text-[#E0E0E0] mb-2">Mode</label>
               <select
                 value={activeFilters.mode}
                 onChange={(e) => setActiveFilters(prev => ({ ...prev, mode: e.target.value }))}
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
               >
                 <option>All Modes</option>
                 <option>Open</option>
@@ -315,11 +314,11 @@ const TeamTryout = () => {
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">Skill Evaluation</label>
+              <label className="block text-sm font-medium text-[#E0E0E0] mb-2">Skill Evaluation</label>
               <select
                 value={activeFilters.skillMode}
                 onChange={(e) => setActiveFilters(prev => ({ ...prev, skillMode: e.target.value }))}
-                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
               >
                 <option>All</option>
                 <option>Predefined</option>
@@ -335,8 +334,8 @@ const TeamTryout = () => {
         {featuredTryouts.length > 0 && (
           <div className="mb-12">
             <div className="flex items-center gap-2 mb-6">
-              <Star className="w-5 h-5 text-amber-400" />
-              <h2 className="text-xl font-bold text-white">Featured Opportunities</h2>
+              <Star className="w-5 h-5 text-[#EE8631]" />
+              <h2 className="text-xl font-bold text-[#E0E0E0]">Featured Opportunities</h2>
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -346,11 +345,11 @@ const TeamTryout = () => {
                 return (
                   <div
                     key={tryout.id}
-                    className={`group relative overflow-hidden rounded-xl border border-indigo-500/20 hover:border-indigo-500/50 transition-all duration-300 bg-gradient-to-br ${bgGradient}`}
+                    className={`group relative overflow-hidden rounded-xl border border-[#95C5C5]/20 hover:border-[#95C5C5]/50 transition-all duration-300 bg-gradient-to-br ${bgGradient}`}
                   >
                     {/* Header/Banner */}
                     <div className="relative h-40 overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900/90 z-10"></div>
+                      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#292B35]/90 z-10"></div>
                       <img 
                         src={tryout.teamBanner} 
                         alt="" 
@@ -362,21 +361,21 @@ const TeamTryout = () => {
                             <img 
                               src={tryout.teamLogo} 
                               alt={tryout.title}
-                              className="w-12 h-12 rounded-lg border-2 border-indigo-500/50"
+                              className="w-12 h-12 rounded-lg border-2 border-[#95C5C5]/50"
                             />
                             <img 
                               src={tryout.gameIcon}
                               alt={tryout.game}
-                              className="absolute -bottom-1 -right-1 w-6 h-6 rounded border border-indigo-500/50"
+                              className="absolute -bottom-1 -right-1 w-6 h-6 rounded border border-[#95C5C5]/50"
                             />
                           </div>
                           <div>
-                            <h3 className="text-xl font-bold text-white">{tryout.title}</h3>
-                            <div className="flex items-center gap-2 text-sm text-gray-300">
+                            <h3 className="text-xl font-bold text-[#E0E0E0]">{tryout.title}</h3>
+                            <div className="flex items-center gap-2 text-sm text-[#E0E0E0]">
                               <span>{tryout.game}</span>
-                              <span className="w-1 h-1 rounded-full bg-gray-500"></span>
+                              <span className="w-1 h-1 rounded-full bg-[#95C5C5]"></span>
                               <div className="flex items-center gap-1">
-                                <Trophy className="w-3 h-3 text-amber-400" />
+                                <Trophy className="w-3 h-3 text-[#EE8631]" />
                                 <span>{tryout.teamStats?.tournaments || 0} tournaments</span>
                               </div>
                             </div>
@@ -393,16 +392,16 @@ const TeamTryout = () => {
                         <Badge variant="skill"><Activity className="w-3 h-3" /> {tryout.skillMode}</Badge>
                       </div>
                       
-                      <p className="text-gray-300 mb-6">{tryout.description}</p>
+                      <p className="text-[#E0E0E0] mb-6">{tryout.description}</p>
                       
                       {tryout.requirements && (
                         <div className="mb-6">
-                          <h4 className="text-sm font-semibold text-indigo-400 mb-2">REQUIREMENTS</h4>
+                          <h4 className="text-sm font-semibold text-[#95C5C5] mb-2">REQUIREMENTS</h4>
                           <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                             {Object.entries(tryout.requirements).map(([key, value]) => (
-                              <div key={key} className="bg-gray-800/50 rounded-lg px-3 py-2 border border-gray-700/50">
-                                <div className="text-xs text-gray-400 capitalize">{key}</div>
-                                <div className="text-white font-medium">{value}</div>
+                              <div key={key} className="bg-[#292B35]/50 rounded-lg px-3 py-2 border border-[#95C5C5]/50">
+                                <div className="text-xs text-[#E0E0E0] capitalize">{key}</div>
+                                <div className="text-[#E0E0E0] font-medium">{value}</div>
                               </div>
                             ))}
                           </div>
@@ -411,7 +410,7 @@ const TeamTryout = () => {
                       
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
-                          <div className="text-sm text-gray-400">
+                          <div className="text-sm text-[#E0E0E0]">
                             <div className="flex items-center gap-1 mb-1">
                               <Calendar className="w-3 h-3" />
                               <span>Deadline: {tryout.deadline}</span>
@@ -428,10 +427,10 @@ const TeamTryout = () => {
                           disabled={tryout.isApplied || tryout.mode === 'Invite Only'}
                           className={`px-5 py-2.5 rounded-lg font-medium transition-all duration-300 ${
                             tryout.isApplied 
-                              ? 'bg-green-600/20 text-green-400 border border-green-500/50' 
+                              ? 'bg-[#95C5C5]/20 text-[#95C5C5] border border-[#95C5C5]/50' 
                               : tryout.mode === 'Invite Only'
-                                ? 'bg-gray-800/50 text-gray-400 border border-gray-700'
-                                : 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-lg shadow-indigo-600/20'
+                                ? 'bg-[#292B35]/50 text-[#E0E0E0]/50 border border-[#95C5C5]/20'
+                                : 'bg-[#EE8631] hover:bg-[#AD662F] text-[#E0E0E0]'
                           }`}
                         >
                           {tryout.isApplied ? 'Applied' : 
@@ -450,10 +449,10 @@ const TeamTryout = () => {
         <div>
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
-              <Shield className="w-5 h-5 text-indigo-400" />
-              <h2 className="text-xl font-bold text-white">Available Tryouts</h2>
+              <Shield className="w-5 h-5 text-[#95C5C5]" />
+              <h2 className="text-xl font-bold text-[#E0E0E0]">Available Tryouts</h2>
             </div>
-            <div className="text-sm text-gray-400">
+            <div className="text-sm text-[#E0E0E0]">
               Showing {regularTryouts.length} opportunities
             </div>
           </div>
@@ -465,18 +464,18 @@ const TeamTryout = () => {
               return (
                 <div
                   key={tryout.id}
-                  className={`relative overflow-hidden rounded-xl border border-gray-800 hover:border-indigo-500/50 bg-gray-900/50 transition-all duration-300 group hover:translate-y-1`}
+                  className={`relative overflow-hidden rounded-xl border border-[#292B35] hover:border-[#95C5C5]/50 bg-[#292B35]/50 transition-all duration-300 group hover:translate-y-1`}
                 >
                   <div className="p-5">
                     <div className="flex items-center gap-3 mb-4">
                       <img 
                         src={tryout.teamLogo} 
                         alt={tryout.title}
-                        className="w-10 h-10 rounded-lg border border-gray-800"
+                        className="w-10 h-10 rounded-lg border border-[#292B35]"
                       />
                       <div>
-                        <h3 className="text-lg font-bold text-white">{tryout.title}</h3>
-                        <div className="flex items-center gap-1 text-sm text-gray-400">
+                        <h3 className="text-lg font-bold text-[#E0E0E0]">{tryout.title}</h3>
+                        <div className="flex items-center gap-1 text-sm text-[#E0E0E0]">
                           <img 
                             src={tryout.gameIcon}
                             alt={tryout.game}
@@ -487,7 +486,7 @@ const TeamTryout = () => {
                       </div>
                     </div>
                     
-                    <p className="text-gray-400 text-sm mb-4 line-clamp-2">{tryout.description}</p>
+                    <p className="text-[#E0E0E0] text-sm mb-4 line-clamp-2">{tryout.description}</p>
                     
                     <div className="flex flex-wrap gap-2 mb-4">
                       <Badge variant="type">{tryout.type}</Badge>
@@ -496,7 +495,7 @@ const TeamTryout = () => {
                     </div>
                     
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-xs text-gray-500">
+                      <div className="flex items-center gap-2 text-xs text-[#E0E0E0]">
                         <Clock className="w-4 h-4" />
                         <span>Ends {tryout.deadline}</span>
                       </div>
@@ -506,10 +505,10 @@ const TeamTryout = () => {
                         disabled={tryout.isApplied || tryout.mode === 'Invite Only'}
                         className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
                           tryout.isApplied 
-                            ? 'bg-green-600/20 text-green-400 border border-green-500/50' 
+                            ? 'bg-[#95C5C5]/20 text-[#95C5C5] border border-[#95C5C5]/50' 
                             : tryout.mode === 'Invite Only'
-                              ? 'bg-gray-800 text-gray-400 border border-gray-700'
-                              : 'bg-indigo-600 hover:bg-indigo-500 text-white'
+                              ? 'bg-[#292B35] text-[#E0E0E0]/50 border border-[#95C5C5]/20'
+                              : 'bg-[#EE8631] hover:bg-[#AD662F] text-[#E0E0E0]'
                         }`}
                       >
                         {tryout.isApplied ? 'Applied' : 
@@ -521,11 +520,11 @@ const TeamTryout = () => {
               );
             }) : (
               <div className="col-span-3 py-16 flex flex-col items-center justify-center text-center">
-                <div className="bg-gray-800/50 rounded-full p-4 mb-4">
-                  <Search className="w-8 h-8 text-gray-500" />
+                <div className="bg-[#292B35]/50 rounded-full p-4 mb-4">
+                  <Search className="w-8 h-8 text-[#95C5C5]" />
                 </div>
-                <h3 className="text-xl font-bold text-gray-400 mb-2">No tryouts found</h3>
-                <p className="text-gray-500 max-w-md">Try adjusting your filters or search query to find more opportunities</p>
+                <h3 className="text-xl font-bold text-[#E0E0E0] mb-2">No tryouts found</h3>
+                <p className="text-[#E0E0E0] max-w-md">Try adjusting your filters or search query to find more opportunities</p>
               </div>
             )}
           </div>
@@ -533,24 +532,24 @@ const TeamTryout = () => {
       </div>
       
       {/* Stats Bar */}
-      <div className="bg-gradient-to-r from-indigo-900/20 via-purple-900/20 to-indigo-900/20 border-t border-indigo-500/20 py-10 mt-16">
+      <div className="bg-gradient-to-r from-[#292B35] via-[#AD662F]/10 to-[#292B35] border-t border-[#95C5C5]/20 py-10 mt-16">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div>
-              <div className="text-4xl font-bold text-white mb-1">250+</div>
-              <div className="text-indigo-400">Active Teams</div>
+              <div className="text-4xl font-bold text-[#E0E0E0] mb-1">250+</div>
+              <div className="text-[#95C5C5]">Active Teams</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-white mb-1">1,450</div>
-              <div className="text-indigo-400">Players Selected</div>
+              <div className="text-4xl font-bold text-[#E0E0E0] mb-1">1,450</div>
+              <div className="text-[#95C5C5]">Players Selected</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-white mb-1">85+</div>
-              <div className="text-indigo-400">Tournaments Won</div>
+              <div className="text-4xl font-bold text-[#E0E0E0] mb-1">85+</div>
+              <div className="text-[#95C5C5]">Tournaments Won</div>
             </div>
             <div>
-              <div className="text-4xl font-bold text-white mb-1">$1.2M</div>
-              <div className="text-indigo-400">Prize Money</div>
+              <div className="text-4xl font-bold text-[#E0E0E0] mb-1">$1.2M</div>
+              <div className="text-[#95C5C5]">Prize Money</div>
             </div>
           </div>
         </div>
