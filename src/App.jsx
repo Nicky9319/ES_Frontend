@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
@@ -59,8 +65,10 @@ function AppInner() {
   const isMentorProfileRoute = location.pathname.startsWith("/mentorProfile");
   const isLandingPageRoute = location.pathname === "/landing-page";
   const isDMPageRoute = location.pathname === "/dm-page";
-  const isUserProfileCreationPageRoute = location.pathname === "/user-profile-creation-page";
-  const isMentorProfileCreationPageRoute = location.pathname === "/mentor-profile-creation-page";
+  const isUserProfileCreationPageRoute =
+    location.pathname === "/user-profile-creation-page";
+  const isMentorProfileCreationPageRoute =
+    location.pathname === "/mentor-profile-creation-page";
   const isAuthenticationPageRoute = location.pathname === "/authentication";
 
   // Redirect to authentication if not authenticated and not already on the authentication page.
@@ -87,33 +95,40 @@ function AppInner() {
         <Route path="/authentication" element={<Authentication />} />
         <Route path="/view-event-info" element={<ViewEventInfo />} />
         <Route path="/profile/:userId" element={<ViewUserProfilePage />} />
-        <Route path="/mentorProfile/:mentorId" element={<ViewMentorProfilePage />} />
+        <Route
+          path="/mentorProfile/:mentorId"
+          element={<ViewMentorProfilePage />}
+        />
 
         {/* Routes available after authentication */}
         <Route path="/choose-persona" element={<ChoosePersona />} />
-        <Route path="/user-profile-creation-page" element={<UserProfileCreationPage />} />
-        <Route path="/mentor-profile-creation-page" element={<MentorProfileCreationPage />} />
+        <Route
+          path="/user-profile-creation-page"
+          element={<UserProfileCreationPage />}
+        />
+        <Route
+          path="/mentor-profile-creation-page"
+          element={<MentorProfileCreationPage />}
+        />
 
         {/* protected Authenticated only. */}
         <Route element={<ProtectedRoute />}>
           <Route path="/Esevents" element={<EsEvents />} />
         </Route>
         {/* player and mentor protected */}
-        <Route element={<MentorProtectedRoute />}>
-          <Route path="/manage-events" element={<ManageEvents />} />
-          <Route path="/social" element={<Social />} />
-          <Route path="/connect" element={<Connect />} />
-          <Route path="/profile" element={<Profile />} />
-        </Route>
-        <Route element={<PlayerProtectedRoute />}>
-          <Route path="/mentorProfile" element={<MentorProfile />} />
-          <Route path="/dm-page" element={<DMPage />} />
-          <Route path="/user-dashboard" element={<UserDashboard />} />
-          <Route path="/mentor-dashboard" element={<MentorDashboard />} />
-          <Route path="/create-event" element={<CreateEvent />} />
-          <Route path="/event-info" element={<EventInfo />} />
-          <Route path="/teams" element={<Teams />} />
-        </Route>
+
+        <Route path="/manage-events" element={<ManageEvents />} />
+        <Route path="/social" element={<Social />} />
+        <Route path="/connect" element={<Connect />} />
+        <Route path="/profile" element={<Profile />} />
+
+        <Route path="/mentorProfile" element={<MentorProfile />} />
+        <Route path="/dm-page" element={<DMPage />} />
+        <Route path="/user-dashboard" element={<UserDashboard />} />
+        <Route path="/mentor-dashboard" element={<MentorDashboard />} />
+        <Route path="/create-event" element={<CreateEvent />} />
+        <Route path="/event-info" element={<EventInfo />} />
+        <Route path="/teams" element={<Teams />} />
       </Routes>
 
       {!isProfilePageRoute &&
