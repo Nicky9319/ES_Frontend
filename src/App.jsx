@@ -100,7 +100,7 @@ function AppInner() {
         <Route path="/choose-persona" element={<ChoosePersona />} />
         <Route path="/profile/:userId" element={<ViewUserProfilePage />} />
         <Route
-          path="/mentorProfile/:mentorId"
+          path="/mentor/profile/:mentorId"
           element={<ViewMentorProfilePage />}
         />
         <Route path="/create-event" element={<CreateEvent />} />
