@@ -1,0 +1,68 @@
+.loader-wrapper {
+  background: #292B35;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.pacman {
+  width: 50px;
+  height: 50px;
+  background: #EE8631; /* Pacman color */
+  border-radius: 50%;
+  position: relative;
+  border: 1px solid #292B35; /* Add this line */
+}
+
+.pacman::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  background: #292B35; /* Sector color */
+  border-radius: 50%;
+  clip-path: polygon(50% 50%, 100% 0, 100% 100%);
+  animation: chomper 0.5s infinite;
+}
+
+@keyframes chomper {
+  0%, 100% {
+    clip-path: polygon(50% 50%, 100% 0, 100% 100%);
+  }
+  50% {
+    clip-path: polygon(50% 50%, 100% 20%, 100% 80%);
+  }
+}
+
+.dots {
+  display: flex;
+  gap: 20px;
+}
+
+.dots span {
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-radius: 50%;
+  animation: dotFade 1s infinite;
+  opacity: 0;
+}
+
+@keyframes dotFade {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}

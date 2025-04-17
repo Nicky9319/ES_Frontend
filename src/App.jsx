@@ -1,22 +1,22 @@
 import React from "react";
 
-import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import Navbar from "./components/Navbar";
 import ScrollToTop from "./components/ScrollToTop";
+import Connect from "./Views/Connect/connect";
+import DMPage from "./Views/DM Page/dmPage";
 import EsEvents from "./Views/ES Events/esEvents";
 import ManageEvents from "./Views/ES Events/ManageEvents";
-import Social from "./Views/Social/social";
-import Connect from "./Views/Connect/connect";
-import Profile from "./Views/Profile Page/profilePage";
 import MentorProfile from "./Views/Mentor Profile Page/mentorProfilePage";
-import DMPage from "./Views/DM Page/dmPage";
+import Profile from "./Views/Profile Page/profilePage";
+import Social from "./Views/Social/social";
 
-import UserDashboard from "./Views/Dashboard/userDashboard";
 import MentorDashboard from "./Views/Dashboard/mentorDashboard";
+import UserDashboard from "./Views/Dashboard/userDashboard";
 
 import ChoosePersona from "./Views/Choose Persona Page/choosePersonaPage";
-import ViewUserProfilePage from "./Views/Profile Page/viewUserProfilePage";
 import ViewMentorProfilePage from "./Views/Mentor Profile Page/viewMentorProfilePage";
+import ViewUserProfilePage from "./Views/Profile Page/viewUserProfilePage";
 
 import EventInfo from "./Views/ES Events/eventInfo";
 import ViewEventInfo from "./Views/ES Events/viewEventInfo";
@@ -25,8 +25,8 @@ import CreateEvent from "./Views/ES Events/createEvent";
 
 import LandingPage from "./Views/Landing Page/landingPage";
 
-import UserProfileCreationPage from "./Views/User profile Creation Page/userProfileCreationPage";
 import MentorProfileCreationPage from "./Views/Mentor Profile Creation Page/mentorProfileCreationPage";
+import UserProfileCreationPage from "./Views/User profile Creation Page/userProfileCreationPage";
 
 import EventRegister from "./Views/Register/register";
 
@@ -35,11 +35,12 @@ import Authentication from "./Views/Authentication/authentication";
 import Teams from "./Views/Teams/teams";
 
 import {
+  Route,
   BrowserRouter as Router,
   Routes,
-  Route,
   useLocation,
 } from "react-router-dom";
+import PacmanLoader from "./Views/components/pacman_loading_animation";
 
 // Get the base URL from the import.meta.env (injected by Vite)
 const baseUrl = import.meta.env.BASE_URL || "/";
@@ -80,7 +81,7 @@ function AppInner() {
       <Routes>
         <Route path="/" element={<EsEvents />} />
         <Route path="/manage-events" element={<ManageEvents />} />
-
+        <Route path="/loader" element={<PacmanLoader />} />
         <Route path="/social" element={<Social />} />
         <Route path="/connect" element={<Connect />} />
         <Route path="/profile" element={<Profile />} />
