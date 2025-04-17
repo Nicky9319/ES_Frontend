@@ -231,7 +231,10 @@ const TeamTryout = () => {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div className="bg-[#292B35] rounded-xl border border-[#95C5C5]/20 w-full max-w-3xl p-8 mx-4">
         <div className="flex justify-between items-center mb-8">
-          <h3 className="text-2xl font-bold">Host a Tryout</h3>
+          <div>
+            <h3 className="text-2xl font-bold mb-2">Host a Tryout</h3>
+            <p className="text-[#E0E0E0]/70">Create a custom tryout for your team</p>
+          </div>
           <button onClick={() => setShowHostModal(false)} className="p-2 hover:bg-[#95C5C5]/10 rounded-lg">
             <X className="w-5 h-5" />
           </button>
@@ -239,14 +242,14 @@ const TeamTryout = () => {
 
         <form className="space-y-8">
           <div className="grid grid-cols-3 gap-4">
-            {Object.entries(gameImages).map(([game, { banner }]) => (
+            {Object.keys(gameImages).map(game => (
               <button
                 type="button"
                 key={game}
-                className="p-6 rounded-xl border border-[#95C5C5]/20 hover:border-[#EE8631] transition-all"
+                className="p-6 rounded-xl border border-[#95C5C5]/20 hover:border-[#EE8631] hover:bg-[#EE8631]/10 transition-all"
               >
-                <img src={banner} alt={game} className="w-12 h-12 mx-auto mb-4" />
-                <span className="block text-center font-medium">{game}</span>
+                <span className="block text-lg font-medium mb-2">{game}</span>
+                <span className="text-sm text-[#E0E0E0]/70">Select Game</span>
               </button>
             ))}
           </div>
@@ -329,9 +332,12 @@ const TeamTryout = () => {
   );
 
   const FilterSection = () => (
-    <div className="bg-[#292B35] rounded-xl border border-[#95C5C5]/20 p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-xl font-bold">Filter Tryouts</h3>
+    <div className="bg-[#292B35]/90 rounded-xl border border-[#95C5C5]/20 p-8">
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h3 className="text-2xl font-bold mb-2">Filter Tryouts</h3>
+          <p className="text-[#E0E0E0]/70">Find the perfect opportunity that matches your skills</p>
+        </div>
         <button 
           onClick={() => setActiveFilters({
             game: 'All Games',
@@ -339,45 +345,45 @@ const TeamTryout = () => {
             mode: 'All Modes',
             skillMode: 'All'
           })}
-          className="text-sm text-[#95C5C5] hover:text-[#EE8631]"
+          className="px-4 py-2 text-sm text-[#95C5C5] hover:text-[#EE8631] border border-[#95C5C5]/20 rounded-lg hover:bg-[#95C5C5]/10 transition-all"
         >
           Reset Filters
         </button>
       </div>
 
-      <div className="space-y-6">
-        <div>
-          <label className="block text-sm font-medium mb-2">Game</label>
-          <div className="grid grid-cols-4 gap-4">
-            {Object.entries(gameImages).map(([game, { banner }]) => (
-              <button
-                key={game}
-                onClick={() => handleFilterChange('game', game)}
-                className={`p-4 rounded-lg border ${
-                  activeFilters.game === game
-                    ? 'border-[#EE8631] bg-[#EE8631]/10'
-                    : 'border-[#95C5C5]/20 hover:border-[#95C5C5]/40'
-                }`}
-              >
-                <img src={banner} alt={game} className="w-8 h-8 mx-auto mb-2" />
-                <span className="text-sm">{game}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-6">
+      <div className="grid md:grid-cols-2 gap-8">
+        <div className="space-y-6">
           <div>
-            <label className="block text-sm font-medium mb-2">Type</label>
+            <label className="block text-sm font-medium mb-3">Game Selection</label>
             <div className="space-y-2">
-              {['1v1', '5v5', '3v3', 'Custom'].map(type => (
+              {Object.keys(gameImages).map(game => (
+                <button
+                  key={game}
+                  onClick={() => handleFilterChange('game', game)}
+                  className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all ${
+                    activeFilters.game === game
+                      ? 'bg-[#EE8631] text-white'
+                      : 'hover:bg-[#292B35] border border-[#95C5C5]/20 hover:border-[#EE8631]/50'
+                  }`}
+                >
+                  <span className={`w-2 h-2 rounded-full ${activeFilters.game === game ? 'bg-white' : 'bg-[#95C5C5]'}`} />
+                  {game}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-3">Match Type</label>
+            <div className="grid grid-cols-2 gap-2">
+              {['1v1', '3v3', '5v5', 'Custom'].map(type => (
                 <button
                   key={type}
                   onClick={() => handleFilterChange('type', type)}
-                  className={`w-full p-3 rounded-lg text-left ${
+                  className={`p-3 rounded-lg text-center transition-all ${
                     activeFilters.type === type
                       ? 'bg-[#EE8631] text-white'
-                      : 'bg-[#292B35] border border-[#95C5C5]/20 hover:border-[#95C5C5]/40'
+                      : 'hover:bg-[#292B35] border border-[#95C5C5]/20 hover:border-[#EE8631]/50'
                   }`}
                 >
                   {type}
@@ -385,18 +391,40 @@ const TeamTryout = () => {
               ))}
             </div>
           </div>
+        </div>
 
+        <div className="space-y-6">
           <div>
-            <label className="block text-sm font-medium mb-2">Mode</label>
+            <label className="block text-sm font-medium mb-3">Tryout Mode</label>
             <div className="space-y-2">
               {['Open', 'Invite Only', 'Limited'].map(mode => (
                 <button
                   key={mode}
                   onClick={() => handleFilterChange('mode', mode)}
-                  className={`w-full p-3 rounded-lg text-left ${
+                  className={`w-full flex items-center justify-between p-3 rounded-lg transition-all ${
                     activeFilters.mode === mode
                       ? 'bg-[#EE8631] text-white'
-                      : 'bg-[#292B35] border border-[#95C5C5]/20 hover:border-[#95C5C5]/40'
+                      : 'hover:bg-[#292B35] border border-[#95C5C5]/20 hover:border-[#EE8631]/50'
+                  }`}
+                >
+                  {mode}
+                  {activeFilters.mode === mode && <ChevronDown className="w-4 h-4" />}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-3">Skill Evaluation</label>
+            <div className="grid grid-cols-2 gap-2">
+              {['Predefined', 'Stat-based'].map(mode => (
+                <button
+                  key={mode}
+                  onClick={() => handleFilterChange('skillMode', mode)}
+                  className={`p-3 rounded-lg text-center transition-all ${
+                    activeFilters.skillMode === mode
+                      ? 'bg-[#EE8631] text-white'
+                      : 'hover:bg-[#292B35] border border-[#95C5C5]/20 hover:border-[#EE8631]/50'
                   }`}
                 >
                   {mode}
@@ -406,6 +434,31 @@ const TeamTryout = () => {
           </div>
         </div>
       </div>
+
+      {selectedFilters.length > 0 && (
+        <div className="mt-8 pt-8 border-t border-[#95C5C5]/10">
+          <div className="flex items-center gap-2 text-sm text-[#95C5C5] mb-3">
+            <Filter className="w-4 h-4" />
+            <span>Active Filters</span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {selectedFilters.map(({ key, value }) => (
+              <div
+                key={key}
+                className="flex items-center gap-2 px-3 py-1.5 bg-[#EE8631]/10 text-[#EE8631] rounded-full text-sm"
+              >
+                <span>{value}</span>
+                <button
+                  onClick={() => handleFilterChange(key, key === 'game' ? 'All Games' : 'All')}
+                  className="hover:text-[#AD662F]"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 
