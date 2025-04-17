@@ -100,8 +100,8 @@ function AppInner() {
         />
         <Route path="/create-event" element={<CreateEvent />} />
 
-        <Route path="/event-info" element={<EventInfo />} />
-        <Route path="/view-event-info" element={<ViewEventInfo />} />
+        <Route path="/event-info/:eventId" element={<EventInfo />} />
+        <Route path="/view-event-info/:eventId" element={<ViewEventInfo />} />
 
         <Route path="/landing-page" element={<LandingPage />} />
         <Route path="/teams" element={<Teams />} />
