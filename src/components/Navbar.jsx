@@ -133,6 +133,16 @@ const Navbar = () => {
               <li className="md:block hidden h-5 w-px bg-[#AD662F]"></li>
               <li className="md:mb-0 mb-4">
                 <a
+                  href="/team-tryout"
+                  onClick={(e) => handleNavigation("/team-tryout", e)}
+                  className="text-[#E0E0E0] no-underline hover:font-bold hover:text-[#EE8631] transition-all text-base px-4 whitespace-nowrap"
+                >
+                  Team Tryout
+                </a>
+              </li>
+              <li className="md:block hidden h-5 w-px bg-[#AD662F]"></li>
+              <li className="md:mb-0 mb-4">
+                <a
                   href="/teams"
                   onClick={(e) => handleNavigation("/teams", e)}
                   className="text-[#E0E0E0] no-underline hover:font-bold hover:text-[#EE8631] transition-all text-base px-4 whitespace-nowrap"

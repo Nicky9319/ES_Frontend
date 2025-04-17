@@ -36,6 +36,8 @@ import Teams from "./Views/Teams/teams";
 
 import EsLeague from "./Views/ES League/esLeague";
 
+import TeamTryout from "./Views/Team Tryout/teamTryout";  
+
 import {
   BrowserRouter as Router,
   Routes,
@@ -107,6 +109,8 @@ function AppInner() {
 
         <Route path="/landing-page" element={<LandingPage />} />
         <Route path="/teams" element={<Teams />} />
+
+        <Route path="/team-tryout" element={<TeamTryout/>}/>
 
         <Route
           path="/user-profile-creation-page"
