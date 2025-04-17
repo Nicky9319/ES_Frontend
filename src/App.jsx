@@ -28,9 +28,13 @@ import LandingPage from "./Views/Landing Page/landingPage";
 import UserProfileCreationPage from "./Views/User profile Creation Page/userProfileCreationPage";
 import MentorProfileCreationPage from "./Views/Mentor Profile Creation Page/mentorProfileCreationPage";
 
+import EventRegister from "./Views/Register/register";
+
 import Authentication from "./Views/Authentication/authentication";
 
 import Teams from "./Views/Teams/teams";
+
+import EsLeague from "./Views/ES League/esLeague"; 
 
 import {
   BrowserRouter as Router,
@@ -112,6 +116,10 @@ function AppInner() {
         />
 
         <Route path="/authentication" element={<Authentication />} />
+
+        <Route path="/event-register" element={<EventRegister />} />
+
+        <Route path="es-league" element={<EsLeague/>}/>
 
         {/* Add more routes as needed */}
       </Routes>

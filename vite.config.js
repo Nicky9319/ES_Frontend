@@ -33,6 +33,11 @@ export default defineConfig(({ command, mode }) => {
         // Proxy requests to your ngrok tunnel
         "/api":
           "https://5e59-2409-4050-2d17-7982-9576-fbc4-25aa-6721.ngrok-free.app",
+        "/Teams": {
+          target: "http://localhost:14000",
+          changeOrigin: true,
+          secure: false,
+        },
       },
       cors: {
         // Allow access from the ngrok tunnel origin

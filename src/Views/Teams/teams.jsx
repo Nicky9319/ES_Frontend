@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaUsers,
   FaTrophy,
@@ -7,10 +7,16 @@ import {
   FaArrowLeft,
   FaCalendarAlt,
   FaCog,
+  FaTrash,
+  FaSignOutAlt,
+  FaExclamationTriangle,
+  FaTimes,
+  FaCheck,
 } from "react-icons/fa";
 import CreateTeam from "./createTeam";
 import TeamDashboard from "./TeamDashboard";
-import teamsData from "./Teams.json";
+// import teamsData from "./Teams.json";
+// const teamsData2 = teamsData;
 
 // Enhanced dashboard stats with more context
 const dashboardStats = [
@@ -65,6 +71,7 @@ const mockTeams = [
       "Striking from the shadows with tactical precision and unwavering teamwork",
     TEAM_SIZE: 5,
     PARTICIPANTS: [
+      { USER_ID: "user1", USERNAME: "FlameLeader", ACCESS: "MEMBER" },
       { USER_ID: "user3", USERNAME: "AlphaWolf", ACCESS: "ADMIN" },
       { USER_ID: "user5", USERNAME: "NightHunter", ACCESS: "MEMBER" },
     ],
@@ -81,6 +88,7 @@ const mockTeams = [
       "Combining technical prowess with aggressive gameplay to dominate the rift",
     TEAM_SIZE: 5,
     PARTICIPANTS: [
+      { USER_ID: "user1", USERNAME: "FlameLeader", ACCESS: "MEMBER" },
       { USER_ID: "user6", USERNAME: "TechMaster", ACCESS: "ADMIN" },
       { USER_ID: "user7", USERNAME: "TigerFang", ACCESS: "MEMBER" },
       { USER_ID: "user8", USERNAME: "CodeStriker", ACCESS: "MEMBER" },
@@ -92,14 +100,123 @@ const mockTeams = [
   },
 ];
 
-// Enhanced TeamCard component - activity indicator removed
-const TeamCard = ({ team, onClick }) => {
+// Modal Component for confirmations
+const ConfirmationModal = ({
+  isOpen,
+  onClose,
+  onConfirm,
+  title,
+  message,
+  confirmText,
+  confirmType,
+}) => {
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 px-4">
+      <div className="bg-[#292B35] rounded-xl border border-[#95C5C5]/20 shadow-xl max-w-md w-full animate-fadeIn">
+        <div className="p-6 border-b border-[#95C5C5]/20">
+          <div className="flex justify-between items-center">
+            <h3 className="text-xl font-bold text-white flex items-center">
+              <FaExclamationTriangle className="text-[#EE8631] mr-2" />
+              {title}
+            </h3>
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-white transition-colors"
+            >
+              <FaTimes size={20} />
+            </button>
+          </div>
+        </div>
+
+        <div className="p-6">
+          <p className="text-gray-300">{message}</p>
+        </div>
+
+        <div className="p-4 flex justify-end space-x-3 border-t border-[#95C5C5]/20">
+          <button
+            onClick={onClose}
+            className="px-5 py-2 rounded-lg bg-[#2F3140] text-gray-300 hover:bg-[#393b4d] transition-colors"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={onConfirm}
+            className={`px-5 py-2 rounded-lg flex items-center ${
+              confirmType === "danger"
+                ? "bg-red-600 hover:bg-red-700"
+                : "bg-gradient-to-r from-[#EE8631] to-[#AD662F] hover:from-[#f39240] hover:to-[#c27535]"
+            } text-white transition-colors`}
+          >
+            {confirmType === "danger" ? (
+              <FaTrash className="mr-2" />
+            ) : (
+              <FaCheck className="mr-2" />
+            )}
+            {confirmText}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Enhanced TeamCard component - with team management options
+const TeamCard = ({
+  team,
+  onClick,
+  onDiscard,
+  onLeave,
+  currentUserId = "user1",
+}) => {
+  const [showOptions, setShowOptions] = useState(false);
+
+  const userParticipation = team.PARTICIPANTS.find(
+    (p) => p.USER_ID === currentUserId
+  );
+  const isAdmin = userParticipation?.ACCESS === "ADMIN";
+  const isMember = !!userParticipation;
+
   return (
     <div
-      className="bg-[#2F3140] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer group"
-      onClick={() => onClick(team)}
+      className="bg-[#2F3140] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer group relative"
+      onMouseEnter={() => setShowOptions(true)}
+      onMouseLeave={() => setShowOptions(false)}
     >
-      <div className="p-6 bg-[#292B35] relative overflow-hidden">
+      {/* Team management options */}
+      {showOptions && isMember && (
+        <div className="absolute top-4 right-4 z-20 flex space-x-2">
+          {isAdmin ? (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onDiscard(team);
+              }}
+              className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg shadow-lg transition-colors flex items-center"
+              title="Disband Team"
+            >
+              <FaTrash size={16} />
+            </button>
+          ) : (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onLeave(team);
+              }}
+              className="bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg shadow-lg transition-colors flex items-center"
+              title="Leave Team"
+            >
+              <FaSignOutAlt size={16} />
+            </button>
+          )}
+        </div>
+      )}
+
+      <div
+        className="p-6 bg-[#292B35] relative overflow-hidden"
+        onClick={() => onClick(team)}
+      >
         <div className="flex items-center space-x-4 relative z-10">
           <div className="w-20 h-20 flex items-center justify-center bg-[#95C5C5] rounded-full text-5xl shadow-lg overflow-hidden group-hover:scale-105 transition-transform duration-300">
             {team.TEAM_LOGO ? (
@@ -126,11 +243,24 @@ const TeamCard = ({ team, onClick }) => {
           </div>
         </div>
 
+        {/* Role indicator */}
+        <div className="absolute top-6 right-6">
+          <span
+            className={`text-xs px-3 py-1 rounded-full ${
+              isAdmin
+                ? "bg-gradient-to-r from-[#EE8631] to-[#AD662F] text-white"
+                : "bg-[#2F3140] text-[#95C5C5]"
+            }`}
+          >
+            {isAdmin ? "Admin" : "Member"}
+          </span>
+        </div>
+
         {/* Decorative element */}
         <div className="absolute -bottom-10 -right-10 w-40 h-40 rounded-full bg-gradient-to-br from-[#95C5C5]/10 to-transparent opacity-30"></div>
       </div>
 
-      <div className="p-6">
+      <div className="p-6" onClick={() => onClick(team)}>
         <p className="text-sm text-gray-300 mb-5 line-clamp-2">
           {team.TEAM_DESCRIPTION}
         </p>
@@ -148,12 +278,6 @@ const TeamCard = ({ team, onClick }) => {
             </div>
             <div className="text-xs text-gray-400">Events</div>
           </div>
-          {/* <div className="text-center p-2 bg-[#292B35] rounded-lg">
-            <div className="text-lg font-bold text-white">
-              {team.RECENT_ACHIEVEMENTS}
-            </div>
-            <div className="text-xs text-gray-400">Trophies</div>
-          </div> */}
         </div>
 
         <div className="flex justify-between items-center">
@@ -172,7 +296,7 @@ const TeamCard = ({ team, onClick }) => {
               </div>
             )}
           </div>
-          <div className="px-3 py-1 bg-gradient-to-r from-[#EE8631] to-[#AD662F] text-[#292B35] rounded-full text-sm font-bold">
+          <div className="px-3 py-1 bg-gradient-to-r from-[#EE8631] to-[#AD662F] text-white rounded-full text-sm font-bold">
             {team.TEAM_SIZE}
           </div>
         </div>
@@ -220,9 +344,46 @@ const StatCard = ({ stat, index }) => (
 
 // Main component
 const Teams = () => {
+  const VITE_TEAMS_SERVICE = import.meta.env.VITE_TEAMS_SERVICE;
+  const storedUserId = localStorage.getItem("USER_ID");
+  const currentUserId =
+    storedUserId || "u_e5f6a7b8-c9d0-1234-5678-90abcdef1234";
+  const [teamsData, setTeamsData] = useState(null);
+  useEffect(() => {
+    fetch(
+      `http://${VITE_TEAMS_SERVICE}/Teams/User/GetAllTeams?USER_ID=${currentUserId}`
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Teams:", data);
+        setTeamsData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching teams:", error);
+      });
+  }, [VITE_TEAMS_SERVICE, currentUserId]);
+
+  useEffect(() => {
+    if (teamsData) {
+      console.log("Updated teamsData:", teamsData);
+    }
+  }, [teamsData]);
+
   const [activeView, setActiveView] = useState("dashboard");
   const [selectedTeam, setSelectedTeam] = useState(null);
-  const [teams] = useState(Array.isArray(teamsData) ? teamsData : mockTeams);
+  // Use teamsData.TEAMS if available, otherwise fallback to mockTeams
+  const teams = Array.isArray(teamsData?.TEAMS) ? teamsData.TEAMS : mockTeams;
+  const [showDiscardModal, setShowDiscardModal] = useState(false);
+  const [showLeaveModal, setShowLeaveModal] = useState(false);
+  const [teamToManage, setTeamToManage] = useState(null);
+  const [notification, setNotification] = useState(null);
+
+  // Simulated current user ID - would come from auth context in real app
 
   const handleCreateTeamClick = () => {
     setActiveView("create");
@@ -243,6 +404,90 @@ const Teams = () => {
     setSelectedTeam(null);
   };
 
+  // Updated function to handle team discard by admin
+  const handleTeamDiscard = (team) => {
+    // Only allow admins to discard teams
+    const userRole = team.PARTICIPANTS.find(
+      (p) => p.USER_ID === currentUserId
+    )?.ACCESS;
+    if (userRole !== "ADMIN") return;
+
+    setTeamToManage(team);
+    setShowDiscardModal(true);
+  };
+
+  // Updated function to handle team leave by member
+  const handleTeamLeave = (team) => {
+    // Only allow members to leave teams
+    const userParticipation = team.PARTICIPANTS.find(
+      (p) => p.USER_ID === currentUserId
+    );
+    if (!userParticipation || userParticipation.ACCESS === "ADMIN") return;
+
+    setTeamToManage(team);
+    setShowLeaveModal(true);
+  };
+
+  // Updated function to confirm team discard
+  const confirmTeamDiscard = () => {
+    setNotification({
+      message: `Team "${teamToManage?.NAME}" has been disbanded`,
+      type: "success",
+    });
+    setTimeout(() => setNotification(null), 5000);
+    setShowDiscardModal(false);
+    setTeamToManage(null);
+    if (activeView === "teamDashboard") {
+      handleBackClick();
+    }
+    // Optionally: refetch teamsData here
+  };
+
+  const confirmTeamLeave = () => {
+    setNotification({
+      message: `You have left team "${teamToManage?.NAME}"`,
+      type: "info",
+    });
+    setTimeout(() => setNotification(null), 5000);
+    setShowLeaveModal(false);
+    setTeamToManage(null);
+    if (activeView === "teamDashboard") {
+      handleBackClick();
+    }
+    // Optionally: refetch teamsData here
+  };
+
+  // Notification component
+  const Notification = ({ notification }) => {
+    if (!notification) return null;
+
+    const bgColor =
+      notification.type === "success"
+        ? "bg-gradient-to-r from-green-500 to-green-600"
+        : "bg-gradient-to-r from-[#95C5C5] to-[#7BA3A3]";
+
+    return (
+      <div className="fixed bottom-6 right-6 z-50 animate-slideInRight">
+        <div className={`${bgColor} rounded-lg shadow-lg p-4 max-w-md`}>
+          <div className="flex items-center">
+            {notification.type === "success" ? (
+              <FaCheck className="text-white mr-3" />
+            ) : (
+              <FaSignOutAlt className="text-white mr-3" />
+            )}
+            <p className="text-white">{notification.message}</p>
+            <button
+              onClick={() => setNotification(null)}
+              className="ml-4 text-white/80 hover:text-white"
+            >
+              <FaTimes size={16} />
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   // Dashboard overview component with teams grid
   const DashboardOverview = () => (
     <div className="min-h-screen bg-gradient-to-br from-[#292B35] to-[#363945] p-6 pb-20">
@@ -261,16 +506,11 @@ const Teams = () => {
           </div>
 
           <div className="mt-4 md:mt-0 flex space-x-2">
-            {/* <button className="p-2 rounded-lg bg-[#2F3140] text-gray-400 hover:text-white transition-colors">
-              <FaCalendarAlt size={20} />
-            </button> */}
-            {/* <button className="p-2 rounded-lg bg-[#2F3140] text-gray-400 hover:text-white transition-colors">
-              <FaCog size={20} />
-            </button> */}
+            {/* Additional action buttons could go here */}
           </div>
         </div>
 
-        {/* Create Team Button - Filters removed */}
+        {/* Create Team Button */}
         <div className="flex justify-end mb-8">
           <button
             className="bg-gradient-to-r from-[#EE8631] to-[#AD662F] hover:from-[#f39240] hover:to-[#c27535] text-white font-bold px-6 py-3 rounded-lg flex items-center shadow-lg transition-all duration-300"
@@ -289,7 +529,13 @@ const Teams = () => {
               className="transform transition-all duration-300 hover:-translate-y-2"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
-              <TeamCard team={team} onClick={handleTeamSelect} />
+              <TeamCard
+                team={team}
+                onClick={handleTeamSelect}
+                onDiscard={handleTeamDiscard}
+                onLeave={handleTeamLeave}
+                currentUserId={currentUserId}
+              />
             </div>
           ))}
 
@@ -312,25 +558,8 @@ const Teams = () => {
           )}
         </div>
       </div>
-      {/* Stats Cards */}
-      {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-        {dashboardStats.map((stat, index) => (
-          <StatCard key={index} stat={stat} index={index} />
-        ))}
-      </div> */}
     </div>
   );
-
-  // Create Back Button Component
-  // const BackButton = ({ onClick }) => (
-  //   <button
-  //     onClick={onClick}
-  //     className="mb-6 flex items-center text-gray-400 hover:text-white transition-colors"
-  //   >
-  //     <FaArrowLeft className="mr-2" />
-  //     <span>Back to Dashboard</span>
-  //   </button>
-  // );
 
   return (
     <div className="min-h-screen bg-[#292B35]">
@@ -339,7 +568,6 @@ const Teams = () => {
       {activeView === "create" && (
         <div className="p-6">
           <div className="max-w-7xl mx-auto">
-            {/* <BackButton onClick={handleDashboardClick} /> */}
             <CreateTeam onBackClick={handleDashboardClick} />
           </div>
         </div>
@@ -348,18 +576,85 @@ const Teams = () => {
       {activeView === "teamDashboard" && selectedTeam && (
         <div className="p-6">
           <div className="max-w-7xl mx-auto">
-            {/* <BackButton onClick={handleBackClick} /> */}
             <TeamDashboard
               team={selectedTeam}
               onBack={handleBackClick}
               userRole={
-                selectedTeam?.PARTICIPANTS?.find((p) => p.USER_ID === "user1")
-                  ?.ACCESS || "MEMBER"
+                selectedTeam?.PARTICIPANTS?.find(
+                  (p) => p.USER_ID === currentUserId
+                )?.ACCESS || "MEMBER"
               }
+              onDiscard={() => {
+                handleTeamDiscard(selectedTeam);
+                handleBackClick();
+              }}
+              onLeave={() => {
+                handleTeamLeave(selectedTeam);
+                handleBackClick();
+              }}
             />
           </div>
         </div>
       )}
+
+      {/* Confirmation Modals */}
+      <ConfirmationModal
+        isOpen={showDiscardModal}
+        onClose={() => setShowDiscardModal(false)}
+        onConfirm={confirmTeamDiscard}
+        title="Disband Team"
+        message={`Are you sure you want to disband "${teamToManage?.NAME}"? This action cannot be undone and will remove the team for all members.`}
+        confirmText="Disband Team"
+        confirmType="danger"
+      />
+
+      <ConfirmationModal
+        isOpen={showLeaveModal}
+        onClose={() => setShowLeaveModal(false)}
+        onConfirm={confirmTeamLeave}
+        title="Leave Team"
+        message={`Are you sure you want to leave "${teamToManage?.NAME}"? You'll need to be invited again if you want to rejoin.`}
+        confirmText="Leave Team"
+        confirmType="warning"
+      />
+
+      {/* Notification */}
+      <Notification notification={notification} />
+
+      {/* Global Styles */}
+      <style>
+        {`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes slideInRight {
+          from {
+            opacity: 0;
+            transform: translateX(50px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+
+        .animate-fadeIn {
+          animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        .animate-slideInRight {
+          animation: slideInRight 0.3s ease-out forwards;
+        }
+        `}
+      </style>
     </div>
   );
 };
