@@ -3,40 +3,26 @@ import { Bell, Search, Award, Users, Calendar, ChevronDown, Zap, Activity, Shiel
 
 const gameImages = {
   'Valorant': {
-    logo: 'https://i.imgur.com/zGA9RfR.png',
-    banner: 'https://i.imgur.com/xqRm9L7.jpg',
-    icon: 'https://i.imgur.com/3JF9QhZ.png'
+    banner: 'https://cdn.oneesports.gg/cdn-data/2023/06/Valorant_Episode7_Artwork_Split.jpg'
   },
   'CS2': {
-    logo: 'https://i.imgur.com/8xdAKPx.png',
-    banner: 'https://i.imgur.com/YWGqssb.jpg',
-    icon: 'https://i.imgur.com/4cMQGPz.png'
+    banner: 'https://news.xbox.com/en-us/wp-content/uploads/sites/2/2024/01/Counter-Strike-2-c4bb7459e9dfed3d5549.jpg'
   },
   'Apex Legends': {
-    logo: 'https://i.imgur.com/pWT5TJi.png',
-    banner: 'https://i.imgur.com/JZw8pN7.jpg',
-    icon: 'https://i.imgur.com/L9ZLExF.png'
+    banner: 'https://media.contentapi.ea.com/content/dam/apex-legends/common/articles/season-20/apex-legends-breakout-media-share.jpg.adapt.crop16x9.1455w.jpg'
   }
-};
-
-const teamLogos = {
-  'Team Phantom': 'https://i.imgur.com/nSaf7Rv.png',
-  'NightOwl': 'https://i.imgur.com/O2KcGP7.png',
-  'Default': 'https://i.imgur.com/placeholder.png'
 };
 
 const mockTryouts = [
   {
     id: 1,
     title: 'Team Phantom - Valorant Duelist',
-    teamLogo: teamLogos['Team Phantom'],
     teamBanner: gameImages['Valorant'].banner,
     type: '1v1',
     mode: 'Invite Only',
     skillMode: 'Predefined',
     positions: ['Duelist'],
     game: 'Valorant',
-    gameIcon: gameImages['Valorant'].icon,
     description: 'Seeking an aggressive duelist with exceptional entry fragging capabilities.',
     requirements: {
       rank: 'Immortal+',
@@ -60,14 +46,12 @@ const mockTryouts = [
   {
     id: 2,
     title: 'NightOwl Esports CS2 Team',
-    teamLogo: teamLogos['NightOwl'],
     teamBanner: gameImages['CS2'].banner,
     type: '5v5',
     mode: 'Limited (Max 10)',
     skillMode: 'Stat-based',
     positions: ['AWPer', 'IGL', 'Support', 'Entry', 'Lurker'],
     game: 'CS2',
-    gameIcon: gameImages['CS2'].icon,
     description: 'Building a professional CS2 roster. Top performers on leaderboard will be invited to final trials.',
     requirements: {
       rank: 'Global Elite',
@@ -91,12 +75,11 @@ const mockTryouts = [
   {
     id: 3,
     title: 'Apex Predator Hunt',
-    teamLogo: teamLogos['Default'],
     type: '3v3',
     mode: 'Open',
     skillMode: 'Stat-based',
     game: 'Apex Legends',
-    gameIcon: gameImages['Apex Legends'].icon,
+    teamBanner: gameImages['Apex Legends'].banner,
     description: 'Seeking top fraggers for our competitive Apex team.',
     deadline: '2024-03-30',
     slots: 3,
@@ -108,12 +91,11 @@ const mockTryouts = [
   {
     id: 4,
     title: 'CS2 Rifler Position',
-    teamLogo: teamLogos['Default'],
     type: '1v1',
     mode: 'Invite Only',
     skillMode: 'Predefined',
     game: 'CS2',
-    gameIcon: gameImages['CS2'].icon,
+    teamBanner: gameImages['CS2'].banner,
     description: 'Looking for a consistent rifler to complete our roster.',
     deadline: '2024-04-05',
     slots: 1,
@@ -125,12 +107,11 @@ const mockTryouts = [
   {
     id: 5,
     title: 'Valorant Controller Tryout',
-    teamLogo: teamLogos['Default'],
     type: '5v5',
     mode: 'Limited',
     skillMode: 'Predefined',
     game: 'Valorant',
-    gameIcon: gameImages['Valorant'].icon,
+    teamBanner: gameImages['Valorant'].banner,
     description: 'Need a controller main with exceptional game sense.',
     deadline: '2024-04-02',
     slots: 1,
@@ -147,30 +128,6 @@ const gameBackgrounds = {
   'Apex Legends': `from-[#EE8631]/20 to-[#292B35]/10`,
   'Default': `from-[#292B35]/20 to-[#292B35]/10`
 };
-
-const TeamLogo = ({ src, alt, className }) => (
-  <img 
-    src={src}
-    alt={alt}
-    className={className}
-    onError={(e) => {
-      e.target.onerror = null;
-      e.target.src = 'https://via.placeholder.com/100?text=Team';
-    }}
-  />
-);
-
-const GameIcon = ({ src, alt, className }) => (
-  <img 
-    src={src}
-    alt={alt}
-    className={className}
-    onError={(e) => {
-      e.target.onerror = null;
-      e.target.src = 'https://via.placeholder.com/24?text=Game';
-    }}
-  />
-);
 
 const PlatformInfo = () => (
   <div className="py-16 bg-[#292B35]/50 border-y border-[#95C5C5]/10">
@@ -282,13 +239,13 @@ const TeamTryout = () => {
 
         <form className="space-y-8">
           <div className="grid grid-cols-3 gap-4">
-            {Object.entries(gameImages).map(([game, { icon }]) => (
+            {Object.entries(gameImages).map(([game, { banner }]) => (
               <button
                 type="button"
                 key={game}
                 className="p-6 rounded-xl border border-[#95C5C5]/20 hover:border-[#EE8631] transition-all"
               >
-                <img src={icon} alt={game} className="w-12 h-12 mx-auto mb-4" />
+                <img src={banner} alt={game} className="w-12 h-12 mx-auto mb-4" />
                 <span className="block text-center font-medium">{game}</span>
               </button>
             ))}
@@ -392,7 +349,7 @@ const TeamTryout = () => {
         <div>
           <label className="block text-sm font-medium mb-2">Game</label>
           <div className="grid grid-cols-4 gap-4">
-            {Object.entries(gameImages).map(([game, { icon }]) => (
+            {Object.entries(gameImages).map(([game, { banner }]) => (
               <button
                 key={game}
                 onClick={() => handleFilterChange('game', game)}
@@ -402,7 +359,7 @@ const TeamTryout = () => {
                     : 'border-[#95C5C5]/20 hover:border-[#95C5C5]/40'
                 }`}
               >
-                <img src={icon} alt={game} className="w-8 h-8 mx-auto mb-2" />
+                <img src={banner} alt={game} className="w-8 h-8 mx-auto mb-2" />
                 <span className="text-sm">{game}</span>
               </button>
             ))}
@@ -445,6 +402,30 @@ const TeamTryout = () => {
                   {mode}
                 </button>
               ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderTryoutCard = (tryout) => (
+    <div className="relative h-40 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#292B35]/90 z-10"></div>
+      <img 
+        src={tryout.teamBanner} 
+        alt="" 
+        className="w-full h-full object-cover"
+      />
+      <div className="absolute bottom-0 left-0 w-full p-4 z-20">
+        <div>
+          <h3 className="text-xl font-bold text-[#E0E0E0]">{tryout.title}</h3>
+          <div className="flex items-center gap-2 text-sm text-[#E0E0E0]">
+            <span>{tryout.game}</span>
+            <span className="w-1 h-1 rounded-full bg-[#95C5C5]"></span>
+            <div className="flex items-center gap-1">
+              <Trophy className="w-3 h-3 text-[#EE8631]" />
+              <span>{tryout.teamStats?.tournaments || 0} tournaments</span>
             </div>
           </div>
         </div>
@@ -568,42 +549,7 @@ const TeamTryout = () => {
                     key={tryout.id}
                     className={`group relative overflow-hidden rounded-xl border border-[#95C5C5]/20 hover:border-[#95C5C5]/50 transition-all duration-300 bg-gradient-to-br ${bgGradient}`}
                   >
-                    <div className="relative h-40 overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#292B35]/90 z-10"></div>
-                      <img 
-                        src={tryout.teamBanner} 
-                        alt="" 
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute bottom-0 left-0 w-full p-4 z-20">
-                        <div className="flex items-center gap-3">
-                          <div className="relative">
-                            <TeamLogo 
-                              src={tryout.teamLogo} 
-                              alt={tryout.title}
-                              className="w-12 h-12 rounded-lg border-2 border-[#95C5C5]/50"
-                            />
-                            <GameIcon 
-                              src={tryout.gameIcon}
-                              alt={tryout.game}
-                              className="absolute -bottom-1 -right-1 w-6 h-6 rounded border border-[#95C5C5]/50"
-                            />
-                          </div>
-                          <div>
-                            <h3 className="text-xl font-bold text-[#E0E0E0]">{tryout.title}</h3>
-                            <div className="flex items-center gap-2 text-sm text-[#E0E0E0]">
-                              <span>{tryout.game}</span>
-                              <span className="w-1 h-1 rounded-full bg-[#95C5C5]"></span>
-                              <div className="flex items-center gap-1">
-                                <Trophy className="w-3 h-3 text-[#EE8631]" />
-                                <span>{tryout.teamStats?.tournaments || 0} tournaments</span>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    
+                    {renderTryoutCard(tryout)}
                     <div className="p-6">
                       <div className="flex flex-wrap gap-2 mb-4">
                         <span className="px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1 bg-[#292B35] text-[#E0E0E0]">
@@ -692,19 +638,9 @@ const TeamTryout = () => {
                 >
                   <div className="p-5">
                     <div className="flex items-center gap-3 mb-4">
-                      <TeamLogo 
-                        src={tryout.teamLogo} 
-                        alt={tryout.title}
-                        className="w-10 h-10 rounded-lg border border-[#292B35]"
-                      />
                       <div>
                         <h3 className="text-lg font-bold text-[#E0E0E0]">{tryout.title}</h3>
                         <div className="flex items-center gap-1 text-sm text-[#E0E0E0]">
-                          <GameIcon 
-                            src={tryout.gameIcon}
-                            alt={tryout.game}
-                            className="w-4 h-4 rounded"
-                          />
                           <span>{tryout.game}</span>
                         </div>
                       </div>
