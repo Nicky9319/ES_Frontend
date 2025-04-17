@@ -56,12 +56,147 @@ const Pyramid = ({ highlightTier = null, onTierClick = null }) => (
     </div>
 );
 
+// Leaderboard Data (Top 100 Players)
+const leaderboardData = [
+    { username: "ShadowMaster", xp: "12450" },
+    { username: "PhoenixRider", xp: "11890" },
+    { username: "StardustKnight", xp: "11230" },
+    { username: "VoidWalker", xp: "9870" },
+    { username: "ThunderBolt", xp: "9540" },
+    { username: "CrimsonBlade", xp: "9120" },
+    { username: "FrostQueen", xp: "8950" },
+    { username: "DragonHeart", xp: "8780" },
+    { username: "NightRaven", xp: "8650" },
+    { username: "BlazeFury", xp: "8430" },
+    { username: "ArcaneWizard", xp: "8120" },
+    { username: "SteelPhoenix", xp: "7980" },
+    { username: "MysticRogue", xp: "7890" },
+    { username: "IceWarrior", xp: "7750" },
+    { username: "StormBringer", xp: "7620" },
+    { username: "ShadowHunter", xp: "6990" },
+    { username: "FireLord", xp: "6780" },
+    { username: "DarkKnight", xp: "6540" },
+    { username: "LightBearer", xp: "6320" },
+    { username: "EarthShaker", xp: "6150" },
+    { username: "WindRunner", xp: "5980" },
+    { username: "FrostGiant", xp: "5840" },
+    { username: "Blademaster", xp: "5720" },
+    { username: "SpellWeaver", xp: "5590" },
+    { username: "SoulReaper", xp: "5440" },
+    { username: "WarChief", xp: "4890" },
+    { username: "MoonHunter", xp: "4780" },
+    { username: "StarSeeker", xp: "4650" },
+    { username: "StormRider", xp: "4520" },
+    { username: "FlameKeeper", xp: "4390" },
+    { username: "IronHeart", xp: "4280" },
+    { username: "CloudWalker", xp: "4150" },
+    { username: "DreamWeaver", xp: "4020" },
+    { username: "RainMaker", xp: "3890" },
+    { username: "ThunderLord", xp: "3780" },
+    { username: "SilverBlade", xp: "3450" },
+    { username: "MistWalker", xp: "3320" },
+    { username: "FrostBite", xp: "3190" },
+    { username: "SilverFang", xp: "3150" },
+    { username: "MoonStrider", xp: "3050" },
+    { username: "DuskHunter", xp: "2980" },
+    { username: "StormBringer", xp: "2920" },
+    { username: "NightWalker", xp: "2890" },
+    { username: "DawnSeeker", xp: "2750" },
+    { username: "SkyWarden", xp: "2680" },
+    { username: "EarthShaper", xp: "2610" },
+    { username: "FlameWatcher", xp: "2540" },
+    { username: "FrostSeeker", xp: "2470" },
+    { username: "ShadowDancer", xp: "2400" },
+    { username: "MistWeaver", xp: "2330" },
+    { username: "StarForger", xp: "2260" },
+    { username: "DuskBlade", xp: "2190" },
+    { username: "MoonBlade", xp: "2730" },
+    { username: "StarStriker", xp: "2620" },
+    { username: "WindDancer", xp: "2510" },
+    { username: "StormCaller", xp: "2400" },
+    { username: "BronzeKnight", xp: "2290" },
+    { username: "EarthWarden", xp: "2180" },
+    { username: "FlameSeeker", xp: "2070" },
+    { username: "FrostWarden", xp: "1960" },
+    { username: "ShadowKeeper", xp: "1850" },
+    { username: "StormWeaver", xp: "1740" },
+    { username: "MoonWatcher", xp: "1630" },
+    { username: "StarKeeper", xp: "1520" },
+    { username: "WindWeaver", xp: "1410" },
+    { username: "CrystalMage", xp: "2850" },
+    { username: "ShadowBlade", xp: "2780" },
+    { username: "DuskStrider", xp: "2710" },
+    { username: "LightWeaver", xp: "2640" },
+    { username: "StormHawk", xp: "2570" },
+    { username: "FrostBringer", xp: "2500" },
+    { username: "EarthWalker", xp: "2430" },
+    { username: "FlameStrider", xp: "2360" },
+    { username: "VoidKeeper", xp: "2290" },
+    { username: "MistRunner", xp: "2220" },
+    { username: "DawnStrider", xp: "2150" },
+    { username: "NightWarden", xp: "2080" },
+    { username: "StarWalker", xp: "2010" },
+    { username: "CloudWeaver", xp: "1940" },
+    { username: "MoonKeeper", xp: "1870" },
+    { username: "IronLion", xp: "1800" },
+    { username: "BronzeFalcon", xp: "1750" },
+    { username: "SilverWolf", xp: "1700" },
+    { username: "GoldTiger", xp: "1650" },
+    { username: "PlatinumBear", xp: "1600" },
+    { username: "ProEagle", xp: "1550" },
+    { username: "LegendFox", xp: "1500" },
+    { username: "IronOtter", xp: "1450" },
+    { username: "BronzeShark", xp: "1400" },
+    { username: "SilverHawk", xp: "1350" },
+    { username: "GoldWolf", xp: "1300" },
+    { username: "PlatinumLion", xp: "1250" },
+    { username: "ProBear", xp: "1200" },
+    { username: "LegendEagle", xp: "1150" },
+    { username: "IronFox", xp: "1100" },
+    { username: "BronzeOtter", xp: "1050" },
+    { username: "SilverShark", xp: "1000" },
+    { username: "GoldFalcon", xp: "950" },
+    { username: "PlatinumTiger", xp: "900" },
+    { username: "ProLion", xp: "850" }
+];
+
+// Assign rank (tier) based on XP requirements
+const leaderboardWithRank = leaderboardData
+    .map(player => {
+        const xp = parseInt(player.xp.replace(/,/g, ''));
+        let rank = 'Iron'; // Default rank
+        for (const tier of tiers) {
+            if (xp >= tier.expRequired) {
+                rank = tier.name;
+            }
+        }
+        return { ...player, rank: rank };
+    })
+    .sort((a, b) => parseInt(b.xp) - parseInt(a.xp))
+    .slice(0, 100);
+
 const RankHierarchy = () => {
     const [showRankingInfo, setShowRankingInfo] = useState(false);
     const [hoveredTier, setHoveredTier] = useState(null);
     const [currentSlide, setCurrentSlide] = useState(0);
     const [highlightedTier, setHighlightedTier] = useState(null);
     const [animationComplete, setAnimationComplete] = useState(false);
+
+    const [currentPage, setCurrentPage] = useState(0);
+    const playersPerPage = 10;
+    const totalPages = Math.ceil(leaderboardWithRank.length / playersPerPage);
+
+    const nextPage = () => {
+        setCurrentPage((prev) => (prev === totalPages - 1 ? prev : prev + 1));
+    };
+
+    const prevPage = () => {
+        setCurrentPage((prev) => (prev === 0 ? prev : prev - 1));
+    };
+
+    const goToPage = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     const handleTierClick = (tierIndex) => {
         setHighlightedTier(tierIndex);
@@ -339,7 +474,8 @@ const RankHierarchy = () => {
                     <div className="flex justify-between items-center">
                         {tiers.map((tier, index) => {
                             const isCurrentTier = tier.tier === userTier;
-                            const isCompleted = tier.tier >= userTier;
+                            const isHigherTier = tier.tier < userTier;
+                            const isLowerTier = tier.tier > userTier;
                             const expNeeded = tier.expRequired - userExp;
 
                             return (
@@ -351,11 +487,11 @@ const RankHierarchy = () => {
                                 >
                                     <motion.div
                                         className={`w-12 h-12 rounded-full mx-auto flex items-center justify-center z-10 cursor-pointer relative
-                                            ${isCompleted ? 'border-2 border-[#EE8631]' : 'border border-[#95C5C5]/20'}
+                                            ${isCurrentTier ? 'border-2 border-[#EE8631]' : 'border border-[#95C5C5]/20'}
                                         `}
                                         style={{
-                                            backgroundColor: isCurrentTier ? tier.color : tier.color + '90',
-                                            boxShadow: isCurrentTier ? `0 0 15px ${tier.color}` : `0 0 5px ${tier.color}`
+                                            backgroundColor: tier.color,
+                                            opacity: isLowerTier ? 0.3 : 1
                                         }}
                                         whileHover={{ scale: 1.1 }}
                                         whileTap={{ scale: 0.95 }}
@@ -530,6 +666,145 @@ const RankHierarchy = () => {
 </motion.div>
 </>
 )}
+
+{/* Leaderboard Section */}
+<div className="max-w-4xl mx-auto mt-20 mb-10">
+    <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="relative"
+    >
+        <h2 className="text-4xl font-bold text-center text-[#EE8631] mb-8">
+            <span className="relative">
+                Top 100 Leaderboard
+                <motion.span
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="absolute -bottom-4 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#EE8631] to-transparent"
+                />
+            </span>
+        </h2>
+
+        <div className="relative">
+            <motion.div
+                key={currentPage}
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -100 }}
+                transition={{ duration: 0.3 }}
+                className="overflow-hidden rounded-xl shadow-2xl border border-[#95C5C5]/20"
+            >
+                <div className="bg-gradient-to-br from-[#23242B]/95 to-[#1A1B21]/95 backdrop-blur-sm">
+                    <table className="min-w-full">
+                        <thead>
+                            <tr className="border-b border-[#95C5C5]/20">
+                                <th className="py-4 px-6 text-left text-sm font-semibold text-[#EE8631]">Rank</th>
+                                <th className="py-4 px-6 text-left text-sm font-semibold text-[#EE8631]">Gamertag</th>
+                                <th className="py-4 px-6 text-left text-sm font-semibold text-[#EE8631]">Tier</th>
+                                <th className="py-4 px-6 text-left text-sm font-semibold text-[#EE8631]">XP</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {leaderboardWithRank
+                                .slice(currentPage * playersPerPage, (currentPage + 1) * playersPerPage)
+                                .map((player, idx) => (
+                                    <motion.tr
+                                        key={player.username}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: idx * 0.05 }}
+                                        className={`
+                                            ${idx % 2 === 0 ? 'bg-[#292B35]/40' : 'bg-transparent'}
+                                            hover:bg-[#EE8631]/10 transition-colors duration-200
+                                        `}
+                                    >
+                                        <td className="py-4 px-6">
+                                            <span className="font-bold text-[#E0E0E0]">
+                                                #{currentPage * playersPerPage + idx + 1}
+                                            </span>
+                                        </td>
+                                        <td className="py-4 px-6">
+                                            <span className="font-medium text-[#E0E0E0]">{player.username}</span>
+                                        </td>
+                                        <td className="py-4 px-6">
+                                            <span
+                                                className="font-bold px-3 py-1 rounded-full text-sm"
+                                                style={{
+                                                    color: tiers.find(t => t.name === player.rank)?.color,
+                                                    backgroundColor: `${tiers.find(t => t.name === player.rank)?.color}20`
+                                                }}
+                                            >
+                                                {player.rank}
+                                            </span>
+                                        </td>
+                                        <td className="py-4 px-6">
+                                            <span className="text-[#E0E0E0]/90">
+                                                {parseInt(player.xp).toLocaleString()} XP
+                                            </span>
+                                        </td>
+                                    </motion.tr>
+                                ))}
+                        </tbody>
+                    </table>
+                </div>
+            </motion.div>
+
+            {/* Navigation Controls */}
+            <div className="flex items-center justify-between mt-6">
+                <motion.button
+                    onClick={prevPage}
+                    disabled={currentPage === 0}
+                    className={`p-2 rounded-lg bg-[#1A1B21]/80 border border-[#95C5C5]/30 
+                        ${currentPage === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#EE8631]/20'}`}
+                    whileHover={currentPage !== 0 ? { scale: 1.05 } : {}}
+                    whileTap={currentPage !== 0 ? { scale: 0.95 } : {}}
+                >
+                    <svg className="w-6 h-6 text-[#EE8631]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                </motion.button>
+
+                <div className="flex gap-2">
+                    {[...Array(totalPages)].map((_, idx) => (
+                        <motion.button
+                            key={idx}
+                            onClick={() => goToPage(idx)}
+                            className={`w-2 h-2 rounded-full transition-all duration-300 
+                                ${currentPage === idx ? 'w-6 bg-[#EE8631]' : 'bg-[#95C5C5]/30'}`}
+                            whileHover={{ scale: 1.2 }}
+                            whileTap={{ scale: 0.9 }}
+                        />
+                    ))}
+                </div>
+
+                <motion.button
+                    onClick={nextPage}
+                    disabled={currentPage === totalPages - 1}
+                    className={`p-2 rounded-lg bg-[#1A1B21]/80 border border-[#95C5C5]/30 
+                        ${currentPage === totalPages - 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#EE8631]/20'}`}
+                    whileHover={currentPage !== totalPages - 1 ? { scale: 1.05 } : {}}
+                    whileTap={currentPage !== totalPages - 1 ? { scale: 0.95 } : {}}
+                >
+                    <svg className="w-6 h-6 text-[#EE8631]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                </motion.button>
+            </div>
+
+            {/* Page Indicator */}
+            <motion.p
+                className="text-center mt-4 text-[#E0E0E0]/70 text-sm"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+            >
+                Page {currentPage + 1} of {totalPages}
+            </motion.p>
+        </div>
+    </motion.div>
+</div>
 </motion.div>
 </div>
 );
