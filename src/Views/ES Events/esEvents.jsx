@@ -63,7 +63,7 @@ function EsEvents() {
   }, [selectedGameType]);
 
   const handleViewDetails = (eventId) => {
-    navigate(`/events/${eventId}`);
+    navigate(`/event-info/${eventId}`);
   };
 
   const esportsEvents = useMemo(() => {
