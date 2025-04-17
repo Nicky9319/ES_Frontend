@@ -40,7 +40,7 @@ const Navbar = () => {
         <nav className="navbar flex justify-between items-center p-4 bg-[#292B35] relative z-10">
           <a
             href="/"
-            onClick={(e) => handleNavigation("/", e)}
+            onClick={(e) => handleNavigation("/user-dashboard", e)}
             className="logo text-2xl font-bold text-[#EE8631] no-underline hover:text-[#95C5C5] transition-colors"
           >
             ELOSphere
@@ -84,7 +84,7 @@ const Navbar = () => {
               <li className="md:mb-0 mb-4">
                 <a
                   href="/"
-                  onClick={(e) => handleNavigation("/", e)}
+                  onClick={(e) => handleNavigation("/es-events", e)}
                   className="text-[#E0E0E0] no-underline hover:font-bold hover:text-[#EE8631] transition-all text-base px-4 whitespace-nowrap"
                 >
                   ES Events

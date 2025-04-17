@@ -1,21 +1,24 @@
-
 import React, { useEffect, useState } from 'react';
-
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 function LandingPage() {
-
     const [activeFaq, setActiveFaq] = useState(null);
-    
+    const navigate = useNavigate();
+
+    // Helper to call any custom handler then navigate
+    const handleClick = (customHandler) => (e) => {
+        if (customHandler) customHandler(e);
+        navigate('/user-dashboard');
+    };
+
     useEffect(() => {
         AOS.init({
             duration: 1000,
             once: false,
             mirror: true
         });
-
 
         // Add image size check
         const images = document.querySelectorAll('img');
@@ -38,7 +41,6 @@ function LandingPage() {
                     <div className="flex justify-between items-center">
                         <div className="flex items-center space-x-4" data-aos="fade-right">
                             <img src="/assets/logo.png" alt="Logo" className="h-12 hover:scale-110 transition-transform" />
-
                             <span className="text-[#95C5C5] text-2xl font-bold">ELOSphere</span>
                         </div>
                         <div className="hidden md:flex items-center space-x-8">
@@ -46,15 +48,22 @@ function LandingPage() {
                             <a href="#solution" className="text-[#95C5C5] hover:text-[#EE8631] transition-colors">Solution</a>
                             <a href="#audience" className="text-[#95C5C5] hover:text-[#EE8631] transition-colors">Audience</a>
                             <a href="#faq" className="text-[#95C5C5] hover:text-[#EE8631] transition-colors">FAQ</a>
-
-                            <button className="px-6 py-2 bg-[#EE8631] text-white rounded-lg hover:bg-[#AD662F] transform hover:scale-105 transition-all">
+                            <button 
+                                className="px-6 py-2 bg-[#EE8631] text-white rounded-lg hover:bg-[#AD662F] transform hover:scale-105 transition-all"
+                                onClick={handleClick()}
+                            >
                                 Get Started
                             </button>
                         </div>
 
                         <div className="md:hidden">
                             {/* Mobile menu button would go here */}
-                            <button className="text-[#95C5C5]">☰</button>
+                            <button 
+                                className="text-[#95C5C5]"
+                                onClick={handleClick()}
+                            >
+                                ☰
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -68,14 +77,6 @@ function LandingPage() {
                     className="absolute inset-0 w-full h-full object-cover brightness-75"
                 />
                 
-                {/* <div className="absolute top-0 right-0 h-full w-1/2 z-5 opacity-30 pointer-events-none">
-                    <img 
-                        src="https://images.unsplash.com/photo-1599587837611-678d49425e81?auto=format&fit=crop&w=800&q=80" 
-                        alt="Pro Gamer" 
-                        className="h-full object-contain object-right" 
-                    />
-                </div> */}
-                
                 <div className="relative z-20 container mx-auto px-6 h-full flex items-center justify-between">
                     <div className="max-w-2xl" data-aos="fade-up">
                         <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
@@ -88,47 +89,18 @@ function LandingPage() {
                             Organize and participate in tournaments, connect with fellow gamers, track your progress, and take your gaming career to new heights. Whether you're a casual player or aspiring pro, ELOSphere is your gateway to competitive gaming excellence.
                         </p>
                         <div className="flex gap-4 flex-wrap">
-
-                            <button className="group px-8 py-4 bg-[#EE8631] text-white rounded-lg text-lg font-bold hover:bg-[#AD662F] transform hover:scale-105 transition-all">
+                            <button 
+                                className="group px-8 py-4 bg-[#EE8631] text-white rounded-lg text-lg font-bold hover:bg-[#AD662F] transform hover:scale-105 transition-all"
+                                onClick={handleClick()}
+                            >
                                 Start Your Journey
                                 <span className="ml-2 group-hover:translate-x-2 inline-block transition-transform">→</span>
                             </button>
                         </div>
                     </div>
-
-                    {/* <div className="hidden lg:block w-1/3" data-aos="fade-left">
-                        <div className="relative rounded-lg overflow-hidden shadow-2xl">
-                            <img 
-                                src="https://images.unsplash.com/photo-1560419015-7c427e8ae5ba?auto=format&fit=crop&w=800&q=80" 
-                                alt="Gaming Setup" 
-                                className="w-full rounded-lg"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-r from-[#292B35]/20 to-transparent"></div>
-                        </div>
-                    </div> */}
                 </div>
                 <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#292B35] to-transparent" />
             </div>
-
-            {/* Game Categories Section */}
-            {/* <section className="py-10 bg-[#292B35]">
-                <div className="container mx-auto px-6">
-                    <div className="flex flex-wrap justify-center gap-8 md:gap-16">
-                        {games.map((game, index) => (
-                            <div key={index} data-aos="fade-up" data-aos-delay={index * 100} className="text-center group">
-                                <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-[#1D1E24] overflow-hidden group-hover:bg-[#EE8631] transition-colors duration-300">
-                                    <img 
-                                        src={game.icon} 
-                                        alt={game.name} 
-                                        className="w-full h-full object-cover transform scale-110" 
-                                    />
-                                </div>
-                                <p className="text-[#95C5C5] group-hover:text-[#EE8631] transition-colors">{game.name}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section> */}
 
             {/* Problems Section */}
             <section id="problems" className="py-20 bg-[#1D1E24]">
@@ -153,7 +125,6 @@ function LandingPage() {
                 </div>
             </section>
 
-
             {/* Future of Competitive Play Section */}
             <section className="py-16 bg-[#292B35]">
                 <div className="container mx-auto px-6">
@@ -164,7 +135,6 @@ function LandingPage() {
                         <p className="text-[#95C5C5]/80 mt-4" data-aos="fade-up" data-aos-delay="100">
                             Where Real Competition Begins
                         </p>
-                       
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {[
@@ -207,14 +177,15 @@ function LandingPage() {
                         ))}
                     </div>
                     <div className="text-center mt-12" data-aos="fade-up">
-                        <button className="px-8 py-4 bg-[#EE8631] text-white rounded-lg text-lg font-bold hover:bg-[#AD662F] transform hover:scale-105 transition-all">
+                        <button 
+                            className="px-8 py-4 bg-[#EE8631] text-white rounded-lg text-lg font-bold hover:bg-[#AD662F] transform hover:scale-105 transition-all"
+                            onClick={handleClick()}
+                        >
                             Join 
                         </button>
-                        
                     </div>
                 </div>
             </section>
-
 
             {/* Solution Section with Floating Elements */}
             <section id="solution" className="relative py-20 bg-[#292B35] overflow-hidden">
@@ -237,20 +208,17 @@ function LandingPage() {
                     ))}
                 </div>
 
-
                 <div className="container mx-auto px-6 relative">
                     <h2 className="text-4xl font-bold text-[#95C5C5] text-center mb-16" data-aos="fade-up">
                         Our Solution
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-
                         <div data-aos="fade-right" className="max-w-xl mx-auto">
                             <img 
                                 src=""
                                 alt="Platform Preview" 
                                 className="rounded-xl shadow-2xl hover:transform hover:scale-105 transition-all w-full max-w-md mx-auto" 
                             />
-
                         </div>
                         <div data-aos="fade-left" className="space-y-6">
                             {solutions.map((item, index) => (
@@ -298,7 +266,6 @@ function LandingPage() {
                 </div>
             </section>
 
-
             {/* FAQ Section */}
             <section id="faq" className="py-20 bg-[#1D1E24]">
                 <div className="container mx-auto px-6">
@@ -315,7 +282,7 @@ function LandingPage() {
                             >
                                 <button 
                                     className={`w-full text-left p-4 rounded-lg flex justify-between items-center ${activeFaq === index ? 'bg-[#EE8631] text-white' : 'bg-[#292B35] text-[#95C5C5] hover:bg-[#292B35]/80'}`}
-                                    onClick={() => toggleFaq(index)}
+                                    onClick={handleClick(() => toggleFaq(index))}
                                 >
                                     <span className="font-bold">{faq.question}</span>
                                     <span className="text-xl">{activeFaq === index ? '−' : '+'}</span>
@@ -331,26 +298,25 @@ function LandingPage() {
                 </div>
             </section>
 
-
             {/* CTA Section */}
             <section className="py-20 bg-[#EE8631]">
                 <div className="container mx-auto px-6 text-center" data-aos="zoom-in">
                     <h2 className="text-4xl font-bold text-white mb-6">Ready to Level Up?</h2>
                     <p className="text-white/90 mb-8 max-w-2xl mx-auto">
-
                         Join and take your gaming journey to the next level with ELOSphere.
                     </p>
                     <div className="flex flex-col md:flex-row justify-center gap-4">
-                        <button className="px-8 py-4 bg-white text-[#EE8631] rounded-lg text-lg font-bold hover:bg-[#292B35] hover:text-white transition-all transform hover:scale-105 shadow-lg">
+                        <button 
+                            className="px-8 py-4 bg-white text-[#EE8631] rounded-lg text-lg font-bold hover:bg-[#292B35] hover:text-white transition-all transform hover:scale-105 shadow-lg"
+                            onClick={handleClick()}
+                        >
                             Create Account
                         </button>
                     </div>
-
                 </div>
             </section>
 
             {/* Footer */}
-
             <footer className="bg-[#292B35] text-[#95C5C5] py-16 border-t border-[#95C5C5]/10">
                 <div className="container mx-auto px-6">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
@@ -363,7 +329,6 @@ function LandingPage() {
                             <p className="text-[#E0E0E0] mb-6">
                                 Revolutionizing esports for everyone. Connect, compete, and build your gaming career.
                             </p>
-                           
                         </div>
 
                         {/* Quick Links */}
@@ -387,12 +352,10 @@ function LandingPage() {
                                 </li>
                             </ul>
                         </div>
-
                     </div>
                     <div className="mt-12 pt-8 border-t border-[#95C5C5]/10 text-center text-[#E0E0E0]">
                         <p>© {new Date().getFullYear()} ELOSphere. All rights reserved.</p>
                     </div>
-
                 </div>
             </footer>
         </div>
@@ -422,16 +385,12 @@ const solutions = [
     {
         icon: "🌟",
         title: "Unified Platform",
-
         description: "One platform for all your competitive gaming needs - tournaments, mentorship, and competitive growth."
-
     },
     {
         icon: "📈",
         title: "Skill Development",
-
         description: "Structured progression system with mentorship from verified mentors."
-
     },
     {
         icon: "🤝",
@@ -457,8 +416,6 @@ const audience = [
         description: "Established communities looking to grow and organize events."
     }
 ];
-
-
 
 const faqs = [
     {

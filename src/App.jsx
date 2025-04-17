@@ -34,13 +34,14 @@ import Authentication from "./Views/Authentication/authentication";
 
 import Teams from "./Views/Teams/teams";
 
+import EsLeague from "./Views/ES League/esLeague"; 
+
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   useLocation,
 } from "react-router-dom";
-import EsTiers from "./Views/Es Tiers/EsTiers";
 
 // Get the base URL from the import.meta.env (injected by Vite)
 const baseUrl = import.meta.env.BASE_URL || "/";
@@ -60,13 +61,14 @@ function AppInner() {
   const isProfilePageRoute = location.pathname.startsWith("/profile");
   const isChoosePersonaRoute = location.pathname === "/choose-persona";
   const isMentorProfileRoute = location.pathname.startsWith("/mentorProfile");
-  const isLandingPageRoute = location.pathname === "/landing-page";
+  const isLandingPageRoute = location.pathname === "/";
   const isDMPageRoute = location.pathname === "/dm-page";
   const isUserProfileCreationPageRoute =
     location.pathname === "/user-profile-creation-page";
   const isMentorProfileCreationPageRoute =
     location.pathname === "/mentor-profile-creation-page";
   const isAuthenticationPageRoute = location.pathname === "/authentication";
+
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-gray-50 text-gray-800">
@@ -79,7 +81,8 @@ function AppInner() {
         !isMentorProfileCreationPageRoute &&
         !isAuthenticationPageRoute && <Navbar />}
       <Routes>
-        <Route path="/" element={<EsEvents />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/es-events" element={<EsEvents/>}/>
         <Route path="/manage-events" element={<ManageEvents />} />
 
         <Route path="/social" element={<Social />} />
@@ -90,6 +93,8 @@ function AppInner() {
 
         <Route path="/user-dashboard" element={<UserDashboard />} />
         <Route path="mentor-dashboard" element={<MentorDashboard />} />
+
+        <Route path="/user-dashboard" element={<UserDashboard />}></Route>
 
         <Route path="/choose-persona" element={<ChoosePersona />} />
         <Route path="/profile/:userId" element={<ViewUserProfilePage />} />
@@ -117,7 +122,6 @@ function AppInner() {
         <Route path="/authentication" element={<Authentication />} />
 
         <Route path="/event-register" element={<EventRegister />} />
-        <Route path="/es-tiers" element={<EsTiers />} />
 
         {/* Add more routes as needed */}
       </Routes>
