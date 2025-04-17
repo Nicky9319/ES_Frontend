@@ -1,65 +1,76 @@
 import React, { useState, useEffect } from 'react';
-// Import useParams
 import { useNavigate, useParams } from 'react-router-dom';
-import profileData from './playerProfileData.json';
+const USER_PROFILE_SERVICE = import.meta.env.VITE_USER_PROFILE_SERVICE;
 
 const ViewUserProfilePage = () => {
-    // Get userId from URL params
     const { userId } = useParams();
     const [loading, setLoading] = useState(true);
     const [userData, setUserData] = useState(null);
-    const [activeTab, setActiveTab] = useState('stats');
     const [bannerError, setBannerError] = useState(false);
     const [profileError, setProfileError] = useState(false);
 
-    // Simulate API call to fetch user profile data
-    const fetchUserProfile = async () => {
-        // Log the userId obtained from the route
-        console.log("Fetching profile for user ID:", userId);
-        try {
+    useEffect(() => {
+        const fetchUserProfile = async () => {
             setLoading(true);
-            // In a real app, this would be an actual API call using the userId
-            // For now, simulate network delay and return the static JSON data
-            await new Promise(resolve => setTimeout(resolve, 800));
+            try {
+                const response = await fetch(`http://${USER_PROFILE_SERVICE}/UserProfile/GetUserProfile/?USER_ID=${userId}`);
+                const result = await response.json();
+                const data = result.USER_PROFILE;
 
-            // Transform JSON data into the structure needed by our UI
-            const transformedData = {
-                name: profileData.USER_NAME,
-                tagline: profileData.TAGLINE,
-                username: profileData.SOCIAL_LINKS?.INSTAGRAM || "@player1",
-                bio: profileData.BIO || "No bio provided",
-                profilePic: profileData.PROFILE_PIC || "https://via.placeholder.com/150",
-                bannerImage: profileData.PROFILE_BANNER || "https://via.placeholder.com/1200x300/123456/ffffff",
-                location: profileData.LOCATION || "Unknown",
-                teamStatus: profileData.TEAM_STATUS || "Unknown",
-                gamesPlayed: profileData.GAMES_PLAYED || [],
-                socialLinks: profileData.SOCIAL_LINKS || {},
-                history: profileData.HISTORY || [],
-                platformStatus: profileData.PLATFORM_STATUS || "INACTIVE",
-                // Use the actual userId from params if needed, otherwise use the one from JSON
-                userId: userId || profileData.USER_ID || "unknown-id",
-                createdAt: profileData.CREATED_AT
-                    ? new Intl.DateTimeFormat('en-US', {
+                if (!data) {
+                    setUserData(null);
+                    setLoading(false);
+                    return;
+                }
+
+                const profileBanner = bannerError
+                    ? "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80"
+                    : data.PROFILE_BANNER;
+                const profilePic = profileError
+                    ? "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                    : data.PROFILE_PIC;
+
+                // Handle date string (ISO format)
+                let createdAt = data.CREATED_AT;
+                let formattedDate = "Unknown";
+                if (createdAt) {
+                    const dateObj = new Date(createdAt);
+                    formattedDate = new Intl.DateTimeFormat('en-US', {
                         year: 'numeric',
                         month: 'long',
                         day: 'numeric',
                         timeZone: 'UTC'
-                    }).format(new Date(profileData.CREATED_AT.$date))
-                    : "Unknown"
-            };
+                    }).format(dateObj);
+                }
 
-            setUserData(transformedData);
-            setLoading(false);
-        } catch (error) {
-            console.error("Error fetching profile data:", error);
-            setLoading(false);
-        }
-    };
+                const transformedData = {
+                    name: data.USER_NAME,
+                    tagline: data.TAGLINE,
+                    username: data.SOCIAL_LINKS?.INSTAGRAM || "@player1",
+                    bio: data.BIO || "No bio provided",
+                    profilePic: profilePic || "https://via.placeholder.com/150",
+                    bannerImage: profileBanner || "https://via.placeholder.com/1200x300/123456/ffffff",
+                    location: data.LOCATION || "Unknown",
+                    teamStatus: data.TEAM_STATUS || "Unknown",
+                    gamesPlayed: Array.isArray(data.GAMES_PLAYED) ? data.GAMES_PLAYED : [],
+                    socialLinks: typeof data.SOCIAL_LINKS === 'object' && data.SOCIAL_LINKS !== null ? data.SOCIAL_LINKS : {},
+                    history: Array.isArray(data.HISTORY) ? data.HISTORY : [],
+                    platformStatus: data.PLATFORM_STATUS || "INACTIVE",
+                    userId: userId || data.USER_ID || "unknown-id",
+                    createdAt: formattedDate
+                };
 
-    useEffect(() => {
+                setUserData(transformedData);
+            } catch (error) {
+                console.error("Error fetching profile data:", error);
+                setUserData(null);
+            } finally {
+                setLoading(false);
+            }
+        };
+
         fetchUserProfile();
-        // Add userId as a dependency to refetch if the ID changes
-    }, [userId]);
+    }, [userId, bannerError, profileError]);
 
     if (loading) {
         return (
@@ -87,23 +98,17 @@ const ViewUserProfilePage = () => {
 
     return (
         <div className="bg-[#292B35] min-h-screen text-[#E0E0E0] font-sans">
-            {/* Enhanced Banner Section */}
             <div className="relative h-96">
                 <div
                     className="absolute inset-0 bg-cover bg-center bg-[#1a1b21]"
                     style={{
-                        backgroundImage: `url(${bannerError ?
-                            "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80" :
-                            userData.bannerImage
-                            })`,
+                        backgroundImage: `url(${userData.bannerImage})`,
                         backgroundPosition: 'center 30%'
                     }}
                     onError={() => setBannerError(true)}
                 >
                     <div className="absolute inset-0 bg-gradient-to-b from-[#292B35]/30 via-[#292B35]/50 to-[#292B35] opacity-90"></div>
                 </div>
-
-                {/* Profile Stats Overlay */}
                 <div className="absolute bottom-0 left-0 right-0 px-6 pb-12">
                     <div className="max-w-5xl mx-auto flex items-end gap-6">
                         <div className="relative">
@@ -114,7 +119,6 @@ const ViewUserProfilePage = () => {
                                 onError={() => setProfileError(true)}
                             />
                         </div>
-
                         <div className="flex-1 mb-4">
                             <div className="flex items-center gap-4 mb-2">
                                 <h1 className="text-4xl font-bold text-[#E0E0E0] drop-shadow-lg">
@@ -139,8 +143,6 @@ const ViewUserProfilePage = () => {
                     </div>
                 </div>
             </div>
-
-            {/* Main content with increased top margin */}
             <div className="max-w-5xl mx-auto px-6 mt-24 relative z-10 pb-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 mt-8">
                     {statsData.map(stat => (
@@ -151,7 +153,6 @@ const ViewUserProfilePage = () => {
                         </div>
                     ))}
                 </div>
-
                 <div className="grid md:grid-cols-3 gap-6">
                     <div className="md:col-span-2 space-y-6">
                         <div className="bg-[#292B35] rounded-xl p-6 border border-[#95C5C5]/20">
@@ -160,7 +161,6 @@ const ViewUserProfilePage = () => {
                             </h2>
                             <p className="text-[#E0E0E0]/90 leading-relaxed">{userData.bio}</p>
                         </div>
-
                         <div className="bg-[#292B35] rounded-xl p-6 border border-[#95C5C5]/20">
                             <h2 className="text-xl font-semibold text-[#EE8631] mb-4 flex items-center gap-2">
                                 <span>🎮</span> Games Played
@@ -175,7 +175,6 @@ const ViewUserProfilePage = () => {
                                 </div>
                             </div>
                         </div>
-
                         <div className="bg-[#292B35] rounded-xl p-6 border border-[#95C5C5]/20">
                             <h2 className="text-xl font-semibold text-[#EE8631] mb-4 flex items-center gap-2">
                                 <span>👥</span> Team History
@@ -190,9 +189,8 @@ const ViewUserProfilePage = () => {
                                                     <p className="text-[#E0E0E0]/70 text-sm">Game: {historyItem.GAME_NAME}</p>
                                                     <p className="text-[#E0E0E0]/70 text-sm">Team ID: {historyItem.TEAM_ID}</p>
                                                     <p className="text-[#E0E0E0]/70 text-sm">Duration: {historyItem.DURATION}</p>
-
                                                     <div className="flex flex-wrap gap-2 mt-3">
-                                                        {historyItem.ROLES_PLAYED.map((role, roleIndex) => (
+                                                        {Array.isArray(historyItem.ROLES_PLAYED) && historyItem.ROLES_PLAYED.map((role, roleIndex) => (
                                                             <span key={roleIndex} className="bg-[#EE8631]/10 text-[#EE8631] px-2 py-1 rounded text-xs">
                                                                 {role}
                                                             </span>
@@ -208,14 +206,12 @@ const ViewUserProfilePage = () => {
                             </div>
                         </div>
                     </div>
-
                     <div className="space-y-6">
                         <div className="bg-[#292B35] rounded-xl p-6 border border-[#95C5C5]/20 sticky top-4">
                             <button className="w-full bg-[#EE8631] text-white py-3 rounded-lg font-semibold hover:bg-[#EE8631]/80 transition-colors">
                                 Message
                             </button>
                         </div>
-
                         <div className="bg-[#292B35] rounded-xl p-6 border border-[#95C5C5]/20">
                             <h2 className="text-xl font-semibold text-[#EE8631] mb-4 flex items-center gap-2">
                                 <span>🌐</span> Connect
@@ -224,9 +220,9 @@ const ViewUserProfilePage = () => {
                                 {Object.entries(userData.socialLinks).map(([platform, link]) => (
                                     <a
                                         key={platform}
-                                        href={platform.toLowerCase() === 'website' ?
-                                            `https://${link}` :
-                                            `https://${platform.toLowerCase()}.com/${link.replace(/^@/, '')}`}
+                                        href={platform.toLowerCase() === 'website'
+                                            ? `https://${link}`
+                                            : `https://${platform.toLowerCase()}.com/${link.replace(/^@/, '')}`}
                                         target="_blank"
                                         rel="noreferrer"
                                         className="flex items-center gap-2 text-[#E0E0E0] hover:text-[#EE8631] transition-colors"

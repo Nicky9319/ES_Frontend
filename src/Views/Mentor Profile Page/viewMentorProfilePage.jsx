@@ -1,63 +1,66 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import mentorProfileData from './mentorprofile.json'; // Using static data for now
+const MENTOR_PROFILE_SERVICE = import.meta.env.VITE_MENTOR_PROFILE_SERVICE;
 
 const ViewMentorProfilePage = () => {
-    const { mentorId } = useParams(); // Get mentorId from URL
+    const { mentorId } = useParams();
     const [mentor, setMentor] = useState(null);
     const [bannerError, setBannerError] = useState(false);
     const [profileError, setProfileError] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Simulate fetching data based on mentorId
     useEffect(() => {
         const fetchMentorData = async () => {
-            console.log("Fetching profile for mentor ID:", mentorId); // Log the ID
+            setIsLoading(true);
             try {
-                setIsLoading(true);
-                // Simulate API call delay
-                await new Promise(resolve => setTimeout(resolve, 500));
+                const response = await fetch(`http://${MENTOR_PROFILE_SERVICE}/MentorProfile/GetMentorProfile/?MENTOR_ID=${mentorId}`);
+                const result = await response.json();
+                const data = result.MENTOR_PROFILE;
 
-                // *** Always load the static data for simulation, regardless of the specific mentorId ***
-                // (Removed the check: if (mentorProfileData.MENTOR_ID === mentorId || !mentorId))
+                if (!data) {
+                    setMentor(null);
+                    setIsLoading(false);
+                    return;
+                }
 
-                // Transform and set data using the static import
-                const baseData = {
-                    ...mentorProfileData,
-                    PROFILE_BANNER: bannerError ?
-                        "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80" :
-                        mentorProfileData.PROFILE_BANNER,
-                    PROFILE_PIC: profileError ?
-                        "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" :
-                        mentorProfileData.PROFILE_PIC
-                };
+                const profileBanner = bannerError
+                    ? "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80"
+                    : data.PROFILE_BANNER;
+                const profilePic = profileError
+                    ? "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+                    : data.PROFILE_PIC;
 
-                const createdAt = new Date(baseData.CREATED_AT.$date);
+                let createdAt = data.CREATED_AT;
+                if (createdAt && createdAt.$date) createdAt = createdAt.$date;
+                const dateObj = createdAt ? new Date(createdAt) : null;
+
                 const transformedData = {
-                    ...baseData,
-                    FORMATTED_DATE: createdAt.toLocaleDateString(),
-                    PRICE_FORMATTED: `$${baseData.PRICE_PER_SESSION}/hr`
+                    ...data,
+                    PROFILE_BANNER: profileBanner,
+                    PROFILE_PIC: profilePic,
+                    FORMATTED_DATE: dateObj ? dateObj.toLocaleDateString() : '',
+                    PRICE_FORMATTED: data.PRICE_PER_SESSION ? `$${data.PRICE_PER_SESSION}/hr` : '',
+                    GAMES: Array.isArray(data.GAMES) ? data.GAMES : [],
+                    SPECIALITIES: Array.isArray(data.SPECIALITIES) ? data.SPECIALITIES : [],
+                    LANGUAGES: Array.isArray(data.LANGUAGES) ? data.LANGUAGES : [],
+                    SOCIAL_LINKS: typeof data.SOCIAL_LINKS === 'object' && data.SOCIAL_LINKS !== null ? data.SOCIAL_LINKS : {},
                 };
-                setMentor(transformedData);
 
+                setMentor(transformedData);
             } catch (error) {
                 console.error('Error loading mentor profile:', error);
-                setMentor(null); // Set mentor to null on error
+                setMentor(null);
             } finally {
                 setIsLoading(false);
             }
         };
 
-        // Only fetch if a mentorId is present in the URL
         if (mentorId) {
             fetchMentorData();
         } else {
-            // Handle the case where mentorId might be missing (though route should prevent this)
-            console.log("No mentor ID provided in URL.");
             setMentor(null);
             setIsLoading(false);
         }
-        // Add mentorId to dependencies to refetch if the ID changes
     }, [mentorId, bannerError, profileError]);
 
     if (isLoading) {
@@ -74,20 +77,18 @@ const ViewMentorProfilePage = () => {
     if (!mentor) {
         return (
             <div className="bg-[#292B35] min-h-screen flex items-center justify-center text-[#E0E0E0]">
-                {/* Updated message */}
                 <p className="text-[#95C5C5]">Mentor profile not found.</p>
             </div>
         );
     }
 
-    // Destructure data for the view
     const {
         GAMES,
         PROFILE_BANNER,
         PROFILE_PIC,
         LOCATION,
         EXPERIENCE_YEARS,
-        PRICE_FORMATTED, // Use the pre-formatted price
+        PRICE_FORMATTED,
         SOCIAL_LINKS,
         BIO,
         MENTOR_ID,
@@ -111,28 +112,26 @@ const ViewMentorProfilePage = () => {
 
     return (
         <div className="bg-[#292B35] min-h-screen text-[#E0E0E0] font-sans">
-            {/* Banner Section */}
             <div className="relative h-96">
                 <div
                     className="absolute inset-0 bg-cover bg-center bg-[#1a1b21]"
                     style={{
-                        backgroundImage: `url(${PROFILE_BANNER})`, // Use mentor data
+                        backgroundImage: `url(${PROFILE_BANNER})`,
                         backgroundPosition: 'center 30%'
                     }}
-                    onError={() => setBannerError(true)} // Handle image load error
+                    onError={() => setBannerError(true)}
                 >
                     <div className="absolute inset-0 bg-gradient-to-b from-[#292B35]/30 via-[#292B35]/50 to-[#292B35] opacity-90"></div>
                 </div>
 
-                {/* Profile Info Overlay */}
                 <div className="absolute bottom-0 left-0 right-0 px-6 pb-12">
                     <div className="max-w-5xl mx-auto flex items-end gap-6">
                         <div className="relative">
                             <img
-                                src={PROFILE_PIC} // Use mentor data
+                                src={PROFILE_PIC}
                                 alt="Profile"
                                 className="w-40 h-40 rounded-xl border-4 border-[#EE8631] shadow-lg object-cover"
-                                onError={() => setProfileError(true)} // Handle image load error
+                                onError={() => setProfileError(true)}
                             />
                             <div className="absolute -bottom-2 -right-2 bg-[#95C5C5] text-[#292B35] px-3 py-1 rounded-full text-sm font-bold shadow-lg">
                                 ⭐ {RATING}
@@ -164,9 +163,7 @@ const ViewMentorProfilePage = () => {
                 </div>
             </div>
 
-            {/* Main content */}
             <div className="max-w-5xl mx-auto px-6 mt-24 relative z-10 pb-12">
-                {/* Stats Section */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 mt-8">
                     {statsData.map(stat => (
                         <div key={stat.label} className="bg-[#292B35] p-4 rounded-xl border border-[#95C5C5]/20 hover:border-[#EE8631]/50 transition-colors">
@@ -179,7 +176,6 @@ const ViewMentorProfilePage = () => {
 
                 <div className="grid md:grid-cols-3 gap-6">
                     <div className="md:col-span-2 space-y-6">
-                        {/* About Section */}
                         <div className="bg-[#292B35] rounded-xl p-6 border border-[#95C5C5]/20">
                             <h2 className="text-xl font-semibold text-[#EE8631] mb-4 flex items-center gap-2">
                                 <span>📋</span> About
@@ -187,7 +183,6 @@ const ViewMentorProfilePage = () => {
                             <p className="text-[#E0E0E0]/90 leading-relaxed">{BIO}</p>
                         </div>
 
-                        {/* Games & Expertise Section */}
                         <div className="bg-[#292B35] rounded-xl p-6 border border-[#95C5C5]/20">
                             <h2 className="text-xl font-semibold text-[#EE8631] mb-4 flex items-center gap-2">
                                 <span>🎮</span> Games & Expertise
@@ -229,9 +224,7 @@ const ViewMentorProfilePage = () => {
                         </div>
                     </div>
 
-                    {/* Right Sidebar */}
                     <div className="space-y-6">
-                        {/* Booking/Messaging Card */}
                         <div className="bg-[#292B35] rounded-xl p-6 border border-[#95C5C5]/20 sticky top-4">
                             <div className="text-center mb-6">
                                 <div className="text-2xl font-bold text-[#EE8631]">{PRICE_FORMATTED}</div>
@@ -247,16 +240,15 @@ const ViewMentorProfilePage = () => {
                             </button>
                         </div>
 
-                        {/* Connect Section */}
                         <div className="bg-[#292B35] rounded-xl p-6 border border-[#95C5C5]/20">
                             <h2 className="text-xl font-semibold text-[#EE8631] mb-4 flex items-center gap-2">
                                 <span>🌐</span> Connect
                             </h2>
-                            <div className="grid grid-cols-1 gap-3"> {/* Changed to grid-cols-1 */}
+                            <div className="grid grid-cols-1 gap-3">
                                 {Object.entries(SOCIAL_LINKS).map(([platform, link]) => (
                                     <a
                                         key={platform}
-                                        href={link.startsWith('http') ? link : `https://${link}`} // Basic link handling
+                                        href={link.startsWith('http') ? link : `https://${link}`}
                                         target="_blank"
                                         rel="noreferrer"
                                         className="flex items-center gap-2 text-[#E0E0E0] hover:text-[#EE8631] transition-colors"

@@ -12,44 +12,32 @@ import RightSlider from '../components/rightSlider';
 import mentorProfileData from './mentorprofile.json';
 import playerProfileData from './playerProfileData.json';
 
+const MENTOR_PROFILE_SERVICE = import.meta.env.VITE_MENTOR_PROFILE_SERVICE;
+const USER_PROFILE_SERVICE = import.meta.env.VITE_USER_PROFILE_SERVICE;
+
 // Simulated API call loading data from JSON files
 const fetchMentors = () => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            // Create sample data using the mentor profile template
-            const baseData = mentorProfileData;
-            
-            // Create multiple mentors with variations
-            const mentorsData = [
-                { ...baseData, _id: { $oid: "67fb206239c201880a3ae3ef" }, USER_NAME: "ProCoach_John", GAMES: ["CSGO", "Valorant"], PROFILE_PIC: "https://images.unsplash.com/photo-1506277886164-e25aa3f4ef7f?ixlib=rb-1.2.1&auto=format&fit=crop&w=240&q=80", LOCATION: "New York, USA", EXPERIENCE_YEARS: 5, PRICE_PER_SESSION: 50, RATING: 4.8, BIO: "Professional CSGO coach with experience in major tournaments.", MENTOR_ID: "590b6f34-feff-4a5b-8bc6-626b975ef4cd", TAGLINE: "From amateur to pro - I'll get you there!", VERIFIED: true, SESSIONS_COMPLETED: 200 },
-                { ...baseData, _id: { $oid: "67fb206239c201880a3ae3f0" }, USER_NAME: "LOL_Maria", GAMES: ["League of Legends"], PROFILE_PIC: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?ixlib=rb-1.2.1&auto=format&fit=crop&w=240&q=80", LOCATION: "Madrid, Spain", EXPERIENCE_YEARS: 7, PRICE_PER_SESSION: 65, RATING: 4.9, BIO: "League of Legends strategist specializing in team coordination.", MENTOR_ID: "590b6f34-feff-4a5b-8bc6-626b975ef4ce", TAGLINE: "Master the meta and climb the ranks", VERIFIED: true, SESSIONS_COMPLETED: 350 },
-                { ...baseData, _id: { $oid: "67fb206239c201880a3ae3f1" }, USER_NAME: "FortnitePro", GAMES: ["Fortnite"], PROFILE_PIC: "https://images.unsplash.com/photo-1566492031773-4f4e44671857?ixlib=rb-1.2.1&auto=format&fit=crop&w=240&q=80", LOCATION: "London, UK", EXPERIENCE_YEARS: 4, PRICE_PER_SESSION: 45, RATING: 4.7, BIO: "Fortnite building expert, focusing on competitive techniques.", MENTOR_ID: "590b6f34-feff-4a5b-8bc6-626b975ef4cf", TAGLINE: "Building is my game, victory is my aim", VERIFIED: false, SESSIONS_COMPLETED: 120 },
-                { ...baseData, _id: { $oid: "67fb206239c201880a3ae3f2" }, USER_NAME: "DotaMaster", GAMES: ["Dota 2"], PROFILE_PIC: "https://images.unsplash.com/photo-1607346256330-dee7af15f7c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=240&q=80", LOCATION: "Seattle, USA", EXPERIENCE_YEARS: 6, PRICE_PER_SESSION: 55, RATING: 4.6, BIO: "Dota 2 analyst with deep understanding of the meta.", MENTOR_ID: "590b6f34-feff-4a5b-8bc6-626b975ef4d0", TAGLINE: "Tactics, strategy, victory - the Dota way", VERIFIED: true, SESSIONS_COMPLETED: 280 },
-                { ...baseData, _id: { $oid: "67fb206239c201880a3ae3f3" }, USER_NAME: "OverwatchCoach", GAMES: ["Overwatch"], PROFILE_PIC: "https://images.unsplash.com/photo-1542144582-1ba00456b5e3?ixlib=rb-1.2.1&auto=format&fit=crop&w=240&q=80", LOCATION: "Toronto, Canada", EXPERIENCE_YEARS: 3, PRICE_PER_SESSION: 40, RATING: 4.5, BIO: "Overwatch strategist specializing in team compositions.", MENTOR_ID: "590b6f34-feff-4a5b-8bc6-626b975ef4d1", TAGLINE: "Team synergy is the key to victory", VERIFIED: false, SESSIONS_COMPLETED: 90 },
-                { ...baseData, _id: { $oid: "67fb206239c201880a3ae3f4" }, USER_NAME: "ApexPredator", GAMES: ["Apex Legends"], PROFILE_PIC: "https://images.unsplash.com/photo-1561406636-b80293969660?ixlib=rb-1.2.1&auto=format&fit=crop&w=240&q=80", LOCATION: "Sydney, Australia", EXPERIENCE_YEARS: 4, PRICE_PER_SESSION: 45, RATING: 4.8, BIO: "Apex Legends movement and positioning specialist.", MENTOR_ID: "590b6f34-feff-4a5b-8bc6-626b975ef4d2", TAGLINE: "Movement is life in Apex - master it or perish", VERIFIED: true, SESSIONS_COMPLETED: 180 }
-            ];
-            resolve(mentorsData);
-        }, 1000);
+    return new Promise(async (resolve) => {
+        const response = await fetch(`http://${MENTOR_PROFILE_SERVICE}/MentorProfile/GetAllMentorProfiles`);
+        const data = await response.json();
+
+        // console.log(data)
+        // console.log("Resolving Mentor Data")
+
+        resolve(data["MENTOR_PROFILES"]);
+
     });
 };
 
 const fetchPlayers = () => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            // Create sample data using the player profile template
-            const baseData = playerProfileData;
-            
-            // Create multiple players with variations
-            const playersData = [
-                { ...baseData, _id: { $oid: "67fbf085fda1e70ffc118590" }, USER_NAME: "ValorantQueen", NAME: "Jane Smith", GAMES_PLAYED: ["Valorant"], GAME_RELATED_INFO: { rank: "Radiant", role: "Duelist" }, PROFILE_PIC: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=240&q=80", LOCATION: "Los Angeles, USA", TEAM_STATUS: "Looking for Team", RATING: 4.9, BIO: "Pro Valorant player specializing in aggressive playstyles.", USER_ID: "727da271-5319-45f7-b049-b8e737c22a8e", TAGLINE: "First blood is my specialty" },
-                { ...baseData, _id: { $oid: "67fbf085fda1e70ffc118591" }, USER_NAME: "CSGOStrategist", NAME: "Mike Johnson", GAMES_PLAYED: ["CSGO"], GAME_RELATED_INFO: { rank: "Global Elite", role: "Rifler" }, PROFILE_PIC: "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-1.2.1&auto=format&fit=crop&w=240&q=80", LOCATION: "Berlin, Germany", TEAM_STATUS: "Looking for Team", RATING: 4.7, BIO: "CSGO strategist focusing on team coordination.", USER_ID: "727da271-5319-45f7-b049-b8e737c22a8f", TAGLINE: "Strategy over aim - mind games win rounds" },
-                { ...baseData, _id: { $oid: "67fbf085fda1e70ffc118592" }, USER_NAME: "MidLaneGod", NAME: "Emma Davis", GAMES_PLAYED: ["League of Legends"], GAME_RELATED_INFO: { rank: "Diamond I", role: "Mid" }, PROFILE_PIC: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&auto=format&fit=crop&w=240&q=80", LOCATION: "Seoul, South Korea", TEAM_STATUS: "Open to Offers", RATING: 4.8, BIO: "League player with strong map awareness and roaming ability.", USER_ID: "727da271-5319-45f7-b049-b8e737c22a90", TAGLINE: "Mid diff is real when I'm in the game" },
-                { ...baseData, _id: { $oid: "67fbf085fda1e70ffc118593" }, USER_NAME: "CarryMaster", NAME: "David Kim", GAMES_PLAYED: ["Dota 2"], GAME_RELATED_INFO: { rank: "Immortal", role: "Carry" }, PROFILE_PIC: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=240&q=80", LOCATION: "Vancouver, Canada", TEAM_STATUS: "Looking for Team", RATING: 4.9, BIO: "Dota 2 carry player with exceptional farming patterns.", USER_ID: "727da271-5319-45f7-b049-b8e737c22a91", TAGLINE: "Farming efficiently, carrying effectively" },
-                { ...baseData, _id: { $oid: "67fbf085fda1e70ffc118594" }, USER_NAME: "FortniteKing", NAME: "Tyler Brooks", GAMES_PLAYED: ["Fortnite"], GAME_RELATED_INFO: { rank: "Champion League", role: "Builder" }, PROFILE_PIC: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-1.2.1&auto=format&fit=crop&w=240&q=80", LOCATION: "Chicago, USA", TEAM_STATUS: "Looking for Duo Partner", RATING: 4.6, BIO: "Fortnite player specializing in box fighting and fast edits.", USER_ID: "727da271-5319-45f7-b049-b8e737c22a92", TAGLINE: "Building to the top, one edit at a time" },
-                { ...baseData, _id: { $oid: "67fbf085fda1e70ffc118595" }, USER_NAME: "OwSniper", NAME: "Sarah Miller", GAMES_PLAYED: ["Overwatch"], GAME_RELATED_INFO: { rank: "Master", role: "DPS" }, PROFILE_PIC: "https://images.unsplash.com/photo-1601412436009-d964bd02edbc?ixlib=rb-1.2.1&auto=format&fit=crop&w=240&q=80", LOCATION: "Paris, France", TEAM_STATUS: "Open to Offers", RATING: 4.7, BIO: "Overwatch DPS main focusing on hitscan heroes.", USER_ID: "727da271-5319-45f7-b049-b8e737c22a93", TAGLINE: "Precision aim, instinct reactions" }
-            ];
-            resolve(playersData);
-        }, 1000);
+    return new Promise(async (resolve) => {
+        const response = await fetch(`http://${USER_PROFILE_SERVICE}/UserProfile/GetAllUserProfiles`);
+        const data = await response.json();
+
+        // console.log(data)
+        // console.log("Resolving User Data")
+
+        resolve(data["USER_PROFILES"]);
     });
 };
 
@@ -217,13 +205,15 @@ function Connect() {
 
     // Handle card click to navigate to profile
     const handleMentorCardClick = (mentor) => {
-        console.log("Navigating to mentor profile:", mentor.MENTOR_ID);
-        // navigate(`/mentor/${mentor.MENTOR_ID}`);
+        // Navigate to /profile/{mentor_id}
+        console.log(mentor.MENTOR_ID);
+        window.open(`/mentorProfile/${mentor.MENTOR_ID}`, '_blank');
     };
 
     const handlePlayerCardClick = (player) => {
-        console.log("Navigating to player profile:", player.USER_ID);
-        // navigate(`/player/${player.USER_ID}`);
+        // Navigate to /profile/{user_id}
+        console.log(player.USER_ID);
+        window.open(`/profile/${player.USER_ID}`, '_blank');
     };
 
     // Toggle filter visibility
@@ -240,7 +230,6 @@ function Connect() {
 
     // Filter mentors based on selected filters
     const filteredMentors = useMemo(() => {
-        // ... existing filter logic ...
         if (!mentors.length) return [];
 
         let filtered = [...mentors];
@@ -293,7 +282,6 @@ function Connect() {
 
     // Filter players based on selected filters
     const filteredPlayers = useMemo(() => {
-        // ... existing filter logic ...
         if (!players.length) return [];
 
         let filtered = [...players];
@@ -337,7 +325,6 @@ function Connect() {
                 player.GAME_RELATED_INFO &&
                 player.GAME_RELATED_INFO.rank &&
                 (player.GAME_RELATED_INFO.rank === selectedTier ||
-                    // Match skill level to rank categories
                     (selectedTier === "Expert" && ["Radiant", "Immortal", "Global Elite", "Champion League"].includes(player.GAME_RELATED_INFO.rank)) ||
                     (selectedTier === "Advanced" && ["Diamond", "Master", "Supreme"].includes(player.GAME_RELATED_INFO.rank)) ||
                     (selectedTier === "Intermediate" && ["Platinum", "Gold"].includes(player.GAME_RELATED_INFO.rank)) ||
@@ -498,13 +485,6 @@ function Connect() {
                                     <FaList />
                                 </button>
                             </div>
-                            {/* Optional Sort Button */}
-                            {/* <button 
-                                className="p-3 rounded-lg bg-[#3A3D4A] text-[#E0E0E0] hover:bg-[#4A4D5A] transition-colors"
-                                title="Sort Results"
-                            >
-                                <FaSort />
-                            </button> */}
                         </div>
                     </div>
 
@@ -633,7 +613,7 @@ function Connect() {
                                         <MentorCard 
                                             key={mentor.MENTOR_ID || mentor._id.$oid} 
                                             mentor={mentor} 
-                                            onClick={handleMentorCardClick}
+                                            onClick={() => handleMentorCardClick(mentor)}
                                             viewMode={viewMode}
                                         />
                                     ))
@@ -653,7 +633,7 @@ function Connect() {
                                         <PlayerCard 
                                             key={player.USER_ID || player._id.$oid} 
                                             player={player} 
-                                            onClick={handlePlayerCardClick}
+                                            onClick={() => handlePlayerCardClick(player)}
                                             viewMode={viewMode}
                                         />
                                     ))
