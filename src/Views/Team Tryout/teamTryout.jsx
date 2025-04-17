@@ -632,7 +632,7 @@ const TeamTryout = () => {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-6">
             <h2 className="text-3xl font-extrabold tracking-tight">
-              Available <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#95C5C5] to-[#EE8631]">Tryouts</span>
+               <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#95C5C5] to-[#EE8631]">Tryout Opportunities</span>
             </h2>
             <div className="flex items-center gap-2 px-3 py-1 bg-[#292B35]/60 rounded-full border border-[#95C5C5]/20">
               <Trophy className="w-4 h-4 text-[#EE8631]" />
