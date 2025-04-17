@@ -81,6 +81,19 @@ const playerRankings = [
     recentMMRChanges: [+18, +22, -15, +20, -10],
     rank: "Diamond 1",
   },
+  {
+    name: "PhantomAce",
+    game: "Valorant",
+    currentMMR: 1920,
+    peakMMR: 2100,
+    matchesPlayed: 45,
+    averageACS: 268,
+    mvpCount: 14,
+    wins: 28,
+    losses: 17,
+    recentMMRChanges: [+18, +22, +30, -8, +15],
+    rank: "Diamond 3",
+  },
 ];
 
 const teamRankings = [
@@ -107,6 +120,18 @@ const teamRankings = [
     losses: 14,
     winRate: "67%",
     recentForm: ["W", "L", "W", "W", "L"],
+  },
+  {
+    name: "Team Liquid",
+    game: "Valorant",
+    tournament: "Valorant Champions League",
+    rank: 3,
+    points: 2600,
+    matchesPlayed: 44,
+    wins: 29,
+    losses: 15,
+    winRate: "66%",
+    recentForm: ["W", "W", "W", "L", "W"],
   },
 ];
 
@@ -158,65 +183,59 @@ const LeagueSystem = () => {
   );
 
   return (
-    <div className="min-h-screen px-6 py-8 bg-[#292B35] text-[#E0E0E0] font-sans">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold mb-4 text-[#95C5C5]">Esports League System</h1>
-        <p className="text-lg mb-8 text-[#E0E0E0]">
-          Welcome to the competitive hub! Track ongoing leagues, match results, and standings in real-time.
-        </p>
+    <div className="min-h-screen px-6 py-8 bg-gradient-to-b from-[#292B35] to-[#1a1c22] text-[#E0E0E0] font-sans">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-[#95C5C5] to-[#EE8631] inline-block text-transparent bg-clip-text">
+            Esports League System
+          </h1>
+          <p className="text-lg text-[#E0E0E0]/80">
+            Track ongoing leagues, match results, and standings in real-time
+          </p>
+        </div>
 
-        {/* Ranking Type Selector */}
-        <div className="mb-8 flex gap-4">
-          <button
-            onClick={() => setRankingType("individual")}
-            className={`px-6 py-3 rounded-lg text-lg ${
-              rankingType === "individual"
-                ? "bg-[#EE8631] text-[#E0E0E0]"
-                : "bg-[#292B35] text-[#95C5C5] border border-[#95C5C5] hover:bg-[#AD662F]"
-            }`}
-          >
-            Individual Rankings
-          </button>
-          <button
-            onClick={() => setRankingType("team")}
-            className={`px-6 py-3 rounded-lg text-lg ${
-              rankingType === "team"
-                ? "bg-[#EE8631] text-[#E0E0E0]"
-                : "bg-[#292B35] text-[#95C5C5] border border-[#95C5C5] hover:bg-[#AD662F]"
-            }`}
-          >
-            Team Rankings
-          </button>
+        <div className="mb-10 flex gap-4 justify-center">
+          {["individual", "team"].map((type) => (
+            <button
+              key={type}
+              onClick={() => setRankingType(type)}
+              className={`px-8 py-4 rounded-lg text-lg transform transition-all duration-200 ${
+                rankingType === type
+                  ? "bg-gradient-to-r from-[#EE8631] to-[#AD662F] text-white scale-105 shadow-lg"
+                  : "bg-[#292B35] text-[#95C5C5] border border-[#95C5C5] hover:bg-[#AD662F]/20"
+              }`}
+            >
+              {type.charAt(0).toUpperCase() + type.slice(1)} Rankings
+            </button>
+          ))}
+        </div>
+
+        <div className="mb-8 flex gap-3 flex-wrap justify-center">
+          {allGames.map((game) => (
+            <button
+              key={game}
+              onClick={() => setSelectedGame(game)}
+              className={`px-5 py-2 rounded-lg transform transition-all duration-200 ${
+                selectedGame === game
+                  ? "bg-gradient-to-r from-[#EE8631] to-[#AD662F] text-white scale-105 shadow-lg"
+                  : "bg-[#292B35] text-[#95C5C5] border border-[#95C5C5] hover:bg-[#AD662F]/20"
+              }`}
+            >
+              {game}
+            </button>
+          ))}
         </div>
 
         {rankingType === "individual" ? (
           <>
-            {/* Game Filters */}
-            <div className="mb-6 flex gap-4 flex-wrap">
-              {allGames.map((game) => (
-                <button
-                  key={game}
-                  onClick={() => setSelectedGame(game)}
-                  className={`px-4 py-2 rounded-lg ${
-                    selectedGame === game
-                      ? "bg-[#EE8631] text-[#E0E0E0]"
-                      : "bg-[#292B35] text-[#95C5C5] border border-[#95C5C5] hover:bg-[#AD662F]"
-                  }`}
-                >
-                  {game}
-                </button>
-              ))}
-            </div>
-
-            {/* League Standings */}
-            <div className="mb-12">
+            <div className="mb-12 rounded-xl bg-[#292B35]/50 backdrop-blur-sm p-6 shadow-xl border border-[#95C5C5]/20">
               <h2 className="text-2xl font-semibold text-[#95C5C5] mb-4">
                 {selectedGame === "All" ? "Current Standings" : `${selectedGame} League Standings`}
               </h2>
               <div className="overflow-x-auto">
-                <table className="min-w-full bg-[#292B35] rounded-lg shadow-lg border border-[#95C5C5]">
+                <table className="min-w-full">
                   <thead>
-                    <tr className="text-[#95C5C5] text-left">
+                    <tr className="bg-gradient-to-r from-[#292B35] to-[#1a1c22] text-[#95C5C5] text-left">
                       <th className="py-3 px-4">League</th>
                       <th className="py-3 px-4">Season</th>
                       <th className="py-3 px-4">Played</th>
@@ -225,7 +244,7 @@ const LeagueSystem = () => {
                       <th className="py-3 px-4">Points</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="divide-y divide-[#95C5C5]/10">
                     {filteredLeagues.map((league, index) => (
                       <tr key={index} className="hover:bg-[#AD662F]/20 transition duration-200">
                         <td className="py-3 px-4">{league.name}</td>
@@ -241,17 +260,16 @@ const LeagueSystem = () => {
               </div>
             </div>
 
-            {/* MMR Rankings */}
             {selectedGame !== "All" && (
-              <div className="mb-12">
+              <div className="mb-12 rounded-xl bg-[#292B35]/50 backdrop-blur-sm p-6 shadow-xl border border-[#95C5C5]/20">
                 <h2 className="text-2xl font-semibold text-[#95C5C5] mb-4">
                   {selectedGame} MMR Leaderboard
                 </h2>
                 {filteredPlayers.length > 0 ? (
                   <div className="overflow-x-auto">
-                    <table className="min-w-full bg-[#292B35] rounded-lg shadow-lg border border-[#95C5C5]">
+                    <table className="min-w-full">
                       <thead>
-                        <tr className="text-[#95C5C5] text-left">
+                        <tr className="bg-gradient-to-r from-[#292B35] to-[#1a1c22] text-[#95C5C5] text-left">
                           <th className="py-3 px-4">Rank</th>
                           <th className="py-3 px-4">Player</th>
                           <th className="py-3 px-4">Current MMR</th>
@@ -262,7 +280,7 @@ const LeagueSystem = () => {
                           <th className="py-3 px-4">Last 5 Matches (MMR)</th>
                         </tr>
                       </thead>
-                      <tbody>
+                      <tbody className="divide-y divide-[#95C5C5]/10">
                         {filteredPlayers.map((player, index) => (
                           <tr key={player.name} className="hover:bg-[#AD662F]/20 transition duration-200">
                             <td className="py-3 px-4 text-[#EE8631] font-bold">#{index + 1}</td>
@@ -307,25 +325,7 @@ const LeagueSystem = () => {
           </>
         ) : (
           <>
-            {/* Game Filters */}
-            <div className="mb-6 flex gap-4 flex-wrap">
-              {allGames.map((game) => (
-                <button
-                  key={game}
-                  onClick={() => setSelectedGame(game)}
-                  className={`px-4 py-2 rounded-lg ${
-                    selectedGame === game
-                      ? "bg-[#EE8631] text-[#E0E0E0]"
-                      : "bg-[#292B35] text-[#95C5C5] border border-[#95C5C5] hover:bg-[#AD662F]"
-                  }`}
-                >
-                  {game}
-                </button>
-              ))}
-            </div>
-
-            {/* Player's Teams */}
-            <div className="mb-12">
+            <div className="mb-12 rounded-xl bg-[#292B35]/50 backdrop-blur-sm p-6 shadow-xl border border-[#95C5C5]/20">
               <h2 className="text-2xl font-semibold text-[#95C5C5] mb-4">Your Teams</h2>
               {filteredUserTeams.length > 0 ? (
                 <div className="grid md:grid-cols-2 gap-6">
@@ -359,16 +359,15 @@ const LeagueSystem = () => {
               )}
             </div>
 
-            {/* Tournament Team Rankings */}
             {selectedGame !== "All" && (
-              <div className="mb-12">
+              <div className="mb-12 rounded-xl bg-[#292B35]/50 backdrop-blur-sm p-6 shadow-xl border border-[#95C5C5]/20">
                 <h2 className="text-2xl font-semibold text-[#95C5C5] mb-4">
                   {selectedGame} Tournament Rankings
                 </h2>
                 <div className="overflow-x-auto">
-                  <table className="min-w-full bg-[#292B35] rounded-lg shadow-lg border border-[#95C5C5]">
+                  <table className="min-w-full">
                     <thead>
-                      <tr className="text-[#95C5C5] text-left">
+                      <tr className="bg-gradient-to-r from-[#292B35] to-[#1a1c22] text-[#95C5C5] text-left">
                         <th className="py-3 px-4">Rank</th>
                         <th className="py-3 px-4">Team</th>
                         <th className="py-3 px-4">Tournament</th>
@@ -379,7 +378,7 @@ const LeagueSystem = () => {
                         <th className="py-3 px-4">Form</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="divide-y divide-[#95C5C5]/10">
                       {filteredTeams.map((team) => (
                         <tr
                           key={team.name}
@@ -418,7 +417,6 @@ const LeagueSystem = () => {
           </>
         )}
 
-        {/* Upcoming Matches */}
         <div>
           <h2 className="text-2xl font-semibold text-[#95C5C5] mb-4">
             {selectedGame === "All" ? "All Upcoming Matches" : `${selectedGame} Upcoming Matches`}
@@ -427,7 +425,7 @@ const LeagueSystem = () => {
             {filteredMatches.map((match, index) => (
               <div
                 key={index}
-                className="bg-[#292B35] p-5 rounded-xl shadow-md hover:shadow-[#EE8631]/30 border border-[#95C5C5]"
+                className="bg-gradient-to-br from-[#292B35] to-[#1a1c22] p-6 rounded-xl shadow-xl border border-[#95C5C5]/20 hover:shadow-2xl hover:border-[#EE8631]/30 transition-all duration-300"
               >
                 <h3 className="text-xl font-semibold mb-2 text-[#EE8631]">{match.teams}</h3>
                 <p className="text-[#E0E0E0]">Game: {match.game}</p>
