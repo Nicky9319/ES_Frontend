@@ -406,7 +406,7 @@ function MentorProfileCreationPage() {
         }
 
         alert('Mentor profile created successfully!');
-        navigate('/dashboard');
+        navigate('/mentor-dashboard');
     };
 
     const sections = [
