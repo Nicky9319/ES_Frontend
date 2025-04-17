@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Bell, Search, Award, Users, Calendar, ChevronDown, Zap, Activity, Shield, Star, Trophy, Clock, Filter } from 'lucide-react';
+import { Bell, Search, Award, Users, Calendar, ChevronDown, Zap, Activity, Shield, Star, Trophy, Clock, Filter, X, Loader, PlusCircle } from 'lucide-react';
 
 const mockTryouts = [
   {
@@ -135,12 +135,30 @@ const TeamTryout = () => {
     skillMode: 'All'
   });
   const [isAnimating, setIsAnimating] = useState(false);
+  const [showHostModal, setShowHostModal] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+  const [selectedFilters, setSelectedFilters] = useState([]);
 
   useEffect(() => {
     setIsAnimating(true);
     const timer = setTimeout(() => setIsAnimating(false), 500);
     return () => clearTimeout(timer);
   }, [activeFilters, searchQuery]);
+
+  useEffect(() => {
+    setIsSearching(true);
+    const debounce = setTimeout(() => {
+      const results = tryouts.filter(tryout => {
+        return tryout.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+               tryout.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+               tryout.game.toLowerCase().includes(searchQuery.toLowerCase());
+      });
+      setTryouts(searchQuery ? results : mockTryouts);
+      setIsSearching(false);
+    }, 300);
+    
+    return () => clearTimeout(debounce);
+  }, [searchQuery]);
 
   const handleApply = (id) => {
     setTryouts(prev =>
@@ -154,28 +172,176 @@ const TeamTryout = () => {
     setFilterOpen(!filterOpen);
   };
 
-  // Filter functions
-  const getFilteredTryouts = () => {
-    return tryouts.filter(tryout => {
-      const matchesSearch = searchQuery === '' || 
-        tryout.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        tryout.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        tryout.game.toLowerCase().includes(searchQuery.toLowerCase());
-      
-      const matchesGame = activeFilters.game === 'All Games' || tryout.game === activeFilters.game;
-      const matchesType = activeFilters.type === 'All Types' || tryout.type === activeFilters.type;
-      const matchesMode = activeFilters.mode === 'All Modes' || tryout.mode.includes(activeFilters.mode);
-      const matchesSkillMode = activeFilters.skillMode === 'All' || tryout.skillMode === activeFilters.skillMode;
-      
-      return matchesSearch && matchesGame && matchesType && matchesMode && matchesSkillMode;
-    });
+  const handleFilterChange = (key, value) => {
+    setActiveFilters(prev => ({ ...prev, [key]: value }));
+    if (value !== 'All' && value !== 'All Games' && value !== 'All Types' && value !== 'All Modes') {
+      setSelectedFilters(prev => [...prev.filter(f => f.key !== key), { key, value }]);
+    } else {
+      setSelectedFilters(prev => prev.filter(f => f.key !== key));
+    }
   };
 
-  const filteredTryouts = getFilteredTryouts();
-  const featuredTryouts = filteredTryouts.filter(t => t.featured);
-  const regularTryouts = filteredTryouts.filter(t => !t.featured);
+  const HostTryoutModal = () => (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+      <div className="bg-[#292B35] rounded-xl border border-[#95C5C5]/20 w-full max-w-2xl p-6 mx-4">
+        <div className="flex justify-between items-center mb-6">
+          <h3 className="text-xl font-bold text-[#E0E0E0]">Host a Tryout</h3>
+          <button 
+            onClick={() => setShowHostModal(false)}
+            className="p-2 hover:bg-[#95C5C5]/10 rounded-lg transition-all"
+          >
+            <X className="w-5 h-5 text-[#95C5C5]" />
+          </button>
+        </div>
 
-  // Components
+        <form className="space-y-6">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-[#E0E0E0] mb-2">Game</label>
+              <select className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0]">
+                <option>Select Game</option>
+                <option>Valorant</option>
+                <option>CS2</option>
+                <option>Apex Legends</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-[#E0E0E0] mb-2">Type</label>
+              <select className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0]">
+                <option>1v1</option>
+                <option>5v5</option>
+                <option>3v3</option>
+                <option>Custom</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-[#E0E0E0] mb-2">Requirements</label>
+            <div className="grid grid-cols-2 gap-4">
+              {['Rank', 'K/D', 'Win Rate', 'Playtime'].map(req => (
+                <div key={req} className="flex gap-2">
+                  <input
+                    type="text"
+                    placeholder={req}
+                    className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0]"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex justify-end gap-3">
+            <button
+              type="button"
+              onClick={() => setShowHostModal(false)}
+              className="px-4 py-2 border border-[#95C5C5]/20 rounded-lg text-[#E0E0E0] hover:bg-[#95C5C5]/10"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-4 py-2 bg-[#EE8631] hover:bg-[#AD662F] rounded-lg text-[#E0E0E0]"
+            >
+              Create Tryout
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+
+  const FilterSection = () => (
+    <div>
+      <div className="flex items-center gap-4 mb-4">
+        {selectedFilters.map(({ key, value }) => (
+          <div
+            key={key}
+            className="flex items-center gap-2 px-3 py-1.5 bg-[#EE8631]/10 text-[#EE8631] rounded-full text-sm"
+          >
+            <span>{value}</span>
+            <button
+              onClick={() => handleFilterChange(key, key === 'game' ? 'All Games' : 'All')}
+              className="hover:text-[#AD662F]"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <select
+          value={activeFilters.game}
+          onChange={(e) => handleFilterChange('game', e.target.value)}
+          className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
+        >
+          <option>All Games</option>
+          <option>Valorant</option>
+          <option>CS2</option>
+          <option>Apex Legends</option>
+        </select>
+        <select
+          value={activeFilters.type}
+          onChange={(e) => handleFilterChange('type', e.target.value)}
+          className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
+        >
+          <option>All Types</option>
+          <option>1v1</option>
+          <option>5v5</option>
+          <option>3v3</option>
+          <option>Custom</option>
+        </select>
+        <select
+          value={activeFilters.mode}
+          onChange={(e) => handleFilterChange('mode', e.target.value)}
+          className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
+        >
+          <option>All Modes</option>
+          <option>Open</option>
+          <option>Invite Only</option>
+          <option>Limited</option>
+        </select>
+        <select
+          value={activeFilters.skillMode}
+          onChange={(e) => handleFilterChange('skillMode', e.target.value)}
+          className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
+        >
+          <option>All</option>
+          <option>Predefined</option>
+          <option>Stat-based</option>
+        </select>
+      </div>
+    </div>
+  );
+
+  const SearchSection = () => (
+    <div className="relative">
+      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        {isSearching ? (
+          <Loader className="h-4 w-4 text-[#95C5C5] animate-spin" />
+        ) : (
+          <Search className="h-4 w-4 text-[#95C5C5]" />
+        )}
+      </div>
+      <input 
+        type="text" 
+        placeholder="Search tryouts..."
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        className="pl-10 pr-4 py-2 w-full md:w-64 bg-[#292B35] rounded-lg border border-[#95C5C5]/20 focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
+      />
+      {searchQuery && (
+        <button
+          onClick={() => setSearchQuery('')}
+          className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#95C5C5] hover:text-[#EE8631]"
+        >
+          <X className="w-4 h-4" />
+        </button>
+      )}
+    </div>
+  );
+
   const Badge = ({ children, variant = "default", className = "" }) => {
     const variantClasses = {
       default: "bg-[#292B35] text-[#E0E0E0]",
@@ -197,7 +363,8 @@ const TeamTryout = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#292B35] via-[#292B35]/90 to-[#292B35] text-[#E0E0E0]">
-      {/* HUD-style top bar */}
+      {showHostModal && <HostTryoutModal />}
+      
       <div className="sticky top-0 z-50 backdrop-blur-xl bg-[#292B35]/80 border-b border-[#95C5C5]/20">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <div className="flex justify-between items-center">
@@ -206,27 +373,19 @@ const TeamTryout = () => {
               <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#95C5C5] to-[#EE8631]">TRYOUT HUB</h1>
             </div>
             <div className="flex items-center gap-4">
-              <button className="p-2 rounded-full bg-[#292B35] hover:bg-[#AD662F] transition-all">
-                <Bell className="w-5 h-5 text-[#95C5C5]" />
+              <SearchSection />
+              <button
+                onClick={() => setShowHostModal(true)}
+                className="flex items-center gap-2 px-4 py-2 bg-[#EE8631] hover:bg-[#AD662F] rounded-lg text-[#E0E0E0] transition-all"
+              >
+                <PlusCircle className="w-4 h-4" />
+                <span className="hidden md:inline">Host Tryout</span>
               </button>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Search className="h-4 w-4 text-[#E0E0E0]" />
-                </div>
-                <input 
-                  type="text" 
-                  placeholder="Search tryouts..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 pr-4 py-2 w-64 bg-[#292B35] rounded-lg border border-[#95C5C5]/20 focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
-                />
-              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Hero Section with Dynamic Background */}
       <div className="relative h-64 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#95C5C5]/30 to-[#292B35]">
           <div className="absolute inset-0 opacity-20">
@@ -259,79 +418,25 @@ const TeamTryout = () => {
               <Filter className="w-4 h-4" />
               Filter Tryouts
             </button>
-            <button className="px-5 py-2.5 bg-gradient-to-r from-[#EE8631] to-[#AD662F] hover:from-[#AD662F] hover:to-[#EE8631] transition-all rounded-lg text-[#E0E0E0] font-medium shadow-lg shadow-[#AD662F]/20">
+            <button
+              onClick={() => setShowHostModal(true)}
+              className="px-5 py-2.5 bg-gradient-to-r from-[#EE8631] to-[#AD662F] hover:from-[#AD662F] hover:to-[#EE8631] transition-all rounded-lg text-[#E0E0E0] font-medium shadow-lg shadow-[#AD662F]/20"
+            >
               Host a Tryout
             </button>
           </div>
         </div>
       </div>
 
-      {/* Animated Filter Panel */}
-      <div className={`bg-[#292B35]/70 backdrop-blur-md border-y border-[#95C5C5]/20 transition-all duration-300 overflow-hidden ${filterOpen ? 'max-h-80' : 'max-h-0'}`}>
+      <div className={`bg-[#292B35]/70 backdrop-blur-md border-y border-[#95C5C5]/20 transition-all duration-300 overflow-hidden ${filterOpen ? 'max-h-96' : 'max-h-0'}`}>
         <div className="max-w-7xl mx-auto px-4 py-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            <div>
-              <label className="block text-sm font-medium text-[#E0E0E0] mb-2">Game</label>
-              <select
-                value={activeFilters.game}
-                onChange={(e) => setActiveFilters(prev => ({ ...prev, game: e.target.value }))}
-                className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
-              >
-                <option>All Games</option>
-                <option>Valorant</option>
-                <option>CS2</option>
-                <option>Apex Legends</option>
-              </select>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-[#E0E0E0] mb-2">Type</label>
-              <select
-                value={activeFilters.type}
-                onChange={(e) => setActiveFilters(prev => ({ ...prev, type: e.target.value }))}
-                className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
-              >
-                <option>All Types</option>
-                <option>1v1</option>
-                <option>5v5</option>
-                <option>3v3</option>
-                <option>Custom</option>
-              </select>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-[#E0E0E0] mb-2">Mode</label>
-              <select
-                value={activeFilters.mode}
-                onChange={(e) => setActiveFilters(prev => ({ ...prev, mode: e.target.value }))}
-                className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
-              >
-                <option>All Modes</option>
-                <option>Open</option>
-                <option>Invite Only</option>
-                <option>Limited</option>
-              </select>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-[#E0E0E0] mb-2">Skill Evaluation</label>
-              <select
-                value={activeFilters.skillMode}
-                onChange={(e) => setActiveFilters(prev => ({ ...prev, skillMode: e.target.value }))}
-                className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
-              >
-                <option>All</option>
-                <option>Predefined</option>
-                <option>Stat-based</option>
-              </select>
-            </div>
-          </div>
+          <FilterSection />
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-10">
         {/* Featured Tryouts */}
-        {featuredTryouts.length > 0 && (
+        {tryouts.filter(t => t.featured).length > 0 && (
           <div className="mb-12">
             <div className="flex items-center gap-2 mb-6">
               <Star className="w-5 h-5 text-[#EE8631]" />
@@ -339,7 +444,7 @@ const TeamTryout = () => {
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {featuredTryouts.map((tryout) => {
+              {tryouts.filter(t => t.featured).map((tryout) => {
                 const bgGradient = gameBackgrounds[tryout.game] || gameBackgrounds.Default;
                 
                 return (
@@ -347,7 +452,6 @@ const TeamTryout = () => {
                     key={tryout.id}
                     className={`group relative overflow-hidden rounded-xl border border-[#95C5C5]/20 hover:border-[#95C5C5]/50 transition-all duration-300 bg-gradient-to-br ${bgGradient}`}
                   >
-                    {/* Header/Banner */}
                     <div className="relative h-40 overflow-hidden">
                       <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#292B35]/90 z-10"></div>
                       <img 
@@ -384,7 +488,6 @@ const TeamTryout = () => {
                       </div>
                     </div>
                     
-                    {/* Body */}
                     <div className="p-6">
                       <div className="flex flex-wrap gap-2 mb-4">
                         <Badge variant="type"><Zap className="w-3 h-3" /> {tryout.type}</Badge>
@@ -445,7 +548,6 @@ const TeamTryout = () => {
           </div>
         )}
 
-        {/* Regular Tryouts */}
         <div>
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-2">
@@ -453,12 +555,12 @@ const TeamTryout = () => {
               <h2 className="text-xl font-bold text-[#E0E0E0]">Available Tryouts</h2>
             </div>
             <div className="text-sm text-[#E0E0E0]">
-              Showing {regularTryouts.length} opportunities
+              Showing {tryouts.filter(t => !t.featured).length} opportunities
             </div>
           </div>
           
           <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 transition-all duration-300 ${isAnimating ? 'opacity-50 scale-98' : 'opacity-100 scale-100'}`}>
-            {regularTryouts.length > 0 ? regularTryouts.map((tryout) => {
+            {tryouts.filter(t => !t.featured).length > 0 ? tryouts.filter(t => !t.featured).map((tryout) => {
               const bgGradient = gameBackgrounds[tryout.game] || gameBackgrounds.Default;
               
               return (
@@ -531,7 +633,6 @@ const TeamTryout = () => {
         </div>
       </div>
       
-      {/* Stats Bar */}
       <div className="bg-gradient-to-r from-[#292B35] via-[#AD662F]/10 to-[#292B35] border-t border-[#95C5C5]/20 py-10 mt-16">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
