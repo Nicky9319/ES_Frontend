@@ -1,18 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { Bell, Search, Award, Users, Calendar, ChevronDown, Zap, Activity, Shield, Star, Trophy, Clock, Filter, X, Loader, PlusCircle } from 'lucide-react';
 
+const gameImages = {
+  'Valorant': {
+    logo: 'https://i.imgur.com/zGA9RfR.png',
+    banner: 'https://i.imgur.com/xqRm9L7.jpg',
+    icon: 'https://i.imgur.com/3JF9QhZ.png'
+  },
+  'CS2': {
+    logo: 'https://i.imgur.com/8xdAKPx.png',
+    banner: 'https://i.imgur.com/YWGqssb.jpg',
+    icon: 'https://i.imgur.com/4cMQGPz.png'
+  },
+  'Apex Legends': {
+    logo: 'https://i.imgur.com/pWT5TJi.png',
+    banner: 'https://i.imgur.com/JZw8pN7.jpg',
+    icon: 'https://i.imgur.com/L9ZLExF.png'
+  }
+};
+
+const teamLogos = {
+  'Team Phantom': 'https://i.imgur.com/nSaf7Rv.png',
+  'NightOwl': 'https://i.imgur.com/O2KcGP7.png',
+  'Default': 'https://i.imgur.com/placeholder.png'
+};
+
 const mockTryouts = [
   {
     id: 1,
     title: 'Team Phantom - Valorant Duelist',
-    teamLogo: '/api/placeholder/100/100',
-    teamBanner: '/api/placeholder/800/200',
+    teamLogo: teamLogos['Team Phantom'],
+    teamBanner: gameImages['Valorant'].banner,
     type: '1v1',
     mode: 'Invite Only',
     skillMode: 'Predefined',
     positions: ['Duelist'],
     game: 'Valorant',
-    gameIcon: '/api/placeholder/24/24',
+    gameIcon: gameImages['Valorant'].icon,
     description: 'Seeking an aggressive duelist with exceptional entry fragging capabilities.',
     requirements: {
       rank: 'Immortal+',
@@ -36,14 +60,14 @@ const mockTryouts = [
   {
     id: 2,
     title: 'NightOwl Esports CS2 Team',
-    teamLogo: '/api/placeholder/100/100',
-    teamBanner: '/api/placeholder/800/200',
+    teamLogo: teamLogos['NightOwl'],
+    teamBanner: gameImages['CS2'].banner,
     type: '5v5',
     mode: 'Limited (Max 10)',
     skillMode: 'Stat-based',
     positions: ['AWPer', 'IGL', 'Support', 'Entry', 'Lurker'],
     game: 'CS2',
-    gameIcon: '/api/placeholder/24/24',
+    gameIcon: gameImages['CS2'].icon,
     description: 'Building a professional CS2 roster. Top performers on leaderboard will be invited to final trials.',
     requirements: {
       rank: 'Global Elite',
@@ -67,12 +91,12 @@ const mockTryouts = [
   {
     id: 3,
     title: 'Apex Predator Hunt',
-    teamLogo: '/api/placeholder/100/100',
+    teamLogo: teamLogos['Default'],
     type: '3v3',
     mode: 'Open',
     skillMode: 'Stat-based',
     game: 'Apex Legends',
-    gameIcon: '/api/placeholder/24/24',
+    gameIcon: gameImages['Apex Legends'].icon,
     description: 'Seeking top fraggers for our competitive Apex team.',
     deadline: '2024-03-30',
     slots: 3,
@@ -84,12 +108,12 @@ const mockTryouts = [
   {
     id: 4,
     title: 'CS2 Rifler Position',
-    teamLogo: '/api/placeholder/100/100',
+    teamLogo: teamLogos['Default'],
     type: '1v1',
     mode: 'Invite Only',
     skillMode: 'Predefined',
     game: 'CS2',
-    gameIcon: '/api/placeholder/24/24',
+    gameIcon: gameImages['CS2'].icon,
     description: 'Looking for a consistent rifler to complete our roster.',
     deadline: '2024-04-05',
     slots: 1,
@@ -101,12 +125,12 @@ const mockTryouts = [
   {
     id: 5,
     title: 'Valorant Controller Tryout',
-    teamLogo: '/api/placeholder/100/100',
+    teamLogo: teamLogos['Default'],
     type: '5v5',
     mode: 'Limited',
     skillMode: 'Predefined',
     game: 'Valorant',
-    gameIcon: '/api/placeholder/24/24',
+    gameIcon: gameImages['Valorant'].icon,
     description: 'Need a controller main with exceptional game sense.',
     deadline: '2024-04-02',
     slots: 1,
@@ -123,6 +147,71 @@ const gameBackgrounds = {
   'Apex Legends': `from-[#EE8631]/20 to-[#292B35]/10`,
   'Default': `from-[#292B35]/20 to-[#292B35]/10`
 };
+
+const TeamLogo = ({ src, alt, className }) => (
+  <img 
+    src={src}
+    alt={alt}
+    className={className}
+    onError={(e) => {
+      e.target.onerror = null;
+      e.target.src = 'https://via.placeholder.com/100?text=Team';
+    }}
+  />
+);
+
+const GameIcon = ({ src, alt, className }) => (
+  <img 
+    src={src}
+    alt={alt}
+    className={className}
+    onError={(e) => {
+      e.target.onerror = null;
+      e.target.src = 'https://via.placeholder.com/24?text=Game';
+    }}
+  />
+);
+
+const PlatformInfo = () => (
+  <div className="py-16 bg-[#292B35]/50 border-y border-[#95C5C5]/10">
+    <div className="max-w-7xl mx-auto px-4">
+      <div className="text-center mb-12">
+        <h2 className="text-3xl font-bold mb-4">How It Works</h2>
+        <p className="text-[#E0E0E0]/80 max-w-2xl mx-auto">
+          ES Tryout Hub connects competitive players with professional esports teams through a 
+          structured tryout system. Teams can host custom tryouts and evaluate players based on 
+          their performance and stats.
+        </p>
+      </div>
+
+      <div className="grid md:grid-cols-3 gap-8">
+        <div className="bg-[#292B35] p-6 rounded-xl border border-[#95C5C5]/20 hover:border-[#EE8631]/50 transition-all">
+          <div className="w-12 h-12 rounded-lg bg-[#EE8631]/10 flex items-center justify-center mb-4">
+            <Search className="w-6 h-6 text-[#EE8631]" />
+          </div>
+          <h3 className="text-xl font-bold mb-2">Find Opportunities</h3>
+          <p className="text-[#E0E0E0]/70">Search and filter tryouts based on your game, role, and skill level.</p>
+        </div>
+
+        <div className="bg-[#292B35] p-6 rounded-xl border border-[#95C5C5]/20 hover:border-[#EE8631]/50 transition-all">
+          <div className="w-12 h-12 rounded-lg bg-[#95C5C5]/10 flex items-center justify-center mb-4">
+            <Trophy className="w-6 h-6 text-[#95C5C5]" />
+          </div>
+          <h3 className="text-xl font-bold mb-2">Show Your Skills</h3>
+          <p className="text-[#E0E0E0]/70">Participate in skill-based evaluations or submit your existing competitive stats.</p>
+        </div>
+
+        <div className="bg-[#292B35] p-6 rounded-xl border border-[#95C5C5]/20 hover:border-[#EE8631]/50 transition-all">
+          <div className="w-12 h-12 rounded-lg bg-[#EE8631]/10 flex items-center justify-center mb-4">
+            <Users className="w-6 h-6 text-[#EE8631]" />
+          </div>
+          <h3 className="text-xl font-bold mb-2">Join Pro Teams</h3>
+          <p className="text-[#E0E0E0]/70">Get selected based on your performance and start your professional journey.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+);
 
 const TeamTryout = () => {
   const [tryouts, setTryouts] = useState(mockTryouts);
@@ -183,65 +272,96 @@ const TeamTryout = () => {
 
   const HostTryoutModal = () => (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <div className="bg-[#292B35] rounded-xl border border-[#95C5C5]/20 w-full max-w-2xl p-6 mx-4">
-        <div className="flex justify-between items-center mb-6">
-          <h3 className="text-xl font-bold text-[#E0E0E0]">Host a Tryout</h3>
-          <button 
-            onClick={() => setShowHostModal(false)}
-            className="p-2 hover:bg-[#95C5C5]/10 rounded-lg transition-all"
-          >
-            <X className="w-5 h-5 text-[#95C5C5]" />
+      <div className="bg-[#292B35] rounded-xl border border-[#95C5C5]/20 w-full max-w-3xl p-8 mx-4">
+        <div className="flex justify-between items-center mb-8">
+          <h3 className="text-2xl font-bold">Host a Tryout</h3>
+          <button onClick={() => setShowHostModal(false)} className="p-2 hover:bg-[#95C5C5]/10 rounded-lg">
+            <X className="w-5 h-5" />
           </button>
         </div>
 
-        <form className="space-y-6">
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-[#E0E0E0] mb-2">Game</label>
-              <select className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0]">
-                <option>Select Game</option>
-                <option>Valorant</option>
-                <option>CS2</option>
-                <option>Apex Legends</option>
-              </select>
+        <form className="space-y-8">
+          <div className="grid grid-cols-3 gap-4">
+            {Object.entries(gameImages).map(([game, { icon }]) => (
+              <button
+                type="button"
+                key={game}
+                className="p-6 rounded-xl border border-[#95C5C5]/20 hover:border-[#EE8631] transition-all"
+              >
+                <img src={icon} alt={game} className="w-12 h-12 mx-auto mb-4" />
+                <span className="block text-center font-medium">{game}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="grid grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <label className="block text-sm font-medium">Type</label>
+              <div className="bg-[#292B35] rounded-lg border border-[#95C5C5]/20 p-2">
+                {['1v1', '5v5', '3v3', 'Custom'].map((type, i) => (
+                  <button
+                    key={type}
+                    type="button"
+                    className={`w-full p-2 rounded-lg text-center ${
+                      i === 0 ? 'bg-[#EE8631] text-white' : 'hover:bg-[#95C5C5]/10'
+                    }`}
+                  >
+                    {type}
+                  </button>
+                ))}
+              </div>
             </div>
-            <div>
-              <label className="block text-sm font-medium text-[#E0E0E0] mb-2">Type</label>
-              <select className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0]">
-                <option>1v1</option>
-                <option>5v5</option>
-                <option>3v3</option>
-                <option>Custom</option>
-              </select>
+
+            <div className="space-y-4">
+              <label className="block text-sm font-medium">Mode</label>
+              <div className="bg-[#292B35] rounded-lg border border-[#95C5C5]/20 p-2">
+                {['Open', 'Invite Only', 'Limited'].map((mode, i) => (
+                  <button
+                    key={mode}
+                    type="button"
+                    className={`w-full p-2 rounded-lg text-center ${
+                      i === 0 ? 'bg-[#EE8631] text-white' : 'hover:bg-[#95C5C5]/10'
+                    }`}
+                  >
+                    {mode}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-[#E0E0E0] mb-2">Requirements</label>
+            <h4 className="text-lg font-medium mb-4">Requirements</h4>
             <div className="grid grid-cols-2 gap-4">
-              {['Rank', 'K/D', 'Win Rate', 'Playtime'].map(req => (
-                <div key={req} className="flex gap-2">
+              {[
+                { label: 'Rank', placeholder: 'e.g. Diamond+' },
+                { label: 'K/D', placeholder: 'e.g. 1.5+' },
+                { label: 'Win Rate', placeholder: 'e.g. 60%+' },
+                { label: 'Playtime', placeholder: 'e.g. 1000hrs+' }
+              ].map(field => (
+                <div key={field.label} className="space-y-2">
+                  <label className="block text-sm font-medium">{field.label}</label>
                   <input
                     type="text"
-                    placeholder={req}
-                    className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0]"
+                    placeholder={field.placeholder}
+                    className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-3 focus:border-[#EE8631] transition-colors"
                   />
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="flex justify-end gap-3">
+          <div className="flex justify-end gap-4">
             <button
               type="button"
               onClick={() => setShowHostModal(false)}
-              className="px-4 py-2 border border-[#95C5C5]/20 rounded-lg text-[#E0E0E0] hover:bg-[#95C5C5]/10"
+              className="px-6 py-3 rounded-lg border border-[#95C5C5]/20 hover:bg-[#95C5C5]/10"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-[#EE8631] hover:bg-[#AD662F] rounded-lg text-[#E0E0E0]"
+              className="px-6 py-3 bg-[#EE8631] hover:bg-[#AD662F] rounded-lg text-white"
             >
               Create Tryout
             </button>
@@ -252,114 +372,85 @@ const TeamTryout = () => {
   );
 
   const FilterSection = () => (
-    <div>
-      <div className="flex items-center gap-4 mb-4">
-        {selectedFilters.map(({ key, value }) => (
-          <div
-            key={key}
-            className="flex items-center gap-2 px-3 py-1.5 bg-[#EE8631]/10 text-[#EE8631] rounded-full text-sm"
-          >
-            <span>{value}</span>
-            <button
-              onClick={() => handleFilterChange(key, key === 'game' ? 'All Games' : 'All')}
-              className="hover:text-[#AD662F]"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <select
-          value={activeFilters.game}
-          onChange={(e) => handleFilterChange('game', e.target.value)}
-          className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
+    <div className="bg-[#292B35] rounded-xl border border-[#95C5C5]/20 p-6">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="text-xl font-bold">Filter Tryouts</h3>
+        <button 
+          onClick={() => setActiveFilters({
+            game: 'All Games',
+            type: 'All Types',
+            mode: 'All Modes',
+            skillMode: 'All'
+          })}
+          className="text-sm text-[#95C5C5] hover:text-[#EE8631]"
         >
-          <option>All Games</option>
-          <option>Valorant</option>
-          <option>CS2</option>
-          <option>Apex Legends</option>
-        </select>
-        <select
-          value={activeFilters.type}
-          onChange={(e) => handleFilterChange('type', e.target.value)}
-          className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
-        >
-          <option>All Types</option>
-          <option>1v1</option>
-          <option>5v5</option>
-          <option>3v3</option>
-          <option>Custom</option>
-        </select>
-        <select
-          value={activeFilters.mode}
-          onChange={(e) => handleFilterChange('mode', e.target.value)}
-          className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
-        >
-          <option>All Modes</option>
-          <option>Open</option>
-          <option>Invite Only</option>
-          <option>Limited</option>
-        </select>
-        <select
-          value={activeFilters.skillMode}
-          onChange={(e) => handleFilterChange('skillMode', e.target.value)}
-          className="w-full bg-[#292B35] border border-[#95C5C5]/20 rounded-lg px-4 py-2.5 text-[#E0E0E0] focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
-        >
-          <option>All</option>
-          <option>Predefined</option>
-          <option>Stat-based</option>
-        </select>
-      </div>
-    </div>
-  );
-
-  const SearchSection = () => (
-    <div className="relative">
-      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-        {isSearching ? (
-          <Loader className="h-4 w-4 text-[#95C5C5] animate-spin" />
-        ) : (
-          <Search className="h-4 w-4 text-[#95C5C5]" />
-        )}
-      </div>
-      <input 
-        type="text" 
-        placeholder="Search tryouts..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        className="pl-10 pr-4 py-2 w-full md:w-64 bg-[#292B35] rounded-lg border border-[#95C5C5]/20 focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
-      />
-      {searchQuery && (
-        <button
-          onClick={() => setSearchQuery('')}
-          className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#95C5C5] hover:text-[#EE8631]"
-        >
-          <X className="w-4 h-4" />
+          Reset Filters
         </button>
-      )}
+      </div>
+
+      <div className="space-y-6">
+        <div>
+          <label className="block text-sm font-medium mb-2">Game</label>
+          <div className="grid grid-cols-4 gap-4">
+            {Object.entries(gameImages).map(([game, { icon }]) => (
+              <button
+                key={game}
+                onClick={() => handleFilterChange('game', game)}
+                className={`p-4 rounded-lg border ${
+                  activeFilters.game === game
+                    ? 'border-[#EE8631] bg-[#EE8631]/10'
+                    : 'border-[#95C5C5]/20 hover:border-[#95C5C5]/40'
+                }`}
+              >
+                <img src={icon} alt={game} className="w-8 h-8 mx-auto mb-2" />
+                <span className="text-sm">{game}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-medium mb-2">Type</label>
+            <div className="space-y-2">
+              {['1v1', '5v5', '3v3', 'Custom'].map(type => (
+                <button
+                  key={type}
+                  onClick={() => handleFilterChange('type', type)}
+                  className={`w-full p-3 rounded-lg text-left ${
+                    activeFilters.type === type
+                      ? 'bg-[#EE8631] text-white'
+                      : 'bg-[#292B35] border border-[#95C5C5]/20 hover:border-[#95C5C5]/40'
+                  }`}
+                >
+                  {type}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-2">Mode</label>
+            <div className="space-y-2">
+              {['Open', 'Invite Only', 'Limited'].map(mode => (
+                <button
+                  key={mode}
+                  onClick={() => handleFilterChange('mode', mode)}
+                  className={`w-full p-3 rounded-lg text-left ${
+                    activeFilters.mode === mode
+                      ? 'bg-[#EE8631] text-white'
+                      : 'bg-[#292B35] border border-[#95C5C5]/20 hover:border-[#95C5C5]/40'
+                  }`}
+                >
+                  {mode}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
-
-  const Badge = ({ children, variant = "default", className = "" }) => {
-    const variantClasses = {
-      default: "bg-[#292B35] text-[#E0E0E0]",
-      primary: "bg-[#95C5C5]/30 text-[#95C5C5] border border-[#95C5C5]/50",
-      success: "bg-[#95C5C5]/20 text-[#95C5C5] border border-[#95C5C5]/50",
-      danger: "bg-[#EE8631]/20 text-[#EE8631] border border-[#EE8631]/50",
-      warning: "bg-[#AD662F]/20 text-[#AD662F] border border-[#AD662F]/50",
-      mode: "bg-[#292B35]/30 text-[#95C5C5] border border-[#95C5C5]/50",
-      skill: "bg-[#292B35]/30 text-[#95C5C5] border border-[#95C5C5]/50",
-      type: "bg-[#292B35]/30 text-[#EE8631] border border-[#EE8631]/50",
-    };
-    
-    return (
-      <span className={`px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1 ${variantClasses[variant]} ${className}`}>
-        {children}
-      </span>
-    );
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#292B35] via-[#292B35]/90 to-[#292B35] text-[#E0E0E0]">
@@ -373,7 +464,30 @@ const TeamTryout = () => {
               <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#95C5C5] to-[#EE8631]">TRYOUT HUB</h1>
             </div>
             <div className="flex items-center gap-4">
-              <SearchSection />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  {isSearching ? (
+                    <Loader className="h-4 w-4 text-[#95C5C5] animate-spin" />
+                  ) : (
+                    <Search className="h-4 w-4 text-[#95C5C5]" />
+                  )}
+                </div>
+                <input 
+                  type="text" 
+                  placeholder="Search tryouts..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="pl-10 pr-4 py-2 w-full md:w-64 bg-[#292B35] rounded-lg border border-[#95C5C5]/20 focus:outline-none focus:ring-2 focus:ring-[#EE8631]"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#95C5C5] hover:text-[#EE8631]"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
               <button
                 onClick={() => setShowHostModal(true)}
                 className="flex items-center gap-2 px-4 py-2 bg-[#EE8631] hover:bg-[#AD662F] rounded-lg text-[#E0E0E0] transition-all"
@@ -428,6 +542,8 @@ const TeamTryout = () => {
         </div>
       </div>
 
+      <PlatformInfo />
+
       <div className={`bg-[#292B35]/70 backdrop-blur-md border-y border-[#95C5C5]/20 transition-all duration-300 overflow-hidden ${filterOpen ? 'max-h-96' : 'max-h-0'}`}>
         <div className="max-w-7xl mx-auto px-4 py-6">
           <FilterSection />
@@ -462,12 +578,12 @@ const TeamTryout = () => {
                       <div className="absolute bottom-0 left-0 w-full p-4 z-20">
                         <div className="flex items-center gap-3">
                           <div className="relative">
-                            <img 
+                            <TeamLogo 
                               src={tryout.teamLogo} 
                               alt={tryout.title}
                               className="w-12 h-12 rounded-lg border-2 border-[#95C5C5]/50"
                             />
-                            <img 
+                            <GameIcon 
                               src={tryout.gameIcon}
                               alt={tryout.game}
                               className="absolute -bottom-1 -right-1 w-6 h-6 rounded border border-[#95C5C5]/50"
@@ -490,9 +606,15 @@ const TeamTryout = () => {
                     
                     <div className="p-6">
                       <div className="flex flex-wrap gap-2 mb-4">
-                        <Badge variant="type"><Zap className="w-3 h-3" /> {tryout.type}</Badge>
-                        <Badge variant="mode"><Users className="w-3 h-3" /> {tryout.mode}</Badge>
-                        <Badge variant="skill"><Activity className="w-3 h-3" /> {tryout.skillMode}</Badge>
+                        <span className="px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1 bg-[#292B35] text-[#E0E0E0]">
+                          <Zap className="w-3 h-3" /> {tryout.type}
+                        </span>
+                        <span className="px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1 bg-[#292B35] text-[#E0E0E0]">
+                          <Users className="w-3 h-3" /> {tryout.mode}
+                        </span>
+                        <span className="px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1 bg-[#292B35] text-[#E0E0E0]">
+                          <Activity className="w-3 h-3" /> {tryout.skillMode}
+                        </span>
                       </div>
                       
                       <p className="text-[#E0E0E0] mb-6">{tryout.description}</p>
@@ -570,7 +692,7 @@ const TeamTryout = () => {
                 >
                   <div className="p-5">
                     <div className="flex items-center gap-3 mb-4">
-                      <img 
+                      <TeamLogo 
                         src={tryout.teamLogo} 
                         alt={tryout.title}
                         className="w-10 h-10 rounded-lg border border-[#292B35]"
@@ -578,7 +700,7 @@ const TeamTryout = () => {
                       <div>
                         <h3 className="text-lg font-bold text-[#E0E0E0]">{tryout.title}</h3>
                         <div className="flex items-center gap-1 text-sm text-[#E0E0E0]">
-                          <img 
+                          <GameIcon 
                             src={tryout.gameIcon}
                             alt={tryout.game}
                             className="w-4 h-4 rounded"
@@ -591,9 +713,15 @@ const TeamTryout = () => {
                     <p className="text-[#E0E0E0] text-sm mb-4 line-clamp-2">{tryout.description}</p>
                     
                     <div className="flex flex-wrap gap-2 mb-4">
-                      <Badge variant="type">{tryout.type}</Badge>
-                      <Badge variant="mode">{tryout.mode}</Badge>
-                      <Badge variant="skill">{tryout.skillMode}</Badge>
+                      <span className="px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1 bg-[#292B35] text-[#E0E0E0]">
+                        {tryout.type}
+                      </span>
+                      <span className="px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1 bg-[#292B35] text-[#E0E0E0]">
+                        {tryout.mode}
+                      </span>
+                      <span className="px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1 bg-[#292B35] text-[#E0E0E0]">
+                        {tryout.skillMode}
+                      </span>
                     </div>
                     
                     <div className="flex items-center justify-between">
