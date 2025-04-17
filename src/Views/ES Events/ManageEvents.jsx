@@ -69,7 +69,7 @@ export default function ManageEvents() {
           prize: event.PRIZE_POOL,
           status: status,
           location: event.VENUE,
-          image: event.IMAGE || "/api/placeholder/60/60",
+          image: event.IMAGE,
           description: event.DESCRIPTION,
           deadline: new Date(
             event.REGISTRATION_DEADLINE.$date
@@ -101,7 +101,7 @@ export default function ManageEvents() {
           prize: "$5,000",
           status: "Active",
           location: "Neon Arena, Game City",
-          image: "/api/placeholder/60/60",
+          image: "",
         },
         {
           id: "EVT12346",
@@ -112,7 +112,7 @@ export default function ManageEvents() {
           prize: "$3,500",
           status: "Upcoming",
           location: "Virtual Gaming Hub",
-          image: "/api/placeholder/60/60",
+          image: "",
         },
       ]);
     }

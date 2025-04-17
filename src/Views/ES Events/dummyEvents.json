@@ -96,7 +96,7 @@
       "PRIZE_POOL": "N/A",
       "LOCATION": "Offline",
       "FORMAT": "Exhibition",
-      "IMAGE": "https://images.unsplash.com/photo-1588981857494-3985eb0c4b4c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+
       "QUESTIONNAIRE": [
         {
           "QUESTION": "Are you a game developer?",
@@ -135,7 +135,7 @@
       "PRIZE_POOL": "Tokens & Bragging Rights",
       "LOCATION": "Offline",
       "FORMAT": "Free Play",
-      "IMAGE": "https://images.unsplash.com/photo-1560264234-b500085a7894?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+      "IMAGE": "",
       "QUESTIONNAIRE": [
         {
           "QUESTION": "Do you love retro games?",
