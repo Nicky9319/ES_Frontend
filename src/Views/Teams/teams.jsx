@@ -113,7 +113,7 @@ const ConfirmationModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 px-4">
+    <div className="fixed inset-0 bg-black bg-opacity-70 gap-2 flex items-center justify-center z-50 px-4">
       <div className="bg-[#292B35] rounded-xl border border-[#95C5C5]/20 shadow-xl max-w-md w-full animate-fadeIn">
         <div className="p-6 border-b border-[#95C5C5]/20">
           <div className="flex justify-between items-center">
@@ -168,16 +168,19 @@ const TeamCard = ({
   onClick,
   onDiscard,
   onLeave,
-  currentUserId = "user1",
+  currentUserId = "u_003",
 }) => {
   const [showOptions, setShowOptions] = useState(false);
 
   const userParticipation = team.PARTICIPANTS.find(
     (p) => p.USER_ID === currentUserId
   );
-  const isAdmin = userParticipation?.ACCESS === "ADMIN";
-  const isMember = !!userParticipation;
+  console.log(currentUserId);
+  console.log("\n\n\n\n\n\n\n", userParticipation, "\n\n\n\n\n");
 
+  const isAdmin = userParticipation?.ACCESS === "ADMIN";
+  const isMember = userParticipation?.ACCESS === "MEMBER";
+  console.log("\n\n\n\n\n\n\n", userParticipation?.ACCESS, "\n\n\n\n\n");
   return (
     <div
       className="bg-[#2F3140] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer group relative"
@@ -347,7 +350,7 @@ const Teams = () => {
   const VITE_TEAMS_SERVICE = import.meta.env.VITE_TEAMS_SERVICE;
   const storedUserId = localStorage.getItem("USER_ID");
   const currentUserId =
-    storedUserId || "u_e5f6a7b8-c9d0-1234-5678-90abcdef1234";
+    storedUserId || "u_c3d4e5f6-a7b8-9012-3456-7890abcdef12";
   const [teamsData, setTeamsData] = useState(null);
   useEffect(() => {
     fetch(

@@ -23,11 +23,13 @@ function EsEvents() {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        console.log(`http://${EVENTS_SERVICE}/Events/AllEvents`)
-        const response = await fetch(`http://${EVENTS_SERVICE}/Events/AllEvents`);
-        console.log(response)
+        console.log(`http://${EVENTS_SERVICE}/Events/AllEvents`);
+        const response = await fetch(
+          `http://${EVENTS_SERVICE}/Events/AllEvents`
+        );
+        console.log(response);
         const data = await response.json();
-        console.log(data)
+        console.log(data);
         setEvents(data);
       } catch (error) {
         console.error("Error fetching events:", error);
@@ -83,7 +85,7 @@ function EsEvents() {
   }, [selectedGameType]);
 
   const handleViewDetails = (eventId) => {
-    navigate(`/event-info/${eventId}`);
+    navigate(`/view-nt-info/${eventId}`);
   };
 
   const esportsEvents = useMemo(() => {

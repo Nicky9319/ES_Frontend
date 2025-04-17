@@ -10,7 +10,7 @@
     },
     {
       "ACCESS": "MEMBER",
-      "USER_ID": "u_e5f6a7b8-c9d0-1234-5678-90abcdef1234"
+      "USER_ID": "u_001"
     }
   ],
   "TEAM_LOGO": "https://example.com/logo.png",
@@ -35,5 +35,5 @@
       "GAME": "Fortnite"
     }
   ],
-  "ROLE":"ADMIN"
+  "ROLE": "ADMIN"
 }
