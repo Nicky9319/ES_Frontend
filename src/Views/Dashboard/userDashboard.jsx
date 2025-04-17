@@ -32,6 +32,10 @@ import {
   Calendar as CalendarIcon,
 } from "lucide-react";
 
+
+import RightSlider from "../components/rightSlider";
+import LeftSlider from "../components/leftSlider";
+
 // Color constants for consistent styling
 const COLORS = {
   primary: "#292B35",
@@ -465,6 +469,7 @@ export default function UserDashboard() {
 
   return (
     <div className="min-h-screen bg-[#292B35] text-[#E0E0E0] p-4">
+      <LeftSlider />
 
       {/* Grid Layout - Rearranged */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -846,6 +851,8 @@ export default function UserDashboard() {
           </div>
         </div>
       </div>
+
+      <RightSlider />
     </div>
   );
 }
