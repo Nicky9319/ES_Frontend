@@ -34,7 +34,7 @@ import Authentication from "./Views/Authentication/authentication";
 
 import Teams from "./Views/Teams/teams";
 
-import EsLeague from "./Views/ES League/esLeague"; 
+import EsLeague from "./Views/ES League/esLeague";
 
 import {
   BrowserRouter as Router,
@@ -42,6 +42,7 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import EsTiers from "./Views/ES Tiers/EsTiers";
 
 // Get the base URL from the import.meta.env (injected by Vite)
 const baseUrl = import.meta.env.BASE_URL || "/";
@@ -88,6 +89,7 @@ function AppInner() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/mentorProfile" element={<MentorProfile />} />
         <Route path="/dm-page" element={<DMPage />} />
+        <Route path="/es-tiers" element={<EsTiers />} />
 
         <Route path="/user-dashboard" element={<UserDashboard />} />
         <Route path="mentor-dashboard" element={<MentorDashboard />} />
@@ -119,7 +121,7 @@ function AppInner() {
 
         <Route path="/event-register" element={<EventRegister />} />
 
-        <Route path="es-league" element={<EsLeague/>}/>
+        <Route path="es-league" element={<EsLeague />} />
 
         {/* Add more routes as needed */}
       </Routes>
