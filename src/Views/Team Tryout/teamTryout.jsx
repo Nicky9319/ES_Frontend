@@ -578,8 +578,14 @@ const TeamTryout = () => {
 
       <PlatformInfo />
 
-      <div className={`bg-[#292B35]/70 backdrop-blur-md border-y border-[#95C5C5]/20 transition-all duration-300 overflow-hidden ${filterOpen ? 'max-h-96' : 'max-h-0'}`}>
-        <div className="max-w-7xl mx-auto px-4 py-6">
+      <div className={`transform transition-all duration-300 ease-in-out overflow-hidden ${
+        filterOpen 
+          ? 'h-auto opacity-100 border-y border-[#95C5C5]/20 bg-[#292B35]/70 backdrop-blur-md'
+          : 'h-0 opacity-0 border-y border-transparent'
+      }`}>
+        <div className={`max-w-7xl mx-auto px-4 py-6 transform transition-all duration-300 ${
+          filterOpen ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0'
+        }`}>
           <FilterSection />
         </div>
       </div>
