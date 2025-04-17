@@ -24,6 +24,10 @@ import {
 
 import PerformanceCharts from "./performanceCharts";
 
+
+import RightSlider from "../components/rightSlider";
+import LeftSlider from "../components/leftSlider";
+
 // Color constants for consistent styling
 const COLORS = {
   primary: "#292B35",
@@ -541,6 +545,9 @@ export default function UserDashboard() {
 
   return (
     <div className="min-h-screen bg-[#292B35] text-[#E0E0E0] p-4">
+
+      <LeftSlider></LeftSlider>
+
       {/* New User Header - Outside of Grid */}
       <div className="mb-6 bg-gradient-to-r from-[#35383f] to-[#292B35] rounded-xl border border-[#95C5C5]/30 shadow-lg overflow-hidden">
         <div className="h-3 bg-gradient-to-r from-[#95C5C5] to-[#EE8631]"></div>
@@ -838,6 +845,8 @@ export default function UserDashboard() {
 
       {/* Performance Charts Section */}
       <PerformanceCharts />
+
+      <RightSlider></RightSlider>
     </div>
   );
 }
