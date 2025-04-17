@@ -15,9 +15,8 @@ import {
 } from "react-icons/fa";
 import CreateTeam from "./createTeam";
 import TeamDashboard from "./TeamDashboard";
-import teamsData from "./Teams.json";
-
-const VITE_TEAMS_SERVICE = import.meta.env.VITE_TEAMS_SERVICE;
+// import teamsData from "./Teams.json";
+// const teamsData2 = teamsData;
 
 // Enhanced dashboard stats with more context
 const dashboardStats = [
@@ -345,35 +344,46 @@ const StatCard = ({ stat, index }) => (
 
 // Main component
 const Teams = () => {
+  const VITE_TEAMS_SERVICE = import.meta.env.VITE_TEAMS_SERVICE;
+  const storedUserId = localStorage.getItem("USER_ID");
+  const currentUserId =
+    storedUserId || "u_e5f6a7b8-c9d0-1234-5678-90abcdef1234";
+  const [teamsData, setTeamsData] = useState(null);
+  useEffect(() => {
+    fetch(
+      `http://${VITE_TEAMS_SERVICE}/Teams/User/GetAllTeams?USER_ID=${currentUserId}`
+    )
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Teams:", data);
+        setTeamsData(data);
+      })
+      .catch((error) => {
+        console.error("Error fetching teams:", error);
+      });
+  }, [VITE_TEAMS_SERVICE, currentUserId]);
+
+  useEffect(() => {
+    if (teamsData) {
+      console.log("Updated teamsData:", teamsData);
+    }
+  }, [teamsData]);
+
   const [activeView, setActiveView] = useState("dashboard");
   const [selectedTeam, setSelectedTeam] = useState(null);
-  const [teams, setTeams] = useState(
-    Array.isArray(teamsData) ? teamsData : mockTeams
-  );
+  // Use teamsData.TEAMS if available, otherwise fallback to mockTeams
+  const teams = Array.isArray(teamsData?.TEAMS) ? teamsData.TEAMS : mockTeams;
   const [showDiscardModal, setShowDiscardModal] = useState(false);
   const [showLeaveModal, setShowLeaveModal] = useState(false);
   const [teamToManage, setTeamToManage] = useState(null);
   const [notification, setNotification] = useState(null);
 
   // Simulated current user ID - would come from auth context in real app
-  const storedUserId = localStorage.getItem("USER_ID");
-  const currentUserId = storedUserId || "bf818134-4eed-41ab-a8f6-e91938f22987";
-
-  fetch(
-    `http://${VITE_TEAMS_SERVICE}/Teams/User/GetAllTeams?USER_ID=${currentUserId}`
-  )
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      console.log("Teams:", data);
-    })
-    .catch((error) => {
-      console.error("Error fetching teams:", error);
-    });
 
   const handleCreateTeamClick = () => {
     setActiveView("create");
@@ -420,61 +430,31 @@ const Teams = () => {
 
   // Updated function to confirm team discard
   const confirmTeamDiscard = () => {
-    if (!teamToManage) return;
-
-    // Completely remove the team
-    const updatedTeams = teams.filter(
-      (team) => team.TEAM_ID !== teamToManage.TEAM_ID
-    );
-    setTeams(updatedTeams);
-
     setNotification({
-      message: `Team "${teamToManage.NAME}" has been disbanded`,
+      message: `Team "${teamToManage?.NAME}" has been disbanded`,
       type: "success",
     });
-
     setTimeout(() => setNotification(null), 5000);
     setShowDiscardModal(false);
     setTeamToManage(null);
-
-    // If we're in team dashboard view, go back to main view
     if (activeView === "teamDashboard") {
       handleBackClick();
     }
+    // Optionally: refetch teamsData here
   };
 
-  // Updated function to confirm leaving a team
   const confirmTeamLeave = () => {
-    if (!teamToManage) return;
-
-    // Update the team by removing the current user from participants
-    const updatedTeams = teams.map((team) => {
-      if (team.TEAM_ID === teamToManage.TEAM_ID) {
-        return {
-          ...team,
-          PARTICIPANTS: team.PARTICIPANTS.filter(
-            (p) => p.USER_ID !== currentUserId
-          ),
-        };
-      }
-      return team;
-    });
-
-    setTeams(updatedTeams);
-
     setNotification({
-      message: `You have left team "${teamToManage.NAME}"`,
+      message: `You have left team "${teamToManage?.NAME}"`,
       type: "info",
     });
-
     setTimeout(() => setNotification(null), 5000);
     setShowLeaveModal(false);
     setTeamToManage(null);
-
-    // If we're in team dashboard view, go back to main view
     if (activeView === "teamDashboard") {
       handleBackClick();
     }
+    // Optionally: refetch teamsData here
   };
 
   // Notification component
