@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaUsers,
   FaTrophy,
@@ -16,6 +16,8 @@ import {
 import CreateTeam from "./createTeam";
 import TeamDashboard from "./TeamDashboard";
 import teamsData from "./Teams.json";
+
+const VITE_TEAMS_SERVICE = import.meta.env.VITE_TEAMS_SERVICE;
 
 // Enhanced dashboard stats with more context
 const dashboardStats = [
@@ -198,7 +200,6 @@ const TeamCard = ({
               <FaTrash size={16} />
             </button>
           ) : (
-            
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -208,10 +209,8 @@ const TeamCard = ({
               title="Leave Team"
             >
               <FaSignOutAlt size={16} />
-              
             </button>
           )}
-          
         </div>
       )}
 
@@ -357,7 +356,24 @@ const Teams = () => {
   const [notification, setNotification] = useState(null);
 
   // Simulated current user ID - would come from auth context in real app
-  const currentUserId = "user1";
+  const storedUserId = localStorage.getItem("USER_ID");
+  const currentUserId = storedUserId || "bf818134-4eed-41ab-a8f6-e91938f22987";
+
+  fetch(
+    `http://${VITE_TEAMS_SERVICE}/Teams/User/GetAllTeams?USER_ID=${currentUserId}`
+  )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Teams:", data);
+    })
+    .catch((error) => {
+      console.error("Error fetching teams:", error);
+    });
 
   const handleCreateTeamClick = () => {
     setActiveView("create");
