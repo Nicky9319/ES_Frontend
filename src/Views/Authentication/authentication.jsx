@@ -1,8 +1,30 @@
 import React from "react";
+import { signInWithGoogle } from "./auth";
+import { useNavigate } from "react-router-dom";
+import { useAuthStatus } from "../../context/authStatusContext";
 
 export default function AuthPage() {
-  const handleGoogleClick = () => {
-    alert("Google Sign-In clicked!");
+  const navigate = useNavigate();
+  const authStatus = useAuthStatus() || {};
+  const setIsAuthenticating = authStatus.setIsAuthenticating || (() => {});
+
+  const handleGoogleClick = async () => {
+    try {
+      const userCredential = await signInWithGoogle();
+      if (userCredential) {
+        const userName = userCredential.displayName || "User";
+        alert(`Welcome, ${userName}!`);
+        setIsAuthenticating(true);
+        navigate("/choose-persona");
+      }
+    } catch (err) {
+      console.error("Error in handleGoogleClick:", err);
+      alert(
+        "Sign in successful but backend sync failed. Some features may be limited."
+      );
+      setIsAuthenticating(true);
+      navigate("/choose-persona");
+    }
   };
 
   return (
@@ -24,13 +46,15 @@ export default function AuthPage() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent" />
         </div>
-        
+
         <div className="relative w-full max-w-md bg-slate-800/50 backdrop-blur-sm p-10 rounded-xl shadow-lg text-center border border-slate-600/30">
-          <h1 className="text-4xl font-bold mb-4 text-slate-200 tracking-wider">ELOSphere</h1>
+          <h1 className="text-4xl font-bold mb-4 text-slate-200 tracking-wider">
+            ELOSphere
+          </h1>
           <p className="text-slate-400 mb-8 tracking-wide text-lg">
             Your Gateway to Competitive Gaming Excellence
           </p>
-          
+
           <button
             onClick={handleGoogleClick}
             className="w-full flex items-center justify-center gap-4 px-6 py-4 bg-slate-700 border border-slate-600 rounded-lg text-slate-200 hover:bg-slate-600 transition-all duration-300 font-medium tracking-wide"
