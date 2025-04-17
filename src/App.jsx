@@ -36,7 +36,7 @@ import Teams from "./Views/Teams/teams";
 
 import EsLeague from "./Views/ES League/esLeague";
 
-import TeamTryout from "./Views/Team Tryout/teamTryout";  
+import TeamTryout from "./Views/Team Tryout/teamTryout";
 
 import {
   BrowserRouter as Router,
@@ -83,7 +83,8 @@ function AppInner() {
         !isMentorProfileCreationPageRoute &&
         !isAuthenticationPageRoute && <Navbar />}
       <Routes>
-        <Route path="/" element={<EsEvents />} />
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/events" element={<EsEvents />} />
         <Route path="/manage-events" element={<ManageEvents />} />
 
         <Route path="/social" element={<Social />} />
@@ -110,7 +111,7 @@ function AppInner() {
         <Route path="/landing-page" element={<LandingPage />} />
         <Route path="/teams" element={<Teams />} />
 
-        <Route path="/team-tryout" element={<TeamTryout/>}/>
+        <Route path="/team-tryout" element={<TeamTryout />} />
 
         <Route
           path="/user-profile-creation-page"

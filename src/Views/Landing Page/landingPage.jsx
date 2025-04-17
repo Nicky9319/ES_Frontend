@@ -70,7 +70,10 @@ function LandingPage() {
                 FAQ
               </a>
 
-              <button className="px-6 py-2 bg-[#EE8631] text-white rounded-lg hover:bg-[#AD662F] transform hover:scale-105 transition-all">
+              <button
+                className="px-6 py-2 bg-[#EE8631] text-white rounded-lg hover:bg-[#AD662F] transform hover:scale-105 transition-all hover:cursor"
+                onClick={() => (window.location.href = "/authentication")}
+              >
                 Get Started
               </button>
             </div>
