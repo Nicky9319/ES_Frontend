@@ -40,6 +40,7 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import EsTiers from "./Views/Es Tiers/EsTiers";
 
 // Get the base URL from the import.meta.env (injected by Vite)
 const baseUrl = import.meta.env.BASE_URL || "/";
@@ -116,6 +117,7 @@ function AppInner() {
         <Route path="/authentication" element={<Authentication />} />
 
         <Route path="/event-register" element={<EventRegister />} />
+        <Route path="/es-tiers" element={<EsTiers />} />
 
         {/* Add more routes as needed */}
       </Routes>
