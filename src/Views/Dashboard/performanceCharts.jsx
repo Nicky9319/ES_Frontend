@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { LineChart, ChevronRight, User } from "lucide-react";
+import { ChevronRight, LineChart, User } from "lucide-react";
+import React, { useEffect, useState } from "react";
 
 // Import only the needed components from recharts
 import {
-  LineChart as RechartsLineChart,
+  CartesianGrid,
+  Cell,
+  Legend,
   Line,
-  PieChart,
   Pie,
+  PieChart,
+  LineChart as RechartsLineChart,
+  ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-  Cell,
-} from "recharts/es6";
+} from "recharts";
 
 // Color constants for consistent styling
 const COLORS = {
