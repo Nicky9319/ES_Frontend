@@ -525,32 +525,6 @@ const TeamTryout = () => {
     </div>
   );
 
-  const renderTryoutCard = (tryout) => (
-    <div className="relative h-40 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#292B35]/90 z-10"></div>
-      <img 
-        src={tryout.teamBanner} 
-        alt="" 
-        className="w-full h-full object-cover"
-      />
-      <div className="absolute bottom-0 left-0 w-full p-4 z-20">
-        <div>
-          <h3 className="text-xl font-bold text-[#E0E0E0]">{tryout.title}</h3>
-          <div className="flex items-center gap-2 text-sm text-[#E0E0E0]">
-            <span>{tryout.game}</span>
-            <span className="w-1 h-1 rounded-full bg-[#95C5C5]"></span>
-            <div className="flex items-center gap-1">
-              <Trophy className="w-3 h-3 text-[#EE8631]" />
-              <span>{tryout.teamStats?.tournaments || 0} tournaments</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-
-  const sortedTryouts = [...tryouts].sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#292B35] via-[#292B35]/90 to-[#292B35] text-[#E0E0E0]">
       {showHostModal && <HostTryoutModal />}
@@ -656,101 +630,125 @@ const TeamTryout = () => {
 
       <div className="max-w-7xl mx-auto px-4 py-10">
         <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
-            <h2 className="text-2xl font-bold text-[#E0E0E0]">Tryout Opportunities</h2>
+          <div className="flex items-center gap-6">
+            <h2 className="text-3xl font-extrabold tracking-tight">
+              Available <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#95C5C5] to-[#EE8631]">Tryouts</span>
+            </h2>
+            <div className="flex items-center gap-2 px-3 py-1 bg-[#292B35]/60 rounded-full border border-[#95C5C5]/20">
+              <Trophy className="w-4 h-4 text-[#EE8631]" />
+              <span className="text-sm font-medium">{tryouts.length} opportunities</span>
+            </div>
             <button
               onClick={() => setShowOnboarding(true)}
-              className="text-sm text-[#95C5C5] hover:text-[#EE8631] flex items-center gap-1"
+              className="text-sm bg-[#292B35]/60 px-4 py-1.5 rounded-full border border-[#95C5C5]/20 hover:border-[#EE8631] transition-colors flex items-center gap-2"
             >
               <Info className="w-4 h-4" />
               How it works
             </button>
           </div>
-          <div className="text-sm text-[#E0E0E0]">
-            Showing {sortedTryouts.length} opportunities
-          </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {sortedTryouts.map((tryout) => {
-            const bgGradient = gameBackgrounds[tryout.game] || gameBackgrounds.Default;
-            return (
-              <motion.div
-                key={tryout.id}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: tryout.featured ? 0 : 0.1 }}
-                className={`group relative overflow-hidden rounded-2xl border-2 ${
-                  tryout.featured
-                    ? 'border-[#EE8631]/80 shadow-lg shadow-[#EE8631]/10'
-                    : 'border-[#95C5C5]/20'
-                } hover:border-[#95C5C5]/50 bg-gradient-to-br ' + ${bgGradient} transition-all duration-300`}
-              >
-                {tryout.featured && (
-                  <div className="absolute top-4 right-4 z-10 px-3 py-1 bg-[#EE8631] text-white text-xs font-bold rounded-full shadow">
-                    <Star className="inline w-4 h-4 mr-1 -mt-1" /> FEATURED
+
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          {tryouts.map((tryout, idx) => (
+            <motion.div
+              key={tryout.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: idx * 0.1 }}
+              className="group relative bg-[#292B35]/40 backdrop-blur-sm rounded-xl overflow-hidden hover:bg-[#292B35]/60 transition-all duration-300"
+            >
+              {/* Game Banner with Overlay */}
+              <div className="relative h-48 overflow-hidden">
+                <img
+                  src={tryout.teamBanner}
+                  alt={tryout.game}
+                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#292B35] via-[#292B35]/50 to-transparent" />
+                
+                {/* Quick Stats Overlay */}
+                <div className="absolute top-4 right-4 flex gap-2">
+                  <div className="px-2 py-1 rounded bg-black/50 backdrop-blur-sm text-xs font-medium border border-[#95C5C5]/20">
+                    <span className="text-[#EE8631]">{tryout.type}</span>
                   </div>
-                )}
-                {renderTryoutCard(tryout)}
-                <div className="p-6">
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    <span className="px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1 bg-[#292B35] text-[#E0E0E0]">
-                      <Zap className="w-3 h-3" /> {tryout.type}
-                    </span>
-                    <span className="px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1 bg-[#292B35] text-[#E0E0E0]">
-                      <Users className="w-3 h-3" /> {tryout.mode}
-                    </span>
-                    <span className="px-2 py-1 rounded-md text-xs font-medium flex items-center gap-1 bg-[#292B35] text-[#E0E0E0]">
-                      <Activity className="w-3 h-3" /> {tryout.skillMode}
-                    </span>
-                  </div>
-                  <p className="text-[#E0E0E0] mb-6">{tryout.description}</p>
-                  {tryout.requirements && (
-                    <div className="mb-6">
-                      <h4 className="text-sm font-semibold text-[#95C5C5] mb-2">REQUIREMENTS</h4>
-                      <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                        {Object.entries(tryout.requirements).map(([key, value]) => (
-                          <div key={key} className="bg-[#292B35]/50 rounded-lg px-3 py-2 border border-[#95C5C5]/50">
-                            <div className="text-xs text-[#E0E0E0] capitalize">{key}</div>
-                            <div className="text-[#E0E0E0] font-medium">{value}</div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="text-sm text-[#E0E0E0]">
-                        <div className="flex items-center gap-1 mb-1">
-                          <Calendar className="w-3 h-3" />
-                          <span>Deadline: {tryout.deadline}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Users className="w-3 h-3" />
-                          <span>{tryout.applications}/{tryout.maxApplications} applicants</span>
-                        </div>
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => handleApply(tryout.id)}
-                      disabled={tryout.isApplied || tryout.mode === 'Invite Only'}
-                      className={`px-5 py-2.5 rounded-lg font-medium transition-all duration-300 ${
-                        tryout.isApplied
-                          ? 'bg-[#95C5C5]/20 text-[#95C5C5] border border-[#95C5C5]/50'
-                          : tryout.mode === 'Invite Only'
-                            ? 'bg-[#292B35]/50 text-[#E0E0E0]/50 border border-[#95C5C5]/20'
-                            : 'bg-[#EE8631] hover:bg-[#AD662F] text-[#E0E0E0]'
-                      }`}
-                    >
-                      {tryout.isApplied ? 'Applied' :
-                        tryout.mode === 'Invite Only' ? 'Invite Only' : 'Apply Now'}
-                    </button>
+                  <div className="px-2 py-1 rounded bg-black/50 backdrop-blur-sm text-xs font-medium border border-[#95C5C5]/20">
+                    <span className="text-[#95C5C5]">{tryout.mode}</span>
                   </div>
                 </div>
-              </motion.div>
-            );
-          })}
+              </div>
+
+              {/* Content */}
+              <div className="p-6">
+                <div className="flex items-start justify-between gap-4 mb-4">
+                  <div>
+                    <h3 className="text-lg font-bold leading-tight mb-1">{tryout.title}</h3>
+                    <div className="flex items-center gap-2 text-sm text-[#95C5C5]">
+                      <span>{tryout.game}</span>
+                      <span className="w-1 h-1 rounded-full bg-[#95C5C5]/30" />
+                      <span className="flex items-center gap-1">
+                        <Trophy className="w-3 h-3 text-[#EE8631]" />
+                        {tryout.teamStats?.tournaments || 0} tournaments
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Requirements Grid */}
+                {tryout.requirements && (
+                  <div className="grid grid-cols-2 gap-2 mb-4">
+                    {Object.entries(tryout.requirements).slice(0, 4).map(([key, value]) => (
+                      <div key={key} className="px-3 py-2 rounded bg-[#292B35]/60 border border-[#95C5C5]/10">
+                        <div className="text-[#95C5C5] text-xs uppercase tracking-wider">{key}</div>
+                        <div className="font-semibold text-sm">{value}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* Stats & Action */}
+                <div className="flex items-center justify-between pt-4 border-t border-[#95C5C5]/10">
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-1 text-sm">
+                      <Clock className="w-4 h-4 text-[#95C5C5]" />
+                      <span>Ends {tryout.deadline}</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-sm">
+                      <Users className="w-4 h-4 text-[#95C5C5]" />
+                      <div className="flex items-center gap-2">
+                        <span>{tryout.applications}/{tryout.maxApplications}</span>
+                        <div className="w-20 h-1.5 rounded-full bg-[#292B35]/60 overflow-hidden">
+                          <div 
+                            className="h-full bg-[#EE8631] rounded-full"
+                            style={{ width: `${(tryout.applications / tryout.maxApplications) * 100}%` }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => handleApply(tryout.id)}
+                    disabled={tryout.isApplied || tryout.mode === 'Invite Only'}
+                    className={`
+                      relative px-5 py-2 rounded-lg text-sm font-medium
+                      ${tryout.isApplied 
+                        ? 'bg-[#95C5C5]/20 text-[#95C5C5]' 
+                        : tryout.mode === 'Invite Only'
+                          ? 'bg-[#292B35] text-[#E0E0E0]/50'
+                          : 'bg-[#EE8631] text-white hover:bg-[#AD662F]'
+                      }
+                      transition-all duration-300
+                    `}
+                  >
+                    {tryout.isApplied ? 'Applied' : 
+                      tryout.mode === 'Invite Only' ? 'Invite Only' : 'Apply Now'}
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          ))}
         </div>
-        {sortedTryouts.length === 0 && (
+
+        {tryouts.length === 0 && (
           <div className="py-16 flex flex-col items-center justify-center text-center">
             <div className="bg-[#292B35]/50 rounded-full p-4 mb-4">
               <Search className="w-8 h-8 text-[#95C5C5]" />
