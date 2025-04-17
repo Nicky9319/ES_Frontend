@@ -19,6 +19,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import dummyEvents from "./dummyEvents.json";
+import { useNavigate } from "react-router-dom";
 
 export default function ManageEvents() {
   const [activeTab, setActiveTab] = useState("all");
@@ -30,7 +31,7 @@ export default function ManageEvents() {
     location: "all",
   });
   const [events, setEvents] = useState([]);
-
+  const navigate = useNavigate();
   // Load and transform event data from the JSON file
   useEffect(() => {
     try {
@@ -68,7 +69,7 @@ export default function ManageEvents() {
           prize: event.PRIZE_POOL,
           status: status,
           location: event.VENUE,
-          image: event.IMAGE || "/api/placeholder/60/60",
+          image: event.IMAGE,
           description: event.DESCRIPTION,
           deadline: new Date(
             event.REGISTRATION_DEADLINE.$date
@@ -100,7 +101,7 @@ export default function ManageEvents() {
           prize: "$5,000",
           status: "Active",
           location: "Neon Arena, Game City",
-          image: "/api/placeholder/60/60",
+          image: "",
         },
         {
           id: "EVT12346",
@@ -111,7 +112,7 @@ export default function ManageEvents() {
           prize: "$3,500",
           status: "Upcoming",
           location: "Virtual Gaming Hub",
-          image: "/api/placeholder/60/60",
+          image: "",
         },
       ]);
     }
@@ -193,10 +194,13 @@ export default function ManageEvents() {
   // Card view component with expanded event details
   const EventCard = ({ event }) => (
     <div
-      className="rounded-xl overflow-hidden transition-all hover:shadow-xl cursor-pointer"
+      className="rounded-xl overflow-hidden transition-transform duration-300 hover:scale-102 hover:shadow-xl cursor-pointer"
       style={{
         backgroundColor: styles.cardBackground,
         borderColor: styles.background,
+      }}
+      onClick={() => {
+        navigate(`/view-event-info/${event.id}`);
       }}
     >
       <div className="h-40 relative">
@@ -288,7 +292,7 @@ export default function ManageEvents() {
             {event.prize}
           </div>
           <div className="flex gap-2">
-            <button
+            {/* <button
               className="p-2 rounded-md transition-colors"
               style={{
                 backgroundColor: "rgba(149, 197, 197, 0.1)",
@@ -296,8 +300,8 @@ export default function ManageEvents() {
               }}
             >
               <Eye size={16} />
-            </button>
-            <button
+            </button> */}
+            {/* <button
               className="p-2 rounded-md transition-colors"
               style={{
                 backgroundColor: "rgba(238, 134, 49, 0.1)",
@@ -305,7 +309,7 @@ export default function ManageEvents() {
               }}
             >
               <Edit size={16} />
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
@@ -654,7 +658,9 @@ export default function ManageEvents() {
                       <td className="px-6 py-4 flex gap-2">
                         <button
                           className="p-2 rounded-md transition-colors"
-                          onClick={() => (window.location.href = "/event-info")}
+                          onClick={() =>
+                            navigate(`/view-event-info/${event.id}`)
+                          }
                           style={{
                             backgroundColor: "rgba(149, 197, 197, 0.1)",
                             color: styles.primary,
