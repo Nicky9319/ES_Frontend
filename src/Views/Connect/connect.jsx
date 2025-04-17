@@ -21,8 +21,8 @@ const fetchMentors = () => {
         const response = await fetch(`http://${MENTOR_PROFILE_SERVICE}/MentorProfile/GetAllMentorProfiles`);
         const data = await response.json();
 
-        // console.log(data)
-        // console.log("Resolving Mentor Data")
+        console.log(data)
+        console.log("Resolving Mentor Data")
 
         resolve(data["MENTOR_PROFILES"]);
 
