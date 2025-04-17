@@ -42,6 +42,7 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import { User } from "lucide-react";
 
 // Get the base URL from the import.meta.env (injected by Vite)
 const baseUrl = import.meta.env.BASE_URL || "/";
@@ -80,7 +81,8 @@ function AppInner() {
         !isMentorProfileCreationPageRoute &&
         !isAuthenticationPageRoute && <Navbar />}
       <Routes>
-        <Route path="/" element={<EsEvents />} />
+        <Route path="/" element={<UserDashboard />} />
+        <Route path="/es-events" element={<EsEvents/>}/>
         <Route path="/manage-events" element={<ManageEvents />} />
 
         <Route path="/social" element={<Social />} />
