@@ -34,7 +34,9 @@ import Authentication from "./Views/Authentication/authentication";
 
 import Teams from "./Views/Teams/teams";
 
-import EsLeague from "./Views/ES League/esLeague"; 
+import EsLeague from "./Views/ES League/esLeague";
+
+import TeamTryout from "./Views/Team Tryout/teamTryout";  
 
 import {
   BrowserRouter as Router,
@@ -42,6 +44,7 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
+import EsTiers from "./Views/ES Tiers/EsTiers";
 
 // Get the base URL from the import.meta.env (injected by Vite)
 const baseUrl = import.meta.env.BASE_URL || "/";
@@ -88,6 +91,7 @@ function AppInner() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/mentorProfile" element={<MentorProfile />} />
         <Route path="/dm-page" element={<DMPage />} />
+        <Route path="/es-tiers" element={<EsTiers />} />
 
         <Route path="/user-dashboard" element={<UserDashboard />} />
         <Route path="mentor-dashboard" element={<MentorDashboard />} />
@@ -100,11 +104,13 @@ function AppInner() {
         />
         <Route path="/create-event" element={<CreateEvent />} />
 
-        <Route path="/event-info" element={<EventInfo />} />
-        <Route path="/view-event-info" element={<ViewEventInfo />} />
+        <Route path="/event-info/:eventId" element={<EventInfo />} />
+        <Route path="/view-event-info/:eventId" element={<ViewEventInfo />} />
 
         <Route path="/landing-page" element={<LandingPage />} />
         <Route path="/teams" element={<Teams />} />
+
+        <Route path="/team-tryout" element={<TeamTryout/>}/>
 
         <Route
           path="/user-profile-creation-page"
@@ -119,7 +125,7 @@ function AppInner() {
 
         <Route path="/event-register" element={<EventRegister />} />
 
-        <Route path="es-league" element={<EsLeague/>}/>
+        <Route path="es-league" element={<EsLeague />} />
 
         {/* Add more routes as needed */}
       </Routes>

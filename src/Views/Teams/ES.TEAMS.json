@@ -1,0 +1,407 @@
+[{
+  "_id": {
+    "$oid": "67ffa1882099b2ba6af23578"
+  },
+  "NAME": "Alpha Squad",
+  "SHORT_NAME": "teams",
+  "TAGLINE": "teams",
+  "TEAM_SIZE": 4,
+  "PARTICIPANTS": [
+    {
+      "ACCESS": "ADMIN",
+      "USER_ID": "u_001"
+    },
+    {
+      "ACCESS": "MEMBER",
+      "USER_ID": "u_002"
+    }
+  ],
+  "TEAM_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+  "GAME": "shbn  w",
+  "MILESTONES": [
+    {
+      "MILESTONE_ID": "m_12345678-90ab-cdef-1234-567890abcdef",
+      "MILESTONE_NAME": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DATE": {
+        "$date": "2025-04-14T12:00:00.000Z"
+      }
+    }
+  ],
+  "TEAM_LOGO": "http://0.0.0.0:15000/Image/RetrieveImage?bucket=team-logos&key=cc0fbd19-db27-4a3f-a5f5-5bc7f8bdc686.jpg",
+  "TEAM_ID": "t_001",
+  "CREATED_AT": {
+    "$date": "2025-04-16T17:54:40.281Z"
+  },
+  "EVENTS_ENROLLED": []
+},
+{
+  "_id": {
+    "$oid": "67ffbd9bc33fce52bf094fd4"
+  },
+  "NAME": "Bravo Team",
+  "SHORT_NAME": "teams",
+  "TAGLINE": "teams",
+  "TEAM_SIZE": 4,
+  "PARTICIPANTS": [
+    {
+      "ACCESS": "ADMIN",
+      "USER_ID": "u_003"
+    },
+    {
+      "ACCESS": "MEMBER",
+      "USER_ID": "u_004"
+    }
+  ],
+  "TEAM_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+  "GAME": "shbn  w",
+  "MILESTONES": [
+    {
+      "MILESTONE_ID": "m_12345678-90ab-cdef-1234-567890abcdef",
+      "MILESTONE_NAME": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DATE": {
+        "$date": "2025-04-14T12:00:00.000Z"
+      }
+    }
+  ],
+  "TEAM_LOGO": "http://0.0.0.0:15000/Image/RetrieveImage?bucket=team-logos&key=cc0fbd19-db27-4a3f-a5f5-5bc7f8bdc686.jpg",
+  "TEAM_ID": "t_002",
+  "CREATED_AT": {
+    "$date": "2025-04-16T17:54:40.281Z"
+  },
+  "EVENTS_ENROLLED": []
+},
+{
+  "_id": {
+    "$oid": "67ffbd9bc33fce52bf094fd5"
+  },
+  "NAME": "Charlie Crew",
+  "SHORT_NAME": "teams",
+  "TAGLINE": "teams",
+  "TEAM_SIZE": 4,
+  "PARTICIPANTS": [
+    {
+      "ACCESS": "ADMIN",
+      "USER_ID": "u_005"
+    },
+    {
+      "ACCESS": "MEMBER",
+      "USER_ID": "u_006"
+    }
+  ],
+  "TEAM_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+  "GAME": "shbn  w",
+  "MILESTONES": [
+    {
+      "MILESTONE_ID": "m_12345678-90ab-cdef-1234-567890abcdef",
+      "MILESTONE_NAME": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DATE": {
+        "$date": "2025-04-14T12:00:00.000Z"
+      }
+    }
+  ],
+  "TEAM_LOGO": "http://0.0.0.0:15000/Image/RetrieveImage?bucket=team-logos&key=cc0fbd19-db27-4a3f-a5f5-5bc7f8bdc686.jpg",
+  "TEAM_ID": "t_003",
+  "CREATED_AT": {
+    "$date": "2025-04-16T17:54:40.281Z"
+  },
+  "EVENTS_ENROLLED": []
+},
+{
+  "_id": {
+    "$oid": "67ffbd9bc33fce52bf094fd6"
+  },
+  "NAME": "Delta Force",
+  "SHORT_NAME": "teams",
+  "TAGLINE": "teams",
+  "TEAM_SIZE": 4,
+  "PARTICIPANTS": [
+    {
+      "ACCESS": "ADMIN",
+      "USER_ID": "u_007"
+    },
+    {
+      "ACCESS": "MEMBER",
+      "USER_ID": "u_008"
+    }
+  ],
+  "TEAM_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+  "GAME": "shbn  w",
+  "MILESTONES": [
+    {
+      "MILESTONE_ID": "m_12345678-90ab-cdef-1234-567890abcdef",
+      "MILESTONE_NAME": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DATE": {
+        "$date": "2025-04-14T12:00:00.000Z"
+      }
+    }
+  ],
+  "TEAM_LOGO": "http://0.0.0.0:15000/Image/RetrieveImage?bucket=team-logos&key=cc0fbd19-db27-4a3f-a5f5-5bc7f8bdc686.jpg",
+  "TEAM_ID": "t_004",
+  "CREATED_AT": {
+    "$date": "2025-04-16T17:54:40.281Z"
+  },
+  "EVENTS_ENROLLED": []
+},
+{
+  "_id": {
+    "$oid": "67ffbd9bc33fce52bf094fd7"
+  },
+  "NAME": "Echo Unit",
+  "SHORT_NAME": "teams",
+  "TAGLINE": "teams",
+  "TEAM_SIZE": 4,
+  "PARTICIPANTS": [
+    {
+      "ACCESS": "ADMIN",
+      "USER_ID": "u_009"
+    },
+    {
+      "ACCESS": "MEMBER",
+      "USER_ID": "u_010"
+    }
+  ],
+  "TEAM_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+  "GAME": "shbn  w",
+  "MILESTONES": [
+    {
+      "MILESTONE_ID": "m_12345678-90ab-cdef-1234-567890abcdef",
+      "MILESTONE_NAME": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DATE": {
+        "$date": "2025-04-14T12:00:00.000Z"
+      }
+    }
+  ],
+  "TEAM_LOGO": "http://0.0.0.0:15000/Image/RetrieveImage?bucket=team-logos&key=cc0fbd19-db27-4a3f-a5f5-5bc7f8bdc686.jpg",
+  "TEAM_ID": "t_005",
+  "CREATED_AT": {
+    "$date": "2025-04-16T17:54:40.281Z"
+  },
+  "EVENTS_ENROLLED": []
+},
+{
+  "_id": {
+    "$oid": "67ffbd9bc33fce52bf094fd8"
+  },
+  "NAME": "the teammm",
+  "SHORT_NAME": "teams",
+  "TAGLINE": "teams",
+  "TEAM_SIZE": 4,
+  "PARTICIPANTS": [
+    {
+      "ACCESS": "ADMIN",
+      "USER_ID": "asdklasd"
+    },
+    {
+      "ACCESS": "MEMBER",
+      "USER_ID": "..\""
+    }
+  ],
+  "TEAM_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+  "GAME": "shbn  w",
+  "MILESTONES": [
+    {
+      "MILESTONE_ID": "m_12345678-90ab-cdef-1234-567890abcdef",
+      "MILESTONE_NAME": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DATE": {
+        "$date": "2025-04-14T12:00:00.000Z"
+      }
+    }
+  ],
+  "TEAM_LOGO": "http://0.0.0.0:15000/Image/RetrieveImage?bucket=team-logos&key=cc0fbd19-db27-4a3f-a5f5-5bc7f8bdc686.jpg",
+  "TEAM_ID": "cc0fbd19-db27-4a3f-a5f5-5bc7f8bdc686",
+  "CREATED_AT": {
+    "$date": "2025-04-16T17:54:40.281Z"
+  },
+  "EVENTS_ENROLLED": []
+},
+{
+  "_id": {
+    "$oid": "67ffbd9bc33fce52bf094fd9"
+  },
+  "NAME": "teams",
+  "SHORT_NAME": "teams",
+  "TAGLINE": "teams",
+  "TEAM_SIZE": 4,
+  "PARTICIPANTS": [
+    {
+      "ACCESS": "ADMIN",
+      "USER_ID": "u_c3d4e5f6-a7b8-9012-3456-7890abcdef12"
+    },
+    {
+      "ACCESS": "MEMBER",
+      "USER_ID": "u_e5f6a7b8-c9d0-1234-5678-90abcdef1234"
+    }
+  ],
+  "TEAM_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+  "GAME": "shbn  w",
+  "MILESTONES": [
+    {
+      "MILESTONE_ID": "m_12345678-90ab-cdef-1234-567890abcdef",
+      "MILESTONE_NAME": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DATE": {
+        "$date": "2025-04-14T12:00:00.000Z"
+      }
+    }
+  ],
+  "TEAM_LOGO": "http://0.0.0.0:15000/Image/RetrieveImage?bucket=team-logos&key=cc0fbd19-db27-4a3f-a5f5-5bc7f8bdc686.jpg",
+  "TEAM_ID": "cc0fbd19-db27-4a3f-a5f5-5bc7f8bdc686",
+  "CREATED_AT": {
+    "$date": "2025-04-16T17:54:40.281Z"
+  },
+  "EVENTS_ENROLLED": []
+},
+{
+  "_id": {
+    "$oid": "67ffbd9bc33fce52bf094fda"
+  },
+  "NAME": "teams",
+  "SHORT_NAME": "teams",
+  "TAGLINE": "teams",
+  "TEAM_SIZE": 4,
+  "PARTICIPANTS": [
+    {
+      "ACCESS": "ADMIN",
+      "USER_ID": "u_c3d4e5f6-a7b8-9012-3456-7890abcdef12"
+    },
+    {
+      "ACCESS": "MEMBER",
+      "USER_ID": "u_e5f6a7b8-c9d0-1234-5678-90abcdef1234"
+    }
+  ],
+  "TEAM_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+  "GAME": "shbn  w",
+  "MILESTONES": [
+    {
+      "MILESTONE_ID": "m_12345678-90ab-cdef-1234-567890abcdef",
+      "MILESTONE_NAME": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DATE": {
+        "$date": "2025-04-14T12:00:00.000Z"
+      }
+    }
+  ],
+  "TEAM_LOGO": "http://0.0.0.0:15000/Image/RetrieveImage?bucket=team-logos&key=cc0fbd19-db27-4a3f-a5f5-5bc7f8bdc686.jpg",
+  "TEAM_ID": "cc0fbd19-db27-4a3f-a5f5-5bc7f8bdc686",
+  "CREATED_AT": {
+    "$date": "2025-04-16T17:54:40.281Z"
+  },
+  "EVENTS_ENROLLED": []
+},
+{
+  "_id": {
+    "$oid": "67ffbd9bc33fce52bf094fdb"
+  },
+  "NAME": "teams",
+  "SHORT_NAME": "teams",
+  "TAGLINE": "teams",
+  "TEAM_SIZE": 4,
+  "PARTICIPANTS": [
+    {
+      "ACCESS": "ADMIN",
+      "USER_ID": "u_c3d4e5f6-a7b8-9012-3456-7890abcdef12"
+    },
+    {
+      "ACCESS": "MEMBER",
+      "USER_ID": "u_e5f6a7b8-c9d0-1234-5678-90abcdef1234"
+    }
+  ],
+  "TEAM_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+  "GAME": "shbn  w",
+  "MILESTONES": [
+    {
+      "MILESTONE_ID": "m_12345678-90ab-cdef-1234-567890abcdef",
+      "MILESTONE_NAME": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DATE": {
+        "$date": "2025-04-14T12:00:00.000Z"
+      }
+    }
+  ],
+  "TEAM_LOGO": "http://0.0.0.0:15000/Image/RetrieveImage?bucket=team-logos&key=cc0fbd19-db27-4a3f-a5f5-5bc7f8bdc686.jpg",
+  "TEAM_ID": "cc0fbd19-db27-4a3f-a5f5-5bc7f8bdc686",
+  "CREATED_AT": {
+    "$date": "2025-04-16T17:54:40.281Z"
+  },
+  "EVENTS_ENROLLED": []
+},
+{
+  "_id": {
+    "$oid": "67ffbd9bc33fce52bf094fdc"
+  },
+  "NAME": "teams",
+  "SHORT_NAME": "teams",
+  "TAGLINE": "teams",
+  "TEAM_SIZE": 4,
+  "PARTICIPANTS": [
+    {
+      "ACCESS": "ADMIN",
+      "USER_ID": "u_c3d4e5f6-a7b8-9012-3456-7890abcdef12"
+    },
+    {
+      "ACCESS": "MEMBER",
+      "USER_ID": "u_e5f6a7b8-c9d0-1234-5678-90abcdef1234"
+    }
+  ],
+  "TEAM_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+  "GAME": "shbn  w",
+  "MILESTONES": [
+    {
+      "MILESTONE_ID": "m_12345678-90ab-cdef-1234-567890abcdef",
+      "MILESTONE_NAME": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DATE": {
+        "$date": "2025-04-14T12:00:00.000Z"
+      }
+    }
+  ],
+  "TEAM_LOGO": "http://0.0.0.0:15000/Image/RetrieveImage?bucket=team-logos&key=cc0fbd19-db27-4a3f-a5f5-5bc7f8bdc686.jpg",
+  "TEAM_ID": "cc0fbd19-db27-4a3f-a5f5-5bc7f8bdc686",
+  "CREATED_AT": {
+    "$date": "2025-04-16T17:54:40.281Z"
+  },
+  "EVENTS_ENROLLED": []
+},
+{
+  "_id": {
+    "$oid": "67ffbd9bc33fce52bf094fdd"
+  },
+  "NAME": "teams",
+  "SHORT_NAME": "teams",
+  "TAGLINE": "teams",
+  "TEAM_SIZE": 4,
+  "PARTICIPANTS": [
+    {
+      "ACCESS": "ADMIN",
+      "USER_ID": "u_c3d4e5f6-a7b8-9012-3456-7890abcdef12"
+    },
+    {
+      "ACCESS": "MEMBER",
+      "USER_ID": "u_e5f6a7b8-c9d0-1234-5678-90abcdef1234"
+    }
+  ],
+  "TEAM_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+  "GAME": "shbn  w",
+  "MILESTONES": [
+    {
+      "MILESTONE_ID": "m_12345678-90ab-cdef-1234-567890abcdef",
+      "MILESTONE_NAME": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DESCRIPTION": "stringqefbjefnqkhbwfqeq",
+      "MILESTONE_DATE": {
+        "$date": "2025-04-14T12:00:00.000Z"
+      }
+    }
+  ],
+  "TEAM_LOGO": "http://0.0.0.0:15000/Image/RetrieveImage?bucket=team-logos&key=cc0fbd19-db27-4a3f-a5f5-5bc7f8bdc686.jpg",
+  "TEAM_ID": "cc0fbd19-db27-4a3f-a5f5-5bc7f8bdc686",
+  "CREATED_AT": {
+    "$date": "2025-04-16T17:54:40.281Z"
+  },
+  "EVENTS_ENROLLED": []
+}]
