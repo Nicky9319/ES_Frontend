@@ -52,5 +52,9 @@ export default defineConfig(({ command, mode }) => {
         timeout: 20000, // Increase timeout for slower connections
       },
     },
+    optimizeDeps: {
+      include: ["recharts"],
+      force: true,
+    },
   };
 });
