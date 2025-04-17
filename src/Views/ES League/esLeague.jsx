@@ -380,147 +380,162 @@ const LeagueSystem = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#1a1b20]">
+    <div className="min-h-screen bg-gradient-to-br from-[#181a20] via-[#23242a] to-[#292B35] text-[#E0E0E0]">
       {/* Hero Section */}
-      <div className="relative h-[40vh] overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#292B35]/90 to-[#1a1b20]/90" />
+      <div className="relative h-[44vh] flex items-center justify-center overflow-hidden mb-12">
         <img
           src="https://images.unsplash.com/photo-1542751371-adc38448a05e"
           alt="Esports Banner"
-          className="w-full h-full object-cover opacity-20"
+          className="absolute inset-0 w-full h-full object-cover object-center opacity-30"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#1a1b20] to-transparent" />
-        <div className="absolute inset-0 flex items-center justify-center flex-col text-center px-4">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-white">
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#95C5C5] to-[#EE8631]">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#23242b]/90" />
+        <div className="relative z-10 text-center">
+          <h1 className="text-5xl md:text-7xl font-extrabold text-white drop-shadow-lg mb-4 tracking-tight">
+            <span className="inline-block bg-[#292B35]/80 px-6 py-2 rounded-xl shadow-lg">
               Esports League Hub
             </span>
           </h1>
-          <p className="text-lg md:text-xl text-[#E0E0E0]/80 max-w-2xl">
-            Track rankings, tournaments, and compete at the highest level
+          <p className="text-lg md:text-xl text-[#95C5C5]/90 mb-4 font-medium max-w-2xl mx-auto">
+            Track rankings, tournaments, and compete at the highest level.
           </p>
+          <div className="flex gap-2 flex-row justify-center">
+            <button
+              className="mt-2 px-8 py-3 bg-[#EE8631] text-white font-bold rounded-lg shadow-lg hover:bg-[#AD662F] transition-all duration-300 text-lg"
+              onClick={() => window.scrollTo({ top: 400, behavior: "smooth" })}
+            >
+              View Rankings
+            </button>
+          </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-12">
+      <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="bg-[#292B35]/50 backdrop-blur-sm p-6 rounded-xl border border-[#95C5C5]/10 hover:border-[#EE8631]/30 transition-all duration-300"
+              className="bg-[#292B35]/60 backdrop-blur-md rounded-2xl border border-[#95C5C5]/10 hover:border-[#EE8631]/40 shadow-xl p-6 transition-all duration-300"
             >
               <div className="flex items-center justify-between mb-4">
-                <div className="p-3 bg-[#EE8631]/10 rounded-lg">{stat.icon}</div>
-                <span className="text-[#95C5C5] text-sm">{stat.change}</span>
+                <div className="p-3 rounded-lg bg-gradient-to-br from-[#EE8631]/10 to-[#95C5C5]/10">{stat.icon}</div>
+                <span className="text-[#95C5C5] text-sm font-semibold">{stat.change}</span>
               </div>
-              <h3 className="text-3xl font-bold text-white mb-1">{stat.value}</h3>
-              <p className="text-[#95C5C5]">{stat.title}</p>
+              <h3 className="text-3xl font-extrabold text-white mb-1">{stat.value}</h3>
+              <p className="text-[#95C5C5] font-medium">{stat.title}</p>
             </div>
           ))}
         </div>
 
-        {/* Game Selection */}
-        <div className="bg-[#292B35]/30 p-8 rounded-2xl mb-12 backdrop-blur-sm border border-[#95C5C5]/10">
-          <div className="flex flex-col md:flex-row gap-6 items-center justify-between mb-8">
-            <div className="flex gap-4 flex-wrap justify-center">
-              {["individual", "team"].map((type) => (
-                <button
-                  key={type}
-                  onClick={() => setRankingType(type)}
-                  className={`px-8 py-3 rounded-lg text-lg transform transition-all duration-300 ${
-                    rankingType === type
-                      ? "bg-gradient-to-r from-[#EE8631] to-[#AD662F] text-white scale-105 shadow-lg"
-                      : "bg-[#292B35] text-[#95C5C5] border border-[#95C5C5] hover:bg-[#AD662F]/20"
-                  }`}
-                >
-                  {type.charAt(0).toUpperCase() + type.slice(1)} Rankings
-                </button>
-              ))}
-            </div>
-            
-            <div className="flex gap-2 flex-wrap justify-center">
-              {allGames.map((game) => (
-                <button
-                  key={game}
-                  onClick={() => setSelectedGame(game)}
-                  className={`px-4 py-2 rounded-lg text-sm transform transition-all duration-300 ${
-                    selectedGame === game
-                      ? "bg-[#EE8631] text-white"
-                      : "bg-[#292B35] text-[#95C5C5] hover:bg-[#AD662F]/20"
-                  }`}
-                >
-                  {game}
-                </button>
-              ))}
-            </div>
+        {/* Game & Ranking Type Selection */}
+        <div className="bg-[#23242b]/80 rounded-2xl border border-[#95C5C5]/10 p-8 mb-12 shadow-lg flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="flex gap-4 flex-wrap justify-center">
+            {["individual", "team"].map((type) => (
+              <button
+                key={type}
+                onClick={() => setRankingType(type)}
+                className={`px-8 py-3 rounded-lg text-lg font-bold transition-all duration-300 ${
+                  rankingType === type
+                    ? "bg-gradient-to-r from-[#EE8631] to-[#AD662F] text-white scale-105 shadow-lg"
+                    : "bg-[#292B35] text-[#95C5C5] border border-[#95C5C5] hover:bg-[#AD662F]/20"
+                }`}
+              >
+                {type.charAt(0).toUpperCase() + type.slice(1)} Rankings
+              </button>
+            ))}
+          </div>
+          <div className="flex gap-2 flex-wrap justify-center">
+            {allGames.map((game) => (
+              <button
+                key={game}
+                onClick={() => setSelectedGame(game)}
+                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 ${
+                  selectedGame === game
+                    ? "bg-[#EE8631] text-white shadow"
+                    : "bg-[#292B35] text-[#95C5C5] hover:bg-[#AD662F]/20"
+                }`}
+              >
+                {game}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Content Sections - keep existing table code but update styling */}
-        <div className="space-y-8">
+        {/* Main Content */}
+        <div className="space-y-12">
           {rankingType === "individual" ? (
             <>
-              <div className="mb-12 rounded-xl bg-[#292B35]/50 backdrop-blur-sm p-6 shadow-xl border border-[#95C5C5]/20">
-                <h2 className="text-2xl font-semibold text-[#95C5C5] mb-4">
+              {/* League Standings Table */}
+              <div className="rounded-2xl bg-[#23242b]/80 border border-[#95C5C5]/20 shadow-xl p-8">
+                <h2 className="text-2xl font-bold text-[#95C5C5] mb-6 flex items-center gap-2">
+                  <FaTrophy className="text-[#EE8631]" />{" "}
                   {selectedGame === "All" ? "Current Standings" : `${selectedGame} League Standings`}
                 </h2>
                 <div className="overflow-x-auto">
-                  <table className="min-w-full">
+                  <table className="min-w-full text-left">
                     <thead>
-                      <tr className="bg-gradient-to-r from-[#292B35] to-[#1a1c22] text-[#95C5C5] text-left">
-                        <th className="py-3 px-4">League</th>
-                        <th className="py-3 px-4">Season</th>
-                        <th className="py-3 px-4">Played</th>
-                        <th className="py-3 px-4">Wins</th>
-                        <th className="py-3 px-4">Losses</th>
-                        <th className="py-3 px-4">Points</th>
+                      <tr className="bg-gradient-to-r from-[#292B35] to-[#1a1c22] text-[#95C5C5]">
+                        <th className="py-3 px-4 font-semibold">League</th>
+                        <th className="py-3 px-4 font-semibold">Season</th>
+                        <th className="py-3 px-4 font-semibold">Played</th>
+                        <th className="py-3 px-4 font-semibold">Wins</th>
+                        <th className="py-3 px-4 font-semibold">Losses</th>
+                        <th className="py-3 px-4 font-semibold">Points</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-[#95C5C5]/10">
-                      {filteredLeagues.map((league, index) => (
-                        <tr key={index} className="hover:bg-[#AD662F]/20 transition duration-200">
-                          <td className="py-3 px-4">{league.name}</td>
-                          <td className="py-3 px-4">{league.season}</td>
-                          <td className="py-3 px-4">{league.matchesPlayed}</td>
-                          <td className="py-3 px-4">{league.wins}</td>
-                          <td className="py-3 px-4">{league.losses}</td>
-                          <td className="py-3 px-4 font-semibold text-[#EE8631]">{league.points}</td>
+                      {filteredLeagues.length > 0 ? (
+                        filteredLeagues.map((league, index) => (
+                          <tr key={index} className="hover:bg-[#AD662F]/10 transition duration-200">
+                            <td className="py-3 px-4">{league.name}</td>
+                            <td className="py-3 px-4">{league.season}</td>
+                            <td className="py-3 px-4">{league.matchesPlayed}</td>
+                            <td className="py-3 px-4">{league.wins}</td>
+                            <td className="py-3 px-4">{league.losses}</td>
+                            <td className="py-3 px-4 font-bold text-[#EE8631]">{league.points}</td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={6} className="py-6 text-center text-[#95C5C5]/70">
+                            No leagues found for this game.
+                          </td>
                         </tr>
-                      ))}
+                      )}
                     </tbody>
                   </table>
                 </div>
               </div>
 
+              {/* MMR Leaderboard */}
               {selectedGame !== "All" && (
-                <div className="mb-12 rounded-xl bg-[#292B35]/50 backdrop-blur-sm p-6 shadow-xl border border-[#95C5C5]/20">
-                  <h2 className="text-2xl font-semibold text-[#95C5C5] mb-4">
-                    {selectedGame} MMR Leaderboard
+                <div className="rounded-2xl bg-[#23242b]/80 border border-[#95C5C5]/20 shadow-xl p-8">
+                  <h2 className="text-2xl font-bold text-[#95C5C5] mb-6 flex items-center gap-2">
+                    <FaChartLine className="text-[#EE8631]" /> {selectedGame} MMR Leaderboard
                   </h2>
                   {filteredPlayers.length > 0 ? (
                     <div className="overflow-x-auto">
-                      <table className="min-w-full">
+                      <table className="min-w-full text-left">
                         <thead>
-                          <tr className="bg-gradient-to-r from-[#292B35] to-[#1a1c22] text-[#95C5C5] text-left">
-                            <th className="py-3 px-4">Rank</th>
-                            <th className="py-3 px-4">Player</th>
-                            <th className="py-3 px-4">Current MMR</th>
-                            <th className="py-3 px-4">Peak MMR</th>
-                            <th className="py-3 px-4">Avg ACS</th>
-                            <th className="py-3 px-4">MVP Count</th>
-                            <th className="py-3 px-4">W/L</th>
-                            <th className="py-3 px-4">Last 5 Matches (MMR)</th>
+                          <tr className="bg-gradient-to-r from-[#292B35] to-[#1a1c22] text-[#95C5C5]">
+                            <th className="py-3 px-4 font-semibold">Rank</th>
+                            <th className="py-3 px-4 font-semibold">Player</th>
+                            <th className="py-3 px-4 font-semibold">Current MMR</th>
+                            <th className="py-3 px-4 font-semibold">Peak MMR</th>
+                            <th className="py-3 px-4 font-semibold">Avg ACS</th>
+                            <th className="py-3 px-4 font-semibold">MVPs</th>
+                            <th className="py-3 px-4 font-semibold">W/L</th>
+                            <th className="py-3 px-4 font-semibold">Last 5 (MMR)</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-[#95C5C5]/10">
                           {filteredPlayers.map((player, index) => (
-                            <tr key={player.name} className="hover:bg-[#AD662F]/20 transition duration-200">
+                            <tr key={player.name} className="hover:bg-[#AD662F]/10 transition duration-200">
                               <td className="py-3 px-4 text-[#EE8631] font-bold">#{index + 1}</td>
                               <td className="py-3 px-4">
                                 <div>
                                   <div className="font-semibold">{player.name}</div>
-                                  <div className="text-sm text-[#95C5C5]">{player.rank}</div>
+                                  <div className="text-xs text-[#95C5C5]">{player.rank}</div>
                                 </div>
                               </td>
                               <td className="py-3 px-4 font-semibold">{player.currentMMR}</td>
@@ -533,7 +548,7 @@ const LeagueSystem = () => {
                                   {player.recentMMRChanges.map((change, i) => (
                                     <span
                                       key={i}
-                                      className={`px-2 py-1 rounded ${
+                                      className={`px-2 py-1 rounded font-mono text-xs ${
                                         change > 0
                                           ? "bg-green-400/10 text-green-400"
                                           : "bg-red-400/10 text-red-400"
@@ -551,25 +566,28 @@ const LeagueSystem = () => {
                       </table>
                     </div>
                   ) : (
-                    <p className="text-[#E0E0E0]">No MMR data available for {selectedGame} yet.</p>
+                    <div className="text-center py-8 text-[#95C5C5]/70">No MMR data available for {selectedGame} yet.</div>
                   )}
                 </div>
               )}
             </>
           ) : (
             <>
-              <div className="mb-12 rounded-xl bg-[#292B35]/50 backdrop-blur-sm p-6 shadow-xl border border-[#95C5C5]/20">
-                <h2 className="text-2xl font-semibold text-[#95C5C5] mb-4">Your Teams</h2>
+              {/* User Teams */}
+              <div className="rounded-2xl bg-[#23242b]/80 border border-[#95C5C5]/20 shadow-xl p-8">
+                <h2 className="text-2xl font-bold text-[#95C5C5] mb-6 flex items-center gap-2">
+                  <FaUsers className="text-[#EE8631]" /> Your Teams
+                </h2>
                 {filteredUserTeams.length > 0 ? (
                   <div className="grid md:grid-cols-2 gap-6">
                     {filteredUserTeams.map((team) => (
                       <div
                         key={team.name}
-                        className="bg-[#292B35] p-5 rounded-xl border border-[#95C5C5]"
+                        className="bg-[#292B35] p-6 rounded-xl border border-[#95C5C5]/20 shadow hover:shadow-xl transition-all"
                       >
-                        <h3 className="text-xl font-semibold text-[#EE8631] mb-2">{team.name}</h3>
-                        <p className="text-[#E0E0E0] mb-1">Role: {team.role}</p>
-                        <p className="text-[#E0E0E0] mb-3">Joined: {team.joinedDate}</p>
+                        <h3 className="text-xl font-bold text-[#EE8631] mb-2">{team.name}</h3>
+                        <p className="text-[#E0E0E0] mb-1">Role: <span className="font-semibold">{team.role}</span></p>
+                        <p className="text-[#E0E0E0] mb-3">Joined: <span className="font-semibold">{team.joinedDate}</span></p>
                         <div className="space-y-2">
                           <p className="text-[#95C5C5] font-semibold">Tournament Rankings:</p>
                           {team.tournaments.map((tournament) => (
@@ -578,8 +596,8 @@ const LeagueSystem = () => {
                               className="flex justify-between items-center"
                             >
                               <span className="text-[#E0E0E0]">{tournament.name}</span>
-                              <span className="text-[#EE8631]">
-                                #{tournament.rank} ({tournament.points} pts)
+                              <span className="text-[#EE8631] font-bold">
+                                #{tournament.rank} <span className="text-xs text-[#95C5C5]">({tournament.points} pts)</span>
                               </span>
                             </div>
                           ))}
@@ -588,60 +606,69 @@ const LeagueSystem = () => {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-[#E0E0E0]">You haven't joined any teams for {selectedGame} yet.</p>
+                  <div className="text-center py-8 text-[#95C5C5]/70">You haven't joined any teams for {selectedGame} yet.</div>
                 )}
               </div>
 
+              {/* Team Tournament Rankings */}
               {selectedGame !== "All" && (
-                <div className="mb-12 rounded-xl bg-[#292B35]/50 backdrop-blur-sm p-6 shadow-xl border border-[#95C5C5]/20">
-                  <h2 className="text-2xl font-semibold text-[#95C5C5] mb-4">
-                    {selectedGame} Tournament Rankings
+                <div className="rounded-2xl bg-[#23242b]/80 border border-[#95C5C5]/20 shadow-xl p-8">
+                  <h2 className="text-2xl font-bold text-[#95C5C5] mb-6 flex items-center gap-2">
+                    <FaTrophy className="text-[#EE8631]" /> {selectedGame} Tournament Rankings
                   </h2>
                   <div className="overflow-x-auto">
-                    <table className="min-w-full">
+                    <table className="min-w-full text-left">
                       <thead>
-                        <tr className="bg-gradient-to-r from-[#292B35] to-[#1a1c22] text-[#95C5C5] text-left">
-                          <th className="py-3 px-4">Rank</th>
-                          <th className="py-3 px-4">Team</th>
-                          <th className="py-3 px-4">Tournament</th>
-                          <th className="py-3 px-4">Points</th>
-                          <th className="py-3 px-4">Played</th>
-                          <th className="py-3 px-4">W/L</th>
-                          <th className="py-3 px-4">Win Rate</th>
-                          <th className="py-3 px-4">Form</th>
+                        <tr className="bg-gradient-to-r from-[#292B35] to-[#1a1c22] text-[#95C5C5]">
+                          <th className="py-3 px-4 font-semibold">Rank</th>
+                          <th className="py-3 px-4 font-semibold">Team</th>
+                          <th className="py-3 px-4 font-semibold">Tournament</th>
+                          <th className="py-3 px-4 font-semibold">Points</th>
+                          <th className="py-3 px-4 font-semibold">Played</th>
+                          <th className="py-3 px-4 font-semibold">W/L</th>
+                          <th className="py-3 px-4 font-semibold">Win Rate</th>
+                          <th className="py-3 px-4 font-semibold">Form</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-[#95C5C5]/10">
-                        {filteredTeams.map((team) => (
-                          <tr
-                            key={team.name}
-                            className="hover:bg-[#AD662F]/20 transition duration-200"
-                          >
-                            <td className="py-3 px-4 text-[#EE8631] font-bold">#{team.rank}</td>
-                            <td className="py-3 px-4 font-semibold">{team.name}</td>
-                            <td className="py-3 px-4">{team.tournament}</td>
-                            <td className="py-3 px-4 font-semibold">{team.points}</td>
-                            <td className="py-3 px-4">{team.matchesPlayed}</td>
-                            <td className="py-3 px-4">{team.wins}/{team.losses}</td>
-                            <td className="py-3 px-4">{team.winRate}</td>
-                            <td className="py-3 px-4">
-                              <div className="flex gap-1">
-                                {team.recentForm.map((result, i) => (
-                                  <span
-                                    key={i}
-                                    className={`w-6 h-6 flex items-center justify-center rounded ${
-                                      result === "W"
-                                        ? "bg-green-400/20 text-green-400"
-                                        : "bg-red-400/10 text-red-400"
-                                    }`}
-                                  >
-                                    {result}
-                                  </span>
-                                ))}
-                              </div>
+                        {filteredTeams.length > 0 ? (
+                          filteredTeams.map((team) => (
+                            <tr
+                              key={team.name}
+                              className="hover:bg-[#AD662F]/10 transition duration-200"
+                            >
+                              <td className="py-3 px-4 text-[#EE8631] font-bold">#{team.rank}</td>
+                              <td className="py-3 px-4 font-semibold">{team.name}</td>
+                              <td className="py-3 px-4">{team.tournament}</td>
+                              <td className="py-3 px-4 font-bold">{team.points}</td>
+                              <td className="py-3 px-4">{team.matchesPlayed}</td>
+                              <td className="py-3 px-4">{team.wins}/{team.losses}</td>
+                              <td className="py-3 px-4">{team.winRate}</td>
+                              <td className="py-3 px-4">
+                                <div className="flex gap-1">
+                                  {team.recentForm.map((result, i) => (
+                                    <span
+                                      key={i}
+                                      className={`w-6 h-6 flex items-center justify-center rounded font-bold ${
+                                        result === "W"
+                                          ? "bg-green-400/20 text-green-400"
+                                          : "bg-red-400/10 text-red-400"
+                                      }`}
+                                    >
+                                      {result}
+                                    </span>
+                                  ))}
+                                </div>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={8} className="py-6 text-center text-[#95C5C5]/70">
+                              No tournament rankings found for this game.
                             </td>
                           </tr>
-                        ))}
+                        )}
                       </tbody>
                     </table>
                   </div>
@@ -650,22 +677,39 @@ const LeagueSystem = () => {
             </>
           )}
 
-          <div>
-            <h2 className="text-2xl font-semibold text-[#95C5C5] mb-4">
+          {/* Upcoming Matches */}
+          <div className="rounded-2xl bg-[#23242b]/80 border border-[#95C5C5]/20 shadow-xl p-8">
+            <h2 className="text-2xl font-bold text-[#95C5C5] mb-6 flex items-center gap-2">
+              <FaCalendarAlt className="text-[#EE8631]" />
               {selectedGame === "All" ? "All Upcoming Matches" : `${selectedGame} Upcoming Matches`}
             </h2>
             <div className="grid md:grid-cols-2 gap-6">
-              {filteredMatches.map((match, index) => (
-                <div
-                  key={index}
-                  className="bg-gradient-to-br from-[#292B35] to-[#1a1c22] p-6 rounded-xl shadow-xl border border-[#95C5C5]/20 hover:shadow-2xl hover:border-[#EE8631]/30 transition-all duration-300"
-                >
-                  <h3 className="text-xl font-semibold mb-2 text-[#EE8631]">{match.teams}</h3>
-                  <p className="text-[#E0E0E0]">Game: {match.game}</p>
-                  <p className="text-[#E0E0E0]">Date: {match.date}</p>
-                  <p className="text-[#E0E0E0]">Time: {match.time}</p>
+              {filteredMatches.length > 0 ? (
+                filteredMatches.map((match, index) => (
+                  <div
+                    key={index}
+                    className="bg-gradient-to-br from-[#292B35] to-[#1a1c22] p-6 rounded-xl shadow-lg border border-[#95C5C5]/20 hover:shadow-2xl hover:border-[#EE8631]/30 transition-all duration-300"
+                  >
+                    <h3 className="text-xl font-bold mb-2 text-[#EE8631]">{match.teams}</h3>
+                    <div className="flex items-center gap-2 mb-2">
+                      <FaGamepad className="text-[#95C5C5]" />
+                      <span className="text-[#E0E0E0] font-medium">{match.game}</span>
+                    </div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <FaCalendarAlt className="text-[#EE8631]" />
+                      <span className="text-[#E0E0E0]">{match.date}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[#95C5C5] font-semibold">Time:</span>
+                      <span className="text-[#E0E0E0]">{match.time}</span>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="col-span-2 text-center py-8 text-[#95C5C5]/70">
+                  No upcoming matches found for {selectedGame}.
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </div>
