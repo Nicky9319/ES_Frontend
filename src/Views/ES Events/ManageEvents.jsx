@@ -200,7 +200,7 @@ export default function ManageEvents() {
         borderColor: styles.background,
       }}
       onClick={() => {
-        navigate("/view-event-info");
+        navigate(`/view-event-info/${event.id}`);
       }}
     >
       <div className="h-40 relative">
@@ -658,7 +658,9 @@ export default function ManageEvents() {
                       <td className="px-6 py-4 flex gap-2">
                         <button
                           className="p-2 rounded-md transition-colors"
-                          onClick={() => (window.location.href = "/event-info")}
+                          onClick={() =>
+                            navigate(`/view-event-info/${event.id}`)
+                          }
                           style={{
                             backgroundColor: "rgba(149, 197, 197, 0.1)",
                             color: styles.primary,

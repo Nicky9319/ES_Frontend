@@ -1,84 +1,160 @@
 {
-    "EVENTS": [
-      {
-        "CONTACT_INFO": {
-          "EMAIL": "organizer@example.com",
-          "MOBILE_NUMBER": 9876543210
+  "EVENTS": [
+    {
+      "CONTACT_INFO": {
+        "EMAIL": "organizer@example.com",
+        "MOBILE_NUMBER": 9876543210
+      },
+      "DESCRIPTION": "An exciting gaming tournament for amateur and pro gamers alike.",
+      "EVENT_DATE": { "$date": "2025-05-20T14:00:00Z" },
+      "EVENT_ID": "EVT12345",
+      "EVENT_NAME": "Spring Gaming Bash",
+      "REGISTRATION_DEADLINE": { "$date": "2025-05-10T23:59:59Z" },
+      "VENUE": "Neon Arena, Sector 21, Game City",
+      "ELIGIBILITY": ["18+", "Must bring valid ID"],
+      "GAME_TYPE": "Battle Royale",
+      "GAME": "Fortnite",
+      "CONSOLE": "PlayStation 5",
+      "PRIZE_POOL": "$5000",
+      "LOCATION": "Online & Offline Hybrid",
+      "FORMAT": "Knockout",
+      "IMAGE": "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+      "QUESTIONNAIRE": [
+        {
+          "QUESTION": "Do you have your own gaming setup?",
+          "ANSWER": "NO You Would have to bring ur own setup"
+        }
+      ],
+      "FAQ": [
+        {
+          "QUESTION": "What is the prize pool?",
+          "ANSWER": "$5000"
         },
-        "DESCRIPTION": "An exciting gaming tournament for amateur and pro gamers alike.",
-        "EVENT_DATE": { "$date": "2025-05-20T14:00:00Z" },
-        "EVENT_ID": "EVT12345",
-        "EVENT_NAME": "Spring Gaming Bash",
-        "REGISTRATION_DEADLINE": { "$date": "2025-05-10T23:59:59Z" },
-        "VENUE": "Neon Arena, Sector 21, Game City",
-        "ELIGIBILITY": ["18+", "Must bring valid ID"],
-        "GAME_TYPE": "Battle Royale",
-        "GAME": "Fortnite",
-        "CONSOLE": "PlayStation 5",
-        "PRIZE_POOL": "$5000",
-        "LOCATION": "Online & Offline Hybrid",
-        "FORMAT": "Knockout",
-        "IMAGE": "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        "QUESTIONNAIRE": [
-          {
-            "QUESTION": "Do you have your own gaming setup?",
-            "ANSWER": "NO You Would have to bring ur own setup"
-          }
-        ],
-        "FAQ" : [
-          {
-            "QUESTION": "What is the prize pool?",
-            "ANSWER": "$5000"
-          },
-          {
-            "QUESTION": "How many players per team?",
-            "ANSWER": "4"
-          }
-        ],
-        "NUMBER_OF_MEMBERS": 4,
-        "NUMBER_OF_TEAMS": 16,
-        "CREATED_AT": { "$date": "2025-04-14T12:00:00Z" }
-      }
-      ,
-      {
-        "CONTACT_INFO": {
-          "EMAIL": "organizer@example.com",
-          "MOBILE_NUMBER": 9876543210
+        {
+          "QUESTION": "How many players per team?",
+          "ANSWER": "4"
+        }
+      ],
+      "NUMBER_OF_MEMBERS": 4,
+      "NUMBER_OF_TEAMS": 16,
+      "CREATED_AT": { "$date": "2025-04-14T12:00:00Z" }
+    },
+    {
+      "CONTACT_INFO": {
+        "EMAIL": "organizer@example.com",
+        "MOBILE_NUMBER": 9876543210
+      },
+      "DESCRIPTION": "An exciting gaming tournament for amateur and pro gamers alike.",
+      "EVENT_DATE": { "$date": "2025-05-20T14:00:00Z" },
+      "EVENT_ID": "EVT12345",
+      "EVENT_NAME": "Spring Gaming Bash",
+      "REGISTRATION_DEADLINE": { "$date": "2025-05-10T23:59:59Z" },
+      "VENUE": "Neon Arena, Sector 21, Game City",
+      "ELIGIBILITY": ["18+", "Must bring valid ID"],
+      "GAME_TYPE": "Battle Royale",
+      "GAME": "Fortnite",
+      "CONSOLE": "PlayStation 5",
+      "PRIZE_POOL": "$5000",
+      "LOCATION": "Online & Offline Hybrid",
+      "FORMAT": "Knockout",
+      "IMAGE": "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+      "QUESTIONNAIRE": [
+        {
+          "QUESTION": "Do you have your own gaming setup?",
+          "ANSWER": "NO You Would have to bring ur own setup"
+        }
+      ],
+      "FAQ": [
+        {
+          "QUESTION": "What is the prize pool?",
+          "ANSWER": "$5000"
         },
-        "DESCRIPTION": "An exciting gaming tournament for amateur and pro gamers alike.",
-        "EVENT_DATE": { "$date": "2025-05-20T14:00:00Z" },
-        "EVENT_ID": "EVT12345",
-        "EVENT_NAME": "Spring Gaming Bash",
-        "REGISTRATION_DEADLINE": { "$date": "2025-05-10T23:59:59Z" },
-        "VENUE": "Neon Arena, Sector 21, Game City",
-        "ELIGIBILITY": ["18+", "Must bring valid ID"],
-        "GAME_TYPE": "Battle Royale",
-        "GAME": "Fortnite",
-        "CONSOLE": "PlayStation 5",
-        "PRIZE_POOL": "$5000",
-        "LOCATION": "Online & Offline Hybrid",
-        "FORMAT": "Knockout",
-        "IMAGE": "https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
-        "QUESTIONNAIRE": [
-          {
-            "QUESTION": "Do you have your own gaming setup?",
-            "ANSWER": "NO You Would have to bring ur own setup"
-          }
-        ],
-        "FAQ" : [
-          {
-            "QUESTION": "What is the prize pool?",
-            "ANSWER": "$5000"
-          },
-          {
-            "QUESTION": "How many players per team?",
-            "ANSWER": "4"
-          }
-        ],
-        "NUMBER_OF_MEMBERS": 4,
-        "NUMBER_OF_TEAMS": 16,
-        "CREATED_AT": { "$date": "2025-04-14T12:00:00Z" }
-      }
-      
-    ]
+        {
+          "QUESTION": "How many players per team?",
+          "ANSWER": "4"
+        }
+      ],
+      "NUMBER_OF_MEMBERS": 4,
+      "NUMBER_OF_TEAMS": 16,
+      "CREATED_AT": { "$date": "2025-04-14T12:00:00Z" }
+    },
+    {
+      "CONTACT_INFO": {
+        "EMAIL": "summer.fest@email.com",
+        "MOBILE_NUMBER": 8765432190
+      },
+      "DESCRIPTION": "A summer festival celebrating indie games and developers.",
+      "EVENT_DATE": { "$date": "2025-06-15T10:00:00Z" },
+      "EVENT_ID": "EVT67890",
+      "EVENT_NAME": "Indie Game Summer Fest",
+      "REGISTRATION_DEADLINE": { "$date": "2025-06-01T23:59:59Z" },
+      "VENUE": "Pixel Palace, Tech Park",
+      "ELIGIBILITY": ["None"],
+      "GAME_TYPE": "Indie Showcase",
+      "GAME": "Various",
+      "CONSOLE": "PC",
+      "PRIZE_POOL": "N/A",
+      "LOCATION": "Offline",
+      "FORMAT": "Exhibition",
+      "IMAGE": "https://images.unsplash.com/photo-1588981857494-3985eb0c4b4c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+      "QUESTIONNAIRE": [
+        {
+          "QUESTION": "Are you a game developer?",
+          "ANSWER": "If showcasing, yes."
+        }
+      ],
+      "FAQ": [
+        {
+          "QUESTION": "Can I showcase my game?",
+          "ANSWER": "Yes, apply via our website."
+        },
+        {
+          "QUESTION": "Is there an entry fee?",
+          "ANSWER": "Yes, for developers."
+        }
+      ],
+      "NUMBER_OF_MEMBERS": 1,
+      "NUMBER_OF_TEAMS": 0,
+      "CREATED_AT": { "$date": "2025-05-01T09:00:00Z" }
+    },
+    {
+      "CONTACT_INFO": {
+        "EMAIL": "retro.gaming@email.com",
+        "MOBILE_NUMBER": 7654321098
+      },
+      "DESCRIPTION": "A retro gaming event featuring classic arcade games.",
+      "EVENT_DATE": { "$date": "2025-07-04T16:00:00Z" },
+      "EVENT_ID": "EVT24680",
+      "EVENT_NAME": "Retro Gaming Night",
+      "REGISTRATION_DEADLINE": { "$date": "2025-06-20T23:59:59Z" },
+      "VENUE": "Arcade Alley, Downtown",
+      "ELIGIBILITY": ["All ages"],
+      "GAME_TYPE": "Arcade Classics",
+      "GAME": "Pac-Man, Space Invaders",
+      "CONSOLE": "Arcade Cabinets",
+      "PRIZE_POOL": "Tokens & Bragging Rights",
+      "LOCATION": "Offline",
+      "FORMAT": "Free Play",
+      "IMAGE": "https://images.unsplash.com/photo-1560264234-b500085a7894?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80",
+      "QUESTIONNAIRE": [
+        {
+          "QUESTION": "Do you love retro games?",
+          "ANSWER": "If yes, you're in the right place!"
+        }
+      ],
+      "FAQ": [
+        {
+          "QUESTION": "Are the games free to play?",
+          "ANSWER": "Yes, after entry fee."
+        },
+        {
+          "QUESTION": "Can I bring my own games?",
+          "ANSWER": "No, only arcade games provided."
+        }
+      ],
+      "NUMBER_OF_MEMBERS": 1,
+      "NUMBER_OF_TEAMS": 0,
+      "CREATED_AT": { "$date": "2025-06-10T14:00:00Z" }
+    }
+  ]
 }
