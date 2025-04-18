@@ -24,7 +24,11 @@ function ChoosePersona() {
     // Animate out before navigating
     setShowContent(false);
     setTimeout(() => {
-      navigate(`/${selectedPersona == "player" ? "user" : "mentor"}/dashboard`);
+      navigate(
+        `/${
+          selectedPersona == "player" ? "user" : "mentor"
+        }/profile-creation-page`
+      );
     }, 500);
   };
 

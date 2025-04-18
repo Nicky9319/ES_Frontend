@@ -238,7 +238,7 @@ function UserProfileCreationPage() {
             console.log(`${key}:`, value);
         }
         alert('Profile created successfully!');
-        navigate('/dashboard');
+        navigate('/user/dashboard');
     };
 
     const sections = [
