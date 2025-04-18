@@ -640,7 +640,8 @@ function MentorProfileCreationPage() {
     }
 
     alert("Mentor profile created successfully!");
-    navigate("/mentor/dashboard");
+    localStorage.setItem("persona", "mentor");
+    navigate("/dashboard");
   };
 
   const sections = [
