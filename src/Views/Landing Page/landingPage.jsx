@@ -119,7 +119,10 @@ function LandingPage() {
               is your gateway to competitive gaming excellence.
             </p>
             <div className="flex gap-4 flex-wrap">
-              <button className="group px-8 py-4 bg-[#EE8631] text-white rounded-lg text-lg font-bold hover:bg-[#AD662F] transform hover:scale-105 transition-all">
+              <button
+                className="group px-8 py-4 bg-[#EE8631] text-white rounded-lg text-lg font-bold hover:bg-[#AD662F] transform hover:scale-105 transition-all"
+                onClick={() => (window.location.href = "/authentication")}
+              >
                 Start Your Journey
                 <span className="ml-2 group-hover:translate-x-2 inline-block transition-transform">
                   →
@@ -259,7 +262,10 @@ function LandingPage() {
             ))}
           </div>
           <div className="text-center mt-12" data-aos="fade-up">
-            <button className="px-8 py-4 bg-[#EE8631] text-white rounded-lg text-lg font-bold hover:bg-[#AD662F] transform hover:scale-105 transition-all">
+            <button
+              className="px-8 py-4 bg-[#EE8631] text-white rounded-lg text-lg font-bold hover:bg-[#AD662F] transform hover:scale-105 transition-all"
+              onClick={() => (window.location.href = "/authentication")}
+            >
               Join
             </button>
           </div>
@@ -407,7 +413,10 @@ function LandingPage() {
             Join and take your gaming journey to the next level with ELOSphere.
           </p>
           <div className="flex flex-col md:flex-row justify-center gap-4">
-            <button className="px-8 py-4 bg-white text-[#EE8631] rounded-lg text-lg font-bold hover:bg-[#292B35] hover:text-white transition-all transform hover:scale-105 shadow-lg">
+            <button
+              className="px-8 py-4 bg-white text-[#EE8631] rounded-lg text-lg font-bold hover:bg-[#292B35] hover:text-white transition-all transform hover:scale-105 shadow-lg"
+              onClick={() => (window.location.href = "/authentication")}
+            >
               Create Account
             </button>
           </div>
