@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
-import { FaFacebookF, FaInstagram, FaLinkedinIn, FaGamepad } from "react-icons/fa";
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { scrollToElement } from '../utils/scrollService';
-
+import React, { useState } from "react";
+import { ChevronDown } from "lucide-react";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaLinkedinIn,
+  FaGamepad,
+} from "react-icons/fa";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { scrollToElement } from "../utils/scrollService";
 
 const Footer = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [openSection, setOpenSection] = useState(null);
-  
+
   const toggleSection = (index) => {
     setOpenSection(openSection === index ? null : index);
   };
@@ -18,12 +22,12 @@ const Footer = () => {
   const handleNavigation = (item) => {
     if (item.scrollTo) {
       // If we're already on the home page, just scroll to the element
-      if (location.pathname === '/') {
+      if (location.pathname === "/") {
         // Add 100px offset to scroll above the services section
         scrollToElement(item.scrollTo, {}, 100);
       } else {
         // Otherwise, navigate to home page and then scroll
-        navigate('/');
+        navigate("/");
         // The scrolling will happen after navigation completes
         setTimeout(() => {
           // Add 100px offset to scroll above the services section
@@ -37,21 +41,26 @@ const Footer = () => {
   };
 
   const handleLogoClick = () => {
-    window.open('/profile', '_blank'); // Opens the profile page in a new tab
+    const persona =
+      typeof window !== "undefined" ? localStorage.getItem("persona") : null;
+    if (persona === "mentor") {
+      window.open("/mentor/profile", "_blank");
+    } else {
+      window.open("/profile", "_blank");
+    }
   };
 
-    return (
-      <section className="bg-[#292B35] text-[#E0E0E0] fixed bottom-0 w-full z-20">
-        <div className='h-50px flex items-center'>
-          <div className='w-[10%] flex justify-start'>
-            <button onClick={handleLogoClick}>
-              <FaGamepad className="h-8 w-8 text-white" />
-            </button>
-          </div>
+  return (
+    <section className="bg-[#292B35] text-[#E0E0E0] fixed bottom-0 w-full z-20">
+      <div className="h-50px flex items-center">
+        <div className="w-[10%] flex justify-start">
+          <button onClick={handleLogoClick}>
+            <FaGamepad className="h-8 w-8 text-white" />
+          </button>
         </div>
-      </section>
-    );
-  };
-
+      </div>
+    </section>
+  );
+};
 
 export default Footer;
