@@ -6,7 +6,7 @@
     },
     {
       "source": "/__/auth/(.*)",
-      "destination": "https://redseat.firebaseapp.com/__/auth/$1"
+      "destination": "https://guide-co.firebaseapp.com/__/auth/$1"
     },
     { 
       "source": "/(.*)", 
