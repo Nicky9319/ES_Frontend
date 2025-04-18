@@ -24,7 +24,7 @@ function ChoosePersona() {
     // Animate out before navigating
     setShowContent(false);
     setTimeout(() => {
-      navigate(`/${selectedPersona ? "user" : "mentor"}-dashboard`);
+      navigate(`/${selectedPersona == "player" ? "user" : "mentor"}/dashboard`);
     }, 500);
   };
 

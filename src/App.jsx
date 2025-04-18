@@ -64,7 +64,7 @@ function AppInner() {
   const isProfilePageRoute = location.pathname.startsWith("/profile");
   const isChoosePersonaRoute = location.pathname === "/choose-persona";
   const isMentorProfileRoute = location.pathname.startsWith("/mentor/profile");
-  const isLandingPageRoute = location.pathname === "/landing-page";
+  const isLandingPageRoute = location.pathname === "/landing-page" || location.pathname === "/";
   const isDMPageRoute = location.pathname === "/dm-page";
   const isUserProfileCreationPageRoute =
     location.pathname === "/user/profile-creation-page";
@@ -94,7 +94,7 @@ function AppInner() {
         <Route path="/dm-page" element={<DMPage />} />
         <Route path="/es-tiers" element={<EsTiers />} />
 
-        <Route path="/user-dashboard" element={<UserDashboard />} />
+        <Route path="/user/dashboard" element={<UserDashboard />} />
         <Route path="/mentor/dashboard" element={<MentorDashboard />} />
 
         <Route path="/choose-persona" element={<ChoosePersona />} />
