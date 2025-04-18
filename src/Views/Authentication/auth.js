@@ -8,15 +8,19 @@ import {
   signInWithPopup,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 // Firebase configuration
+
+
 const firebaseConfig = {
-  apiKey: "AIzaSyBiD4jRC0vKLvGAmAUrBECVXASniy2SB6w",
-  authDomain: "guide-co.firebaseapp.com",
-  projectId: "guide-co",
-  storageBucket: "guide-co.appspot.com",
-  messagingSenderId: "973274032129",
-  appId: "1:973274032129:web:169cf67aa1efabbd393800",
-  measurementId: "G-BH601T1ZZ1",
+  apiKey: "AIzaSyDXG97XhRCgx-MAuMYF0Xw_Lp54nAUDUWM",
+  authDomain: "esports-b4d92.firebaseapp.com",
+  projectId: "esports-b4d92",
+  storageBucket: "esports-b4d92.firebasestorage.app",
+  messagingSenderId: "516022937121",
+  appId: "1:516022937121:web:585265e5c64b2d8d31e560",
+  measurementId: "G-RFZZ919J79",
 };
+
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
