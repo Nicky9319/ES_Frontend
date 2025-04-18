@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { PersonaContext } from "../PersonaContext";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const menuRef = useRef(null);
+  const { persona } = useContext(PersonaContext);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -91,16 +93,20 @@ const Navbar = () => {
                 </a>
               </li>
               <li className="md:block hidden h-5 w-px bg-[#AD662F]"></li>
-              <li className="md:mb-0 mb-4">
-                <a
-                  href="/"
-                  onClick={(e) => handleNavigation("/es-tiers", e)}
-                  className="text-[#E0E0E0] no-underline hover:font-bold hover:text-[#EE8631] transition-all text-base px-4 whitespace-nowrap"
-                >
-                  ES Tiers
-                </a>
-              </li>
-              <li className="md:block hidden h-5 w-px bg-[#AD662F]"></li>
+              {persona !== "mentor" && (
+                <>
+                  <li className="md:mb-0 mb-4">
+                    <a
+                      href="/"
+                      onClick={(e) => handleNavigation("/es-tiers", e)}
+                      className="text-[#E0E0E0] no-underline hover:font-bold hover:text-[#EE8631] transition-all text-base px-4 whitespace-nowrap"
+                    >
+                      ES Tiers
+                    </a>
+                  </li>
+                  <li className="md:block hidden h-5 w-px bg-[#AD662F]"></li>
+                </>
+              )}
               <li className="md:mb-0 mb-4">
                 <a
                   href="/connect"
@@ -121,26 +127,34 @@ const Navbar = () => {
                 </a>
               </li>
               <li className="md:block hidden h-5 w-px bg-[#AD662F]"></li>
-              <li className="md:mb-0 mb-4">
-                <a
-                  href="/es-leaguen"
-                  onClick={(e) => handleNavigation("/es-league", e)}
-                  className="text-[#E0E0E0] no-underline hover:font-bold hover:text-[#EE8631] transition-all text-base px-4 whitespace-nowrap"
-                >
-                  ES League
-                </a>
-              </li>
-              <li className="md:block hidden h-5 w-px bg-[#AD662F]"></li>
-              <li className="md:mb-0 mb-4">
-                <a
-                  href="/team-tryout"
-                  onClick={(e) => handleNavigation("/team-tryout", e)}
-                  className="text-[#E0E0E0] no-underline hover:font-bold hover:text-[#EE8631] transition-all text-base px-4 whitespace-nowrap"
-                >
-                  Team Tryout
-                </a>
-              </li>
-              <li className="md:block hidden h-5 w-px bg-[#AD662F]"></li>
+              {persona !== "mentor" && (
+                <>
+                  <li className="md:mb-0 mb-4">
+                    <a
+                      href="/es-leaguen"
+                      onClick={(e) => handleNavigation("/es-league", e)}
+                      className="text-[#E0E0E0] no-underline hover:font-bold hover:text-[#EE8631] transition-all text-base px-4 whitespace-nowrap"
+                    >
+                      ES League
+                    </a>
+                  </li>
+                  <li className="md:block hidden h-5 w-px bg-[#AD662F]"></li>
+                </>
+              )}
+              {persona !== "mentor" && (
+                <>
+                  <li className="md:mb-0 mb-4">
+                    <a
+                      href="/team-tryout"
+                      onClick={(e) => handleNavigation("/team-tryout", e)}
+                      className="text-[#E0E0E0] no-underline hover:font-bold hover:text-[#EE8631] transition-all text-base px-4 whitespace-nowrap"
+                    >
+                      Team Tryout
+                    </a>
+                  </li>
+                  <li className="md:block hidden h-5 w-px bg-[#AD662F]"></li>
+                </>
+              )}
               <li className="md:mb-0 mb-4">
                 <a
                   href="/teams"
