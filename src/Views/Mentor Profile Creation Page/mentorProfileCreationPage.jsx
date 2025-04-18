@@ -641,7 +641,7 @@ function MentorProfileCreationPage() {
 
     alert("Mentor profile created successfully!");
     localStorage.setItem("persona", "mentor");
-    navigate("mentor/dashboard");
+    navigate("/mentor/dashboard");
   };
 
   const sections = [
