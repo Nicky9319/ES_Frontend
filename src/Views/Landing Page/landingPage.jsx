@@ -306,7 +306,7 @@ function LandingPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div data-aos="fade-right" className="max-w-xl mx-auto">
               <img
-                src=""
+                src="https://www.wepc.com/wp-content/uploads/2023/04/Ultimate-Esports-Setup-ASUS-15.jpg "
                 alt="Platform Preview"
                 className="rounded-xl shadow-2xl hover:transform hover:scale-105 transition-all w-full max-w-md mx-auto"
               />
