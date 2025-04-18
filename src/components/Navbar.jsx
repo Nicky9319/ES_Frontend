@@ -17,24 +17,7 @@ const Navbar = () => {
   const persona = localStorage.getItem("persona");
   const handleNavigation = (path, e) => {
     e.preventDefault();
-    // navigate(path);
-
-    const persona = localStorage.getItem("persona");
-    if (persona === "mentor") {
-      navigate("/mentor/dashboard");
-    } else if (persona === "player") {
-      navigate("/user/dashboard");
-    }
-  };
-
-
-  const handleLogoClick = () => {
-    const persona = localStorage.getItem("persona");
-    if (persona === "mentor") {
-      navigate("/mentor/dashboard");
-    } else if (persona === "player") {
-      navigate("/user/dashboard");
-    }
+    navigate(path);
   };
 
   useEffect(() => {
