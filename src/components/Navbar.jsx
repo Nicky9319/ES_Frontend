@@ -20,6 +20,22 @@ const Navbar = () => {
     navigate(path);
   };
 
+  const handleLogoClick = (path, e) => {
+    e.preventDefault();
+    // navigate(path);
+
+    console.log("Persona:", persona);
+
+    if (persona === "mentor") {
+      navigate("/mentor/dashboard");
+    } 
+    else if (persona === "user") {
+      navigate("/user/dashboard");
+    } else {
+      navigate(path);
+    }
+  };
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -45,7 +61,7 @@ const Navbar = () => {
         <nav className="navbar flex justify-between items-center p-4 bg-[#292B35] relative z-10">
           <a
             href="/"
-            onClick={(e) => handleNavigation("/", e)}
+            onClick={(e) => handleLogoClick("/", e)}
             className="logo text-2xl font-bold text-[#EE8631] no-underline hover:text-[#95C5C5] transition-colors"
           >
             ELOSphere
