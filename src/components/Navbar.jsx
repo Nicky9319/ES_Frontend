@@ -84,7 +84,7 @@ const Navbar = () => {
               <li className="md:mb-0 mb-4">
                 <a
                   href="/"
-                  onClick={(e) => handleNavigation("/", e)}
+                  onClick={(e) => handleNavigation("/events", e)}
                   className="text-[#E0E0E0] no-underline hover:font-bold hover:text-[#EE8631] transition-all text-base px-4 whitespace-nowrap"
                 >
                   ES Events
@@ -123,8 +123,8 @@ const Navbar = () => {
               <li className="md:block hidden h-5 w-px bg-[#AD662F]"></li>
               <li className="md:mb-0 mb-4">
                 <a
-                  href="/dispute-resolution"
-                  onClick={(e) => handleNavigation("/dispute-resolution", e)}
+                  href="/es-leaguen"
+                  onClick={(e) => handleNavigation("/es-league", e)}
                   className="text-[#E0E0E0] no-underline hover:font-bold hover:text-[#EE8631] transition-all text-base px-4 whitespace-nowrap"
                 >
                   ES League

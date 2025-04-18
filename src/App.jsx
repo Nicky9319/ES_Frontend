@@ -64,7 +64,8 @@ function AppInner() {
   const isProfilePageRoute = location.pathname.startsWith("/profile");
   const isChoosePersonaRoute = location.pathname === "/choose-persona";
   const isMentorProfileRoute = location.pathname.startsWith("/mentor/profile");
-  const isLandingPageRoute = location.pathname === "/landing-page" || location.pathname === "/";
+  const isLandingPageRoute =
+    location.pathname === "/landing-page" || location.pathname === "/";
   const isDMPageRoute = location.pathname === "/dm-page";
   const isUserProfileCreationPageRoute =
     location.pathname === "/user/profile-creation-page";
