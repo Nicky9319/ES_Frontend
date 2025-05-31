@@ -170,6 +170,7 @@ const PerformanceCharts = () => {
                 )}
               </div>
             </div>
+
             <ResponsiveContainer width="100%" height={200}>
               <RechartsLineChart
                 data={data}
@@ -207,6 +208,8 @@ const PerformanceCharts = () => {
                 />
               </RechartsLineChart>
             </ResponsiveContainer>
+            
+            
             <div className="mt-2">
               <select
                 className="bg-[#292B35] border border-[#95C5C5]/20 rounded p-2 text-xs text-gray-400 w-full"
