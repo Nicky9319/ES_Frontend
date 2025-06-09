@@ -28,4 +28,4 @@ This is the frontend codebase for **Gryork - ES Arena**, a platform for gamers, 
 
 1. **Clone the repository:**
    ```sh
-   git clone https://github.com/your
+   git clone https://github.com/Nicky9319/ES_Frontend
